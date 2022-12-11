@@ -13,10 +13,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  test() {
-    console.log(this.cursorCircle)
-  }
-
   @HostListener('document:mousemove', ['$event']) 
   onMouseMove(e: MouseEvent) {
     this.cursorDot.nativeElement.style.left = e.clientX - 5 + 'px'
@@ -25,6 +21,6 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       this.cursorCircle.nativeElement.style.left = e.clientX - 6 + 'px'
       this.cursorCircle.nativeElement.style.top = e.clientY - 7 + 'px'
-    }, 150)
+    }, 125)
   }
 }
