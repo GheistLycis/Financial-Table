@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-auth-layout',
@@ -6,5 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./auth-layout.component.scss']
 })
 export class AuthLayoutComponent {
+  user!: string
 
+  constructor(
+    private session: SessionService,
+    private router: Router,
+  ) {}
+
+  login() {
+    this.session.setUser(this.user)
+    this.router.navigate([''])
+  }
 }

@@ -1,0 +1,12 @@
+<div class="card shadow d-flex align-items-center justify-content-center p-5" id="main-container">
+        <a class="mb-5">Bem vindo!</a>
+        <h3 class="mb-3">Como quer ser chamado?</h3>
+        <input type="text" [(ngModel)]="user" required />
+        <button 
+            (click)="login()" 
+            [disabled]="user == undefined || user == ''"
+            class="mt-2"
+        >
+            Pronto!
+        </button>
+</div>

@@ -8,6 +8,12 @@ const routes: Routes = [
   {
     path: 'login',
     component: AuthLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./layouts/auth-layout/auth-layout.module').then(m => m.AuthLayoutModule)
+      },
+    ]
   },
   {
     path: '',

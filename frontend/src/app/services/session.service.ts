@@ -6,7 +6,12 @@ import { Injectable } from '@angular/core';
 export class SessionService {
   constructor() { }
 
-  isLoggedIn(): boolean {
-    return Boolean(localStorage.getItem('user'))
+  // USER
+  getUser(): string | null {
+    return localStorage.getItem('user')
+  }
+
+  setUser(user: string): void {
+    localStorage.setItem('user', user)
   }
 }
