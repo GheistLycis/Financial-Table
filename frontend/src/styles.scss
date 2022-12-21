@@ -1,6 +1,6 @@
 @import './variables.scss';
 
-// ROOT, HTML, BODY
+// GENERAL
 * {
     cursor: none !important;
 }
@@ -11,7 +11,7 @@ html {
 
 body { 
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     position: relative;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     background-color: $palette-1 !important;
@@ -24,7 +24,26 @@ body {
     padding: 0;
 }
 
-// GENERAL
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: white;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $palette-3;
+    box-shadow: 0 2px 20px 5px $palette-4;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background:  $palette-4;
+}
+
+// ELEMENTS
 button {
     background-color: $palette-4;
     color: white;

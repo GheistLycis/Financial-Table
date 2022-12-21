@@ -1,1 +1,29 @@
-<p>navbar works!</p>
+<nav class="shadow w-100 d-flex align-items-center justify-content-between px-4">
+    <div class="logo">
+        <a routerLink="">
+            <img src="../../../assets/icons/graph.svg">
+        </a>
+    </div>
+
+    <ul class="d-flex align-items-center justify-content-center p-0">
+        <li *ngFor="let item of navItems">
+            <a *ngIf="item.type == 'link'" [routerLink]="item.link">
+                {{ item.title }}
+            </a>
+            <a *ngIf="item.type == 'menu'">
+                <a mat-button [matMenuTriggerFor]="menu">
+                    {{ item.title }}
+                </a>
+                <mat-menu #menu="matMenu">
+                    <a *ngFor="let child of item.children" [routerLink]="child.link" mat-menu-item>
+                        {{ child.title }}
+                    </a>
+                </mat-menu>
+            </a>
+        </li>
+    </ul>
+
+    <div class="user">
+        <button><i>Olá, {{ user }}!</i></button>
+    </div>
+</nav>
