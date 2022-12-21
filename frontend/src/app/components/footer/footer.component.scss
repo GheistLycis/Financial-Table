@@ -1,0 +1,13 @@
+footer {
+    position: relative;
+    background-color: transparent;
+    color: grey;
+}
+
+footer::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    border-top: 2px solid grey;
+    width: 80%;
+}
