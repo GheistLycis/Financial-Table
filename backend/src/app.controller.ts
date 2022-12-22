@@ -1,16 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AppService } from './app.service';
 
-@ApiTags('main')
+@ApiTags()
 @Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  async list() {
-    const result = await this.appService.list()
-
-    return result
-  }
-}
+export class AppController {}
