@@ -1,7 +1,9 @@
 import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Res } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { GroupService } from 'src/services/group/group.service';
 import { handleError, handleResponse } from 'src/utils/handles';
 
+@ApiTags('groups')
 @Injectable()
 @Controller('groups')
 export class GroupController {

@@ -1,7 +1,9 @@
 import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Res } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ExpenseService } from 'src/services/expense/expense.service';
 import { handleError, handleResponse } from 'src/utils/handles';
 
+@ApiTags('expenses')
 @Injectable()
 @Controller('expenses')
 export class ExpenseController {

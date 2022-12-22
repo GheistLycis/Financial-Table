@@ -1,7 +1,9 @@
 import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Res } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CategoryService } from 'src/services/category/category.service';
 import { handleError, handleResponse } from 'src/utils/handles';
 
+@ApiTags('categories')
 @Injectable()
 @Controller('categories')
 export class CategoryController {

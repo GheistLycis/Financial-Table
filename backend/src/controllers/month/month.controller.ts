@@ -1,7 +1,9 @@
 import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Res } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { MonthService } from 'src/services/month/month.service';
 import { handleError, handleResponse } from 'src/utils/handles';
 
+@ApiTags('months')
 @Injectable()
 @Controller('months')
 export class MonthController {
