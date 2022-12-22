@@ -54,7 +54,7 @@ export class CategoryService {
       name, 
       color, 
       month: monthEntity, 
-      groups: groupEntities 
+      groups: groupEntities
     })
       
     await this.repo.save(entity)
