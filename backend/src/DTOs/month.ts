@@ -1,4 +1,4 @@
-import BaseDTO from "./baseDTO";
+import BaseDTO from "../database/bases";
 import CategoryDTO from "./category";
 import YearDTO from "./year";
 

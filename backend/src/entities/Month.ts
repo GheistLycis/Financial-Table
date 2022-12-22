@@ -10,7 +10,7 @@ import {
   OneToMany,
   ManyToOne,
 } from "typeorm";
-import { manyToOneOptions, OneToManyOptions } from "src/DTOs/baseDTO";
+import { manyToOneOptions, OneToManyOptions } from "src/database/bases";
 import { Category } from "./Category";
 import MonthDTO from "src/DTOs/month";
 import { Year } from "./Year";

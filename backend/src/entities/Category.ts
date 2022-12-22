@@ -11,7 +11,7 @@ import {
   ManyToOne,
 } from "typeorm";
 import CategoryDTO from "src/DTOs/category";
-import { manyToOneOptions, OneToManyOptions } from "src/DTOs/baseDTO";
+import { manyToOneOptions, OneToManyOptions } from "src/database/bases";
 import { Group } from "./Group";
 import { Month } from "./Month";
 

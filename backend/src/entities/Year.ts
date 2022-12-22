@@ -9,7 +9,7 @@ import {
   DeleteDateColumn,
   OneToMany,
 } from "typeorm";
-import { OneToManyOptions } from "src/DTOs/baseDTO";
+import { OneToManyOptions } from "src/database/bases";
 import { Month } from "./Month";
 import YearDTO from "src/DTOs/year";
 

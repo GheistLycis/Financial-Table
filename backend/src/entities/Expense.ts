@@ -11,7 +11,7 @@ import {
 } from "typeorm";
 import ExpenseDTO from "src/DTOs/expense";
 import { Group } from "./Group";
-import { manyToOneOptions } from "src/DTOs/baseDTO";
+import { manyToOneOptions } from "../database/bases";
 
 @Service()
 @Entity("expenses")

@@ -8,7 +8,9 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  main() {
-    return 'SERVER ON'
+  async list() {
+    const result = await this.appService.list()
+
+    return result
   }
 }

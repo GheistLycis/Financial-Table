@@ -12,7 +12,7 @@ import {
 } from "typeorm";
 import { Expense } from "./Expense";
 import GroupDTO from "src/DTOs/group";
-import { manyToOneOptions, OneToManyOptions } from "src/DTOs/baseDTO";
+import { manyToOneOptions, OneToManyOptions } from "src/database/bases";
 import { Category } from "./Category";
 
 @Service()
