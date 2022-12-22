@@ -6,8 +6,7 @@ import { Month } from 'src/entities/Month';
 import { Year } from 'src/entities/Year';
 import { DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
-export type postBody = { year: string }
-export type putBody = { year: string, months: MonthDTO[] }
+export type body = { year: string, months: MonthDTO[] }
 
 @Injectable()
 export class YearService {
@@ -26,20 +25,24 @@ export class YearService {
     return Year.toDTO(entity)
   }
 
-  async post(body: postBody): Promise<YearDTO> {
-    const { year } = body
+  async post(body: body): Promise<YearDTO> {
+    const { year, months } = body
 
     const repeated = await this.repo.findOneBy({ year })
     if(repeated) throw DuplicatedException('Este ano já foi cadastrado.')
+
+    const monthEntities = await this.monthRepo.createQueryBuilder('Month')
+      .where('Month.id IN :ids', { ids: months.map(month => month.id) })
+      .getMany()
     
-    const entity = this.repo.create({ year })
+    const entity = this.repo.create({ year, months: monthEntities })
       
     await this.repo.save(entity)
 
     return Year.toDTO(entity)
   }
 
-  async put(id, body: putBody): Promise<YearDTO> {
+  async put(id, body: body): Promise<YearDTO> {
     const { year, months } = body
   
     const entity = await this.repo.findOneBy({ id })
