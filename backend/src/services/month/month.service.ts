@@ -22,6 +22,16 @@ export class MonthService {
     return entities.map(row => Month.toDTO(row))
   }
 
+  async listByYear(id): Promise<MonthDTO[]> {
+    const entities = await this.repo.createQueryBuilder('Month')
+      .leftJoinAndSelect('Month.year', 'Year')
+      .where('Year.id = :id', { id })
+      .orderBy('Month.createdAt', 'DESC')
+      .getMany()
+
+    return entities.map(row => Month.toDTO(row))
+  }
+
   async getById(id): Promise<MonthDTO> {
     const entity = await this.repo.findOneBy({ id })
 

@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Res } from '@nestjs/common';
-import { MonthService } from 'src/services/month/month.service';
+import { CategoryService } from 'src/services/category/category.service';
 import { handleError, handleResponse } from 'src/utils/handles';
 
 @Injectable()
-@Controller('months')
-export class MonthController {
-  constructor(private service: MonthService) {}
+@Controller('categories')
+export class CategoryController {
+  constructor(private service: CategoryService) {}
 
   @Get() async list(@Res() res) {
     try {
@@ -18,9 +18,9 @@ export class MonthController {
     }
   }
 
-  @Get('year/:id') async listByYear(@Param('id') id, @Res() res) {
+  @Get('month/:id') async listByMonth(@Param('id') id, @Res() res) {
     try {
-      const result = await this.service.listByYear(id)
+      const result = await this.service.listByMonth(id)
 
       return handleResponse(res, 200, '', result)
     }
@@ -44,7 +44,7 @@ export class MonthController {
     try {
       const result = await this.service.post(body)
 
-      return handleResponse(res, 200, 'Mês cadastrado com sucesso.', result)
+      return handleResponse(res, 200, 'Categoria cadastrada com sucesso.', result)
     }
     catch(e) {
       return handleError(res, e)
@@ -55,7 +55,7 @@ export class MonthController {
     try {
       const result = await this.service.put(id, body)
 
-      return handleResponse(res, 200, 'Mês atualizado com sucesso.', result)
+      return handleResponse(res, 200, 'Categoria atualizada com sucesso.', result)
     }
     catch(e) {
       return handleError(res, e)
@@ -66,7 +66,7 @@ export class MonthController {
     try {
       const result = await this.service.delete(id)
 
-      return handleResponse(res, 200, 'Mês excluído com sucesso.', result)
+      return handleResponse(res, 200, 'Categoria excluída com sucesso.', result)
     }
     catch(e) {
       return handleError(res, e)

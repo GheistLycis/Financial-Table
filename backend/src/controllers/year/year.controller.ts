@@ -3,7 +3,7 @@ import { YearService } from 'src/services/year/year.service';
 import { handleError, handleResponse } from 'src/utils/handles';
 
 @Injectable()
-@Controller('year')
+@Controller('years')
 export class YearController {
   constructor(private service: YearService) {}
 
