@@ -1,4 +1,5 @@
-import BaseDTO from "../database/bases";
+
+import BaseDTO from "src/database/BaseDTO";
 import GroupDTO from "./group";
 import MonthDTO from "./month";
 

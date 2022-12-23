@@ -1,21 +1,16 @@
 import { Service } from "typedi";
-import { v4 as uuid } from "uuid";
 import {
   Entity,
   Column,
-  PrimaryColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
   ManyToOne,
 } from "typeorm";
 import ExpenseDTO from "src/DTOs/expense";
 import { Group } from "./Group";
-import { manyToOneOptions } from "../database/bases";
+import { BaseEntity, manyToOneOptions } from "../database/BaseEntity";
 
 @Service()
 @Entity("expenses")
-export class Expense  {
+export class Expense extends BaseEntity  {
   // COLUMNS
   @Column()
   value: number
@@ -29,23 +24,6 @@ export class Expense  {
   // RELATIONS
   @ManyToOne(() => Group, group => group.expenses, manyToOneOptions)
   group: Group
-
-  // BASE
-  @PrimaryColumn({ type: 'uuid' })
-  id: string;
-
-  @CreateDateColumn()
-  createdAt: Date
-
-  @UpdateDateColumn()
-  updatedAt: Date
-
-  @DeleteDateColumn()
-  deletedAt: Date
-
-  constructor() {
-    if(!this.id) this.id = uuid()
-  }
 
   public static toDTO(row: Expense): ExpenseDTO {
     return {

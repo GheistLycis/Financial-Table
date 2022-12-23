@@ -1,25 +1,24 @@
 import { Service } from "typedi";
-import { v4 as uuid } from "uuid";
 import {
   Entity,
   Column,
-  PrimaryColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
   OneToMany,
   ManyToOne,
 } from "typeorm";
-import { manyToOneOptions, OneToManyOptions } from "src/database/bases";
+import { IsInt, Max, Min } from 'class-validator';
+import { BaseEntity, manyToOneOptions, OneToManyOptions } from "src/database/BaseEntity";
 import { Category } from "./Category";
 import MonthDTO from "src/DTOs/month";
 import { Year } from "./Year";
 
 @Service()
 @Entity("months")
-export class Month  {
+export class Month extends BaseEntity {
   // COLUMNS
   @Column()
+  @IsInt()
+  @Min(1)
+  @Max(12)
   month: number
 
   // RELATIONS
@@ -28,23 +27,6 @@ export class Month  {
 
   @OneToMany(() => Category, category => category.month, OneToManyOptions)
   categories: Category[]
-
-  // BASE
-  @PrimaryColumn({ type: 'uuid' })
-  id: string;
-
-  @CreateDateColumn()
-  createdAt: Date
-
-  @UpdateDateColumn()
-  updatedAt: Date
-
-  @DeleteDateColumn()
-  deletedAt: Date
-
-  constructor() {
-    if(!this.id) this.id = uuid()
-  }
 
   public static toDTO(row: Month): MonthDTO {
     return {
