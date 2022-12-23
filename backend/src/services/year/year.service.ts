@@ -7,25 +7,27 @@ import { Year } from 'src/entities/Year';
 import { DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
 export type body = { year: string, months: MonthDTO[] }
+export type oneReturn =  Promise<YearDTO>
+export type manyReturn =  Promise<YearDTO[]>
 
 @Injectable()
 export class YearService {
   repo = dataSource.getRepository(Year)
   monthRepo = dataSource.getRepository(Month)
 
-  async list(): Promise<YearDTO[]> {
+  async list(): manyReturn {
     const entities = await this.repo.find({ order: { createdAt: 'DESC' }})
 
     return entities.map(row => Year.toDTO(row))
   }
 
-  async getById(id): Promise<YearDTO> {
+  async getById(id): oneReturn {
     const entity = await this.repo.findOneBy({ id })
 
     return Year.toDTO(entity)
   }
 
-  async post(body: body): Promise<YearDTO> {
+  async post(body: body): oneReturn {
     const { year, months } = body
 
     const repeated = await this.repo.findOneBy({ year })
@@ -42,7 +44,7 @@ export class YearService {
     return Year.toDTO(entity)
   }
 
-  async put(id, body: body): Promise<YearDTO> {
+  async put(id, body: body): oneReturn {
     const { year, months } = body
   
     const entity = await this.repo.findOneBy({ id })
@@ -60,7 +62,7 @@ export class YearService {
     return Year.toDTO(entity)
   }
 
-  async delete(id): Promise<YearDTO> {
+  async delete(id): oneReturn {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Ano não encontrado.')
 

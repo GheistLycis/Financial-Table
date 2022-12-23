@@ -9,6 +9,8 @@ import { Group } from 'src/entities/Group';
 import { DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
 export type body = { name: string, color: string, category: CategoryDTO, expenses: ExpenseDTO[] }
+export type oneReturn =  Promise<GroupDTO>
+export type manyReturn =  Promise<GroupDTO[]>
 
 @Injectable()
 export class GroupService {
@@ -16,13 +18,13 @@ export class GroupService {
   categoryRepo = dataSource.getRepository(Category)
   expenseRepo = dataSource.getRepository(Expense)
 
-  async list(): Promise<GroupDTO[]> {
+  async list(): manyReturn {
     const entities = await this.repo.find({ order: { createdAt: 'DESC' }})
 
     return entities.map(row => Group.toDTO(row))
   }
 
-  async listByCategory(id): Promise<GroupDTO[]> {
+  async listByCategory(id): manyReturn {
     const entities = await this.repo.createQueryBuilder('Group')
       .leftJoinAndSelect('Group.category', 'Category')
       .where('Category.id = :id', { id })
@@ -32,13 +34,13 @@ export class GroupService {
     return entities.map(row => Group.toDTO(row))
   }
 
-  async getById(id): Promise<GroupDTO> {
+  async getById(id): oneReturn {
     const entity = await this.repo.findOneBy({ id })
 
     return Group.toDTO(entity)
   }
 
-  async post(body: body): Promise<GroupDTO> {
+  async post(body: body): oneReturn {
     const { name, color, category, expenses } = body
 
     const repeated = await this.repo.findOneBy({ name })
@@ -62,7 +64,7 @@ export class GroupService {
     return Group.toDTO(entity)
   }
 
-  async put(id, body: body): Promise<GroupDTO> {
+  async put(id, body: body): oneReturn {
     const { name, color, category, expenses } = body
   
     const entity = await this.repo.findOneBy({ id })
@@ -84,7 +86,7 @@ export class GroupService {
     return Group.toDTO(entity)
   }
 
-  async delete(id): Promise<GroupDTO> {
+  async delete(id): oneReturn {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Grupo não encontrado.')
 

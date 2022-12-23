@@ -4,22 +4,24 @@ import ExpenseDTO from 'src/DTOs/expense';
 import GroupDTO from 'src/DTOs/group';
 import { Expense } from 'src/entities/Expense';
 import { Group } from 'src/entities/Group';
-import { DuplicatedException, NotFoundException } from 'src/utils/exceptions';
+import { NotFoundException } from 'src/utils/exceptions';
 
 export type body = { value: number, description: string, date: Date, group: GroupDTO }
+export type oneReturn =  Promise<ExpenseDTO>
+export type manyReturn =  Promise<ExpenseDTO[]>
 
 @Injectable()
 export class ExpenseService {
   repo = dataSource.getRepository(Expense)
   groupRepo = dataSource.getRepository(Group)
 
-  async list(): Promise<ExpenseDTO[]> {
+  async list(): manyReturn {
     const entities = await this.repo.find({ order: { createdAt: 'DESC' }})
 
     return entities.map(row => Expense.toDTO(row))
   }
 
-  async listByGroup(id): Promise<ExpenseDTO[]> {
+  async listByGroup(id): manyReturn {
     const entities = await this.repo.createQueryBuilder('Expense')
       .leftJoinAndSelect('Expense.group', 'Group')
       .where('Group.id = :id', { id })
@@ -29,13 +31,13 @@ export class ExpenseService {
     return entities.map(row => Expense.toDTO(row))
   }
 
-  async getById(id): Promise<ExpenseDTO> {
+  async getById(id): oneReturn {
     const entity = await this.repo.findOneBy({ id })
 
     return Expense.toDTO(entity)
   }
 
-  async post(body: body): Promise<ExpenseDTO> {
+  async post(body: body): oneReturn {
     const { value, description, date, group } = body
 
     const groupEntity = await this.groupRepo.findOneBy({ id: group.id })
@@ -52,7 +54,7 @@ export class ExpenseService {
     return Expense.toDTO(entity)
   }
 
-  async put(id, body: body): Promise<ExpenseDTO> {
+  async put(id, body: body): oneReturn {
     const { value, description, date, group } = body
   
     const entity = await this.repo.findOneBy({ id })
@@ -70,7 +72,7 @@ export class ExpenseService {
     return Expense.toDTO(entity)
   }
 
-  async delete(id): Promise<ExpenseDTO> {
+  async delete(id): oneReturn {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro não encontrado.')
 

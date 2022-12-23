@@ -8,7 +8,9 @@ import { Month } from 'src/entities/Month';
 import { Year } from 'src/entities/Year';
 import { DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
-export type body = { month: string, year: YearDTO, categories: CategoryDTO[] }
+export type body = { month: number, year: YearDTO, categories: CategoryDTO[] }
+export type oneReturn =  Promise<MonthDTO>
+export type manyReturn =  Promise<MonthDTO[]>
 
 @Injectable()
 export class MonthService {
@@ -16,13 +18,13 @@ export class MonthService {
   yearRepo = dataSource.getRepository(Year)
   categoryRepo = dataSource.getRepository(Category)
 
-  async list(): Promise<MonthDTO[]> {
+  async list(): manyReturn {
     const entities = await this.repo.find({ order: { createdAt: 'DESC' }})
 
     return entities.map(row => Month.toDTO(row))
   }
 
-  async listByYear(id): Promise<MonthDTO[]> {
+  async listByYear(id): manyReturn {
     const entities = await this.repo.createQueryBuilder('Month')
       .leftJoinAndSelect('Month.year', 'Year')
       .where('Year.id = :id', { id })
@@ -32,13 +34,13 @@ export class MonthService {
     return entities.map(row => Month.toDTO(row))
   }
 
-  async getById(id): Promise<MonthDTO> {
+  async getById(id): oneReturn {
     const entity = await this.repo.findOneBy({ id })
 
     return Month.toDTO(entity)
   }
 
-  async post(body: body): Promise<MonthDTO> {
+  async post(body: body): oneReturn {
     const { month, year, categories } = body
 
     const repeated = await this.repo.findOneBy({ month })
@@ -57,7 +59,7 @@ export class MonthService {
     return Month.toDTO(entity)
   }
 
-  async put(id, body: body): Promise<MonthDTO> {
+  async put(id, body: body): oneReturn {
     const { month, year, categories } = body
   
     const entity = await this.repo.findOneBy({ id })
@@ -78,7 +80,7 @@ export class MonthService {
     return Month.toDTO(entity)
   }
 
-  async delete(id): Promise<MonthDTO> {
+  async delete(id): oneReturn {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 

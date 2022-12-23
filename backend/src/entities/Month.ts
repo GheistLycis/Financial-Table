@@ -20,7 +20,7 @@ import { Year } from "./Year";
 export class Month  {
   // COLUMNS
   @Column()
-  month: string
+  month: number
 
   // RELATIONS
   @ManyToOne(() => Year, year => year.months, manyToOneOptions)

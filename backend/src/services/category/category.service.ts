@@ -9,6 +9,8 @@ import { Month } from 'src/entities/Month';
 import { DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
 export type body = { name: string, color: string, month: MonthDTO, groups: GroupDTO[] }
+export type oneReturn =  Promise<CategoryDTO>
+export type manyReturn =  Promise<CategoryDTO[]>
 
 @Injectable()
 export class CategoryService {
@@ -16,13 +18,13 @@ export class CategoryService {
   monthRepo = dataSource.getRepository(Month)
   groupRepo = dataSource.getRepository(Group)
 
-  async list(): Promise<CategoryDTO[]> {
+  async list(): manyReturn {
     const entities = await this.repo.find({ order: { createdAt: 'DESC' }})
 
     return entities.map(row => Category.toDTO(row))
   }
 
-  async listByMonth(id): Promise<CategoryDTO[]> {
+  async listByMonth(id): manyReturn {
     const entities = await this.repo.createQueryBuilder('Category')
       .leftJoinAndSelect('Category.month', 'Month')
       .where('Month.id = :id', { id })
@@ -32,13 +34,13 @@ export class CategoryService {
     return entities.map(row => Category.toDTO(row))
   }
 
-  async getById(id): Promise<CategoryDTO> {
+  async getById(id): oneReturn {
     const entity = await this.repo.findOneBy({ id })
 
     return Category.toDTO(entity)
   }
 
-  async post(body: body): Promise<CategoryDTO> {
+  async post(body: body): oneReturn {
     const { name, color, month, groups } = body
 
     const repeated = await this.repo.findOneBy({ name })
@@ -62,7 +64,7 @@ export class CategoryService {
     return Category.toDTO(entity)
   }
 
-  async put(id, body: body): Promise<CategoryDTO> {
+  async put(id, body: body): oneReturn {
     const { name, color, month, groups } = body
   
     const entity = await this.repo.findOneBy({ id })
@@ -84,7 +86,7 @@ export class CategoryService {
     return Category.toDTO(entity)
   }
 
-  async delete(id): Promise<CategoryDTO> {
+  async delete(id): oneReturn {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 

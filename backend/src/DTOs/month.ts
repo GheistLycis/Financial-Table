@@ -3,7 +3,7 @@ import CategoryDTO from "./category";
 import YearDTO from "./year";
 
 export default interface MonthDTO extends BaseDTO {
-  month: string
+  month: number
   year: YearDTO
   categories?: CategoryDTO[]
 }
