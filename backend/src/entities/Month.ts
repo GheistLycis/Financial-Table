@@ -16,9 +16,7 @@ import { Year } from "./Year";
 export class Month extends BaseEntity {
   // COLUMNS
   @Column()
-  @IsInt()
-  @Min(1)
-  @Max(12)
+  @IsInt() @Min(1) @Max(12)
   month: number
 
   // RELATIONS

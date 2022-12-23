@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { dataSource } from 'src/database/data-source';
-import CategoryDTO from 'src/DTOs/category';
-import ExpenseDTO from 'src/DTOs/expense';
 import GroupDTO from 'src/DTOs/group';
 import { Category } from 'src/entities/Category';
 import { Expense } from 'src/entities/Expense';
 import { Group } from 'src/entities/Group';
 import { DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
-export type body = { name: string, color: string, category: CategoryDTO, expenses: ExpenseDTO[] }
-export type oneReturn =  Promise<GroupDTO>
-export type manyReturn =  Promise<GroupDTO[]>
+export type body = { name: string, color: string, category: string, expenses: string[] }
+export type oneReturn = Promise<GroupDTO>
+export type manyReturn = Promise<GroupDTO[]>
 
 @Injectable()
 export class GroupService {
@@ -46,10 +44,10 @@ export class GroupService {
     const repeated = await this.repo.findOneBy({ name })
     if(repeated) throw DuplicatedException('Este grupo já foi cadastrado.')
 
-    const categoryEntity = await this.categoryRepo.findOneBy({ id: category.id })
+    const categoryEntity = await this.categoryRepo.findOneBy({ id: category })
 
     const expenseEntities = await this.expenseRepo.createQueryBuilder('Expense')
-      .where('Expense.id IN :ids', { ids: expenses.map(expense => expense.id) })
+      .where('Expense.id IN :expenses', { expenses })
       .getMany()
     
     const entity = this.repo.create({ 
@@ -70,10 +68,10 @@ export class GroupService {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Grupo não encontrado.')
 
-    const categoryEntity = await this.categoryRepo.findOneBy({ id: category.id })
+    const categoryEntity = await this.categoryRepo.findOneBy({ id: category })
 
     const expenseEntities = await this.expenseRepo.createQueryBuilder('Expense')
-      .where('Expense.id IN :ids', { ids: expenses.map(expense => expense.id) })
+      .where('Expense.id IN :expenses', { expenses })
       .getMany()
 
     entity.name = name

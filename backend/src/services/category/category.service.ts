@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { dataSource } from 'src/database/data-source';
 import CategoryDTO from 'src/DTOs/category';
-import GroupDTO from 'src/DTOs/group';
-import MonthDTO from 'src/DTOs/month';
 import { Category } from 'src/entities/Category';
 import { Group } from 'src/entities/Group';
 import { Month } from 'src/entities/Month';
 import { DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
-export type body = { name: string, color: string, month: MonthDTO, groups: GroupDTO[] }
-export type oneReturn =  Promise<CategoryDTO>
-export type manyReturn =  Promise<CategoryDTO[]>
+export type body = { name: string, color: string, month: string, groups: string[] }
+export type oneReturn = Promise<CategoryDTO>
+export type manyReturn = Promise<CategoryDTO[]>
 
 @Injectable()
 export class CategoryService {
@@ -46,10 +44,10 @@ export class CategoryService {
     const repeated = await this.repo.findOneBy({ name })
     if(repeated) throw DuplicatedException('Esta categoria já foi cadastrada.')
 
-    const monthEntity = await this.monthRepo.findOneBy({ id: month.id })
+    const monthEntity = await this.monthRepo.findOneBy({ id: month })
 
     const groupEntities = await this.groupRepo.createQueryBuilder('Group')
-      .where('Group.id IN :ids', { ids: groups.map(group => group.id) })
+      .where('Group.id IN :groups', { groups })
       .getMany()
     
     const entity = this.repo.create({ 
@@ -70,10 +68,10 @@ export class CategoryService {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 
-    const monthEntity = await this.monthRepo.findOneBy({ id: month.id })
+    const monthEntity = await this.monthRepo.findOneBy({ id: month })
 
     const groupEntities = await this.groupRepo.createQueryBuilder('Group')
-      .where('Group.id IN :ids', { ids: groups.map(group => group.id) })
+      .where('Group.id IN :groups', { groups })
       .getMany()
 
     entity.name = name

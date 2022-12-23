@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { dataSource } from 'src/database/data-source';
-import CategoryDTO from 'src/DTOs/category';
 import MonthDTO from 'src/DTOs/month';
-import YearDTO from 'src/DTOs/year';
 import { Category } from 'src/entities/Category';
 import { Month } from 'src/entities/Month';
 import { Year } from 'src/entities/Year';
 import { DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
-export type body = { month: number, year: YearDTO, categories: CategoryDTO[] }
-export type oneReturn =  Promise<MonthDTO>
-export type manyReturn =  Promise<MonthDTO[]>
+export type body = { month: number, year: string, categories: string[] }
+export type oneReturn = Promise<MonthDTO>
+export type manyReturn = Promise<MonthDTO[]>
 
 @Injectable()
 export class MonthService {
@@ -46,10 +44,10 @@ export class MonthService {
     const repeated = await this.repo.findOneBy({ month })
     if(repeated) throw DuplicatedException('Este mês já foi cadastrado.')
 
-    const yearEntity = await this.yearRepo.findOneBy({ id: year.id })
+    const yearEntity = await this.yearRepo.findOneBy({ id: year })
 
     const categoryEntities = await this.categoryRepo.createQueryBuilder('Category')
-      .where('Category.id IN :ids', { ids: categories.map(category => category.id) })
+      .where('Category.id IN :categories', { categories })
       .getMany()
     
     const entity = this.repo.create({ month, year: yearEntity, categories: categoryEntities })
@@ -65,10 +63,10 @@ export class MonthService {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 
-    const yearEntity = await this.yearRepo.findOneBy({ id: year.id })
+    const yearEntity = await this.yearRepo.findOneBy({ id: year })
 
     const categoryEntities = await this.categoryRepo.createQueryBuilder('Category')
-      .where('Category.id IN :ids', { ids: categories.map(category => category.id) })
+      .where('Category.id IN :categories', { categories })
       .getMany()
 
     entity.month = month

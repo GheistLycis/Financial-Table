@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { dataSource } from 'src/database/data-source';
-import MonthDTO from 'src/DTOs/month';
 import YearDTO from 'src/DTOs/year';
 import { Month } from 'src/entities/Month';
 import { Year } from 'src/entities/Year';
 import { DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
-export type body = { year: string, months: MonthDTO[] }
-export type oneReturn =  Promise<YearDTO>
-export type manyReturn =  Promise<YearDTO[]>
+export type body = { year: string, months: string[] }
+export type oneReturn = Promise<YearDTO>
+export type manyReturn = Promise<YearDTO[]>
 
 @Injectable()
 export class YearService {
@@ -34,7 +33,7 @@ export class YearService {
     if(repeated) throw DuplicatedException('Este ano já foi cadastrado.')
 
     const monthEntities = await this.monthRepo.createQueryBuilder('Month')
-      .where('Month.id IN :ids', { ids: months.map(month => month.id) })
+      .where('Month.id IN :months', { months })
       .getMany()
     
     const entity = this.repo.create({ year, months: monthEntities })
@@ -51,7 +50,7 @@ export class YearService {
     if(!entity) throw NotFoundException('Ano não encontrado.')
 
     const monthEntities = await this.monthRepo.createQueryBuilder('Month')
-      .where('Month.id IN :ids', { ids: months.map(month => month.id) })
+      .where('Month.id IN :months', { months })
       .getMany()
 
     entity.year = year

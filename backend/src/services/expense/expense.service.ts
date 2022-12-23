@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { dataSource } from 'src/database/data-source';
 import ExpenseDTO from 'src/DTOs/expense';
-import GroupDTO from 'src/DTOs/group';
 import { Expense } from 'src/entities/Expense';
 import { Group } from 'src/entities/Group';
 import { NotFoundException } from 'src/utils/exceptions';
 
-export type body = { value: number, description: string, date: Date, group: GroupDTO }
-export type oneReturn =  Promise<ExpenseDTO>
-export type manyReturn =  Promise<ExpenseDTO[]>
+export type body = { value: number, description: string, date: Date, group: string }
+export type oneReturn = Promise<ExpenseDTO>
+export type manyReturn = Promise<ExpenseDTO[]>
 
 @Injectable()
 export class ExpenseService {
@@ -40,7 +39,7 @@ export class ExpenseService {
   async post(body: body): oneReturn {
     const { value, description, date, group } = body
 
-    const groupEntity = await this.groupRepo.findOneBy({ id: group.id })
+    const groupEntity = await this.groupRepo.findOneBy({ id: group })
     
     const entity = this.repo.create({ 
       value, 
@@ -60,7 +59,7 @@ export class ExpenseService {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro não encontrado.')
 
-    const groupEntity = await this.groupRepo.findOneBy({ id: group.id })
+    const groupEntity = await this.groupRepo.findOneBy({ id: group })
 
     entity.value = value
     entity.description = description
