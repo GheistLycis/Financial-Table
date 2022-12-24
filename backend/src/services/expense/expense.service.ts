@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
-import { dataSource } from 'src/database/data-source';
+import { dataSource } from 'src/configs/data-source';
 import ExpenseDTO from 'src/DTOs/expense';
 import { Expense } from 'src/entities/Expense';
 import { Group } from 'src/entities/Group';

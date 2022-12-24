@@ -6,7 +6,7 @@ import {
 } from "typeorm";
 import ExpenseDTO from "src/DTOs/expense";
 import { Group } from "./Group";
-import { BaseEntity, manyToOneOptions } from "../database/BaseEntity";
+import { BaseEntity, manyToOneOptions } from "../configs/BaseEntity";
 
 @Service()
 @Entity("expenses")

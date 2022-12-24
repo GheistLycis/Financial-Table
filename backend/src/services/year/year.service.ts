@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
-import { dataSource } from 'src/database/data-source';
+import { dataSource } from 'src/configs/data-source';
 import YearDTO from 'src/DTOs/year';
 import { Year } from 'src/entities/Year';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';

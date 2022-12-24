@@ -1,4 +1,4 @@
-import BaseDTO from "src/database/BaseDTO";
+import BaseDTO from "src/configs/BaseDTO";
 import CategoryDTO from "./category";
 import ExpenseDTO from "./expense";
 

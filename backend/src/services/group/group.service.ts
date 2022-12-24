@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
-import { dataSource } from 'src/database/data-source';
+import { dataSource } from 'src/configs/data-source';
 import GroupDTO from 'src/DTOs/group';
 import { Category } from 'src/entities/Category';
 import { Group } from 'src/entities/Group';

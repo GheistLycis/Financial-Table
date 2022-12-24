@@ -6,7 +6,7 @@ import {
   ManyToOne,
 } from "typeorm";
 import CategoryDTO from "src/DTOs/category";
-import { BaseEntity, manyToOneOptions, OneToManyOptions } from "src/database/BaseEntity";
+import { BaseEntity, manyToOneOptions, OneToManyOptions } from "src/configs/BaseEntity";
 import { Group } from "./Group";
 import { Month } from "./Month";
 import { Max, Min } from "class-validator";

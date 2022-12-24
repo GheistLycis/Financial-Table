@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
-import { dataSource } from 'src/database/data-source';
+import { dataSource } from 'src/configs/data-source';
 import MonthDTO from 'src/DTOs/month';
 import { Month } from 'src/entities/Month';
 import { Year } from 'src/entities/Year';

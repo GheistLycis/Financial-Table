@@ -1,4 +1,4 @@
-import BaseDTO from "src/database/BaseDTO";
+import BaseDTO from "src/configs/BaseDTO";
 import CategoryDTO from "./category";
 import MonthlyEntryDTO from "./monthlyEntry";
 import YearDTO from "./year";

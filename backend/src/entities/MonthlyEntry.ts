@@ -4,7 +4,7 @@ import {
   Column,
   ManyToOne,
 } from "typeorm";
-import { BaseEntity, manyToOneOptions } from "src/database/BaseEntity";
+import { BaseEntity, manyToOneOptions } from "src/configs/BaseEntity";
 import { Month } from "./Month";
 import MonthlyEntryDTO from "src/DTOs/monthlyEntry";
 

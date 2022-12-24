@@ -1,4 +1,4 @@
-import BaseDTO from "src/database/BaseDTO";
+import BaseDTO from "src/configs/BaseDTO";
 import MonthDTO from "./month";
 
 export default interface MonthlyEntryDTO extends BaseDTO {
