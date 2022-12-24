@@ -7,8 +7,8 @@ import { Month } from 'src/entities/Month';
 import { MonthlyEntry } from 'src/entities/MonthlyEntry';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
-export type body = { value: number, description: string, month: string }
-export type query = { month: string }
+type body = { value: number, description: string, month: string }
+type query = { month: string }
 
 @Injectable()
 export class MonthlyEntryService implements BaseService<MonthlyEntry, MonthlyEntryDTO> {

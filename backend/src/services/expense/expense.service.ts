@@ -7,8 +7,8 @@ import { Expense } from 'src/entities/Expense';
 import { Group } from 'src/entities/Group';
 import { classValidatorError, NotFoundException } from 'src/utils/exceptions';
 
-export type body = { value: number, description: string, date: Date, group: string }
-export type query = { group: string }
+type body = { value: number, description: string, date: Date, group: string }
+type query = { group: string }
 
 @Injectable()
 export class ExpenseService implements BaseService<Expense, ExpenseDTO> {

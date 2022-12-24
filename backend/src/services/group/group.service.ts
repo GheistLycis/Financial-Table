@@ -7,8 +7,8 @@ import { Category } from 'src/entities/Category';
 import { Group } from 'src/entities/Group';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
-export type body = { name: string, color: string, category: string }
-export type query = { category: string }
+type body = { name: string, color: string, category: string }
+type query = { category: string }
 
 @Injectable()
 export class GroupService implements BaseService<Group, GroupDTO> {

@@ -5,8 +5,8 @@ import { Month } from 'src/entities/Month';
 import { Year } from 'src/entities/Year';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
-export type body = { month: number, obs: string, year: string }
-export type query = { year: string }
+type body = { month: number, obs: string, year: string }
+type query = { year: string }
 
 @Injectable()
 export class MonthService {
