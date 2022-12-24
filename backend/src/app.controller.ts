@@ -1,14 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { AppService } from './app.service';
+import { Controller } from '@nestjs/common';
 
-@ApiTags('main')
 @Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  main() {
-    return 'SERVER ON'
-  }
-}
+export class AppController {}
