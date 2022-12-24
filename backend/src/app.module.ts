@@ -11,6 +11,8 @@ import { GroupController } from './controllers/group/group.controller';
 import { GroupService } from './services/group/group.service';
 import { ExpenseService } from './services/expense/expense.service';
 import { ExpenseController } from './controllers/expense/expense.controller';
+import { MonthlyEntryService } from './services/monthly-entry/monthly-entry.service';
+import { MonthlyEntryController } from './controllers/monthly-entry/monthly-entry.controller';
 
 @Module({
   imports: [],
@@ -21,6 +23,7 @@ import { ExpenseController } from './controllers/expense/expense.controller';
     CategoryController,
     GroupController,
     ExpenseController,
+    MonthlyEntryController,
   ],
   providers: [
     AppService,
@@ -29,6 +32,7 @@ import { ExpenseController } from './controllers/expense/expense.controller';
     CategoryService,
     GroupService,
     ExpenseService,
+    MonthlyEntryService,
   ],
 })
 export class AppModule {}
