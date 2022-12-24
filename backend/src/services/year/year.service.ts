@@ -13,7 +13,7 @@ export class YearService implements BaseService<Year, YearDTO> {
   repo = dataSource.getRepository(Year)
 
   async list() {
-    const entities = await this.repo.find({ order: { createdAt: 'DESC' }})
+    const entities = await this.repo.find({ order: { year: 'DESC' }})
 
     return entities.map(row => Year.toDTO(row))
   }
@@ -42,6 +42,12 @@ export class YearService implements BaseService<Year, YearDTO> {
   async put(id, { year }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Ano não encontrado.')
+
+    const repeated = await this.repo.createQueryBuilder('Year')
+      .where('Year.id != :id', { id })
+      .andWhere('Year.year = :year', { year })
+      .getOne()
+    if(repeated) throw DuplicatedException('Este ano já foi cadastrado.')
 
     entity.year = year
 

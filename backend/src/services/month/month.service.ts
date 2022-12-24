@@ -57,6 +57,14 @@ export class MonthService {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 
+    const repeated = await this.repo.createQueryBuilder('Month')
+      .leftJoinAndSelect('Month.year', 'Year')
+      .where('Month.id != :id', { id })
+      .andWhere('Month.month = :month', { month })
+      .andWhere('Year.id = :year', { year })
+      .getOne()
+    if(repeated) throw DuplicatedException('Este mês já foi cadastrado.')
+
     const yearEntity = await this.yearRepo.findOneBy({ id: year })
 
     entity.month = month

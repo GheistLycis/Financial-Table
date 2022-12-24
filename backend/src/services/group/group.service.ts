@@ -19,7 +19,9 @@ export class GroupService implements BaseService<Group, GroupDTO> {
     const query = this.repo
       .createQueryBuilder('Group')
       .leftJoinAndSelect('Group.category', 'Category')
-      .orderBy('Group.month', 'DESC')
+      .leftJoinAndSelect('Category.month', 'Month')
+      .leftJoinAndSelect('Month.year', 'Year')
+      .orderBy('Group.createdAt', 'DESC')
 
     if(category) query.where('Category.id = :category', { category })
 
@@ -36,7 +38,11 @@ export class GroupService implements BaseService<Group, GroupDTO> {
   }
 
   async post({ name, color, category }: body) {
-    const repeated = await this.repo.findOneBy({ name })
+    const repeated = await this.repo.createQueryBuilder('Group')
+      .leftJoinAndSelect('Group.category', 'Category')
+      .where('Group.name = :name', { name })
+      .andWhere('Category.id = :category', { category })
+      .getOne()
     if(repeated) throw DuplicatedException('Este grupo já foi cadastrado.')
 
     const categoryEntity = await this.categoryRepo.findOneBy({ id: category })
@@ -55,6 +61,14 @@ export class GroupService implements BaseService<Group, GroupDTO> {
   async put(id, { name, color, category }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Grupo não encontrado.')
+
+    const repeated = await this.repo.createQueryBuilder('Group')
+      .leftJoinAndSelect('Group.category', 'Category')
+      .where('Group.id != :id', { id })
+      .andWhere('Group.name = :name', { name })
+      .andWhere('Category.id = :category', { category })
+      .getOne()
+    if(repeated) throw DuplicatedException('Este grupo já foi cadastrado.')
 
     const categoryEntity = await this.categoryRepo.findOneBy({ id: category })
 

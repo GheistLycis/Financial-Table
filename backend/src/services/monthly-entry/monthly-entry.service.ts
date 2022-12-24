@@ -19,6 +19,7 @@ export class MonthlyEntryService implements BaseService<MonthlyEntry, MonthlyEnt
     const query = this.repo
       .createQueryBuilder('Entry')
       .leftJoinAndSelect('Entry.month', 'Month')
+      .leftJoinAndSelect('Month.year', 'Year')
       .orderBy('Entry.createdAt', 'DESC')
 
     if(month) query.where('Month.id = :month', { month })
@@ -38,8 +39,8 @@ export class MonthlyEntryService implements BaseService<MonthlyEntry, MonthlyEnt
   async post({ value, description, month }: body) {
     const repeated = await this.repo.createQueryBuilder('Entry')
       .leftJoinAndSelect('Entry.month', 'Month')
-      .where('Entry.value = : value', { value })
-      .andWhere('Entry.description = : description', { description })
+      .where('Entry.value = :value', { value })
+      .andWhere('Entry.description = :description', { description })
       .andWhere('Month.id = :month', { month })
       .getOne()
     if(repeated) throw DuplicatedException('Este registro mensal já foi cadastrado.')
@@ -59,6 +60,15 @@ export class MonthlyEntryService implements BaseService<MonthlyEntry, MonthlyEnt
   async put(id, { value, description, month }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro mensal não encontrado.')
+
+    const repeated = await this.repo.createQueryBuilder('Entry')
+      .leftJoinAndSelect('Entry.month', 'Month')
+      .where('Entry.id != :id', { id })
+      .andWhere('Entry.value = :value', { value })
+      .andWhere('Entry.description = :description', { description })
+      .andWhere('Month.id = :month', { month })
+      .getOne()
+    if(repeated) throw DuplicatedException('Este registro mensal já foi cadastrado.')
 
     const monthEntity = await this.monthRepo.findOneBy({ id: month })
 

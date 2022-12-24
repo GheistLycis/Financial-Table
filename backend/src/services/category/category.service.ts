@@ -19,6 +19,7 @@ export class CategoryService implements BaseService<Category, CategoryDTO> {
     const query = this.repo
       .createQueryBuilder('Category')
       .leftJoinAndSelect('Category.month', 'Month')
+      .leftJoinAndSelect('Month.year', 'Year')
       .orderBy('Category.createdAt', 'DESC')
 
     if(month) query.where('Month.id = :month', { month })
@@ -36,7 +37,11 @@ export class CategoryService implements BaseService<Category, CategoryDTO> {
   }
 
   async post({ name, color, percentage, month }: body) {
-    const repeated = await this.repo.findOneBy({ name })
+    const repeated = await this.repo.createQueryBuilder('Category')
+      .leftJoinAndSelect('Category.month', 'Month')
+      .where('Category.name = :name', { name })
+      .andWhere('Month.id = :month', { month })
+      .getOne()
     if(repeated) throw DuplicatedException('Esta categoria já foi cadastrada.')
 
     const monthEntity = await this.monthRepo.findOneBy({ id: month })
@@ -59,6 +64,14 @@ export class CategoryService implements BaseService<Category, CategoryDTO> {
   async put(id, { name, color, percentage, month }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
+
+    const repeated = await this.repo.createQueryBuilder('Category')
+      .leftJoinAndSelect('Category.group', 'Month')
+      .where('Category.name = :name', { name })
+      .andWhere('Category.name = :name', { name })
+      .andWhere('Month.id = :month', { month })
+      .getOne()
+    if(repeated) throw DuplicatedException('Esta categoria já foi cadastrada.')
 
     const monthEntity = await this.monthRepo.findOneBy({ id: month })
 

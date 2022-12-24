@@ -11,7 +11,7 @@ export class IsColor implements ValidatorConstraintInterface {
       color.substring(1).replace(/[\d\w]/g, '').length == 0
     ) return true
 
-    // RGB / RGBA rgba(0,1,0,0)
+    // RGB / RGBA 
     if(
       color.substring(0, 3) == 'rgb' && 
       color.length >= 10 && 

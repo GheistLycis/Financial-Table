@@ -5,7 +5,7 @@ import { dataSource } from 'src/configs/data-source';
 import ExpenseDTO from 'src/DTOs/expense';
 import { Expense } from 'src/entities/Expense';
 import { Group } from 'src/entities/Group';
-import { classValidatorError, NotFoundException } from 'src/utils/exceptions';
+import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
 type body = { value: number, description: string, date: Date, group: string }
 type query = { group: string }
@@ -19,7 +19,10 @@ export class ExpenseService implements BaseService<Expense, ExpenseDTO> {
     const query = this.repo
       .createQueryBuilder('Expense')
       .leftJoinAndSelect('Expense.group', 'Group')
-      .orderBy('Expense.month', 'DESC')
+      .leftJoinAndSelect('Group.category', 'Category')
+      .leftJoinAndSelect('Category.month', 'Month')
+      .leftJoinAndSelect('Month.year', 'Year')
+      .orderBy('Expense.date', 'DESC')
 
     if(group) query.where('Group.id = :group', { group })
 
@@ -36,6 +39,15 @@ export class ExpenseService implements BaseService<Expense, ExpenseDTO> {
   }
 
   async post({ value, description, date, group }: body) {
+    const repeated = await this.repo.createQueryBuilder('Expense')
+      .leftJoinAndSelect('Expense.group', 'Group')
+      .where('Expense.value = :value', { value })
+      .andWhere('Expense.description = :description', { description })
+      .andWhere('Expense.date = :date', { date })
+      .andWhere('Group.id = :group', { group })
+      .getOne()
+    if(repeated) throw DuplicatedException('Este registro já foi cadastrado.')
+
     const groupEntity = await this.groupRepo.findOneBy({ id: group })
     
     const entity = this.repo.create({ 
@@ -56,6 +68,16 @@ export class ExpenseService implements BaseService<Expense, ExpenseDTO> {
   async put(id, { value, description, date, group }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro não encontrado.')
+
+    const repeated = await this.repo.createQueryBuilder('Expense')
+      .leftJoinAndSelect('Expense.group', 'Group')
+      .where('Expense.id != :id', { id })
+      .andWhere('Expense.value = :value', { value })
+      .andWhere('Expense.description = :description', { description })
+      .andWhere('Expense.date = :date', { date })
+      .andWhere('Group.id = :group', { group })
+      .getOne()
+    if(repeated) throw DuplicatedException('Este registro já foi cadastrado.')
 
     const groupEntity = await this.groupRepo.findOneBy({ id: group })
 
