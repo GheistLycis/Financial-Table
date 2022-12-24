@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Query, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GroupService } from 'src/services/group/group.service';
 import { handleError, handleResponse } from 'src/utils/handles';
@@ -9,20 +9,9 @@ import { handleError, handleResponse } from 'src/utils/handles';
 export class GroupController {
   constructor(private service: GroupService) {}
 
-  @Get() async list(@Res() res) {
+  @Get() async list(@Query() query, @Res() res) {
     try {
-      const result = await this.service.list()
-
-      return handleResponse(res, 200, '', result)
-    }
-    catch(e) {
-      return handleError(res, e)
-    }
-  }
-
-  @Get('category/:id') async listByCategory(@Param('id') id, @Res() res) {
-    try {
-      const result = await this.service.listByCategory(id)
+      const result = await this.service.list(query)
 
       return handleResponse(res, 200, '', result)
     }
@@ -53,7 +42,7 @@ export class GroupController {
     }
   }
 
-  @Put() async put(@Param('id') id, @Body() body, @Res() res) {
+  @Put(':id') async put(@Param('id') id, @Body() body, @Res() res) {
     try {
       const result = await this.service.put(id, body)
 
@@ -64,7 +53,7 @@ export class GroupController {
     }
   }
 
-  @Delete() async delete(@Param('id') id, @Res() res) {
+  @Delete(':id') async delete(@Param('id') id, @Res() res) {
     try {
       const result = await this.service.delete(id)
 

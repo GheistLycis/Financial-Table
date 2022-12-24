@@ -21,10 +21,9 @@ export class BaseEntity {
 
 export const manyToOneOptions: RelationOptions = {
   onDelete: 'CASCADE',
-  cascade: true,
   eager: true,
 }
 
 export const OneToManyOptions: RelationOptions = {
-  nullable: true,
+  cascade: true,
 }

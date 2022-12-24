@@ -19,6 +19,9 @@ export class Month extends BaseEntity {
   @IsInt() @Min(1) @Max(12)
   month: number
 
+  @Column()
+  income: number
+
   // RELATIONS
   @ManyToOne(() => Year, year => year.months, manyToOneOptions)
   year: Year
@@ -26,9 +29,10 @@ export class Month extends BaseEntity {
   @OneToMany(() => Category, category => category.month, OneToManyOptions)
   categories: Category[]
 
-  public static toDTO(row: Month): MonthDTO {
+  static toDTO(row: Month): MonthDTO {
     return {
       month: row.month,
+      income: row.income,
       year: Year.toDTO(row.year),
       categories: row.categories ? row.categories.map(category => Category.toDTO(category)) : null,
       id: row.id,

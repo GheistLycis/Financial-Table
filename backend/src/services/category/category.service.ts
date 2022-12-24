@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { validate } from 'class-validator';
 import { dataSource } from 'src/database/data-source';
 import CategoryDTO from 'src/DTOs/category';
 import { Category } from 'src/entities/Category';
-import { Group } from 'src/entities/Group';
 import { Month } from 'src/entities/Month';
-import { DuplicatedException, NotFoundException } from 'src/utils/exceptions';
+import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
-export type body = { name: string, color: string, month: string, groups: string[] }
+export type body = { name: string, color: string, percentage: number, month: string }
+export type query = { month: string }
 export type oneReturn = Promise<CategoryDTO>
 export type manyReturn = Promise<CategoryDTO[]>
 
@@ -14,77 +15,68 @@ export type manyReturn = Promise<CategoryDTO[]>
 export class CategoryService {
   repo = dataSource.getRepository(Category)
   monthRepo = dataSource.getRepository(Month)
-  groupRepo = dataSource.getRepository(Group)
 
-  async list(): manyReturn {
-    const entities = await this.repo.find({ order: { createdAt: 'DESC' }})
-
-    return entities.map(row => Category.toDTO(row))
-  }
-
-  async listByMonth(id): manyReturn {
-    const entities = await this.repo.createQueryBuilder('Category')
+  async list({ month }: query): manyReturn {
+    const query = this.repo
+      .createQueryBuilder('Category')
       .leftJoinAndSelect('Category.month', 'Month')
-      .where('Month.id = :id', { id })
       .orderBy('Category.createdAt', 'DESC')
-      .getMany()
+
+    if(month) query.where('Month.id = :month', { month })
+
+    const entities = await query.getMany()
 
     return entities.map(row => Category.toDTO(row))
   }
 
-  async getById(id): oneReturn {
+  async get(id: string): oneReturn {
     const entity = await this.repo.findOneBy({ id })
+    if(!entity) throw NotFoundException('Nenhuma categoria encontrada.')
 
     return Category.toDTO(entity)
   }
 
-  async post(body: body): oneReturn {
-    const { name, color, month, groups } = body
-
+  async post({ name, color, percentage, month }: body): oneReturn {
     const repeated = await this.repo.findOneBy({ name })
     if(repeated) throw DuplicatedException('Esta categoria já foi cadastrada.')
 
     const monthEntity = await this.monthRepo.findOneBy({ id: month })
-
-    const groupEntities = await this.groupRepo.createQueryBuilder('Group')
-      .where('Group.id IN :groups', { groups })
-      .getMany()
     
     const entity = this.repo.create({ 
       name, 
       color, 
-      month: monthEntity, 
-      groups: groupEntities
+      percentage,
+      month: monthEntity
     })
+
+    const errors = await validate(entity)
+    if(errors.length != 0) throw classValidatorError(errors)
       
     await this.repo.save(entity)
 
     return Category.toDTO(entity)
   }
 
-  async put(id, body: body): oneReturn {
-    const { name, color, month, groups } = body
-  
+  async put(id: string, { name, color, percentage, month }: body): oneReturn {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 
     const monthEntity = await this.monthRepo.findOneBy({ id: month })
 
-    const groupEntities = await this.groupRepo.createQueryBuilder('Group')
-      .where('Group.id IN :groups', { groups })
-      .getMany()
-
     entity.name = name
     entity.color = color
+    entity.percentage = percentage
     entity.month = monthEntity
-    entity.groups = groupEntities
+
+    const errors = await validate(entity)
+    if(errors.length != 0) throw classValidatorError(errors)
 
     await this.repo.save(entity)
 
     return Category.toDTO(entity)
   }
 
-  async delete(id): oneReturn {
+  async delete(id: string): oneReturn {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 

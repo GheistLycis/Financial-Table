@@ -27,7 +27,7 @@ export class Group extends BaseEntity  {
   @OneToMany(() => Expense, expense => expense.group, OneToManyOptions)
   expenses: Expense[]
 
-  public static toDTO(row: Group): GroupDTO {
+  static toDTO(row: Group): GroupDTO {
     return {
       name: row.name,
       color: row.color,

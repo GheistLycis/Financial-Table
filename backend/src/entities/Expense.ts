@@ -25,7 +25,7 @@ export class Expense extends BaseEntity  {
   @ManyToOne(() => Group, group => group.expenses, manyToOneOptions)
   group: Group
 
-  public static toDTO(row: Expense): ExpenseDTO {
+  static toDTO(row: Expense): ExpenseDTO {
     return {
       value: row.value,
       description: row.description,

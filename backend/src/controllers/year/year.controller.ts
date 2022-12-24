@@ -20,9 +20,9 @@ export class YearController {
     }
   }
 
-  @Get(':id') async getById(@Param('id') id, @Res() res) {
+  @Get(':id') async get(@Param('id') id, @Res() res) {
     try {
-      const result = await this.service.getById(id)
+      const result = await this.service.get(id)
 
       return handleResponse(res, 200, '', result)
     }
@@ -42,7 +42,7 @@ export class YearController {
     }
   }
 
-  @Put() async put(@Param('id') id, @Body() body, @Res() res) {
+  @Put(':id') async put(@Param('id') id, @Body() body, @Res() res) {
     try {
       const result = await this.service.put(id, body)
 
@@ -53,7 +53,7 @@ export class YearController {
     }
   }
 
-  @Delete() async delete(@Param('id') id, @Res() res) {
+  @Delete(":id") async delete(@Param('id') id, @Res() res) {
     try {
       const result = await this.service.delete(id)
 

@@ -1,18 +1,33 @@
+import { ValidationError } from "class-validator"
 
-const NotFoundException = message => {
+// 400
+export function BadRequest(message) {
+  return { message, type: 400 }
+}
+
+export function NotFoundException(message) {
   return { message, type: 404 }
 }
 
-const DuplicatedException = message => {
+export function DuplicatedException(message) {
   return { message, type: 406 }
 }
 
-const ServerException = message => {
+// 500
+export function ServerException(message) {
   return { message, type: 500 }
 }
 
-export { 
-  NotFoundException, 
-  DuplicatedException,
-  ServerException
+// CLASS-VALIDATOR
+export function classValidatorError(errors: ValidationError[]) {
+  const message = errors.map(e => {
+    const triggers = []
+
+    for(let trigger in e.constraints) triggers.push(e.constraints[trigger])
+
+    return `PROPRIEDADE: ${e.property} - ${triggers.join('; ')}`
+  })
+
+  return BadRequest(message.join(' / '))
 }
+

@@ -19,7 +19,7 @@ export class Year extends BaseEntity {
   @OneToMany(() => Month, month => month.year, OneToManyOptions)
   months: Month[]
 
-  public static toDTO(row: Year): YearDTO {
+  static toDTO(row: Year): YearDTO {
     return {
       year: row.year,
       months: row.months ? row.months.map(month => Month.toDTO(month)) : null,

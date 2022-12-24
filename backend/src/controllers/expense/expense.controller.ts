@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Query, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ExpenseService } from 'src/services/expense/expense.service';
 import { handleError, handleResponse } from 'src/utils/handles';
@@ -9,9 +9,9 @@ import { handleError, handleResponse } from 'src/utils/handles';
 export class ExpenseController {
   constructor(private service: ExpenseService) {}
 
-  @Get() async list(@Res() res) {
+  @Get() async list(@Query() query, @Res() res) {
     try {
-      const result = await this.service.list()
+      const result = await this.service.list(query)
 
       return handleResponse(res, 200, '', result)
     }
@@ -20,20 +20,9 @@ export class ExpenseController {
     }
   }
 
-  @Get('group/:id') async listByGroup(@Param('id') id, @Res() res) {
+  @Get(':id') async get(@Param('id') id, @Res() res) {
     try {
-      const result = await this.service.listByGroup(id)
-
-      return handleResponse(res, 200, '', result)
-    }
-    catch(e) {
-      return handleError(res, e)
-    }
-  }
-
-  @Get(':id') async getById(@Param('id') id, @Res() res) {
-    try {
-      const result = await this.service.getById(id)
+      const result = await this.service.get(id)
 
       return handleResponse(res, 200, '', result)
     }
@@ -53,7 +42,7 @@ export class ExpenseController {
     }
   }
 
-  @Put() async put(@Param('id') id, @Body() body, @Res() res) {
+  @Put(':id') async put(@Param('id') id, @Body() body, @Res() res) {
     try {
       const result = await this.service.put(id, body)
 
@@ -64,7 +53,7 @@ export class ExpenseController {
     }
   }
 
-  @Delete() async delete(@Param('id') id, @Res() res) {
+  @Delete(':id') async delete(@Param('id') id, @Res() res) {
     try {
       const result = await this.service.delete(id)
 
