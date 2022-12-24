@@ -20,9 +20,9 @@ export class GroupController {
     }
   }
 
-  @Get(':id') async getById(@Param('id') id, @Res() res) {
+  @Get(':id') async get(@Param('id') id, @Res() res) {
     try {
-      const result = await this.service.getById(id)
+      const result = await this.service.get(id)
 
       return handleResponse(res, 200, '', result)
     }

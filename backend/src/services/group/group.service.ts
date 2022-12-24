@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
+import { BaseService } from 'src/configs/BaseService';
 import { dataSource } from 'src/configs/data-source';
 import GroupDTO from 'src/DTOs/group';
 import { Category } from 'src/entities/Category';
@@ -8,15 +9,13 @@ import { classValidatorError, DuplicatedException, NotFoundException } from 'src
 
 export type body = { name: string, color: string, category: string }
 export type query = { category: string }
-export type oneReturn = Promise<GroupDTO>
-export type manyReturn = Promise<GroupDTO[]>
 
 @Injectable()
-export class GroupService {
+export class GroupService implements BaseService<Group, GroupDTO> {
   repo = dataSource.getRepository(Group)
   categoryRepo = dataSource.getRepository(Category)
 
-  async list({ category }: query): manyReturn {
+  async list({ category }: query) {
     const query = this.repo
       .createQueryBuilder('Group')
       .leftJoinAndSelect('Group.category', 'Category')
@@ -29,14 +28,14 @@ export class GroupService {
     return entities.map(row => Group.toDTO(row))
   }
 
-  async getById(id: string): oneReturn {
+  async get(id) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum grupo encontrado.')
 
     return Group.toDTO(entity)
   }
 
-  async post({ name, color, category }: body): oneReturn {
+  async post({ name, color, category }: body) {
     const repeated = await this.repo.findOneBy({ name })
     if(repeated) throw DuplicatedException('Este grupo já foi cadastrado.')
 
@@ -53,7 +52,7 @@ export class GroupService {
     return Group.toDTO(entity)
   }
 
-  async put(id: string, { name, color, category }: body): oneReturn {
+  async put(id, { name, color, category }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Grupo não encontrado.')
 
@@ -71,7 +70,7 @@ export class GroupService {
     return Group.toDTO(entity)
   }
 
-  async delete(id: string): oneReturn {
+  async delete(id) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Grupo não encontrado.')
 

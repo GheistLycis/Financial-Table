@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
+import { BaseService } from 'src/configs/BaseService';
 import { dataSource } from 'src/configs/data-source';
 import CategoryDTO from 'src/DTOs/category';
 import { Category } from 'src/entities/Category';
@@ -8,15 +9,13 @@ import { classValidatorError, DuplicatedException, NotFoundException } from 'src
 
 export type body = { name: string, color: string, percentage: number, month: string }
 export type query = { month: string }
-export type oneReturn = Promise<CategoryDTO>
-export type manyReturn = Promise<CategoryDTO[]>
 
 @Injectable()
-export class CategoryService {
+export class CategoryService implements BaseService<Category, CategoryDTO> {
   repo = dataSource.getRepository(Category)
   monthRepo = dataSource.getRepository(Month)
 
-  async list({ month }: query): manyReturn {
+  async list({ month }: query) {
     const query = this.repo
       .createQueryBuilder('Category')
       .leftJoinAndSelect('Category.month', 'Month')
@@ -29,14 +28,14 @@ export class CategoryService {
     return entities.map(row => Category.toDTO(row))
   }
 
-  async get(id: string): oneReturn {
+  async get(id) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhuma categoria encontrada.')
 
     return Category.toDTO(entity)
   }
 
-  async post({ name, color, percentage, month }: body): oneReturn {
+  async post({ name, color, percentage, month }: body) {
     const repeated = await this.repo.findOneBy({ name })
     if(repeated) throw DuplicatedException('Esta categoria já foi cadastrada.')
 
@@ -57,7 +56,7 @@ export class CategoryService {
     return Category.toDTO(entity)
   }
 
-  async put(id: string, { name, color, percentage, month }: body): oneReturn {
+  async put(id, { name, color, percentage, month }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 
@@ -76,7 +75,7 @@ export class CategoryService {
     return Category.toDTO(entity)
   }
 
-  async delete(id: string): oneReturn {
+  async delete(id) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 

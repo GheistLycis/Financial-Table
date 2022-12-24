@@ -1,22 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { dataSource } from 'src/configs/data-source';
-import MonthDTO from 'src/DTOs/month';
 import { Month } from 'src/entities/Month';
 import { Year } from 'src/entities/Year';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
 export type body = { month: number, obs: string, year: string }
 export type query = { year: string }
-export type oneReturn = Promise<MonthDTO>
-export type manyReturn = Promise<MonthDTO[]>
 
 @Injectable()
 export class MonthService {
   repo = dataSource.getRepository(Month)
   yearRepo = dataSource.getRepository(Year)
 
-  async list({ year }: query): manyReturn {
+  async list({ year }: query) {
     const query = this.repo
       .createQueryBuilder('Month')
       .leftJoinAndSelect('Month.year', 'Year')
@@ -29,14 +26,14 @@ export class MonthService {
     return entities.map(row => Month.toDTO(row))
   }
 
-  async get(id: string): oneReturn {
+  async get(id) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum mês encontrado.')
 
     return Month.toDTO(entity)
   }
 
-  async post({ month, obs, year }: body): oneReturn {
+  async post({ month, obs, year }: body) {
     const repeated = await this.repo.createQueryBuilder('Month')
       .leftJoinAndSelect('Month.year', 'Year')
       .where('Month.month = :month', { month })
@@ -56,7 +53,7 @@ export class MonthService {
     return Month.toDTO(entity)
   }
 
-  async put(id: string, { month, obs, year }: body): oneReturn {
+  async put(id, { month, obs, year }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 
@@ -74,7 +71,7 @@ export class MonthService {
     return Month.toDTO(entity)
   }
 
-  async delete(id: string): oneReturn {
+  async delete(id) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 

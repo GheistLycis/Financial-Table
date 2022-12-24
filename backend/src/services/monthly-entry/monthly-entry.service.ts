@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
+import { BaseService } from 'src/configs/BaseService';
 import { dataSource } from 'src/configs/data-source';
 import MonthlyEntryDTO from 'src/DTOs/monthlyEntry';
 import { Month } from 'src/entities/Month';
@@ -8,15 +9,13 @@ import { classValidatorError, DuplicatedException, NotFoundException } from 'src
 
 export type body = { value: number, description: string, month: string }
 export type query = { month: string }
-export type oneReturn = Promise<MonthlyEntryDTO>
-export type manyReturn = Promise<MonthlyEntryDTO[]>
 
 @Injectable()
-export class MonthlyEntryService {
+export class MonthlyEntryService implements BaseService<MonthlyEntry, MonthlyEntryDTO> {
   repo = dataSource.getRepository(MonthlyEntry)
   monthRepo = dataSource.getRepository(Month)
 
-  async list({ month }: query): manyReturn {
+  async list({ month }: query) {
     const query = this.repo
       .createQueryBuilder('Entry')
       .leftJoinAndSelect('Entry.month', 'Month')
@@ -29,14 +28,14 @@ export class MonthlyEntryService {
     return entities.map(row => MonthlyEntry.toDTO(row))
   }
 
-  async get(id: string): oneReturn {
+  async get(id) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum registro mensal encontrado.')
 
     return MonthlyEntry.toDTO(entity)
   }
 
-  async post({ value, description, month }: body): oneReturn {
+  async post({ value, description, month }: body) {
     const repeated = await this.repo.createQueryBuilder('Entry')
       .leftJoinAndSelect('Entry.month', 'Month')
       .where('Entry.value = : value', { value })
@@ -57,7 +56,7 @@ export class MonthlyEntryService {
     return MonthlyEntry.toDTO(entity)
   }
 
-  async put(id: string, { value, description, month }: body): oneReturn {
+  async put(id, { value, description, month }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro mensal não encontrado.')
 
@@ -75,7 +74,7 @@ export class MonthlyEntryService {
     return MonthlyEntry.toDTO(entity)
   }
 
-  async delete(id: string): oneReturn {
+  async delete(id) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro mensal não encontrado.')
 
