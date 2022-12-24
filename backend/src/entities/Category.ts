@@ -9,7 +9,8 @@ import CategoryDTO from "src/DTOs/category";
 import { BaseEntity, manyToOneOptions, OneToManyOptions } from "src/configs/BaseEntity";
 import { Group } from "./Group";
 import { Month } from "./Month";
-import { Max, Min } from "class-validator";
+import { Max, Min, Validate } from "class-validator";
+import { IsColor } from "src/decorators/class-validator/IsColor";
 
 @Service()
 @Entity("categories")
@@ -19,6 +20,7 @@ export class Category extends BaseEntity  {
   name: string
 
   @Column()
+  @Validate(IsColor)
   color: string
 
   @Column()

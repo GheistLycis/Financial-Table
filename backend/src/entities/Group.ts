@@ -9,6 +9,8 @@ import { Expense } from "./Expense";
 import GroupDTO from "src/DTOs/group";
 import { BaseEntity, manyToOneOptions, OneToManyOptions } from "src/configs/BaseEntity";
 import { Category } from "./Category";
+import { IsColor } from "src/decorators/class-validator/IsColor";
+import { Validate } from "class-validator";
 
 @Service()
 @Entity("groups")
@@ -18,6 +20,7 @@ export class Group extends BaseEntity  {
   name: string
 
   @Column()
+  @Validate(IsColor)
   color: string
 
   // RELATIONS
