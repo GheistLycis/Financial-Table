@@ -10,6 +10,7 @@ import { BaseEntity, manyToOneOptions, OneToManyOptions } from "src/database/Bas
 import { Category } from "./Category";
 import MonthDTO from "src/DTOs/month";
 import { Year } from "./Year";
+import { MonthlyEntry } from "./MonthlyEntry";
 
 @Service()
 @Entity("months")
@@ -19,8 +20,8 @@ export class Month extends BaseEntity {
   @IsInt() @Min(1) @Max(12)
   month: number
 
-  @Column()
-  income: number
+  @Column({ nullable: true, default: '' })
+  obs: string
 
   // RELATIONS
   @ManyToOne(() => Year, year => year.months, manyToOneOptions)
@@ -29,12 +30,16 @@ export class Month extends BaseEntity {
   @OneToMany(() => Category, category => category.month, OneToManyOptions)
   categories: Category[]
 
+  @OneToMany(() => MonthlyEntry, entry => entry.month, OneToManyOptions)
+  entries: MonthlyEntry[]
+
   static toDTO(row: Month): MonthDTO {
     return {
       month: row.month,
-      income: row.income,
+      obs: row.obs,
       year: Year.toDTO(row.year),
       categories: row.categories ? row.categories.map(category => Category.toDTO(category)) : null,
+      entries: row.entries ? row.entries.map(entry => MonthlyEntry.toDTO(entry)) : null,
       id: row.id,
       createdAt: row.createdAt,
       updatedAt: row.updatedAt,

@@ -1,3 +1,4 @@
+import { MonthlyEntry } from "src/entities/MonthlyEntry";
 import { DataSource } from "typeorm";
 import { Category } from "../entities/Category";
 import { Expense } from "../entities/Expense";
@@ -20,6 +21,7 @@ export const dataSource = new DataSource({
       Expense,
       Group,
       Month,
+      MonthlyEntry,
       Year,
   ],
   migrations: [],

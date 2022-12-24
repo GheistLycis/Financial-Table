@@ -6,7 +6,7 @@ import { Month } from 'src/entities/Month';
 import { Year } from 'src/entities/Year';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
-export type body = { month: number, income: number, year: string }
+export type body = { month: number, obs: string, year: string }
 export type query = { year: string }
 export type oneReturn = Promise<MonthDTO>
 export type manyReturn = Promise<MonthDTO[]>
@@ -36,7 +36,7 @@ export class MonthService {
     return Month.toDTO(entity)
   }
 
-  async post({ month, income, year }: body): oneReturn {
+  async post({ month, obs, year }: body): oneReturn {
     const repeated = await this.repo.createQueryBuilder('Month')
       .leftJoinAndSelect('Month.year', 'Year')
       .where('Month.month = :month', { month })
@@ -46,7 +46,7 @@ export class MonthService {
 
     const yearEntity = await this.yearRepo.findOneBy({ id: year })
     
-    const entity = this.repo.create({ month, income, year: yearEntity })
+    const entity = this.repo.create({ month, obs, year: yearEntity })
       
     const errors = await validate(entity)
     if(errors.length != 0) throw classValidatorError(errors)
@@ -56,14 +56,14 @@ export class MonthService {
     return Month.toDTO(entity)
   }
 
-  async put(id: string, { month, income, year }: body): oneReturn {
+  async put(id: string, { month, obs, year }: body): oneReturn {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 
     const yearEntity = await this.yearRepo.findOneBy({ id: year })
 
     entity.month = month
-    entity.income = income
+    entity.obs = obs
     entity.year = yearEntity
 
     const errors = await validate(entity)
