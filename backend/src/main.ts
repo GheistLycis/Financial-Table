@@ -5,7 +5,8 @@ import { AppModule } from './app.module';
 import { dataSource } from './configs/data-source';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule).then(application => application.setGlobalPrefix('api'))
+  const app = await NestFactory.create(AppModule, { cors: true })
+    .then(application => application.setGlobalPrefix('api'))
   const config = new DocumentBuilder().build()
   const document = SwaggerModule.createDocument(app, config)
 
