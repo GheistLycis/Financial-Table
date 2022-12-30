@@ -8,14 +8,14 @@ import { Year } from 'src/entities/Year';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
 type body = { month: number, obs: string, year: string }
-type query = { year: string }
+type queries = { year: string }
 
 @Injectable()
 export class MonthService implements BaseService<Month, MonthDTO> {
   repo = dataSource.getRepository(Month)
   yearRepo = dataSource.getRepository(Year)
 
-  async list({ year }: query) {
+  async list({ year }: queries) {
     const query = this.repo
       .createQueryBuilder('Month')
       .leftJoinAndSelect('Month.year', 'Year')

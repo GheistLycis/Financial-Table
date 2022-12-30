@@ -12,8 +12,8 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) {}
 
-  list(group: string = ''): Observable<any>{
-    return this.http.get(`${env.api}/${this.baseRoute}?group=${group}`)
+  list(month: string = '', group: string = ''): Observable<any>{
+    return this.http.get(`${env.api}/${this.baseRoute}?month=${month}&group=${group}`)
   }
 
   get(id: string): Observable<any>{

@@ -8,14 +8,14 @@ import { MonthlyEntry } from 'src/entities/MonthlyEntry';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
 type body = { value: number, description: string, month: string }
-type query = { month: string }
+type queries = { month: string }
 
 @Injectable()
 export class MonthlyEntryService implements BaseService<MonthlyEntry, MonthlyEntryDTO> {
   repo = dataSource.getRepository(MonthlyEntry)
   monthRepo = dataSource.getRepository(Month)
 
-  async list({ month }: query) {
+  async list({ month }: queries) {
     const query = this.repo
       .createQueryBuilder('Entry')
       .leftJoinAndSelect('Entry.month', 'Month')
