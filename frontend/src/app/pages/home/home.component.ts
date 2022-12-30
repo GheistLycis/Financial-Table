@@ -21,17 +21,61 @@ export class HomeComponent implements OnInit {
     private monthService: MonthService,
   ) {}
 
+  test() {
+    console.log(this.years, this.months, this.analyticsYear, this.analyticsMonth)
+  }
+
   ngOnInit(): void {
-    this.yearService.list().subscribe(res => this.years = res.data)
-    this.monthService.list().subscribe(res => this.months = res.data)
+    this.yearService.list().subscribe(res => {
+      this.years = res.data
+
+      const lastYear = Math.max(...this.years.map(year => +year.year))
+
+      this.analyticsYear = this.years.find(year => +year.year == lastYear)!
+
+      this.getMonths()
+    })
+  }
+
+  getMonths(): void {
+    this.monthService.list(this.analyticsYear.id).subscribe(res => {
+      this.months = res.data
+
+      const lastMonth = Math.max(...this.months.map(month => +month.month))
+
+      this.analyticsMonth = this.months.find(month => +month.month == lastMonth)!
+    })
   }
 
   toggleSelect(option: string): void {
-    if(option == 'year') {
+    this.analyticsSelect = this.analyticsSelect == option ? '' : option
+  }
 
-    }
-    else {
+  recentExpensesAnalytics(): number {
+    let thisMonthExpenses, lastMonthExpenses, result
 
-    }
+    return 10
+  }
+
+  yearExpensesAnalytics(): number {
+    let thisMonthExpenses, yearMeanExpenses, result
+
+    return 23
+  }
+
+  sumAllExpenses(month: MonthDTO): number {
+    return 0
+  }
+
+  getMostExpensiveCategory(): string {
+    let mostExpensive
+
+    return mostExpensive
+  }
+
+  getMostExpensiveGroup(): string {
+    let mostExpensive
+
+    return mostExpensive
   }
 }

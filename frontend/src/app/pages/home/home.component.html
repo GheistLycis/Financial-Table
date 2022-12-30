@@ -1,31 +1,77 @@
 <div class="container">
-    <div>
-        <!-- <h2>
-            Analytics (
-                <span (click)="toggleSelect('year')">
-                    {{ analyticsYear.year }}
-                </span>, 
-                <span (click)="toggleSelect('month')">
-                    {{ analyticsMonth.month }}
-                </span>
-            )
-        </h2>
-        <ng-select
-            [items]="years" 
-            bindLabel="year" 
-            bindValue="id" 
-            [(ngModel)]="analyticsYear"
-            [style.display.hidden]="analyticsSelect == 'year'"
-        ></ng-select>
-        <ng-select
-            [items]="months" 
-            bindLabel="month" 
-            bindValue="id" 
-            [(ngModel)]="analyticsMonth"
-            [style.display.hidden]="analyticsSelect == 'month'"
-        ></ng-select> -->
-        <div>
-            <h3>Gastos do mês</h3>
+    <button (click)="test()">TESTE</button>
+    <div class="analytics w-100 mb-5">
+        <div class="header mb-4 d-flex">
+            <h2>
+                Gastos do mês (
+                    <span 
+                        [appMonthName]="analyticsMonth.month" 
+                        (click)="toggleSelect('month')"
+                    ></span>
+                    de 
+                    <span (click)="toggleSelect('year')">
+                        {{ analyticsYear.year }}
+                    </span>
+                )
+            </h2>
+            <div *ngIf="analyticsSelect == 'year'">
+                <ng-select
+                    [items]="years" 
+                    [(ngModel)]="analyticsYear"
+                    (change)="getMonths()"
+                    bindLabel="year" 
+                ></ng-select>
+            </div>
+            <div *ngIf="analyticsSelect == 'month'">
+                <ng-select
+                    [items]="months" 
+                    [(ngModel)]="analyticsMonth"
+                    bindLabel="month" 
+                ></ng-select>
+            </div>
+        </div>
+        <div class="cards d-flex">
+            <div class="card shadow p-3">
+                <div>
+                    <h4>Em relação ao mês anterior</h4>
+                </div>
+                <div *ngIf="recentExpensesAnalytics() < 0; else positiveRecentResult" [style.color]="'red'" class="analytics-data">
+                    <img src="../../../assets/icons/arrow-down.svg" class="arrow-down">
+                    <h3>{{ recentExpensesAnalytics() }}%</h3>
+                </div>
+                <ng-template #positiveRecentResult>
+                    <div [style.color]="'green'" class="analytics-data">
+                        <img src="../../../assets/icons/arrow-up.svg" class="arrow-up">
+                        <h3>{{ recentExpensesAnalytics() }}%</h3>
+                    </div>
+                </ng-template>
+            </div>
+            <div class="card shadow p-3">
+                <div>
+                    <h4>Em relação à média dos meses anteriores do mesmo ano</h4>
+                </div>
+                <div *ngIf="yearExpensesAnalytics() < 0; else positiveYearResult" [style.color]="'red'" class="analytics-data">
+                    <img src="../../../assets/icons/arrow-down.svg" class="arrow-down">
+                    <h3>{{ yearExpensesAnalytics() }}%</h3>
+                </div>
+                <ng-template #positiveYearResult>
+                    <div [style.color]="'green'" class="analytics-data">
+                        <img src="../../../assets/icons/arrow-up.svg" class="arrow-up">
+                        <h3>{{ yearExpensesAnalytics() }}%</h3>
+                    </div>
+                </ng-template>
+            </div>
+            <div class="card shadow p-3">
+                <div>
+                    <h4>Maior concentração de gastos:</h4>
+                </div>
+                <div>
+                    <div>
+                        <h3>Categoria: {{ getMostExpensiveCategory() }}</h3>
+                    </div>
+                        <h3>Grupo: {{ getMostExpensiveGroup() }}</h3>
+                </div>
+            </div>
         </div>
     </div>
 </div>

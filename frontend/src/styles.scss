@@ -1,9 +1,9 @@
 @import './variables.scss';
 
 // GENERAL
-* {
-    cursor: none !important;
-}
+// * {
+//     cursor: none !important;
+// }
 
 html {
     font-size: 16px;
@@ -24,12 +24,11 @@ body {
     padding: 0;
 }
 
-/* width */
 ::-webkit-scrollbar {
     width: 10px;
   }
   
-/* Track */
+
 ::-webkit-scrollbar-track {
     background: white;
 }
@@ -52,22 +51,22 @@ button {
     padding: 5px 10px;
     transition-duration: .3s;
     transition-timing-function: ease-out;
-}
 
-button:hover {
-    border-color: $palette-4;
-    color: $palette-4;
-}
+    &:hover {
+        border-color: $palette-4;
+        color: $palette-4;
+    }
 
-button:disabled {
-    border-color: grey;
-    color: grey;
-    font-style: italic;
-}
+    &:disabled {
+        border-color: grey;
+        color: grey;
+        font-style: italic;
+    }
 
-button:hover,
-button:disabled {
-    background-color: transparent;
+    &:hover,
+    &:disabled {
+        background-color: transparent;
+    }
 }
 
 input {
@@ -77,4 +76,23 @@ input {
     color: grey;
     border: 1px solid black;
     border-radius: 20px;
+}
+
+.ng-select {
+    .ng-select-container {
+        min-height: 43px;
+        min-width: 100px;
+        padding: 5px 10px;
+        background: white;
+        border: 1px solid black;
+        border-radius: 15px;
+    }
+
+    .ng-option {
+        padding: 3px 5px;
+        background: white;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+    }
 }
