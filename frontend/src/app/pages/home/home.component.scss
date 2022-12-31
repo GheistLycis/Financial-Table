@@ -1,19 +1,20 @@
 @import '../../../variables.scss';
 
 // ANALYTICS
-.analytics,
-.header {
+.analytics {
   gap: 20px;
-}
 
-.header {
-  span {
-    color: auto;
-    font-style: italic;
-    transition-duration: .3s;
-    
-    &:hover {
-      color: $palette-4;
+  .header {
+    gap: 20px;
+
+    span {
+      color: auto;
+      font-style: italic;
+      transition-duration: .3s;
+      
+      &:hover {
+        color: $palette-4;
+      }
     }
   }
 }
@@ -35,11 +36,11 @@
     align-items: center;
     justify-content: center;
 
-    .arrow-up {
+    .svg-arrow-up {
       filter: invert(14%) sepia(93%) saturate(7485%) hue-rotate(0deg) brightness(100%) contrast(110%);
     }
 
-    .arrow-down {
+    .svg-arrow-down {
       filter: invert(25%) sepia(76%) saturate(6344%) hue-rotate(115deg) brightness(94%) contrast(104%); 
     }
   }
@@ -48,5 +49,11 @@
     span {
       color: red;
     }
+  }
+}
+
+// TABLES
+.tables {
+  .header {
   }
 }

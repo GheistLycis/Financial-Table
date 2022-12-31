@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first, firstValueFrom } from 'rxjs';
+import { CategoryComponent } from 'src/app/components/modal/category/category.component';
+import { ExpenseComponent } from 'src/app/components/modal/expense/expense.component';
+import { GroupComponent } from 'src/app/components/modal/group/group.component';
+import { MonthComponent } from 'src/app/components/modal/month/month.component';
+import { MonthlyEntryComponent } from 'src/app/components/modal/monthly-entry/monthly-entry.component';
+import { YearComponent } from 'src/app/components/modal/year/year.component';
 import CategoryDTO from 'src/app/DTOs/category';
 import ExpenseDTO from 'src/app/DTOs/expense';
 import GroupDTO from 'src/app/DTOs/group';
@@ -34,6 +41,7 @@ export class HomeComponent implements OnInit {
     private categoryService: CategoryService,
     private groupService: GroupService,
     private expenseService: ExpenseService,
+    private modalService: NgbModal,
   ) {}
 
   test() {
@@ -183,5 +191,22 @@ export class HomeComponent implements OnInit {
 
   toggleSelect(option: string): void {
     this.analyticsSelect = this.analyticsSelect == option ? '' : option
+  }
+
+  openModal(option: 'year' | 'month' | 'category' | 'group' | 'expense' | 'monthly-entry'): void {
+    let modal, modalRef
+
+    if(option == 'year') modal = YearComponent
+    if(option == 'month') modal = MonthComponent
+    if(option == 'category') modal = CategoryComponent
+    if(option == 'group') modal = GroupComponent
+    if(option == 'expense') modal = ExpenseComponent
+    if(option == 'monthly-entry') modal = MonthlyEntryComponent
+
+    modalRef = this.modalService.open(modal, { size: 'lg' })
+
+    modalRef.result
+      .then()
+      .catch()
   }
 }

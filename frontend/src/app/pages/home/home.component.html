@@ -1,6 +1,6 @@
 <div class="container">
     <button (click)="test()">TESTE</button>
-    <div class="analytics w-100 mb-5">
+    <section class="analytics w-100 mb-5">
         <div class="header mb-4 d-flex">
             <h2>
                 Gastos do mês (
@@ -37,12 +37,12 @@
                     <h4>Em relação ao mês anterior</h4>
                 </div>
                 <div *ngIf="recentExpenses > 0; else positiveRecentResult" [style.color]="'red'" class="analytics-data">
-                    <img src="../../../assets/icons/arrow-up.svg" class="arrow-up">
+                    <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
                     <h3>{{ recentExpenses }}%</h3>
                 </div>
                 <ng-template #positiveRecentResult>
                     <div [style.color]="'green'" class="analytics-data">
-                        <img src="../../../assets/icons/arrow-down.svg" class="arrow-down">
+                        <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
                         <h3>{{ recentExpenses }}%</h3>
                     </div>
                 </ng-template>
@@ -52,12 +52,12 @@
                     <h4>Em relação à média dos meses anteriores do mesmo ano</h4>
                 </div>
                 <div *ngIf="yearExpenses > 0; else positiveYearResult" [style.color]="'red'" class="analytics-data">
-                    <img src="../../../assets/icons/arrow-up.svg" class="arrow-up">
+                    <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
                     <h3>{{ yearExpenses }}%</h3>
                 </div>
                 <ng-template #positiveYearResult>
                     <div [style.color]="'green'" class="analytics-data">
-                        <img src="../../../assets/icons/arrow-down.svg" class="arrow-down">
+                        <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
                         <h3>{{ yearExpenses }}%</h3>
                     </div>
                 </ng-template>
@@ -72,5 +72,50 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+    <section class="tables">
+        <mat-tab-group mat-align-tabs="start" animationDuration="500ms" dynamicHeight>
+            <mat-tab *ngFor="let year of years">
+                <ng-template mat-tab-label>
+                  <span>{{ year.year }}</span>
+                </ng-template>
+                <mat-tab-group mat-align-tabs="start" animationDuration="300ms" dynamicHeight>
+                    <mat-tab *ngFor="let month of year.months">
+                        <ng-template mat-tab-label>
+                          <span>{{ month.month }}</span>
+                        </ng-template>
+                        <div class="container">
+                            <div class="header">
+                                
+                            </div>
+                        </div>
+                    </mat-tab>
+
+                    <mat-tab disabled>
+                        <ng-template mat-tab-label>
+                          <button
+                            type="text"
+                            class="btn btn-primary mt-3 btn-add-scenario"
+                            (click)="openModal('month')"
+                          >
+                            <img src="../../../assets/icons/plus.svg" class="svg-plus">
+                          </button>
+                        </ng-template>
+                    </mat-tab>
+                </mat-tab-group>
+            </mat-tab>
+
+            <mat-tab disabled>
+                <ng-template mat-tab-label>
+                  <button
+                    type="text"
+                    class="btn btn-primary mt-3 btn-add-scenario"
+                    (click)="openModal('year')"
+                  >
+                    <img src="../../../assets/icons/plus.svg" class="svg-plus">
+                  </button>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </section>
 </div>

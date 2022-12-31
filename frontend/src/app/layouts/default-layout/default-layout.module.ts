@@ -8,6 +8,7 @@ import { DefaultLayoutComponent } from './default-layout.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { DirectivesModule } from 'src/app/utils/directives/directives.module';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 
@@ -21,9 +22,10 @@ import { DirectivesModule } from 'src/app/utils/directives/directives.module';
     CommonModule,
     DefaultLayoutRoutingModule,
     ComponentsModule,
-    NgSelectModule,
-    FormsModule,
     DirectivesModule,
+    MatTabsModule,
+    FormsModule,
+    NgSelectModule,
   ]
 })
 export class DefaultLayoutModule { }
