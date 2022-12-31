@@ -60,11 +60,15 @@ export class HomeComponent implements OnInit {
 
       this.analyticsMonth = this.months.find(month => month.month == lastMonth)!
 
-      this.calculateRecentExpenses()
-      this.calculateYearExpenses()
-      this.getMostExpensiveCategory()
-      this.getMostExpensiveGroup()
+      this.calculateAnalytics()
     })
+  }
+
+  calculateAnalytics() {
+    this.calculateRecentExpenses()
+    this.calculateYearExpenses()
+    this.getMostExpensiveCategory()
+    this.getMostExpensiveGroup()
   }
 
   async calculateRecentExpenses(): Promise<void> {
@@ -132,8 +136,8 @@ export class HomeComponent implements OnInit {
           expensesByCategory[category.name] = expenses.data.reduce((acc, val) => acc += val.value, 0)
 
           if(i == categories.data.length-1) setTimeout(() => {
-              let mostExpensiveCategory
-              let max = -1
+              let mostExpensiveCategory = '--'
+              let max = 0
 
               for(let category in expensesByCategory) {
                 if(expensesByCategory[category] > max) {
@@ -160,8 +164,8 @@ export class HomeComponent implements OnInit {
           expensesByGroup[group.name] = expenses.data.reduce((acc, val) => acc += val.value, 0)
 
           if(i == groups.data.length-1) setTimeout(() => {
-              let mostExpensiveGroup
-              let max = -1
+              let mostExpensiveGroup = '--'
+              let max = 0
 
               for(let group in expensesByGroup) {
                 if(expensesByGroup[group] > max) {
