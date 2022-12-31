@@ -13,7 +13,7 @@ import YearDTO from "src/DTOs/year";
 export class Year extends BaseEntity {
   // COLUMNS
   @Column()
-  year: string
+  year: number
 
   // RELATIONS
   @OneToMany(() => Month, month => month.year, OneToManyOptions)

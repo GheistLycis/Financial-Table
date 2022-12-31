@@ -12,8 +12,8 @@ export class GroupService {
 
   constructor(private http: HttpClient) {}
 
-  list(category: string = ''): Observable<any>{
-    return this.http.get(`${env.api}/${this.baseRoute}?category=${category}`)
+  list({ month='', category='' }): Observable<any>{
+    return this.http.get(`${env.api}/${this.baseRoute}?month=${month}&category=${category}`)
   }
 
   get(id: string): Observable<any>{

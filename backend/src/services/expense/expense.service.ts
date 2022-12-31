@@ -8,14 +8,14 @@ import { Group } from 'src/entities/Group';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
 type body = { value: number, description: string, date: Date, group: string }
-type queries = { month: string, group: string }
+type queries = { month: string, category: string, group: string }
 
 @Injectable()
 export class ExpenseService implements BaseService<Expense, ExpenseDTO> {
   repo = dataSource.getRepository(Expense)
   groupRepo = dataSource.getRepository(Group)
 
-  async list({ month, group }: queries) {
+  async list({ month, category, group }: queries) {
     const query = this.repo
       .createQueryBuilder('Expense')
       .leftJoinAndSelect('Expense.group', 'Group')
@@ -25,6 +25,7 @@ export class ExpenseService implements BaseService<Expense, ExpenseDTO> {
       .orderBy('Expense.date', 'DESC')
 
     if(month) query.where('Month.id = :month', { month })
+    if(category) query.where('Category.id = :category', { category })
     if(group) query.where('Group.id = :group', { group })
 
     const entities = await query.getMany()

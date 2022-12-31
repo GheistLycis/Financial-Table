@@ -6,7 +6,7 @@ import YearDTO from 'src/DTOs/year';
 import { Year } from 'src/entities/Year';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
-type body = { year: string }
+type body = { year: number }
 
 @Injectable()
 export class YearService implements BaseService<Year, YearDTO> {

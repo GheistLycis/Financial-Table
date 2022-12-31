@@ -12,7 +12,7 @@ export class MonthlyEntryService {
 
   constructor(private http: HttpClient) {}
 
-  list(month: string = ''): Observable<any>{
+  list({ month='' }): Observable<any>{
     return this.http.get(`${env.api}/${this.baseRoute}?month=${month}`)
   }
 

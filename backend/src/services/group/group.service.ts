@@ -8,14 +8,14 @@ import { Group } from 'src/entities/Group';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 
 type body = { name: string, color: string, category: string }
-type queries = { category: string }
+type queries = { month: string, category: string }
 
 @Injectable()
 export class GroupService implements BaseService<Group, GroupDTO> {
   repo = dataSource.getRepository(Group)
   categoryRepo = dataSource.getRepository(Category)
 
-  async list({ category }: queries) {
+  async list({ month, category }: queries) {
     const query = this.repo
       .createQueryBuilder('Group')
       .leftJoinAndSelect('Group.category', 'Category')
@@ -23,6 +23,7 @@ export class GroupService implements BaseService<Group, GroupDTO> {
       .leftJoinAndSelect('Month.year', 'Year')
       .orderBy('Group.createdAt', 'DESC')
 
+    if(month) query.where('Month.id = :month', { month })
     if(category) query.where('Category.id = :category', { category })
 
     const entities = await query.getMany()
