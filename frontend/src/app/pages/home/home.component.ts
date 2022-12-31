@@ -143,7 +143,6 @@ export class HomeComponent implements OnInit {
               }
 
               this.mostExpensiveCategory = mostExpensiveCategory
-              console.log(mostExpensiveCategory)
             }, 500)
         })
       }
@@ -172,7 +171,6 @@ export class HomeComponent implements OnInit {
               }
 
               this.mostExpensiveGroup = mostExpensiveGroup
-              console.log(mostExpensiveGroup)
             }, 500)
         })
       }

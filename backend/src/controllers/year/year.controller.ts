@@ -10,57 +10,32 @@ export class YearController {
   constructor(private service: YearService) {}
 
   @Get() async list(@Res() res) {
-    try {
-      const result = await this.service.list()
-
-      return handleResponse(res, 200, '', result)
-    }
-    catch(e) {
-      return handleError(res, e)
-    }
+    return await this.service.list()
+      .then(result => handleResponse(res, 200, '', result))
+      .catch(error => handleError(res, error))
   }
 
   @Get(':id') async get(@Param('id') id, @Res() res) {
-    try {
-      const result = await this.service.get(id)
-
-      return handleResponse(res, 200, '', result)
-    }
-    catch(e) {
-      return handleError(res, e)
-    }
+    return await this.service.get(id)
+      .then(result => handleResponse(res, 200, '', result))
+      .catch(error => handleError(res, error))
   }
 
   @Post() async post(@Body() body, @Res() res) {
-    try {
-      const result = await this.service.post(body)
-
-      return handleResponse(res, 200, 'Ano cadastrado com sucesso.', result)
-    }
-    catch(e) {
-      return handleError(res, e)
-    }
+    return await this.service.post(body)
+      .then(result => handleResponse(res, 200, '', result))
+      .catch(error => handleError(res, error))
   }
 
   @Put(':id') async put(@Param('id') id, @Body() body, @Res() res) {
-    try {
-      const result = await this.service.put(id, body)
-
-      return handleResponse(res, 200, 'Ano atualizado com sucesso.', result)
-    }
-    catch(e) {
-      return handleError(res, e)
-    }
+    return await this.service.put(id, body)
+      .then(result => handleResponse(res, 200, '', result))
+      .catch(error => handleError(res, error))
   }
 
-  @Delete(":id") async delete(@Param('id') id, @Res() res) {
-    try {
-      const result = await this.service.delete(id)
-
-      return handleResponse(res, 200, 'Ano excluído com sucesso.', result)
-    }
-    catch(e) {
-      return handleError(res, e)
-    }
+  @Delete(':id') async delete(@Param('id') id, @Res() res) {
+    return await this.service.delete(id)
+      .then(result => handleResponse(res, 200, '', result))
+      .catch(error => handleError(res, error))
   }
 }
