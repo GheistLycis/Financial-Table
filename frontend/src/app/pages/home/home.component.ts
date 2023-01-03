@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.yearService.list().subscribe((res: Res<YearDTO[]>) => {
+    this.yearService.list().subscribe(res => {
       this.years = res.data
 
       const lastYear = Math.max(...this.years.map(year => year.year))
@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
   }
 
   getMonths(): void {
-    this.monthService.list({ year: this.analyticsYear.id }).subscribe((res: Res<MonthDTO[]>) => {
+    this.monthService.list({ year: this.analyticsYear.id }).subscribe(res => {
       this.months = res.data
 
       const lastMonth = Math.max(...this.months.map(month => +month.month))
@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit {
     let lastMonth, thisMonthExpenses
 
     this.expenseService.list({ month: this.analyticsMonth.id })
-      .subscribe((res: Res<ExpenseDTO[]>) => thisMonthExpenses = res.data.reduce((acc, val) => acc += val.value, 0))
+      .subscribe(res => thisMonthExpenses = res.data.reduce((acc, val) => acc += val.value, 0))
 
     if(this.analyticsMonth.month != 1) {
       lastMonth = this.months.find(month => month.month = this.analyticsMonth.month -1)
@@ -92,10 +92,10 @@ export class HomeComponent implements OnInit {
       const lastYear = this.years.find(year => year.year == this.analyticsYear.year -1)!
 
       lastMonth = await firstValueFrom(this.monthService.list({ year: lastYear.id }))
-        .then((res: Res<MonthDTO[]>) => res.data.find(month => month.month == 12))
+        .then(res => res.data.find(month => month.month == 12))
     }
           
-    this.expenseService.list(lastMonth.id).subscribe((res: Res<ExpenseDTO[]>) => {
+    this.expenseService.list(lastMonth.id).subscribe(res => {
       const lastMonthExpenses = res.data.reduce((acc, val) => acc += val.value, 0)
 
       this.recentExpenses = thisMonthExpenses && lastMonthExpenses
@@ -109,10 +109,10 @@ export class HomeComponent implements OnInit {
     const lastMonthsExpenses: number[] = []
 
     this.expenseService.list({ month: this.analyticsMonth.id })
-      .subscribe((res: Res<ExpenseDTO[]>) => thisMonthExpenses = res.data.reduce((acc, val) => acc += val.value, 0))
+      .subscribe(res => thisMonthExpenses = res.data.reduce((acc, val) => acc += val.value, 0))
 
     const lastMonths = await firstValueFrom(this.monthService.list({ year: this.analyticsYear.id }))
-      .then((res: Res<MonthDTO[]>) => res.data.filter(month => month.month < this.analyticsMonth.month))
+      .then(res => res.data.filter(month => month.month < this.analyticsMonth.month))
 
     if(!lastMonths.length || !thisMonthExpenses) {
       this.yearExpenses = '--'
@@ -121,7 +121,7 @@ export class HomeComponent implements OnInit {
 
     for(let month of lastMonths) {
       const sum = await firstValueFrom(this.expenseService.list({ month: month.id }))
-        .then((res: Res<ExpenseDTO[]>) => res.data.reduce((acc, val) => acc += val.value, 0))
+        .then(res => res.data.reduce((acc, val) => acc += val.value, 0))
 
       lastMonthsExpenses.push(sum)
     }
@@ -136,11 +136,11 @@ export class HomeComponent implements OnInit {
   getMostExpensiveCategory(): void {
     const expensesByCategory: { [k: string]: number } = {}
 
-    this.categoryService.list({ month: this.analyticsMonth.id }).subscribe((categories: Res<CategoryDTO[]>) => {
+    this.categoryService.list({ month: this.analyticsMonth.id }).subscribe(categories => {
       for(let i = 0; i < categories.data.length; i++) {
         const category = categories.data[i]
 
-        this.expenseService.list({ category: category.id }).subscribe((expenses: Res<ExpenseDTO[]>) => {
+        this.expenseService.list({ category: category.id }).subscribe(expenses => {
           expensesByCategory[category.name] = expenses.data.reduce((acc, val) => acc += val.value, 0)
 
           if(i == categories.data.length-1) setTimeout(() => {
@@ -164,11 +164,11 @@ export class HomeComponent implements OnInit {
   getMostExpensiveGroup(): void {
     const expensesByGroup: { [k: string]: number } = {}
 
-    this.groupService.list({ month: this.analyticsMonth.id }).subscribe((groups: Res<GroupDTO[]>) => {
+    this.groupService.list({ month: this.analyticsMonth.id }).subscribe(groups => {
       for(let i = 0; i < groups.data.length; i++) {
         const group = groups.data[i]
 
-        this.expenseService.list({ group: group.id }).subscribe((expenses: Res<ExpenseDTO[]>) => {
+        this.expenseService.list({ group: group.id }).subscribe(expenses => {
           expensesByGroup[group.name] = expenses.data.reduce((acc, val) => acc += val.value, 0)
 
           if(i == groups.data.length-1) setTimeout(() => {

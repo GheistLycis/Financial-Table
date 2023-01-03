@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import ExpenseDTO from 'src/app/DTOs/expense';
 import { env } from 'src/environment';
+import { Response as Res } from 'src/app/utils/interfaces/response';
 
 @Injectable({
   providedIn: 'root'
@@ -12,23 +12,23 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) {}
 
-  list({ month='', category='', group='' }): Observable<any>{
-    return this.http.get(`${env.api}/${this.baseRoute}?month=${month}&category=${category}&group=${group}`)
+  list({ month='', category='', group='' }) {
+    return this.http.get<Res<ExpenseDTO[]>>(`${env.api}/${this.baseRoute}?month=${month}&category=${category}&group=${group}`)
   }
 
-  get(id: string): Observable<any>{
-    return this.http.get(`${env.api}/${this.baseRoute}/${id}`)
+  get(id: string) {
+    return this.http.get<Res<ExpenseDTO[]>>(`${env.api}/${this.baseRoute}/${id}`)
   }
 
-  post(payload: ExpenseDTO): Observable<any>{
-    return this.http.post(`${env.api}/${this.baseRoute}`, payload)
+  post(payload: ExpenseDTO) {
+    return this.http.post<Res<ExpenseDTO[]>>(`${env.api}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: ExpenseDTO): Observable<any>{
-    return this.http.put(`${env.api}/${this.baseRoute}/${id}`, payload)
+  put(id: string, payload: ExpenseDTO) {
+    return this.http.put<Res<ExpenseDTO[]>>(`${env.api}/${this.baseRoute}/${id}`, payload)
   }
 
-  delete(id: string): Observable<any>{
-    return this.http.delete(`${env.api}/${this.baseRoute}/${id}`)
+  delete(id: string) {
+    return this.http.delete<Res<ExpenseDTO[]>>(`${env.api}/${this.baseRoute}/${id}`)
   }
 }

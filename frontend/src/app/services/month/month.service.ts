@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import MonthDTO from 'src/app/DTOs/month';
 import { env } from 'src/environment';
+import { Response as Res } from 'src/app/utils/interfaces/response';
 
 @Injectable({
   providedIn: 'root'
@@ -12,23 +12,23 @@ export class MonthService {
 
   constructor(private http: HttpClient) {}
 
-  list({ year='' }): Observable<any>{
-    return this.http.get(`${env.api}/${this.baseRoute}?year=${year}`)
+  list({ year='' }) {
+    return this.http.get<Res<MonthDTO[]>>(`${env.api}/${this.baseRoute}?year=${year}`)
   }
 
-  get(id: string): Observable<any>{
-    return this.http.get(`${env.api}/${this.baseRoute}/${id}`)
+  get(id: string) {
+    return this.http.get<Res<MonthDTO>>(`${env.api}/${this.baseRoute}/${id}`)
   }
 
-  post(payload: MonthDTO): Observable<any>{
-    return this.http.post(`${env.api}/${this.baseRoute}`, payload)
+  post(payload: MonthDTO) {
+    return this.http.post<Res<MonthDTO>>(`${env.api}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: MonthDTO): Observable<any>{
-    return this.http.put(`${env.api}/${this.baseRoute}/${id}`, payload)
+  put(id: string, payload: MonthDTO) {
+    return this.http.put<Res<MonthDTO>>(`${env.api}/${this.baseRoute}/${id}`, payload)
   }
 
-  delete(id: string): Observable<any>{
-    return this.http.delete(`${env.api}/${this.baseRoute}/${id}`)
+  delete(id: string) {
+    return this.http.delete<Res<MonthDTO>>(`${env.api}/${this.baseRoute}/${id}`)
   }
 }
