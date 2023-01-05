@@ -1,40 +1,23 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { YearController } from './controllers/year/year.controller';
-import { YearService } from './services/year/year.service';
-import { MonthController } from './controllers/month/month.controller';
-import { MonthService } from './services/month/month.service';
-import { CategoryController } from './controllers/category/category.controller';
-import { CategoryService } from './services/category/category.service';
-import { GroupController } from './controllers/group/group.controller';
-import { GroupService } from './services/group/group.service';
-import { ExpenseService } from './services/expense/expense.service';
-import { ExpenseController } from './controllers/expense/expense.controller';
-import { MonthlyEntryService } from './services/monthly-entry/monthly-entry.service';
-import { MonthlyEntryController } from './controllers/monthly-entry/monthly-entry.controller';
 import { loggerMiddleware } from './middlewares/logger';
+import { YearModule } from './content/year/year.module';
+import { MonthModule } from './content/month/month.module';
+import { MonthlyEntryModule } from './content/monthly-entry/monthly-entry.module';
+import { GroupModule } from './content/group/group.module';
+import { CategoryModule } from './content/category/category.module';
+import { ExpenseModule } from './content/expense/expense.module';
 
 @Module({
-  imports: [],
-  controllers: [
-    AppController,
-    YearController,
-    MonthController,
-    CategoryController,
-    GroupController,
-    ExpenseController,
-    MonthlyEntryController,
+  imports: [
+    YearModule, 
+    MonthModule, 
+    MonthlyEntryModule, 
+    GroupModule, 
+    CategoryModule, 
+    ExpenseModule,
   ],
-  providers: [
-    AppService,
-    YearService,
-    MonthService,
-    CategoryService,
-    GroupService,
-    ExpenseService,
-    MonthlyEntryService,
-  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
