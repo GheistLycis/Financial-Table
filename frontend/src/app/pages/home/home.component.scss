@@ -1,5 +1,8 @@
 @import '../../../variables.scss';
 
+// GENERAL
+
+
 // ANALYTICS
 .analytics {
   gap: 20px;
@@ -55,5 +58,20 @@
 // TABLES
 .tables {
   .header {
+    .search-box {
+      width: 100%;
+      margin-bottom: 10px;
+
+      img {
+        position: absolute;
+        padding: 10px;
+        font-size: 20px;
+      }
+
+      .search-field {
+        width: 100%;
+        padding: 10px 10px 10px 45px;
+      }
+    }
   }
 }

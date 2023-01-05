@@ -1,4 +1,4 @@
-import BaseDTO from "./BaseDTO";
+import BaseDTO from "../utils/interfaces/BaseDTO";
 import CategoryDTO from "./category";
 import MonthlyEntryDTO from "./monthlyEntry";
 import YearDTO from "./year";

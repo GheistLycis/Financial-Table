@@ -86,7 +86,37 @@
                         </ng-template>
                         <div class="container">
                             <div class="header">
-                                
+                                <div class="form-group search-box">
+                                    <img src="../../../assets/icons/magnifier.svg">
+                                    <input
+                                      (keyup)="updateList($event)"
+                                      class="form-control"
+                                      placeholder="Buscar..."
+                                      class="search-field"
+                                    />
+                                </div>
+                                <div class="filter">
+                                    <label class="form-label">Categoria</label>
+                                    <ng-select
+                                        [items]="month.categories || null"
+                                        bindLabel="name"
+                                        [multiple]="true"
+                                        [(ngModel)]="filters.category"
+                                        [compareWith]="compareId"
+                                        notFoundText="Nenhum registro disponível."
+                                    ></ng-select>
+                                </div>
+                                <div class="filter">
+                                    <label class="form-label">Grupo</label>
+                                    <ng-select
+                                        [items]="month.categories.groups || null"
+                                        bindLabel="name"
+                                        [multiple]="true"
+                                        [(ngModel)]="filters.category"
+                                        [compareWith]="compareId"
+                                        notFoundText="Nenhum registro disponível."
+                                    ></ng-select>
+                                </div>
                             </div>
                         </div>
                     </mat-tab>

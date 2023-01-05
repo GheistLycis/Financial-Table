@@ -1,4 +1,4 @@
-import BaseDTO from "./BaseDTO";
+import BaseDTO from "../utils/interfaces/BaseDTO";
 import GroupDTO from "./group";
 
 export default interface ExpenseDTO extends BaseDTO {

@@ -1,4 +1,4 @@
-import BaseDTO from "./BaseDTO";
+import BaseDTO from "../utils/interfaces/BaseDTO";
 import CategoryDTO from "./category";
 import ExpenseDTO from "./expense";
 

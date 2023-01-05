@@ -1,4 +1,4 @@
-import BaseDTO from "./BaseDTO";
+import BaseDTO from "../utils/interfaces/BaseDTO";
 import MonthDTO from "./month";
 
 export default interface YearDTO extends BaseDTO {

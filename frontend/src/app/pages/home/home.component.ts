@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { CategoryComponent } from 'src/app/components/modal/category/category.component';
 import { ExpenseComponent } from 'src/app/components/modal/expense/expense.component';
 import { GroupComponent } from 'src/app/components/modal/group/group.component';
 import { MonthComponent } from 'src/app/components/modal/month/month.component';
 import { MonthlyEntryComponent } from 'src/app/components/modal/monthly-entry/monthly-entry.component';
 import { YearComponent } from 'src/app/components/modal/year/year.component';
-import CategoryDTO from 'src/app/DTOs/category';
 import ExpenseDTO from 'src/app/DTOs/expense';
-import GroupDTO from 'src/app/DTOs/group';
 import MonthDTO from 'src/app/DTOs/month';
 import YearDTO from 'src/app/DTOs/year';
 import { CategoryService } from 'src/app/services/category/category.service';
@@ -17,7 +15,6 @@ import { ExpenseService } from 'src/app/services/expense/expense.service';
 import { GroupService } from 'src/app/services/group/group.service';
 import { MonthService } from 'src/app/services/month/month.service';
 import { YearService } from 'src/app/services/year/year.service';
-import { Response as Res } from 'src/app/utils/interfaces/response';
 
 @Component({
   selector: 'app-home',
@@ -25,15 +22,26 @@ import { Response as Res } from 'src/app/utils/interfaces/response';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  // GENERAL
+  years!: YearDTO[]
+  months!: MonthDTO[]
+
+  // ANALYTICS
   analyticsYear!: YearDTO
   analyticsMonth!: MonthDTO
   analyticsSelect: string = ''
-  years!: YearDTO[]
-  months!: MonthDTO[]
   recentExpenses!: number | '--'
   yearExpenses!: number | '--'
   mostExpensiveCategory!: string
-  mostExpensiveGroup!: string
+  mostExpensiveGroup!: string 
+
+  // EXPENSES TABLE
+  list: ExpenseDTO[] = []
+  filteredList: ExpenseDTO[] = []
+  filters = { category: null, group: null }
+  page = 1
+  pageSize = 10
+  collectionSize = this.list.length
 
   constructor(
     private yearService: YearService,
@@ -64,7 +72,7 @@ export class HomeComponent implements OnInit {
     this.monthService.list({ year: this.analyticsYear.id }).subscribe(res => {
       this.months = res.data
 
-      const lastMonth = Math.max(...this.months.map(month => +month.month))
+      const lastMonth = Math.max(...this.months.map(month => month.month))
 
       this.analyticsMonth = this.months.find(month => month.month == lastMonth)!
 
@@ -208,5 +216,74 @@ export class HomeComponent implements OnInit {
     modalRef.result
       .then()
       .catch()
+  }
+
+  searchFor(terms: string[]) {
+    return this.list.filter(expense => {
+      let rowMatches: boolean = true
+      const fields: string[] = []
+      const normalizedFields: string[] = []
+
+      fields.push(
+        expense.description.toLowerCase(),
+        expense.value.toString(),
+        expense.date.toLocaleDateString('pt-br'),
+      )
+
+      fields.forEach(field => {
+        normalizedFields.push(
+          field
+            .replace(/[ãáàâ]/, 'a')
+            .replace(/[éê]/, 'e')
+            .replace(/[í]/, 'i')
+            .replace(/[õóô]/, 'o')
+            .replace(/[ú]/, 'u')
+            .replace(/[ç]/, 'c')
+        )
+      })
+
+      for (let term of terms) {
+        let aFieldMatches = false
+
+        term = term.toString().trim().toLowerCase()
+
+        for (let i = 0; i < fields.length; i++) {
+          if (fields[i].includes(term) || normalizedFields[i].includes(term)) {
+            aFieldMatches = true
+            break
+          }
+        }
+
+        if (!aFieldMatches) {
+          rowMatches = false
+          break
+        }
+      }
+
+      return rowMatches
+    })
+  }
+
+  updateList(search?: any) {
+    console.log(search)
+    return
+    if(search) {
+      this.filteredList = this.searchFor(search.split(';'))
+      this.collectionSize = this.filteredList.length
+      this.page = 1
+      this.pageSize = this.filteredList.length
+    }
+    else {
+      this.pageSize = 20
+      this.filteredList = this.list.slice(
+          (this.page - 1) * this.pageSize,
+          (this.page - 1) * this.pageSize + this.pageSize
+        )
+      this.collectionSize = this.list.length
+    }
+  }
+
+  compareId(first: any, second: any) {
+    return first.id == second.id
   }
 }
