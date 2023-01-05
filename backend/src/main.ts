@@ -3,10 +3,14 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { dataSource } from './common/data-source';
+import { IpGuard } from "./guards/ip/ip.guard";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true })
-    .then(app => app.setGlobalPrefix('api'))
+    .then(app => app
+      .setGlobalPrefix('api')
+      .useGlobalGuards(new IpGuard())
+    )
 
   const config = new DocumentBuilder().build()
   const document = SwaggerModule.createDocument(app, config)
