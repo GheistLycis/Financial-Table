@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { YearController } from './controllers/year/year.controller';
@@ -13,6 +13,7 @@ import { ExpenseService } from './services/expense/expense.service';
 import { ExpenseController } from './controllers/expense/expense.controller';
 import { MonthlyEntryService } from './services/monthly-entry/monthly-entry.service';
 import { MonthlyEntryController } from './controllers/monthly-entry/monthly-entry.controller';
+import { loggerMiddleware } from './middlewares/logger';
 
 @Module({
   imports: [],
@@ -35,4 +36,10 @@ import { MonthlyEntryController } from './controllers/monthly-entry/monthly-entr
     MonthlyEntryService,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(loggerMiddleware)
+      .forRoutes('*')
+  }
+}
