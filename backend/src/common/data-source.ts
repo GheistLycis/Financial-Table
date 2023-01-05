@@ -1,5 +1,5 @@
-import { MonthlyEntry } from "../content/monthly-entry/MonthlyEntry";
 import { DataSource } from "typeorm";
+import { MonthlyEntry } from "../content/monthly-entry/MonthlyEntry";
 import { Category } from "../content/category/Category";
 import { Expense } from "../content/expense/Expense";
 import { Group } from "../content/group/Group";
