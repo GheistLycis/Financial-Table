@@ -1,5 +1,5 @@
 import { Body, Delete, Get, Param, Post, Put, Query, Res } from '@nestjs/common';
-import { handleError, handleResponse } from 'src/utils/handles';
+import { handleError, handleResponse } from 'src/utils/handlers';
 
 export class BaseController {
   constructor(protected service) {}
