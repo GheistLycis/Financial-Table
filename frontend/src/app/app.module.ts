@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { SharedModule } from './utils/shared/shared.module';
+import { SharedModule } from './utils/shared.module';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';

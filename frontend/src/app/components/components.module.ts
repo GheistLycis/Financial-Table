@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
-import { SharedModule } from '../utils/shared/shared.module';
+import { SharedModule } from '../utils/shared.module';
 import { RouterModule } from '@angular/router';
 import { YearComponent } from './modal/year/year.component';
 import { MonthComponent } from './modal/month/month.component';
