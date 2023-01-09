@@ -5,8 +5,8 @@ import YearDTO from "./year";
 
 export default interface MonthDTO extends BaseDTO {
   month: number
-  obs?: string
+  obs: string
   year: YearDTO
-  categories?: CategoryDTO[]
-  entries?: MonthlyEntryDTO[]
+  categories: CategoryDTO[] | null
+  entries: MonthlyEntryDTO[] | null
 }

@@ -75,12 +75,12 @@
     </section>
     <section class="tables">
         <mat-tab-group mat-align-tabs="start" animationDuration="500ms" dynamicHeight>
-            <mat-tab *ngFor="let year of years">
+            <mat-tab *ngFor="let year of years; index as y">
                 <ng-template mat-tab-label>
                   <span>{{ year.year }}</span>
                 </ng-template>
                 <mat-tab-group mat-align-tabs="start" animationDuration="300ms" dynamicHeight>
-                    <mat-tab *ngFor="let month of year.months">
+                    <mat-tab *ngFor="let month of year.months; index as m">
                         <ng-template mat-tab-label>
                           <span>{{ month.month }}</span>
                         </ng-template>
@@ -98,7 +98,7 @@
                                 <div class="filter">
                                     <label class="form-label">Categoria</label>
                                     <ng-select
-                                        [items]="month.categories || null"
+                                        [items]="month.categories"
                                         bindLabel="name"
                                         [multiple]="true"
                                         [(ngModel)]="filters.category"
@@ -106,17 +106,20 @@
                                         notFoundText="Nenhum registro disponível."
                                     ></ng-select>
                                 </div>
-                                <div class="filter">
+                                <!-- <div class="filter">
                                     <label class="form-label">Grupo</label>
                                     <ng-select
-                                        [items]="month.categories.groups || null"
+                                        [items]="month.categories.groups"
                                         bindLabel="name"
                                         [multiple]="true"
                                         [(ngModel)]="filters.category"
                                         [compareWith]="compareId"
                                         notFoundText="Nenhum registro disponível."
                                     ></ng-select>
-                                </div>
+                                </div> -->
+                            </div>
+                            <div class="table">
+                                
                             </div>
                         </div>
                     </mat-tab>

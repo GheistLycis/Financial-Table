@@ -96,3 +96,23 @@ input {
         border-bottom: 1px solid black;
     }
 }
+
+// MAT-TAB & MAT-TAB-GROUP
+.mat-mdc-tab-labels {
+    color: green
+}
+.mat-tab-group.mat-primary.mat-ink-bar {
+    background-color: $palette-3;
+}
+
+.mat-tab-group.mat-primary.mat-tab-label-active {
+    background-color: #EAF0EA;
+} 
+
+.mdc-tab {
+    background-color: #EAF0EA;
+}
+
+.mat-tab-body-content {
+    padding: 20px;
+  }

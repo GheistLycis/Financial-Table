@@ -15,6 +15,7 @@ import { ExpenseService } from 'src/app/services/expense/expense.service';
 import { GroupService } from 'src/app/services/group/group.service';
 import { MonthService } from 'src/app/services/month/month.service';
 import { YearService } from 'src/app/services/year/year.service';
+import { filterList } from 'src/app/utils/filterList';
 
 @Component({
   selector: 'app-home',
@@ -218,57 +219,11 @@ export class HomeComponent implements OnInit {
       .catch()
   }
 
-  searchFor(terms: string[]) {
-    return this.list.filter(expense => {
-      let rowMatches: boolean = true
-      const fields: string[] = []
-      const normalizedFields: string[] = []
-
-      fields.push(
-        expense.description.toLowerCase(),
-        expense.value.toString(),
-        expense.date.toLocaleDateString('pt-br'),
-      )
-
-      fields.forEach(field => {
-        normalizedFields.push(
-          field
-            .replace(/[ãáàâ]/, 'a')
-            .replace(/[éê]/, 'e')
-            .replace(/[í]/, 'i')
-            .replace(/[õóô]/, 'o')
-            .replace(/[ú]/, 'u')
-            .replace(/[ç]/, 'c')
-        )
-      })
-
-      for (let term of terms) {
-        let aFieldMatches = false
-
-        term = term.toString().trim().toLowerCase()
-
-        for (let i = 0; i < fields.length; i++) {
-          if (fields[i].includes(term) || normalizedFields[i].includes(term)) {
-            aFieldMatches = true
-            break
-          }
-        }
-
-        if (!aFieldMatches) {
-          rowMatches = false
-          break
-        }
-      }
-
-      return rowMatches
-    })
-  }
-
   updateList(search?: any) {
-    console.log(search)
-    return
+    const searchColumns = ['value', 'description', 'date', 'group.name', 'group.category.name']
+    
     if(search) {
-      this.filteredList = this.searchFor(search.split(';'))
+      this.filteredList = filterList(this.list, search.split(';'), searchColumns)
       this.collectionSize = this.filteredList.length
       this.page = 1
       this.pageSize = this.filteredList.length
