@@ -8,6 +8,7 @@ import { MonthlyEntryModule } from './content/monthly-entry/monthly-entry.module
 import { GroupModule } from './content/group/group.module';
 import { CategoryModule } from './content/category/category.module';
 import { ExpenseModule } from './content/expense/expense.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -19,6 +20,17 @@ import { ExpenseModule } from './content/expense/expense.module';
         DB_PASS: Joi.string().required(),
         DB_NAME: Joi.string().required(),
       })
+    }),
+    TypeOrmModule.forRoot({
+      type: "postgres",
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
+      synchronize: true,
+      autoLoadEntities: true,
+      logging: false,
     }),
     YearModule, 
     MonthModule, 

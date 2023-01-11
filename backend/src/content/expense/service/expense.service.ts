@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { BaseService } from 'src/common/BaseService';
-import { dataSource } from 'src/common/data-source';
 import ExpenseDTO from '../Expense.dto';
 import { Expense } from '../Expense';
 import { Group } from '../../group/Group';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 type body = { value: number, description: string, date: Date, group: string }
 type queries = { month: string, category: string, group: string }
 
 @Injectable()
 export class ExpenseService implements BaseService<Expense, ExpenseDTO> {
-  repo = dataSource.getRepository(Expense)
-  groupRepo = dataSource.getRepository(Group)
+  constructor(
+    @InjectRepository(Expense) private readonly repo: Repository<Expense>,
+    @InjectRepository(Group) private readonly groupRepo: Repository<Group>,
+  ) {}
 
   async list({ month, category, group }: queries) {
     const query = this.repo

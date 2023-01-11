@@ -21,7 +21,6 @@ export class BaseEntity {
 
 export const manyToOneOptions: RelationOptions = {
   onDelete: 'CASCADE',
-  eager: true,
 }
 
 export const OneToManyOptions: RelationOptions = {

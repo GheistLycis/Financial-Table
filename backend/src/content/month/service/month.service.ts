@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { BaseService } from 'src/common/BaseService';
-import { dataSource } from 'src/common/data-source';
 import MonthDTO from '../Month.dto';
 import { Month } from '../Month';
 import { Year } from '../../year/Year'
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 type body = { month: number, obs: string, year: string }
 type queries = { year: string }
 
 @Injectable()
 export class MonthService implements BaseService<Month, MonthDTO> {
-  repo = dataSource.getRepository(Month)
-  yearRepo = dataSource.getRepository(Year)
+  constructor(
+    @InjectRepository(Month) private readonly repo: Repository<Month>,
+    @InjectRepository(Year) private readonly yearRepo: Repository<Year>,
+  ) {}
 
   async list({ year }: queries) {
     const query = this.repo

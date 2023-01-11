@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { BaseService } from 'src/common/BaseService';
-import { dataSource } from 'src/common/data-source';
 import YearDTO from '../Year.dto';
 import { Year } from '../Year';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 type body = { year: number }
 
 @Injectable()
 export class YearService implements BaseService<Year, YearDTO> {
-  repo = dataSource.getRepository(Year)
+  constructor(
+    @InjectRepository(Year) private readonly repo: Repository<Year>,
+  ) {}
 
   async list() {
     const entities = await this.repo.find({ order: { year: 'DESC' }})

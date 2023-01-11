@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { BaseService } from 'src/common/BaseService';
-import { dataSource } from 'src/common/data-source';
 import GroupDTO from '../Group.dto';
 import { Category } from '../../category/Category';
 import { Group } from '../../group/Group';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 type body = { name: string, color: string, category: string }
 type queries = { month: string, category: string }
 
 @Injectable()
 export class GroupService implements BaseService<Group, GroupDTO> {
-  repo = dataSource.getRepository(Group)
-  categoryRepo = dataSource.getRepository(Category)
+  constructor(
+    @InjectRepository(Group) private readonly repo: Repository<Group>,
+    @InjectRepository(Category) private readonly categoryRepo: Repository<Category>,
+  ) {}
 
   async list({ month, category }: queries) {
     const query = this.repo

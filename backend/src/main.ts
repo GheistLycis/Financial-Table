@@ -2,7 +2,6 @@ import "dotenv/config";
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { dataSource } from './common/data-source';
 import { IpGuard } from "./guards/ip/ip.guard";
 
 async function bootstrap() {
@@ -17,7 +16,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('/s', app, document)
 
-  dataSource.initialize().then(() => app.listen(process.env.SERVER_PORT))
+  app.listen(process.env.SERVER_PORT)
 }
 
 bootstrap()
