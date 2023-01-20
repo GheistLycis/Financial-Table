@@ -26,7 +26,7 @@ export class MonthlyEntry extends BaseEntity {
     return {
       value: row.value,
       description: row.description,
-      month: Month.toDTO(row.month),
+      month: row.month ? Month.toDTO(row.month) : null,
       id: row.id,
       createdAt: row.createdAt,
       updatedAt: row.updatedAt,

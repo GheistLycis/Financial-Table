@@ -30,7 +30,7 @@ export class Expense extends BaseEntity  {
       value: row.value,
       description: row.description,
       date: row.date,
-      group: Group.toDTO(row.group),
+      group: row.group ? Group.toDTO(row.group) : null,
       id: row.id,
       createdAt: row.createdAt,
       updatedAt: row.updatedAt,

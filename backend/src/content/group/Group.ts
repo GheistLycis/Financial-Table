@@ -34,7 +34,7 @@ export class Group extends BaseEntity  {
     return {
       name: row.name,
       color: row.color,
-      category: Category.toDTO(row.category),
+      category: row.category ? Category.toDTO(row.category) : null,
       expenses: row.expenses ? row.expenses.map(expense => Expense.toDTO(expense)) : null,
       id: row.id,
       createdAt: row.createdAt,

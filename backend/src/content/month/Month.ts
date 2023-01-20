@@ -37,7 +37,7 @@ export class Month extends BaseEntity {
     return {
       month: row.month,
       obs: row.obs,
-      year: Year.toDTO(row.year),
+      year: row.year ? Year.toDTO(row.year) : null,
       categories: row.categories ? row.categories.map(category => Category.toDTO(category)) : null,
       entries: row.entries ? row.entries.map(entry => MonthlyEntry.toDTO(entry)) : null,
       id: row.id,
