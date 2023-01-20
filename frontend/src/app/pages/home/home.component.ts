@@ -53,29 +53,13 @@ export class HomeComponent implements OnInit {
     private modalService: NgbModal,
   ) {}
 
-  test() {
-    console.log(this.years, this.months, this.analyticsYear, this.analyticsMonth)
-  }
-
   ngOnInit(): void {
-    this.yearService.list().subscribe(res => {
-      this.years = res.data
+    this.yearService.list().subscribe(({ data }) => {
+      this.years = data
+      this.analyticsYear = this.years[0]
 
-      const lastYear = Math.max(...this.years.map(year => year.year))
-
-      this.analyticsYear = this.years.find(year => year.year == lastYear)!
-
-      this.getMonths()
-    })
-  }
-
-  getMonths(): void {
-    this.monthService.list({ year: this.analyticsYear.id }).subscribe(res => {
-      this.months = res.data
-
-      const lastMonth = Math.max(...this.months.map(month => month.month))
-
-      this.analyticsMonth = this.months.find(month => month.month == lastMonth)!
+      this.months = this.analyticsYear.months
+      this.analyticsMonth = this.months[0]
 
       this.calculateAnalytics()
     })
@@ -89,23 +73,15 @@ export class HomeComponent implements OnInit {
   }
 
   async calculateRecentExpenses(): Promise<void> {
-    let lastMonth, thisMonthExpenses
+    const thisMonthExpenses = await firstValueFrom(this.expenseService.list({ month: this.analyticsMonth.id }))
+      .then(({ data }) => data.reduce((acc, val) => acc += val.value, 0))
 
-    this.expenseService.list({ month: this.analyticsMonth.id })
-      .subscribe(res => thisMonthExpenses = res.data.reduce((acc, val) => acc += val.value, 0))
-
-    if(this.analyticsMonth.month != 1) {
-      lastMonth = this.months.find(month => month.month = this.analyticsMonth.month -1)
-    }
-    else {
-      const lastYear = this.years.find(year => year.year == this.analyticsYear.year -1)!
-
-      lastMonth = await firstValueFrom(this.monthService.list({ year: lastYear.id }))
-        .then(res => res.data.find(month => month.month == 12))
-    }
+    const lastMonth = this.analyticsMonth.month != 1
+      ? this.months.find(month => month.month = this.analyticsMonth.month-1)!
+      : this.years.find(year => year.year == this.analyticsYear.year-1)!.months[0]
           
-    this.expenseService.list(lastMonth.id).subscribe(res => {
-      const lastMonthExpenses = res.data.reduce((acc, val) => acc += val.value, 0)
+    this.expenseService.list({ month: lastMonth.id }).subscribe(({ data }) => {
+      const lastMonthExpenses = data.reduce((acc, val) => acc += val.value, 0)
 
       this.recentExpenses = thisMonthExpenses && lastMonthExpenses
         ? ((100 * thisMonthExpenses / lastMonthExpenses) -100) 

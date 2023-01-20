@@ -1,5 +1,5 @@
 <div class="container">
-    <button (click)="test()">TESTE</button>
+    <!-- <button (click)="test()">TESTE</button> -->
     <section class="analytics w-100 mb-5">
         <div class="header mb-4 d-flex">
             <h2>
@@ -18,7 +18,11 @@
                 <ng-select
                     [items]="years" 
                     [(ngModel)]="analyticsYear"
-                    (change)="getMonths()"
+                    (change)="
+                        months = analyticsYear.months;
+                        analyticsMonth = months[0]; 
+                        calculateAnalytics()
+                    "
                     bindLabel="year" 
                 ></ng-select>
             </div>

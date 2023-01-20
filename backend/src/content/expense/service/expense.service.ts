@@ -21,10 +21,10 @@ export class ExpenseService implements BaseService<Expense, ExpenseDTO> {
   async list({ month, category, group }: queries) {
     const query = this.repo
       .createQueryBuilder('Expense')
-      .leftJoinAndSelect('Expense.group', 'Group')
-      .leftJoinAndSelect('Group.category', 'Category')
-      .leftJoinAndSelect('Category.month', 'Month')
-      .leftJoinAndSelect('Month.year', 'Year')
+      .leftJoin('Expense.group', 'Group')
+      .leftJoin('Group.category', 'Category')
+      .leftJoin('Category.month', 'Month')
+      .leftJoin('Month.year', 'Year')
       .orderBy('Expense.date', 'DESC')
 
     if(month) query.where('Month.id = :month', { month })

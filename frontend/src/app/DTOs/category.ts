@@ -6,6 +6,6 @@ export default interface CategoryDTO extends BaseDTO {
   name: string
   color: string
   percentage: number
-  month: MonthDTO
+  month: MonthDTO | null
   groups: GroupDTO[] | null
 }
