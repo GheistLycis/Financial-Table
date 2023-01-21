@@ -4,7 +4,7 @@ import { BaseService } from 'src/common/BaseService';
 import YearDTO from '../Year.dto';
 import { Year } from '../Year';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 type body = { year: number }
@@ -12,7 +12,7 @@ type body = { year: number }
 @Injectable()
 export class YearService implements BaseService<Year, YearDTO> {
   constructor(
-    @InjectRepository(Year) private readonly repo: Repository<Year>,
+    @Repo(Year) private readonly repo: Repository<Year>,
   ) {}
 
   async list() {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { validate } from 'class-validator';
 import { BaseService } from 'src/common/BaseService';
 import { Month } from 'src/content/month/Month';
@@ -14,8 +14,8 @@ type queries = { month: string }
 @Injectable()
 export class CategoryService implements BaseService<Category, CategoryDTO> {
   constructor(
-    @InjectRepository(Category) private readonly repo: Repository<Category>,
-    @InjectRepository(Month) private readonly monthRepo: Repository<Month>,
+    @Repo(Category) private readonly repo: Repository<Category>,
+    @Repo(Month) private readonly monthRepo: Repository<Month>,
   ) {}
 
   async list({ month }: queries) {

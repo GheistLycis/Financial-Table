@@ -10,6 +10,7 @@ import { YearComponent } from 'src/app/components/modal/year/year.component';
 import ExpenseDTO from 'src/app/DTOs/expense';
 import MonthDTO from 'src/app/DTOs/month';
 import YearDTO from 'src/app/DTOs/year';
+import { AnalyticsService } from 'src/app/services/analytics/analytics.service';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { ExpenseService } from 'src/app/services/expense/expense.service';
 import { GroupService } from 'src/app/services/group/group.service';
@@ -45,6 +46,7 @@ export class HomeComponent implements OnInit {
   collectionSize = this.list.length
 
   constructor(
+    private analyticsService: AnalyticsService,
     private yearService: YearService,
     private monthService: MonthService,
     private categoryService: CategoryService,

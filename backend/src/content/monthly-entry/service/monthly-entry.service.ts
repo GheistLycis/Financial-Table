@@ -5,7 +5,7 @@ import MonthlyEntryDTO from '../MonthlyEntry.dto';
 import { Month } from '../../month/Month';
 import { MonthlyEntry } from '../MonthlyEntry';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 type body = { value: number, description: string, month: string }
@@ -14,8 +14,8 @@ type queries = { month: string }
 @Injectable()
 export class MonthlyEntryService implements BaseService<MonthlyEntry, MonthlyEntryDTO> {
   constructor(
-    @InjectRepository(MonthlyEntry) private readonly repo: Repository<MonthlyEntry>,
-    @InjectRepository(Month) private readonly monthRepo: Repository<Month>,
+    @Repo(MonthlyEntry) private readonly repo: Repository<MonthlyEntry>,
+    @Repo(Month) private readonly monthRepo: Repository<Month>,
   ) {}
 
   async list({ month }: queries) {

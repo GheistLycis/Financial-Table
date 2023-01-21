@@ -9,6 +9,7 @@ import { GroupModule } from './content/group/group.module';
 import { CategoryModule } from './content/category/category.module';
 import { ExpenseModule } from './content/expense/expense.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AnalyticsModule } from './content/analytics/analytics.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     MonthlyEntryModule, 
     GroupModule, 
     CategoryModule, 
-    ExpenseModule,
+    ExpenseModule, 
+    AnalyticsModule,
   ],
   controllers: [],
   providers: [],

@@ -6,7 +6,7 @@ import { Month } from '../Month';
 import { Year } from '../../year/Year'
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository as Repo } from '@nestjs/typeorm';
 
 type body = { month: number, obs: string, year: string }
 type queries = { year: string }
@@ -14,8 +14,8 @@ type queries = { year: string }
 @Injectable()
 export class MonthService implements BaseService<Month, MonthDTO> {
   constructor(
-    @InjectRepository(Month) private readonly repo: Repository<Month>,
-    @InjectRepository(Year) private readonly yearRepo: Repository<Year>,
+    @Repo(Month) private readonly repo: Repository<Month>,
+    @Repo(Year) private readonly yearRepo: Repository<Year>,
   ) {}
 
   async list({ year }: queries) {
