@@ -12,7 +12,7 @@ type body = { month: number, obs: string, year: string }
 type queries = { year: string }
 
 @Injectable()
-export class MonthService implements BaseService<Month, MonthDTO> {
+export class MonthService implements BaseService<MonthDTO> {
   constructor(
     @Repo(Month) private readonly repo: Repository<Month>,
     @Repo(Year) private readonly yearRepo: Repository<Year>,

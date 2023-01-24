@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { firstValueFrom } from 'rxjs';
 import { CategoryComponent } from 'src/app/components/modal/category/category.component';
@@ -38,12 +39,18 @@ export class HomeComponent implements OnInit {
   mostExpensiveGroup!: string 
 
   // EXPENSES TABLE
-  list: ExpenseDTO[] = []
-  filteredList: ExpenseDTO[] = []
-  filters = { category: null, group: null }
-  page = 1
-  pageSize = 10
-  collectionSize = this.list.length
+  list: {
+    [year: string]: {
+      [month: string]: ExpenseDTO[],
+    },
+  } = {}
+  filteredList: {
+    [year: string]: {
+      [month: string]: ExpenseDTO[],
+    },
+  } = {}
+  filters = { category: new FormControl(null), group: new FormControl(null) }
+  searchColumns = ['value', 'description', 'date']
 
   constructor(
     private analyticsService: AnalyticsService,
@@ -55,23 +62,47 @@ export class HomeComponent implements OnInit {
     private modalService: NgbModal,
   ) {}
 
-  ngOnInit(): void {
-    this.yearService.list().subscribe(({ data }) => {
-      this.years = data
-      this.analyticsYear = this.years[0]
+  async ngOnInit(): Promise<void> {
+    await firstValueFrom(this.yearService.fetchAll())
+      .then(({ data }) => {
+        console.log(data)
 
-      this.months = this.analyticsYear.months
-      this.analyticsMonth = this.months[0]
+        this.years = data
+        this.analyticsYear = this.years[0]
 
-      this.calculateAnalytics()
-    })
+        this.months = this.analyticsYear.months
+        this.analyticsMonth = this.months[0]
+
+        this.years.forEach(year => {
+          const monthsObj = {}
+
+          year.months.forEach(month => {
+            let groups = []
+            let expenses = []
+
+            month.categories.map(category => groups.push(...category.groups))
+            
+            groups.forEach(group => expenses.push(...group.expenses))
+
+            monthsObj[month.month] = expenses
+          })
+
+          this.list[year.year] = monthsObj
+        })
+
+        console.log(this.list)
+
+        this.filteredList = this.list
+
+        this.calculateAnalytics()
+      })
   }
 
   calculateAnalytics() {
-    this.calculateRecentExpenses()
-    this.calculateYearExpenses()
-    this.getMostExpensiveCategory()
-    this.getMostExpensiveGroup()
+    // this.calculateRecentExpenses()
+    // this.calculateYearExpenses()
+    // this.getMostExpensiveCategory()
+    // this.getMostExpensiveGroup()
   }
 
   async calculateRecentExpenses(): Promise<void> {
@@ -176,44 +207,31 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  toggleSelect(option: string): void {
+  toggleSelect(option: 'year' | 'month'): void {
     this.analyticsSelect = this.analyticsSelect == option ? '' : option
   }
 
-  openModal(option: 'year' | 'month' | 'category' | 'group' | 'expense' | 'monthly-entry'): void {
+  openModal(type: string, item: any = null): void {
     let modal, modalRef
 
-    if(option == 'year') modal = YearComponent
-    if(option == 'month') modal = MonthComponent
-    if(option == 'category') modal = CategoryComponent
-    if(option == 'group') modal = GroupComponent
-    if(option == 'expense') modal = ExpenseComponent
-    if(option == 'monthly-entry') modal = MonthlyEntryComponent
+    if(type == 'year') modal = YearComponent
+    if(type == 'month') modal = MonthComponent
+    if(type == 'category') modal = CategoryComponent
+    if(type == 'group') modal = GroupComponent
+    if(type == 'expense') modal = ExpenseComponent
+    if(type == 'monthly-entry') modal = MonthlyEntryComponent
 
     modalRef = this.modalService.open(modal, { size: 'lg' })
+
+    modalRef.componentInstance.item = item
 
     modalRef.result
       .then()
       .catch()
   }
 
-  updateList(search?: any) {
-    const searchColumns = ['value', 'description', 'date', 'group.name', 'group.category.name']
-    
-    if(search) {
-      this.filteredList = filterList(this.list, search.split(';'), searchColumns)
-      this.collectionSize = this.filteredList.length
-      this.page = 1
-      this.pageSize = this.filteredList.length
-    }
-    else {
-      this.pageSize = 20
-      this.filteredList = this.list.slice(
-          (this.page - 1) * this.pageSize,
-          (this.page - 1) * this.pageSize + this.pageSize
-        )
-      this.collectionSize = this.list.length
-    }
+  updateList(year: number, month: number, search: any) {
+    this.filteredList[year][month] = filterList(this.list[year][month], search.value.split(';'), this.searchColumns)
   }
 
   compareId(first: any, second: any) {

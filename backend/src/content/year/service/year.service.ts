@@ -10,10 +10,30 @@ import { Repository } from 'typeorm';
 type body = { year: number }
 
 @Injectable()
-export class YearService implements BaseService<Year, YearDTO> {
+export class YearService implements BaseService<YearDTO> {
   constructor(
     @Repo(Year) private readonly repo: Repository<Year>,
   ) {}
+
+  async fetchAll({ year }) {
+    const query = this.repo.createQueryBuilder('Year')
+      .leftJoinAndSelect('Year.months', 'Month')
+      .leftJoinAndSelect('Month.categories', 'Category')
+      .leftJoinAndSelect('Month.entries', 'Entry')
+      .leftJoinAndSelect('Category.groups', 'Group')
+      .leftJoinAndSelect('Group.expenses', 'Expense')
+      .orderBy('Year.year', 'DESC')
+      .addOrderBy('Month.month', 'DESC')
+      .addOrderBy('Category.name', 'ASC')
+      .addOrderBy('Group.name', 'ASC')
+      .addOrderBy('Expense.date', 'DESC')
+
+    if(year) query.where('Year.id = :year', { year })
+
+    const entities = await query.getMany()
+
+    return entities.map(row => Year.toDTO(row))
+  }
 
   async list() {
     const entities = await this.repo.createQueryBuilder('Year')

@@ -1,5 +1,4 @@
-<div class="container">
-    <!-- <button (click)="test()">TESTE</button> -->
+<div class="container" >
     <section class="analytics w-100 mb-5">
         <div class="header mb-4 d-flex">
             <h2>
@@ -78,52 +77,74 @@
         </div>
     </section>
     <section class="tables">
+        <!-- <div>
+            <div class="filter">
+                <label class="form-label">Categorias</label>
+                <ng-select
+                    [items]="categories"
+                    bindLabel="name"
+                    [multiple]="true"
+                    [(ngModel)]="filters.category"
+                    [compareWith]="compareId"
+                    notFoundText="Nenhum registro disponível."
+                ></ng-select>
+            </div>
+            <div class="filter">
+                <label class="form-label">Grupos</label>
+                <ng-select
+                    [items]="groups"
+                    bindLabel="name"
+                    [multiple]="true"
+                    [(ngModel)]="filters.group"
+                    [compareWith]="compareId"
+                    notFoundText="Nenhum registro disponível."
+                ></ng-select>
+            </div>
+        </div> -->
         <mat-tab-group mat-align-tabs="start" animationDuration="500ms" dynamicHeight>
-            <mat-tab *ngFor="let year of years; index as y">
+            <mat-tab *ngFor="let year of years">
                 <ng-template mat-tab-label>
                   <span>{{ year.year }}</span>
                 </ng-template>
                 <mat-tab-group mat-align-tabs="start" animationDuration="300ms" dynamicHeight>
-                    <mat-tab *ngFor="let month of year.months; index as m">
+                    <mat-tab *ngFor="let month of year.months">
                         <ng-template mat-tab-label>
-                          <span>{{ month.month }}</span>
+                          <span [appMonthName]="month.month"></span>
                         </ng-template>
                         <div class="container">
                             <div class="header">
-                                <div class="form-group search-box">
-                                    <img src="../../../assets/icons/magnifier.svg">
+                                <div class="form-group search-box w-100 d-flex align-items-center justify-content-start m-3">
+                                    <img src="../../../assets/icons/magnifier.svg" class="p-1">
                                     <input
-                                      (keyup)="updateList($event)"
+                                      (keyup)="updateList(year.year, month.month, $event.target)"
                                       class="form-control"
-                                      placeholder="Buscar..."
-                                      class="search-field"
+                                      placeholder="Filtrar..."
+                                      class="search-field w-50 ml-5"
                                     />
                                 </div>
-                                <div class="filter">
-                                    <label class="form-label">Categoria</label>
-                                    <ng-select
-                                        [items]="month.categories"
-                                        bindLabel="name"
-                                        [multiple]="true"
-                                        [(ngModel)]="filters.category"
-                                        [compareWith]="compareId"
-                                        notFoundText="Nenhum registro disponível."
-                                    ></ng-select>
-                                </div>
-                                <!-- <div class="filter">
-                                    <label class="form-label">Grupo</label>
-                                    <ng-select
-                                        [items]="month.categories.groups"
-                                        bindLabel="name"
-                                        [multiple]="true"
-                                        [(ngModel)]="filters.category"
-                                        [compareWith]="compareId"
-                                        notFoundText="Nenhum registro disponível."
-                                    ></ng-select>
-                                </div> -->
                             </div>
                             <div class="table">
-                                
+                                <table class="table table-striped table-responsive">
+                                    <thead>
+                                      <tr>
+                                        <th>Valor</th>
+                                        <th>Descrição</th>
+                                        <th>Data</th>
+                                        <th class="align-items-center">Ações</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr *ngFor="let expense of filteredList[year.year][month.month]">
+                                        <td>{{ expense.value }}</td>
+                                        <td>{{ expense.description }}</td>
+                                        <td>{{ expense.date | date: 'fullDate':'':'pt-BR' }}</td>
+                                        <td class="actions">
+                                            <img src="../../../assets/icons/pencil.svg" (click)="openModal('expense', expense)">
+                                            <img src="../../../assets/icons/trash.svg" (click)="openModal('expense', expense)">
+                                        </td>
+                                     </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </mat-tab>

@@ -24,7 +24,7 @@ export function filterList<List>(list: List[], terms: string[], columns: string[
       if(typeof field == 'boolean') return field ? 'sim' : 'não'
       if(field instanceof Date) return field.toLocaleDateString('pt-br')
 
-      else throw TypeError
+      else throw TypeError('Tipo do campo não suportado')
     }
 
     function crawl(props: string[], value: unknown, start: number): void {
@@ -47,6 +47,9 @@ export function filterList<List>(list: List[], terms: string[], columns: string[
         crawl(props, value, 1)
       }
     })
+
+    console.log(fields)
+    console.log(terms)
 
     // CREATING COPY LIST OF VALUES WITHOUT ACCENTS
     fields.forEach(field => {

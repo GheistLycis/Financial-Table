@@ -5,6 +5,6 @@ import ExpenseDTO from "./expense";
 export default interface GroupDTO extends BaseDTO {
   name: string
   color: string
-  category: CategoryDTO | null
-  expenses: ExpenseDTO[] | null
+  category: CategoryDTO
+  expenses: ExpenseDTO[]
 }

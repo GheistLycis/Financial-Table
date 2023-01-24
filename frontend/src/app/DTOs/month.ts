@@ -7,6 +7,6 @@ export default interface MonthDTO extends BaseDTO {
   month: number
   obs: string
   year: YearDTO
-  categories: CategoryDTO[] | null
-  entries: MonthlyEntryDTO[] | null
+  categories: CategoryDTO[]
+  entries: MonthlyEntryDTO[]
 }
