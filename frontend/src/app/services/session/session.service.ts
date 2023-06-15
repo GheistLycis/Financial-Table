@@ -14,4 +14,17 @@ export class SessionService {
   setUser(user: string): void {
     localStorage.setItem('user', user)
   }
+  
+  logout(): void {
+    localStorage.removeItem('user')
+  }
+  
+  // TOKEN
+  getToken(): string | null {
+    return localStorage.getItem('token')
+  }
+
+  setToken(token: string): void {
+    localStorage.setItem('token', token)
+  }
 }
