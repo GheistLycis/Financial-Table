@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import localePT from '@angular/common/locales/pt';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { ErrorsInterceptor } from './interceptors/errors.interceptor';
 
 registerLocaleData(localePT)
 
@@ -25,6 +26,7 @@ registerLocaleData(localePT)
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorsInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

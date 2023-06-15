@@ -12,7 +12,7 @@ export class TokenInterceptor implements HttpInterceptor {
         const user = this.sessionService.getUser()
         const token = user && this.sessionService.getToken()
         const isApiUrl = request.url.startsWith(environment.apiUrl)
-        
+
         if(token && isApiUrl) {
             request = request.clone({
                 setHeaders: {
@@ -20,7 +20,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 }
             })
         }
-        
+
         return next.handle(request)
     }
 }
