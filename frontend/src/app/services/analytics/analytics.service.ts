@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Response as Res } from 'src/app/utils/interfaces/response';
-import { env } from 'src/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,6 @@ export class AnalyticsService {
   constructor(private http: HttpClient) {}
 
   recentExpenses() {
-    return this.http.get<Res<number>>(`${env.api}/${this.baseRoute}/recent-expenses`)
+    return this.http.get<Res<number>>(`${environment.apiUrl}/${this.baseRoute}/recent-expenses`)
   }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { env } from '../../../environment'
 import YearDTO from 'src/app/DTOs/year';
 import { Response as Res } from 'src/app/utils/interfaces/response';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,26 +13,26 @@ export class YearService {
   constructor(private http: HttpClient) {}
 
   fetchAll() {
-    return this.http.get<Res<YearDTO[]>>(`${env.api}/${this.baseRoute}/fetch-all`)
+    return this.http.get<Res<YearDTO[]>>(`${environment.apiUrl}/${this.baseRoute}/fetch-all`)
   }
 
   list() {
-    return this.http.get<Res<YearDTO[]>>(`${env.api}/${this.baseRoute}`)
+    return this.http.get<Res<YearDTO[]>>(`${environment.apiUrl}/${this.baseRoute}`)
   }
 
   get(id: string) {
-    return this.http.get<Res<YearDTO>>(`${env.api}/${this.baseRoute}/${id}`)
+    return this.http.get<Res<YearDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
   post(payload: YearDTO) {
-    return this.http.post<Res<YearDTO>>(`${env.api}/${this.baseRoute}`, payload)
+    return this.http.post<Res<YearDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
   put(id: string, payload: YearDTO) {
-    return this.http.put<Res<YearDTO>>(`${env.api}/${this.baseRoute}/${id}`, payload)
+    return this.http.put<Res<YearDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 
   delete(id: string) {
-    return this.http.delete<Res<YearDTO>>(`${env.api}/${this.baseRoute}/${id}`)
+    return this.http.delete<Res<YearDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 }
