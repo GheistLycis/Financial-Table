@@ -2,14 +2,14 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from "@nestjs/config";
 import * as Joi from "@hapi/joi";
 import { loggerMiddleware } from './middlewares/logger';
-import { YearModule } from './content/year/year.module';
-import { MonthModule } from './content/month/month.module';
-import { MonthlyEntryModule } from './content/monthly-entry/monthly-entry.module';
-import { GroupModule } from './content/group/group.module';
-import { CategoryModule } from './content/category/category.module';
-import { ExpenseModule } from './content/expense/expense.module';
+import { YearModule } from './app/year/year.module';
+import { MonthModule } from './app/month/month.module';
+import { MonthlyEntryModule } from './app/monthly-entry/monthly-entry.module';
+import { GroupModule } from './app/group/group.module';
+import { CategoryModule } from './app/category/category.module';
+import { ExpenseModule } from './app/expense/expense.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AnalyticsModule } from './content/analytics/analytics.module';
+import { AnalyticsModule } from './app/analytics/analytics.module';
 
 @Module({
   imports: [
