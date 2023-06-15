@@ -8,7 +8,7 @@ import { SessionService } from '../services/session/session.service';
 
 @Injectable()
 export class ErrorsInterceptor implements HttpInterceptor {
-  warnings = [400, 403]
+  warnings = [400, 403, 404, 406]
   errors = [500]
   
   constructor(

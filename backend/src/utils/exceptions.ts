@@ -5,6 +5,10 @@ export function BadRequest(message) {
   return { message, type: 400 }
 }
 
+export function Forbidden(message) {
+  return { message, type: 403 }
+}
+
 export function NotFoundException(message) {
   return { message, type: 404 }
 }
