@@ -58,7 +58,7 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
 
-  async put(id, { month, obs, year }: body) {
+  async put(id: string, { month, obs, year }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 

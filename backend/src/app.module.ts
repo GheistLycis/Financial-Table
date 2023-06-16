@@ -10,6 +10,9 @@ import { CategoryModule } from './app/category/category.module';
 import { ExpenseModule } from './app/expense/expense.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnalyticsModule } from './app/analytics/analytics.module';
+import { APP_GUARD } from '@nestjs/core';
+import { IpGuard } from './guards/ip/ip.guard';
+import { IpModule } from './app/ip/ip.module';
 
 @Module({
   imports: [
@@ -40,9 +43,15 @@ import { AnalyticsModule } from './app/analytics/analytics.module';
     CategoryModule, 
     ExpenseModule, 
     AnalyticsModule,
+    IpModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: IpGuard,
+    },
+  ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

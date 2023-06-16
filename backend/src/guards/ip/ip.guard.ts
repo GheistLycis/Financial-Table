@@ -1,12 +1,18 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import { Observable } from 'rxjs';
+import { IpService } from 'src/app/ip/service/ip.service';
 
 @Injectable()
 export class IpGuard implements CanActivate {
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-    const req = context.switchToHttp().getRequest<Request>()
+  constructor(@Inject(IpService) private readonly ipService: IpService) { }
+  
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const { ip } = context.switchToHttp().getRequest<Request>()
 
-    return true
+    return await this.ipService.get(ip)
+      .then(
+        ({ active }) => active,
+        () => false
+      )
   }
 }

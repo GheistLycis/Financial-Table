@@ -66,7 +66,7 @@ export class YearService implements BaseService<YearDTO> {
     return Year.toDTO(entity)
   }
 
-  async put(id, { year }: body) {
+  async put(id: string, { year }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Ano não encontrado.')
 

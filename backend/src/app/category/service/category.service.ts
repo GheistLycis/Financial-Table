@@ -64,7 +64,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
     return Category.toDTO(entity)
   }
 
-  async put(id, { name, color, percentage, month }: body) {
+  async put(id: string, { name, color, percentage, month }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 

@@ -7,7 +7,7 @@ import IpDTO from "./Ip.dto";
 import { BaseEntity } from "src/shared/BaseEntity";
 
 @Service()
-@Entity("categories")
+@Entity("ips")
 export class Ip extends BaseEntity  {
   // COLUMNS
   @Column()

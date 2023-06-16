@@ -70,7 +70,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     return Expense.toDTO(entity)
   }
 
-  async put(id, { value, description, date, group }: body) {
+  async put(id: string, { value, description, date, group }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro não encontrado.')
 

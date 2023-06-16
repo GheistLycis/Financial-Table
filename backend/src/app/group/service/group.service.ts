@@ -62,7 +62,7 @@ export class GroupService implements BaseService<GroupDTO> {
     return Group.toDTO(entity)
   }
 
-  async put(id, { name, color, category }: body) {
+  async put(id: string, { name, color, category }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Grupo não encontrado.')
 

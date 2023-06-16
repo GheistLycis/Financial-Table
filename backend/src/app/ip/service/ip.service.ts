@@ -25,8 +25,8 @@ export class IpService implements BaseService<IpDTO> {
     return entities.map(row => Ip.toDTO(row))
   }
 
-  async get(id) {
-    const entity = await this.repo.findOneBy({ id })
+  async get(ip: string) {
+    const entity = await this.repo.findOneBy({ ip })
     if(!entity) throw NotFoundException('Nenhum ip encontrado.')
 
     return Ip.toDTO(entity)
@@ -40,7 +40,7 @@ export class IpService implements BaseService<IpDTO> {
     
     const entity = this.repo.create({
       ip, 
-      active: true,
+      active: false,
     })
 
     const errors = await validate(entity)
@@ -51,7 +51,7 @@ export class IpService implements BaseService<IpDTO> {
     return Ip.toDTO(entity)
   }
 
-  async put(id, { active }: body) {
+  async put(id: string, { active }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Ip não encontrado.')
 

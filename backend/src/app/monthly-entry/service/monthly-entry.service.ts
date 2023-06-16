@@ -60,7 +60,7 @@ export class MonthlyEntryService implements BaseService<MonthlyEntryDTO> {
     return MonthlyEntry.toDTO(entity)
   }
 
-  async put(id, { value, description, month }: body) {
+  async put(id: string, { value, description, month }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro mensal não encontrado.')
 

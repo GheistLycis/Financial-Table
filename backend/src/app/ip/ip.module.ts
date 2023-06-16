@@ -8,5 +8,6 @@ import { IpService } from './service/ip.service';
   imports: [TypeOrmModule.forFeature([Ip])],
   controllers: [IpController],
   providers: [IpService],
+  exports: [IpService]
 })
 export class IpModule {}
