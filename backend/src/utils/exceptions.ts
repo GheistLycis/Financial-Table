@@ -1,11 +1,11 @@
 import { ValidationError } from "class-validator"
 
 // 400
-export function BadRequest(message) {
+export function BadRequestException(message) {
   return { message, type: 400 }
 }
 
-export function Forbidden(message) {
+export function ForbiddenException(message) {
   return { message, type: 403 }
 }
 
@@ -32,6 +32,6 @@ export function classValidatorError(errors: ValidationError[]) {
     return `PROPRIEDADE: ${e.property} - ${triggers.join('; ')}`
   })
 
-  return BadRequest(message.join(' / '))
+  return BadRequestException(message.join(' / '))
 }
 

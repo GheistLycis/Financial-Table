@@ -32,7 +32,7 @@ export class ErrorsInterceptor implements HttpInterceptor {
             this.toastr.error(error.error.message || '', 'Erro')
           }
           else {
-            this.toastr.error('Ocorreu um erro inesperado no sistema. Por gentileza entrar em contato com o suporte.', '')
+            this.toastr.error('Ocorreu um erro inesperado no sistema. Por gentileza entrar em contato com o suporte.')
           }
           
           return throwError(() => new Error(error))
