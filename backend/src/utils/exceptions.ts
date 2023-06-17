@@ -1,29 +1,30 @@
 import { ValidationError } from "class-validator"
+import { GlobalException } from "src/shared/GlobalException"
 
 // 400
-export function BadRequestException(message) {
-  return { message, type: 400 }
+export function BadRequestException(message): GlobalException {
+  return { message, code: 400 }
 }
 
-export function ForbiddenException(message) {
-  return { message, type: 403 }
+export function ForbiddenException(message): GlobalException {
+  return { message, code: 403 }
 }
 
-export function NotFoundException(message) {
-  return { message, type: 404 }
+export function NotFoundException(message): GlobalException {
+  return { message, code: 404 }
 }
 
-export function DuplicatedException(message) {
-  return { message, type: 406 }
+export function DuplicatedException(message): GlobalException {
+  return { message, code: 406 }
 }
 
 // 500
-export function ServerException(message) {
-  return { message, type: 500 }
+export function ServerException(message): GlobalException {
+  return { message, code: 500 }
 }
 
 // CLASS-VALIDATOR
-export function classValidatorError(errors: ValidationError[]) {
+export function classValidatorError(errors: ValidationError[]): GlobalException {
   const message = errors.map(e => {
     const triggers = []
 

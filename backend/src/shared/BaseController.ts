@@ -1,36 +1,37 @@
-import { Body, Delete, Get, Param, Post, Put, Query, Res } from '@nestjs/common';
+import { Req, Body, Delete, Get, Param, Post, Put, Query, Res } from '@nestjs/common';
 import { handleError, handleResponse } from 'src/utils/handlers';
+import { GlobalException } from './GlobalException';
 
 export class BaseController {
   constructor(protected service) {}
 
-  @Get() async list(@Query() query, @Res() res) {
+  @Get() async list(@Req() req, @Query() query, @Res() res) {
     return await this.service.list(query)
-      .then(result => handleResponse(res, 200, '', result))
-      .catch(error => handleError(res, error))
+      .then((data: any) => handleResponse(res, { data }))
+      .catch((error: GlobalException | Error) => handleError(req, res, error))
   }
 
-  @Get(':id') async get(@Param('id') id, @Res() res) {
+  @Get(':id') async get(@Req() req, @Param('id') id, @Res() res) {
     return await this.service.get(id)
-      .then(result => handleResponse(res, 200, '', result))
-      .catch(error => handleError(res, error))
+      .then((data: any) => handleResponse(res, { data }))
+      .catch((error: GlobalException | Error) => handleError(req, res, error))
   }
 
-  @Post() async post(@Body() body, @Res() res) {
+  @Post() async post(@Req() req, @Body() body, @Res() res) {
     return await this.service.post(body)
-      .then(result => handleResponse(res, 200, '', result))
-      .catch(error => handleError(res, error))
+      .then((data: any) => handleResponse(res, { data }))
+      .catch((error: GlobalException | Error) => handleError(req, res, error))
   }
 
-  @Put(':id') async put(@Param('id') id, @Body() body, @Res() res) {
+  @Put(':id') async put(@Req() req, @Param('id') id, @Body() body, @Res() res) {
     return await this.service.put(id, body)
-      .then(result => handleResponse(res, 200, '', result))
-      .catch(error => handleError(res, error))
+      .then((data: any) => handleResponse(res, { data }))
+      .catch((error: GlobalException | Error) => handleError(req, res, error))
   }
 
-  @Delete(':id') async delete(@Param('id') id, @Res() res) {
+  @Delete(':id') async delete(@Req() req, @Param('id') id, @Res() res) {
     return await this.service.delete(id)
-      .then(result => handleResponse(res, 200, '', result))
-      .catch(error => handleError(res, error))
+      .then((data: any) => handleResponse(res, { data }))
+      .catch((error: GlobalException | Error) => handleError(req, res, error))
   }
 }

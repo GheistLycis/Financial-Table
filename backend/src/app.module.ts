@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from "@nestjs/config";
 import * as Joi from "@hapi/joi";
-import { loggerMiddleware } from './middlewares/logger';
+import { RequestLoggerMiddleware } from './middlewares/request-logger/request-logger.middleware';
 import { YearModule } from './app/year/year.module';
 import { MonthModule } from './app/month/month.module';
 import { MonthlyEntryModule } from './app/monthly-entry/monthly-entry.module';
@@ -47,6 +47,7 @@ import { IpModule } from './app/ip/ip.module';
   ],
   controllers: [],
   providers: [
+    // GUARDS
     {
       provide: APP_GUARD,
       useClass: IpGuard,
@@ -56,7 +57,7 @@ import { IpModule } from './app/ip/ip.module';
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(loggerMiddleware)
+      .apply(RequestLoggerMiddleware)
       .forRoutes('*')
   }
 }
