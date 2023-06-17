@@ -1,5 +1,4 @@
 import BaseDTO from "../utils/interfaces/BaseDTO";
-import GroupDTO from "./group";
 import MonthDTO from "./month";
 
 export default interface CategoryDTO extends BaseDTO {
@@ -7,5 +6,4 @@ export default interface CategoryDTO extends BaseDTO {
   color: string
   percentage: number
   month: MonthDTO
-  groups: GroupDTO[]
 }
