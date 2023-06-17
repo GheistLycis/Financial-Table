@@ -1,7 +1,7 @@
 import { Controller, Get, Injectable, Req, Query, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BaseController } from 'src/shared/BaseController';
-import { handleError, handleResponse } from 'src/utils/handlers';
+import { handleException, handleResponse } from 'src/shared/GlobalHandlers';
 import { YearService } from '../service/year.service';
 import { GlobalException } from 'src/shared/GlobalException';
 
@@ -16,6 +16,6 @@ export class YearController extends BaseController {
   @Get('fetch-all') async fetchAll(@Req() req, @Query() query, @Res() res) {
     return await this.service.fetchAll(query)
       .then((data: any) => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleError(req, res, error))
+      .catch((error: GlobalException | Error) => handleException(req, res, error))
   }
 }

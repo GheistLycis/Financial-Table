@@ -8,7 +8,7 @@ export function handleResponse(res: Response, { data, message='', status=200 }: 
   return res.status(status).json({ data, message })
 }
 
-export function handleError({ method, originalUrl, body }: Request, res: Response, error: GlobalException | Error): Response {
+export function handleException({ method, originalUrl, body }: Request, res: Response, error: GlobalException | Error): Response {
   const code = isInstanceOfGlobalException(error) ? error.code : 500
   const status = warnings.includes(code) ? 'W' : 'E'
   const time = new Date().toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit'})

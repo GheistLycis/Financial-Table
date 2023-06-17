@@ -1,5 +1,5 @@
 import { Controller, Req, Get, Res } from '@nestjs/common';
-import { handleError, handleResponse } from 'src/utils/handlers';
+import { handleException, handleResponse } from 'src/shared/GlobalHandlers';
 import { AnalyticsService } from '../service/analytics.service';
 import { GlobalException } from 'src/shared/GlobalException';
 
@@ -10,6 +10,6 @@ export class AnalyticsController {
   @Get('recent-expenses') async recentExpenses(@Req() req, @Res() res) {
     return await this.service.recentExpenses()
       .then((data: any) => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleError(req, res, error))
+      .catch((error: GlobalException | Error) => handleException(req, res, error))
   }
 }
