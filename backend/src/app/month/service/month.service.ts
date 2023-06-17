@@ -19,8 +19,7 @@ export class MonthService implements BaseService<MonthDTO> {
   ) {}
 
   async list({ year }: queries) {
-    const query = this.repo
-      .createQueryBuilder('Month')
+    const query = this.repo.createQueryBuilder('Month')
       .leftJoinAndSelect('Month.year', 'Year')
       .orderBy('Month.month', 'DESC')
 

@@ -3,7 +3,7 @@ import { validate } from 'class-validator';
 import { BaseService } from 'src/shared/BaseService';
 import YearDTO from '../Year.dto';
 import { Year } from '../Year';
-import { classValidatorError, DuplicatedException, NotFoundException, ServerException } from 'src/utils/exceptions';
+import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -15,31 +15,9 @@ export class YearService implements BaseService<YearDTO> {
     @Repo(Year) private readonly repo: Repository<Year>,
   ) {}
 
-  async fetchAll({ year }) {
-    const query = this.repo.createQueryBuilder('Year')
-      .leftJoinAndSelect('Year.months', 'Month')
-      .leftJoinAndSelect('Month.categories', 'Category')
-      .leftJoinAndSelect('Month.entries', 'Entry')
-      .leftJoinAndSelect('Category.groups', 'Group')
-      .leftJoinAndSelect('Group.expenses', 'Expense')
-      .orderBy('Year.year', 'DESC')
-      .addOrderBy('Month.month', 'DESC')
-      .addOrderBy('Category.name', 'ASC')
-      .addOrderBy('Group.name', 'ASC')
-      .addOrderBy('Expense.date', 'DESC')
-
-    if(year) query.where('Year.id = :year', { year })
-
-    const entities = await query.getMany()
-
-    return entities.map(row => Year.toDTO(row))
-  }
-
   async list() {
     const entities = await this.repo.createQueryBuilder('Year')
-      .leftJoinAndSelect('Year.months', 'Month')
       .orderBy('Year.year', 'DESC')
-      .addOrderBy('Month.month', 'DESC')
       .getMany()
 
     return entities.map(row => Year.toDTO(row))

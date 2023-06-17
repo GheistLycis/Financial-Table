@@ -19,8 +19,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
   ) {}
 
   async list({ month }: queries) {
-    const query = this.repo
-      .createQueryBuilder('Category')
+    const query = this.repo.createQueryBuilder('Category')
       .leftJoinAndSelect('Category.month', 'Month')
       .leftJoinAndSelect('Month.year', 'Year')
       .orderBy('Category.createdAt', 'DESC')

@@ -40,7 +40,6 @@ export class Category extends BaseEntity  {
       color: row.color,
       percentage: row.percentage,
       month: row.month ? Month.toDTO(row.month) : null,
-      groups: row.groups ? row.groups.map(group => Group.toDTO(group)) : null,
       id: row.id,
       createdAt: row.createdAt,
       updatedAt: row.updatedAt,

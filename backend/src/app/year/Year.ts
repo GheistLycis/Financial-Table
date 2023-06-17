@@ -22,7 +22,6 @@ export class Year extends BaseEntity {
   static toDTO(row: Year): YearDTO {
     return {
       year: row.year,
-      months: row.months ? row.months.map(month => Month.toDTO(month)) : null,
       id: row.id,
       createdAt: row.createdAt,
       updatedAt: row.updatedAt,

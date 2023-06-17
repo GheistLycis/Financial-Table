@@ -19,8 +19,7 @@ export class GroupService implements BaseService<GroupDTO> {
   ) {}
 
   async list({ month, category }: queries) {
-    const query = this.repo
-      .createQueryBuilder('Group')
+    const query = this.repo.createQueryBuilder('Group')
       .leftJoinAndSelect('Group.category', 'Category')
       .leftJoinAndSelect('Category.month', 'Month')
       .leftJoinAndSelect('Month.year', 'Year')
