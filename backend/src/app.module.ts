@@ -57,11 +57,11 @@ import { UserModule } from './app/user/user.module';
     // GUARDS
     {
       provide: APP_GUARD,
-      useClass: IpGuard,
+      useClass: TokenGuard,
     },
     {
       provide: APP_GUARD,
-      useClass: TokenGuard,
+      useClass: IpGuard,
     },
   ],
 })
