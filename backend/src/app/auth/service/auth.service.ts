@@ -11,9 +11,9 @@ export class AuthService {
     private usersService: UserService,
   ) {}
   
-  async generateToken(userName: string, password?: string): Promise<string> {
-    const { id, name } = await this.usersService.get(userName)
-    const payload: sessionAuthPayload = { sub: id, userName: name }
+  async generateToken(userName: string): Promise<string> {
+    const { id } = await this.usersService.logIn(userName)
+    const payload: sessionAuthPayload = { sub: id, userName }
     
     return await this.jwtService.signAsync(payload)
   }

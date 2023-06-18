@@ -75,4 +75,11 @@ export class UserService implements BaseService<UserDTO> {
 
     return User.toDTO(entity)
   }
+  
+  async logIn(name: string) {
+    const entity = await this.repo.findOneBy({ name })
+    if(!entity) throw NotFoundException('Nenhum usuário encontrado.')
+
+    return User.toDTO(entity)
+  }
 }
