@@ -13,11 +13,16 @@ import { AnalyticsModule } from './app/analytics/analytics.module';
 import { APP_GUARD } from '@nestjs/core';
 import { IpGuard } from './guards/ip/ip.guard';
 import { IpModule } from './app/ip/ip.module';
+import { AuthModule } from './app/auth/auth.module';
+import { TokenGuard } from './guards/token/token.guard';
+import { UserModule } from './app/user/user.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       validationSchema: Joi.object({
+        SERVER_PORT: Joi.number().default(8000),
+        JWT: Joi.string().required(),
         DB_HOST: Joi.string().default('localhost'),
         DB_PORT: Joi.number().default(5432),
         DB_USER: Joi.string().required(),
@@ -36,6 +41,7 @@ import { IpModule } from './app/ip/ip.module';
       autoLoadEntities: true,
       logging: false,
     }),
+    AuthModule,
     YearModule, 
     MonthModule, 
     MonthlyEntryModule, 
@@ -44,6 +50,7 @@ import { IpModule } from './app/ip/ip.module';
     ExpenseModule, 
     AnalyticsModule,
     IpModule,
+    UserModule,
   ],
   controllers: [],
   providers: [
@@ -51,6 +58,10 @@ import { IpModule } from './app/ip/ip.module';
     {
       provide: APP_GUARD,
       useClass: IpGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: TokenGuard,
     },
   ],
 })

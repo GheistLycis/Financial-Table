@@ -6,7 +6,11 @@ export function BadRequestException(message): GlobalException {
   return { message, code: 400 }
 }
 
-export function ForbiddenException(message): GlobalException {
+export function UnauthorizedException(message=''): GlobalException {
+  return { message, code: 401 }
+}
+
+export function ForbiddenException(message=''): GlobalException {
   return { message, code: 403 }
 }
 
