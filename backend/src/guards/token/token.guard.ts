@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/commo
 import { Request, Response } from 'express';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import { handleException } from 'src/shared/GlobalHandlers';
-import { UnauthorizedException } from 'src/utils/exceptions';
+import { UnauthorizedException } from 'src/shared/GlobalExceptions';
 
 @Injectable()
 export class TokenGuard implements CanActivate {

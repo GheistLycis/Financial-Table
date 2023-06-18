@@ -4,7 +4,7 @@ import { BaseService } from 'src/shared/BaseService';
 import ExpenseDTO from '../Expense.dto';
 import { Expense } from '../Expense';
 import { Group } from '../../group/Group';
-import { classValidatorError, DuplicatedException, NotFoundException } from 'src/utils/exceptions';
+import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/GlobalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
