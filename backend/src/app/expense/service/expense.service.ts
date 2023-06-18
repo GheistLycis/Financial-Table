@@ -36,7 +36,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     return entities.map(row => Expense.toDTO(row))
   }
 
-  async get(id) {
+  async get(id: string) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum registro encontrado.')
 
@@ -63,7 +63,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     })
 
     const errors = await validate(entity)
-    if(errors.length != 0) throw classValidatorError(errors)
+    if(errors.length) throw classValidatorError(errors)
       
     await this.repo.save(entity)
 
@@ -92,14 +92,14 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     entity.group = groupEntity
 
     const errors = await validate(entity)
-    if(errors.length != 0) throw classValidatorError(errors)
+    if(errors.length) throw classValidatorError(errors)
 
     await this.repo.save(entity)
 
     return Expense.toDTO(entity)
   }
 
-  async delete(id) {
+  async delete(id: string) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro não encontrado.')
 

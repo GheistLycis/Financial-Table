@@ -31,7 +31,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
     return entities.map(row => Category.toDTO(row))
   }
 
-  async get(id) {
+  async get(id: string) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhuma categoria encontrada.')
 
@@ -56,7 +56,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
     })
 
     const errors = await validate(entity)
-    if(errors.length != 0) throw classValidatorError(errors)
+    if(errors.length) throw classValidatorError(errors)
       
     await this.repo.save(entity)
 
@@ -83,14 +83,14 @@ export class CategoryService implements BaseService<CategoryDTO> {
     entity.month = monthEntity
 
     const errors = await validate(entity)
-    if(errors.length != 0) throw classValidatorError(errors)
+    if(errors.length) throw classValidatorError(errors)
 
     await this.repo.save(entity)
 
     return Category.toDTO(entity)
   }
 
-  async delete(id) {
+  async delete(id: string) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 

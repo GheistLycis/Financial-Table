@@ -32,7 +32,7 @@ export class MonthlyEntryService implements BaseService<MonthlyEntryDTO> {
     return entities.map(row => MonthlyEntry.toDTO(row))
   }
 
-  async get(id) {
+  async get(id: string) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum registro mensal encontrado.')
 
@@ -53,7 +53,7 @@ export class MonthlyEntryService implements BaseService<MonthlyEntryDTO> {
     const entity = this.repo.create({ value, description, month: monthEntity })
       
     const errors = await validate(entity)
-    if(errors.length != 0) throw classValidatorError(errors)
+    if(errors.length) throw classValidatorError(errors)
   
     await this.repo.save(entity)
 
@@ -80,14 +80,14 @@ export class MonthlyEntryService implements BaseService<MonthlyEntryDTO> {
     entity.month = monthEntity
 
     const errors = await validate(entity)
-    if(errors.length != 0) throw classValidatorError(errors)
+    if(errors.length) throw classValidatorError(errors)
 
     await this.repo.save(entity)
 
     return MonthlyEntry.toDTO(entity)
   }
 
-  async delete(id) {
+  async delete(id: string) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro mensal não encontrado.')
 

@@ -44,7 +44,7 @@ export class IpService implements BaseService<IpDTO> {
     })
 
     const errors = await validate(entity)
-    if(errors.length != 0) throw classValidatorError(errors)
+    if(errors.length) throw classValidatorError(errors)
       
     await this.repo.save(entity)
 
@@ -58,14 +58,14 @@ export class IpService implements BaseService<IpDTO> {
     entity.active = active
 
     const errors = await validate(entity)
-    if(errors.length != 0) throw classValidatorError(errors)
+    if(errors.length) throw classValidatorError(errors)
 
     await this.repo.save(entity)
 
     return Ip.toDTO(entity)
   }
 
-  async delete(id) {
+  async delete(id: string) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Ip não encontrado.')
 

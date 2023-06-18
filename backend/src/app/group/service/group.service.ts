@@ -33,7 +33,7 @@ export class GroupService implements BaseService<GroupDTO> {
     return entities.map(row => Group.toDTO(row))
   }
 
-  async get(id) {
+  async get(id: string) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum grupo encontrado.')
 
@@ -80,14 +80,14 @@ export class GroupService implements BaseService<GroupDTO> {
     entity.category = categoryEntity
 
     const errors = await validate(entity)
-    if(errors.length != 0) throw classValidatorError(errors)
+    if(errors.length) throw classValidatorError(errors)
 
     await this.repo.save(entity)
 
     return Group.toDTO(entity)
   }
 
-  async delete(id) {
+  async delete(id: string) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Grupo não encontrado.')
 

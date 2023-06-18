@@ -1,5 +1,3 @@
-import { Repository } from "typeorm";
-
 export interface BaseService<EntityDTO> {
   list(query?: any): Promise<EntityDTO[]>
   get(id: string): Promise<EntityDTO>

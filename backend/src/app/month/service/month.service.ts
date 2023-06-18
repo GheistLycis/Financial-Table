@@ -30,7 +30,7 @@ export class MonthService implements BaseService<MonthDTO> {
     return entities.map(row => Month.toDTO(row))
   }
 
-  async get(id) {
+  async get(id: string) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum mês encontrado.')
 
@@ -50,7 +50,7 @@ export class MonthService implements BaseService<MonthDTO> {
     const entity = this.repo.create({ month, obs, year: yearEntity })
       
     const errors = await validate(entity)
-    if(errors.length != 0) throw classValidatorError(errors)
+    if(errors.length) throw classValidatorError(errors)
   
     await this.repo.save(entity)
 
@@ -76,14 +76,14 @@ export class MonthService implements BaseService<MonthDTO> {
     entity.year = yearEntity
 
     const errors = await validate(entity)
-    if(errors.length != 0) throw classValidatorError(errors)
+    if(errors.length) throw classValidatorError(errors)
 
     await this.repo.save(entity)
 
     return Month.toDTO(entity)
   }
 
-  async delete(id) {
+  async delete(id: string) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 
