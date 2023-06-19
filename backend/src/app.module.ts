@@ -16,6 +16,7 @@ import { IpModule } from './app/ip/ip.module';
 import { AuthModule } from './app/auth/auth.module';
 import { TokenGuard } from './guards/token/token.guard';
 import { UserModule } from './app/user/user.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -41,6 +42,11 @@ import { UserModule } from './app/user/user.module';
       autoLoadEntities: true,
       logging: false,
     }),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 5000,
+      max: 10,
+    }),    
     AuthModule,
     YearModule, 
     MonthModule, 
