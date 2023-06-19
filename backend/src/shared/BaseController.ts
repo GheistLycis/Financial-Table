@@ -12,7 +12,7 @@ export class BaseController {
   }
 
   @Get(':id') async get(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.get(id: string)
+    return await this.service.get(id)
       .then((data: any) => handleResponse(res, { data }))
       .catch((error: GlobalException | Error) => handleException(req, res, error))
   }
@@ -30,7 +30,7 @@ export class BaseController {
   }
 
   @Delete(':id') async delete(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.delete(id: string)
+    return await this.service.delete(id)
       .then((data: any) => handleResponse(res, { data }))
       .catch((error: GlobalException | Error) => handleException(req, res, error))
   }
