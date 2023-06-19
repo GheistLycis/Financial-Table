@@ -1,5 +1,5 @@
 import { Controller, Req, Get, Res } from '@nestjs/common';
-import { handleException, handleResponse } from 'src/shared/GlobalHandlers';
+import { handleException, handleResponse } from 'src/shared/globalHandlers';
 import { AnalyticsService } from '../service/analytics.service';
 import { GlobalException } from 'src/shared/GlobalException';
 

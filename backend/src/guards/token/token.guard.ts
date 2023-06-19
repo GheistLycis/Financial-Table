@@ -1,31 +1,34 @@
 import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from 'src/app/auth/service/auth.service';
-import { handleException } from 'src/shared/GlobalHandlers';
-import { UnauthorizedException } from 'src/shared/GlobalExceptions';
+import { handleException } from 'src/shared/globalHandlers';
+import { UnauthorizedException } from 'src/shared/globalExceptions';
+import { Reflector } from '@nestjs/core';
 
 @Injectable()
 export class TokenGuard implements CanActivate {
-  constructor(@Inject(AuthService) private readonly authService: AuthService) { }
+  constructor(
+    @Inject(AuthService) private readonly authService: AuthService,
+    private reflector: Reflector,
+  ) { }
   
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    if(this.reflector.get('bypassTokenGuard', context.getHandler())) return true
+    
     const req = context.switchToHttp().getRequest<Request>()
     const res = context.switchToHttp().getResponse<Response>()
-    const { Authorization } = req.headers
-    const [ tokenType, token ] = typeof Authorization == 'string' ? Authorization.split(' ') : []
+    const { authorization } = req.headers
+    const [ tokenType, token ] = typeof authorization == 'string' ? authorization.split(' ') : []
     
     if(tokenType != 'Bearer' || !token) throw handleException(req, res, UnauthorizedException('Sem autenticação.')) 
     
     return await this.authService.verifyToken(token)
-      .then(
-        res => {
-          req['User'] = res
+      .then(({ sub, name }) => {
+          req['user'] = { id: sub, name }
           
           return true
-        },
-        () => {
+        }, () => {
           throw handleException(req, res, UnauthorizedException('Token expirado.'))
-        }
-      )
+        })
   }
 }

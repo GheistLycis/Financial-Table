@@ -1,7 +1,7 @@
 import { Controller, Get, Injectable, Req, Query, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BaseController } from 'src/shared/BaseController';
-import { handleException, handleResponse } from 'src/shared/GlobalHandlers';
+import { handleException, handleResponse } from 'src/shared/globalHandlers';
 import { YearService } from '../service/year.service';
 import { GlobalException } from 'src/shared/GlobalException';
 

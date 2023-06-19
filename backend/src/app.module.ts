@@ -13,10 +13,10 @@ import { AnalyticsModule } from './app/analytics/analytics.module';
 import { APP_GUARD } from '@nestjs/core';
 import { IpGuard } from './guards/ip/ip.guard';
 import { IpModule } from './app/ip/ip.module';
-import { AuthModule } from './app/auth/auth.module';
 import { TokenGuard } from './guards/token/token.guard';
 import { UserModule } from './app/user/user.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { AuthModule } from './app/auth/auth.module';
 
 @Module({
   imports: [

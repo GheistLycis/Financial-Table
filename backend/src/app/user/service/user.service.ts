@@ -4,8 +4,10 @@ import UserDTO from '../User.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { User } from '../User';
-import { DuplicatedException, NotFoundException, classValidatorError } from 'src/shared/GlobalExceptions';
+import { DuplicatedException, NotFoundException, classValidatorError } from 'src/shared/globalExceptions';
 import { validate } from 'class-validator';
+import { AuthService } from 'src/app/auth/service/auth.service';
+import { Session } from 'src/shared/Session';
 
 type body = { name: string }
 
@@ -13,6 +15,7 @@ type body = { name: string }
 export class UserService implements BaseService<UserDTO> {
   constructor(
     @Repo(User) private readonly repo: Repository<User>,
+    private authService: AuthService,
   ) {}
   
   async list() {
@@ -76,10 +79,12 @@ export class UserService implements BaseService<UserDTO> {
     return User.toDTO(entity)
   }
   
-  async logIn(name: string) {
+  async logIn(name: string): Promise<Session> {
     const entity = await this.repo.findOneBy({ name })
     if(!entity) throw NotFoundException('Nenhum usuário encontrado.')
+    
+    const token = await this.authService.generateToken(entity.id, name)
 
-    return User.toDTO(entity)
+    return { user: User.toDTO(entity), token }
   }
 }

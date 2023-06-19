@@ -3,7 +3,7 @@ import { validate } from 'class-validator';
 import { BaseService } from 'src/shared/BaseService';
 import YearDTO from '../Year.dto';
 import { Year } from '../Year';
-import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/GlobalExceptions';
+import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 

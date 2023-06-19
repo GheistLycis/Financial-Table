@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { validate } from 'class-validator';
 import { BaseService } from 'src/shared/BaseService';
-import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/GlobalExceptions';
+import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/globalExceptions';
 import { Repository } from 'typeorm';
 import { Ip } from '../Ip';
 import IpDTO from '../Ip.dto';

@@ -1,8 +1,8 @@
 import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { IpService } from 'src/app/ip/service/ip.service';
-import { handleException } from 'src/shared/GlobalHandlers';
-import { ForbiddenException } from 'src/shared/GlobalExceptions';
+import { handleException } from 'src/shared/globalHandlers';
+import { ForbiddenException } from 'src/shared/globalExceptions';
 
 @Injectable()
 export class IpGuard implements CanActivate {
@@ -14,18 +14,11 @@ export class IpGuard implements CanActivate {
     const { ip } = req
 
     return await this.ipService.get(ip)
-      .then(
-        ({ active }) => {
-          if(active) {
-            return true
-          }
-          else {
-            throw handleException(req, res, ForbiddenException('IP não autorizado.'))
-          }
-        },
-        () => {
+      .then(({ active }) => {
+          if(active) return true
+          else throw handleException(req, res, ForbiddenException('IP não autorizado.'))
+        }, () => {
           throw handleException(req, res, ForbiddenException('IP desconhecido.'))
-        }
-      )
+        })
   }
 }

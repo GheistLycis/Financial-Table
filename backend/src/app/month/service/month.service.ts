@@ -4,7 +4,7 @@ import { BaseService } from 'src/shared/BaseService';
 import MonthDTO from '../Month.dto';
 import { Month } from '../Month';
 import { Year } from '../../year/Year'
-import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/GlobalExceptions';
+import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/globalExceptions';
 import { Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 
