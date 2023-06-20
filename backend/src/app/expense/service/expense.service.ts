@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { BaseService } from 'src/shared/BaseService';
 import ExpenseDTO from '../Expense.dto';
@@ -7,6 +7,9 @@ import { Group } from '../../group/Group';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
+import { Request } from 'express';
 
 type body = { value: number, description: string, date: Date, group: string }
 type queries = { month: string, category: string, group: string }
@@ -14,11 +17,14 @@ type queries = { month: string, category: string, group: string }
 @Injectable()
 export class ExpenseService implements BaseService<ExpenseDTO> {
   constructor(
-    @Repo(Expense) private readonly repo: Repository<Expense>,
-    @Repo(Group) private readonly groupRepo: Repository<Group>,
+    @Repo(Expense) private repo: Repository<Expense>,
+    @Repo(Group) private groupRepo: Repository<Group>,
+    @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
-  async list({ month, category, group }: queries) {
+  async list({ month, category, group }: queries, req: Request) {
+    console.log(req['user'])
+    // this.cacheService.get(`${}`)
     const query = this.repo
       .createQueryBuilder('Expense')
       .leftJoin('Expense.group', 'Group')

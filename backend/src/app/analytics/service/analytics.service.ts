@@ -6,8 +6,8 @@ import { DataSource, Repository } from 'typeorm';
 @Injectable()
 export class AnalyticsService {
   constructor(
-    @InjectDataSource() private readonly dataSource: DataSource,
-    @Repo(Expense) private readonly expensesRepo: Repository<Expense>,
+    @InjectDataSource() private dataSource: DataSource,
+    @Repo(Expense) private expensesRepo: Repository<Expense>,
   ) {}
 
   async recentExpenses(): Promise<number> {

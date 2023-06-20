@@ -9,7 +9,7 @@ import { Expense } from "../expense/Expense";
 import GroupDTO from "./Group.dto";
 import { BaseEntity, manyToOneOptions, OneToManyOptions } from "src/shared/BaseEntity";
 import { Category } from "../category/Category";
-import { IsColor } from "src/decorators/class-validator/IsColor";
+import { IsColor } from "src/shared/decorators/class-validator/IsColor";
 import { Validate } from "class-validator";
 
 @Service()

@@ -17,8 +17,8 @@ export function handleException({ method, originalUrl, body }: Request, res: Res
     (${status}-${code}) 
     ${method} - ${originalUrl}
     ${time}
-    BODY: ${JSON.stringify(body)}
     MESSAGE: ${error.message}
+    BODY: ${JSON.stringify(body)}
   `)
   
   return res.status(code).json({ data: null, message: error.message })

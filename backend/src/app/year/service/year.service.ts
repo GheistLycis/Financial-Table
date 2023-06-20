@@ -12,7 +12,7 @@ type body = { year: number }
 @Injectable()
 export class YearService implements BaseService<YearDTO> {
   constructor(
-    @Repo(Year) private readonly repo: Repository<Year>,
+    @Repo(Year) private repo: Repository<Year>,
   ) {}
 
   async list() {

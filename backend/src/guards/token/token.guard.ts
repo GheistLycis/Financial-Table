@@ -8,7 +8,7 @@ import { Reflector } from '@nestjs/core';
 @Injectable()
 export class TokenGuard implements CanActivate {
   constructor(
-    @Inject(AuthService) private readonly authService: AuthService,
+    @Inject(AuthService) private authService: AuthService,
     private reflector: Reflector,
   ) { }
   
@@ -17,8 +17,7 @@ export class TokenGuard implements CanActivate {
     
     const req = context.switchToHttp().getRequest<Request>()
     const res = context.switchToHttp().getResponse<Response>()
-    const { authorization } = req.headers
-    const [ tokenType, token ] = typeof authorization == 'string' ? authorization.split(' ') : []
+    const [ tokenType, token ] = req.headers.authorization.split(' ')
     
     if(tokenType != 'Bearer' || !token) throw handleException(req, res, UnauthorizedException('Sem autenticação.')) 
     
@@ -28,7 +27,7 @@ export class TokenGuard implements CanActivate {
           
           return true
         }, () => {
-          throw handleException(req, res, UnauthorizedException('Token expirado.'))
+          throw handleException(req, res, UnauthorizedException('Token inválido.'))
         })
   }
 }

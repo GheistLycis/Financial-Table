@@ -10,7 +10,7 @@ import { BaseEntity, manyToOneOptions, OneToManyOptions } from "src/shared/BaseE
 import { Group } from "../group/Group";
 import { Month } from "../month/Month";
 import { Max, Min, Validate } from "class-validator";
-import { IsColor } from "src/decorators/class-validator/IsColor";
+import { IsColor } from "src/shared/decorators/class-validator/IsColor";
 
 @Service()
 @Entity("categories")

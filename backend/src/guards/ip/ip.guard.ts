@@ -6,7 +6,7 @@ import { ForbiddenException } from 'src/shared/globalExceptions';
 
 @Injectable()
 export class IpGuard implements CanActivate {
-  constructor(@Inject(IpService) private readonly ipService: IpService) { }
+  constructor(@Inject(IpService) private ipService: IpService) { }
   
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest<Request>()

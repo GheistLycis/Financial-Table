@@ -14,8 +14,8 @@ type queries = { month: string, category: string }
 @Injectable()
 export class GroupService implements BaseService<GroupDTO> {
   constructor(
-    @Repo(Group) private readonly repo: Repository<Group>,
-    @Repo(Category) private readonly categoryRepo: Repository<Category>,
+    @Repo(Group) private repo: Repository<Group>,
+    @Repo(Category) private categoryRepo: Repository<Category>,
   ) {}
 
   async list({ month, category }: queries) {

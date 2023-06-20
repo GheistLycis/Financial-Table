@@ -12,7 +12,7 @@ type body = { ip: string, active: boolean }
 @Injectable()
 export class IpService implements BaseService<IpDTO> {
   constructor(
-    @Repo(Ip) private readonly repo: Repository<Ip>,
+    @Repo(Ip) private repo: Repository<Ip>,
   ) {}
 
   async list() {

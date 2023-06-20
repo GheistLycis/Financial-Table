@@ -14,7 +14,7 @@ type body = { name: string }
 @Injectable()
 export class UserService implements BaseService<UserDTO> {
   constructor(
-    @Repo(User) private readonly repo: Repository<User>,
+    @Repo(User) private repo: Repository<User>,
     private authService: AuthService,
   ) {}
   

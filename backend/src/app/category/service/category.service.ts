@@ -14,8 +14,8 @@ type queries = { month: string }
 @Injectable()
 export class CategoryService implements BaseService<CategoryDTO> {
   constructor(
-    @Repo(Category) private readonly repo: Repository<Category>,
-    @Repo(Month) private readonly monthRepo: Repository<Month>,
+    @Repo(Category) private repo: Repository<Category>,
+    @Repo(Month) private monthRepo: Repository<Month>,
   ) {}
 
   async list({ month }: queries) {
