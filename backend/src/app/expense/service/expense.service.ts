@@ -23,23 +23,27 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
   ) {}
 
   async list({ month, category, group }: queries, req: Request) {
-    console.log(req['user'])
-    // this.cacheService.get(`${}`)
+    const cacheKey = `${req['user'].id}-expenses-${month}-${category}-${group}`
+    
+    const cache = await this.cacheService.get<ExpenseDTO[]>(cacheKey)
+    if(cache) return cache
+    
     const query = this.repo
       .createQueryBuilder('Expense')
       .leftJoin('Expense.group', 'Group')
       .leftJoin('Group.category', 'Category')
       .leftJoin('Category.month', 'Month')
-      .leftJoin('Month.year', 'Year')
       .orderBy('Expense.date', 'DESC')
 
-    if(month) query.where('Month.id = :month', { month })
+    if(month) query.andWhere('Month.id = :month', { month })
     if(category) query.where('Category.id = :category', { category })
     if(group) query.where('Group.id = :group', { group })
 
     const entities = await query.getMany()
-
-    return entities.map(row => Expense.toDTO(row))
+    const result = entities.map(row => Expense.toDTO(row))
+    
+    this.cacheService.set(cacheKey, result)
+    return result
   }
 
   async get(id: string) {

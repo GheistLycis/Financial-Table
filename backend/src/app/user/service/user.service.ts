@@ -83,7 +83,7 @@ export class UserService implements BaseService<UserDTO> {
     const entity = await this.repo.findOneBy({ name })
     if(!entity) throw NotFoundException('Nenhum usuário encontrado.')
     
-    const token = await this.authService.generateToken(entity.id, name)
+    const token = await this.authService.generateToken(entity.id)
 
     return { user: User.toDTO(entity), token }
   }

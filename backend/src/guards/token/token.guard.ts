@@ -22,8 +22,8 @@ export class TokenGuard implements CanActivate {
     if(tokenType != 'Bearer' || !token) throw handleException(req, res, UnauthorizedException('Sem autenticação.')) 
     
     return await this.authService.verifyToken(token)
-      .then(({ sub, name }) => {
-          req['user'] = { id: sub, name }
+      .then(({ sub }) => {
+          req['user'] = { id: sub }
           
           return true
         }, () => {

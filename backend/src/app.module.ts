@@ -18,6 +18,8 @@ import { UserModule } from './app/user/user.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { AuthModule } from './app/auth/auth.module';
 
+const cacheLifeMinutes = 5
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -44,9 +46,9 @@ import { AuthModule } from './app/auth/auth.module';
     }),
     CacheModule.register({
       isGlobal: true,
-      ttl: 5000,
+      ttl: cacheLifeMinutes * 60 * 1000,
       max: 10,
-    }),    
+    }),
     AuthModule,
     YearModule, 
     MonthModule, 
