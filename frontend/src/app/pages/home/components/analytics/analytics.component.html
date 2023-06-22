@@ -1,0 +1,70 @@
+<div class="main-container">
+    <div class="header mb-4 d-flex">
+        <h2>
+            Gastos do mês (
+            <span [appMonthName]="month?.month" (click)="toggleSelect('month')"></span>
+            de 
+            <span (click)="toggleSelect('year')">
+                {{ year?.year }}
+            </span>
+            )
+        </h2>
+        <div *ngIf="dropdown == 'year'">
+            <ng-select
+                [items]="years$ | async" 
+                [(ngModel)]="year"
+                (change)="calculateAnalytics()"
+                bindLabel="year"
+            ></ng-select>
+        </div>
+        <div *ngIf="dropdown == 'month'">
+            <ng-select
+                [items]="months$ | async" 
+                [(ngModel)]="month"
+                (change)="calculateAnalytics()"
+                bindLabel="month" 
+            ></ng-select>
+        </div>
+    </div>
+    <!-- <div class="cards d-flex">
+        <div class="card shadow p-3">
+            <div>
+                <h4>Em relação ao mês anterior</h4>
+            </div>
+            <div *ngIf="recentExpenses > 0; else positiveRecentResult" [style.color]="'red'" class="analytics-data">
+                <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
+                <h3>{{ recentExpenses }}%</h3>
+            </div>
+            <ng-template #positiveRecentResult>
+                <div [style.color]="'green'" class="analytics-data">
+                    <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
+                    <h3>{{ recentExpenses }}%</h3>
+                </div>
+            </ng-template>
+        </div>
+        <div class="card shadow p-3">
+            <div>
+                <h4>Em relação à média dos meses anteriores do mesmo ano</h4>
+            </div>
+            <div *ngIf="yearExpenses > 0; else positiveYearResult" [style.color]="'red'" class="analytics-data">
+                <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
+                <h3>{{ yearExpenses }}%</h3>
+            </div>
+            <ng-template #positiveYearResult>
+                <div [style.color]="'green'" class="analytics-data">
+                    <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
+                    <h3>{{ yearExpenses }}%</h3>
+                </div>
+            </ng-template>
+        </div>
+        <div class="card shadow p-3">
+            <div>
+                <h4>Maior concentração de gastos:</h4>
+            </div>
+            <div class="most-expensive">
+                <h3>Categoria: <span>{{ mostExpensiveCategory }}</span></h3>
+                <h3>Grupo: <span>{{ mostExpensiveGroup }}</span></h3>
+            </div>
+        </div>
+    </div> -->
+</div>

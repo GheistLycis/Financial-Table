@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatMenuModule } from '@angular/material/menu';
 
 
 
@@ -8,10 +7,8 @@ import { MatMenuModule } from '@angular/material/menu';
   declarations: [],
   imports: [
     CommonModule,
-    MatMenuModule,
   ],
   exports: [
-    MatMenuModule,
   ]
 })
 export class SharedModule { }

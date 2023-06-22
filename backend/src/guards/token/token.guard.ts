@@ -17,7 +17,8 @@ export class TokenGuard implements CanActivate {
     
     const req = context.switchToHttp().getRequest<Request>()
     const res = context.switchToHttp().getResponse<Response>()
-    const [ tokenType, token ] = req.headers.authorization.split(' ')
+    const { authorization='' } = req.headers
+    const [ tokenType, token ] = authorization.split(' ')
     
     if(tokenType != 'Bearer' || !token) throw handleException(req, res, UnauthorizedException('Sem autenticação.')) 
     

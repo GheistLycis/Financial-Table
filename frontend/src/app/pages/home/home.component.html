@@ -1,83 +1,9 @@
 <div class="container" >
-    <section class="analytics w-100 mb-5">
-        <div class="header mb-4 d-flex">
-            <h2>
-                Gastos do mês (
-                    <span 
-                        [appMonthName]="analyticsMonth.month" 
-                        (click)="toggleSelect('month')"
-                    ></span>
-                    de 
-                    <span (click)="toggleSelect('year')">
-                        {{ analyticsYear.year }}
-                    </span>
-                )
-            </h2>
-            <div *ngIf="analyticsSelect == 'year'">
-                <ng-select
-                    [items]="years" 
-                    [(ngModel)]="analyticsYear"
-                    (change)="
-                        months = analyticsYear.months;
-                        analyticsMonth = months[0]; 
-                        calculateAnalytics()
-                    "
-                    bindLabel="year" 
-                ></ng-select>
-            </div>
-            <div *ngIf="analyticsSelect == 'month'">
-                <ng-select
-                    [items]="months" 
-                    [(ngModel)]="analyticsMonth"
-                    (change)="calculateAnalytics()"
-                    bindLabel="month" 
-                ></ng-select>
-            </div>
-        </div>
-        <div class="cards d-flex">
-            <div class="card shadow p-3">
-                <div>
-                    <h4>Em relação ao mês anterior</h4>
-                </div>
-                <div *ngIf="recentExpenses > 0; else positiveRecentResult" [style.color]="'red'" class="analytics-data">
-                    <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
-                    <h3>{{ recentExpenses }}%</h3>
-                </div>
-                <ng-template #positiveRecentResult>
-                    <div [style.color]="'green'" class="analytics-data">
-                        <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
-                        <h3>{{ recentExpenses }}%</h3>
-                    </div>
-                </ng-template>
-            </div>
-            <div class="card shadow p-3">
-                <div>
-                    <h4>Em relação à média dos meses anteriores do mesmo ano</h4>
-                </div>
-                <div *ngIf="yearExpenses > 0; else positiveYearResult" [style.color]="'red'" class="analytics-data">
-                    <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
-                    <h3>{{ yearExpenses }}%</h3>
-                </div>
-                <ng-template #positiveYearResult>
-                    <div [style.color]="'green'" class="analytics-data">
-                        <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
-                        <h3>{{ yearExpenses }}%</h3>
-                    </div>
-                </ng-template>
-            </div>
-            <div class="card shadow p-3">
-                <div>
-                    <h4>Maior concentração de gastos:</h4>
-                </div>
-                <div class="most-expensive">
-                    <h3>Categoria: <span>{{ mostExpensiveCategory }}</span></h3>
-                    <h3>Grupo: <span>{{ mostExpensiveGroup }}</span></h3>
-                </div>
-            </div>
-        </div>
+    <section class="w-100 mb-5">
+        <app-analytics></app-analytics>
     </section>
-    <section class="tables">
-        <!-- <div>
+    <!-- <section class="tables">
+        <div>
             <div class="filter">
                 <label class="form-label">Categorias</label>
                 <ng-select
@@ -100,7 +26,7 @@
                     notFoundText="Nenhum registro disponível."
                 ></ng-select>
             </div>
-        </div> -->
+        </div>
         <mat-tab-group mat-align-tabs="start" animationDuration="500ms" dynamicHeight>
             <mat-tab *ngFor="let year of years">
                 <ng-template mat-tab-label>
@@ -175,5 +101,5 @@
                 </ng-template>
             </mat-tab>
         </mat-tab-group>
-    </section>
+    </section> -->
 </div>
