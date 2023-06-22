@@ -27,9 +27,7 @@ export class MonthlyEntryService implements BaseService<MonthlyEntryDTO> {
 
     if(month) query.where('Month.id = :month', { month })
 
-    const entities = await query.getMany()
-
-    return entities.map(row => MonthlyEntry.toDTO(row))
+    return await query.getMany().then(entities => entities.map(row => MonthlyEntry.toDTO(row)))
   }
 
   async get(id: string) {

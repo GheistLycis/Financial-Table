@@ -28,9 +28,7 @@ export class GroupService implements BaseService<GroupDTO> {
     if(month) query.where('Month.id = :month', { month })
     if(category) query.where('Category.id = :category', { category })
 
-    const entities = await query.getMany()
-
-    return entities.map(row => Group.toDTO(row))
+    return await query.getMany().then(entities => entities.map(row => Group.toDTO(row)))
   }
 
   async get(id: string) {

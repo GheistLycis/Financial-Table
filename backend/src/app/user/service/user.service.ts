@@ -22,9 +22,7 @@ export class UserService implements BaseService<UserDTO> {
     const query = this.repo.createQueryBuilder('User')
       .orderBy('User.createdAt', 'DESC')
 
-    const entities = await query.getMany()
-
-    return entities.map(row => User.toDTO(row))
+    return await query.getMany().then(entities => entities.map(row => User.toDTO(row)))
   }
 
   async get(id: string) {

@@ -20,9 +20,7 @@ export class IpService implements BaseService<IpDTO> {
       .createQueryBuilder('Ip')
       .orderBy('Ip.createdAt', 'DESC')
 
-    const entities = await query.getMany()
-
-    return entities.map(row => Ip.toDTO(row))
+    return await query.getMany().then(entities => entities.map(row => Ip.toDTO(row)))
   }
 
   async get(ip: string) {
