@@ -10,6 +10,7 @@
       color: auto;
       font-style: italic;
       transition-duration: .3s;
+      cursor: pointer;
       
       &:hover {
         color: $palette-4;
