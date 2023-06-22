@@ -26,9 +26,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
 
     if(month) query.where('Month.id = :month', { month })
 
-    const entities = await query.getMany()
-
-    return entities.map(row => Category.toDTO(row))
+    return await query.getMany().then(entities => entities.map(row => Category.toDTO(row)))
   }
 
   async get(id: string) {

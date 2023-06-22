@@ -39,11 +39,12 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     if(category) query.where('Category.id = :category', { category })
     if(group) query.where('Group.id = :group', { group })
 
-    const entities = await query.getMany()
-    const result = entities.map(row => Expense.toDTO(row))
-    
-    this.cacheService.set(cacheKey, result)
-    return result
+    return await query.getMany().then(entities => {
+      const result = entities.map(row => Expense.toDTO(row))
+      
+      this.cacheService.set(cacheKey, result)
+      return result
+    })
   }
 
   async get(id: string) {

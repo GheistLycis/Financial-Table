@@ -15,12 +15,11 @@ export class YearService implements BaseService<YearDTO> {
     @Repo(Year) private repo: Repository<Year>,
   ) {}
 
-  async list() {
-    const entities = await this.repo.createQueryBuilder('Year')
+  async list() {    
+    const query = this.repo.createQueryBuilder('Year')
       .orderBy('Year.year', 'DESC')
-      .getMany()
 
-    return entities.map(row => Year.toDTO(row))
+    return await query.getMany().then(entities => entities.map(row => Year.toDTO(row)))
   }
 
   async get(id: string) {
