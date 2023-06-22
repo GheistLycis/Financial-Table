@@ -6,11 +6,11 @@ import {
   ManyToOne,
 } from "typeorm";
 import CategoryDTO from "./Category.dto";
-import { BaseEntity, manyToOneOptions, OneToManyOptions } from "src/shared/BaseEntity";
+import BaseEntity, { manyToOneOptions, OneToManyOptions } from "src/shared/classes/BaseEntity";
 import { Group } from "../group/Group";
 import { Month } from "../month/Month";
 import { Max, Min, Validate } from "class-validator";
-import { IsColor } from "src/shared/decorators/class-validator/IsColor";
+import IsColor from "src/shared/decorators/class-validator/IsColor";
 
 @Service()
 @Entity("categories")

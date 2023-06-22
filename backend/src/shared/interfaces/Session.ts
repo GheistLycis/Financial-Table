@@ -1,6 +1,6 @@
 import UserDTO from "src/app/user/User.dto";
 
-export interface Session { 
+export default interface Session { 
   user: UserDTO
   token: string 
 }

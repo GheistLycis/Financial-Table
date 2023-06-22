@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
-import { BaseService } from 'src/shared/BaseService';
+import BaseService from 'src/shared/interfaces/BaseService';
 import ExpenseDTO from '../Expense.dto';
 import { Expense } from '../Expense';
 import { Group } from '../../group/Group';
-import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/globalExceptions';
+import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared//functions/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';

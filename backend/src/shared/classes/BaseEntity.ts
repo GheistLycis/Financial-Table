@@ -1,7 +1,7 @@
 import { CreateDateColumn, DeleteDateColumn, PrimaryColumn, RelationOptions, UpdateDateColumn } from "typeorm"
 import { v4 as uuid } from "uuid";
 
-export class BaseEntity {
+export default class BaseEntity {
   @PrimaryColumn({ type: 'uuid' })
   id: string;
 

@@ -6,7 +6,7 @@ import {
   ManyToOne,
 } from "typeorm";
 import { IsInt, Max, Min } from 'class-validator';
-import { BaseEntity, manyToOneOptions, OneToManyOptions } from "src/shared/BaseEntity";
+import BaseEntity, { manyToOneOptions, OneToManyOptions } from "src/shared/classes/BaseEntity";
 import { Category } from "../category/Category";
 import MonthDTO from "./Month.dto";
 import { Year } from "../year/Year";

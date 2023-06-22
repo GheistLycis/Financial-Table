@@ -1,4 +1,4 @@
-export interface GlobalException { 
+export default interface GlobalException { 
   code: number 
   message: string
 }

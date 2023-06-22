@@ -1,5 +1,4 @@
-import BaseDTO from "src/shared/BaseDTO";
-import GroupDTO from "../group/Group.dto";
+import BaseDTO from "src/shared/interfaces/BaseDTO";
 import MonthDTO from "../month/Month.dto";
 
 export default interface CategoryDTO extends BaseDTO {

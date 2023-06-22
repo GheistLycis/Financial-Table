@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import { Entity, Column } from "typeorm";
-import { BaseEntity } from "src/shared/BaseEntity";
+import BaseEntity from "src/shared/classes/BaseEntity";
 import UserDTO from "./User.dto";
 
 @Service()

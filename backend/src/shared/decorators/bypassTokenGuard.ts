@@ -1,3 +1,5 @@
-import { SetMetadata } from '@nestjs/common';
+import { CustomDecorator, SetMetadata } from '@nestjs/common';
 
-export const BypassTokenGuard = () => SetMetadata('bypassTokenGuard', true)
+export default function BypassTokenGuard(): CustomDecorator<string> {
+  return SetMetadata('bypassTokenGuard', true)
+}

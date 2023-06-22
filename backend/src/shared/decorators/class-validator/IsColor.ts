@@ -1,7 +1,7 @@
 import { ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
 
 @ValidatorConstraint({ name: 'isColor', async: false })
-export class IsColor implements ValidatorConstraintInterface {
+export default class IsColor implements ValidatorConstraintInterface {
   validate(color: string) {
     // HEX
     if(

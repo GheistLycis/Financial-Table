@@ -1,5 +1,5 @@
 import { ValidationError } from "class-validator"
-import { GlobalException } from "src/shared/GlobalException"
+import GlobalException from "../interfaces/GlobalException"
 
 // 400
 export function BadRequestException(message): GlobalException {

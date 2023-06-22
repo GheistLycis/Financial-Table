@@ -1,9 +1,9 @@
 import { Controller, Get, Injectable, Query, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { BaseController } from 'src/shared/BaseController';
+import BaseController from 'src/shared/classes/BaseController';
 import { ExpenseService } from '../service/expense.service';
-import { handleException, handleResponse } from 'src/shared/globalHandlers';
-import { GlobalException } from 'src/shared/GlobalException';
+import { handleException, handleResponse } from 'src/shared/functions/GlobalHandlers';
+import GlobalException from 'src/shared/interfaces/GlobalException';
 
 @ApiTags('expenses')
 @Injectable()

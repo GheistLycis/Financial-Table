@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { BaseService } from 'src/shared/BaseService';
+import BaseService from 'src/shared/interfaces/BaseService';
 import UserDTO from '../User.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { User } from '../User';
-import { DuplicatedException, NotFoundException, classValidatorError } from 'src/shared/globalExceptions';
+import { DuplicatedException, NotFoundException, classValidatorError } from 'src/shared/functions/globalExceptions';
 import { validate } from 'class-validator';
 import { AuthService } from 'src/app/auth/service/auth.service';
-import { Session } from 'src/shared/Session';
+import Session from 'src/shared/interfaces/Session';
 
 type body = { name: string }
 

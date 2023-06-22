@@ -1,8 +1,8 @@
 import { Req, Body, Delete, Get, Param, Post, Put, Query, Res } from '@nestjs/common';
-import { handleException, handleResponse } from 'src/shared/globalHandlers';
-import { GlobalException } from './GlobalException';
+import { handleException, handleResponse } from 'src/shared/functions/GlobalHandlers';
+import GlobalException from '../interfaces/GlobalException';
 
-export class BaseController {
+export default class BaseController {
   constructor(protected service) {}
 
   @Get() async list(@Req() req, @Query() query, @Res() res) {

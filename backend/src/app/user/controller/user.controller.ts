@@ -1,12 +1,12 @@
 import { Controller, Injectable, } from '@nestjs/common';
 import { UserService } from '../service/user.service';
-import { BaseController } from 'src/shared/BaseController';
+import BaseController from 'src/shared/classes/BaseController';
 import { ApiTags } from '@nestjs/swagger';
 import { Post, Req, Body, Res } from '@nestjs/common';
-import { handleException, handleResponse } from 'src/shared/globalHandlers';
-import { GlobalException } from 'src/shared/GlobalException';
-import { Session } from 'src/shared/Session';
-import { BypassTokenGuard } from 'src/shared/decorators/bypassTokenGuard';
+import { handleException, handleResponse } from 'src/shared/functions/GlobalHandlers';
+import GlobalException from 'src/shared/interfaces/GlobalException';
+import Session from 'src/shared/interfaces/Session';
+import BypassTokenGuard from 'src/shared/decorators/bypassTokenGuard';
 
 @ApiTags('users')
 @Injectable()

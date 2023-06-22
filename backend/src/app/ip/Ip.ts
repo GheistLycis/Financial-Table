@@ -4,7 +4,7 @@ import {
   Column,
 } from "typeorm";
 import IpDTO from "./Ip.dto";
-import { BaseEntity } from "src/shared/BaseEntity";
+import BaseEntity from "src/shared/classes/BaseEntity";
 
 @Service()
 @Entity("ips")

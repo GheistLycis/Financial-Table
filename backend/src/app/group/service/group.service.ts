@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
-import { BaseService } from 'src/shared/BaseService';
+import BaseService from 'src/shared/interfaces/BaseService';
 import GroupDTO from '../Group.dto';
 import { Category } from '../../category/Category';
 import { Group } from '../../group/Group';
-import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/globalExceptions';
+import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/functions/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 

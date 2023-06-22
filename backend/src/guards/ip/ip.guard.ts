@@ -1,8 +1,8 @@
 import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { IpService } from 'src/app/ip/service/ip.service';
-import { handleException } from 'src/shared/globalHandlers';
-import { ForbiddenException } from 'src/shared/globalExceptions';
+import { handleException } from 'src/shared/functions/GlobalHandlers';
+import { ForbiddenException } from 'src/shared/functions/globalExceptions';
 
 @Injectable()
 export class IpGuard implements CanActivate {

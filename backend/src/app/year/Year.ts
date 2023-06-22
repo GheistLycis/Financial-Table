@@ -4,7 +4,7 @@ import {
   Column,
   OneToMany,
 } from "typeorm";
-import { BaseEntity, OneToManyOptions } from "src/shared/BaseEntity";
+import BaseEntity, { OneToManyOptions } from "src/shared/classes/BaseEntity";
 import { Month } from "../month/Month";
 import YearDTO from "./Year.dto";
 
