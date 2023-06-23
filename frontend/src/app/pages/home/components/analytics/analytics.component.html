@@ -2,9 +2,9 @@
     <div class="header mb-4 d-flex">
         <h2>
             Gastos do mês (
-            <span [appMonthName]="(month$ | async)?.month" (click)="toggleSelect('month')"></span>
+            <span [appMonthName]="(month$ | async)?.month" (click)="dropdown = dropdown == 'month' ? '' : 'month'"></span>
             de 
-            <span (click)="toggleSelect('year')">
+            <span (click)="dropdown = dropdown == 'year' ? '' : 'year'">
                 {{ (year$ | async)?.year }}
             </span>
             )
