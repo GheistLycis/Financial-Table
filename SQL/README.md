@@ -1,1 +1,3 @@
 Run SQL queries in order: all _1, then all _2, and so on...
+
+The order among files of the same number doens't matter.
