@@ -33,37 +33,18 @@
     
     <div class="cards d-flex">
         <div class="card shadow p-3">
-            <div>
-                <h4>Em relação ao mês anterior</h4>
-            </div>
-            <div *ngIf="recentExpenses == '--'" class="analytics-data">
-                <h3>{{ recentExpenses }}</h3>
-            </div>
-            <div *ngIf="recentExpenses > 0" [style.color]="'red'" class="analytics-data">
-                <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
-                <h3>{{ recentExpenses | number:'.0-1' }}%</h3>
-            </div>
-            <div *ngIf="recentExpenses <= 0" [style.color]="'green'" class="analytics-data">
-                <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
-                <h3>{{ recentExpenses | number:'.0-1' }}%</h3>
-            </div>
+            <ng-container *ngTemplateOutlet="
+                analytics; 
+                context: {title: 'Em relação ao mês anterior', $implicit: recentExpenses}"
+            ></ng-container>
         </div>
         
-        <!-- <div class="card shadow p-3">
-            <div>
-                <h4>Em relação à média dos meses anteriores do mesmo ano</h4>
-            </div>
-            <div *ngIf="yearExpenses > 0; else positiveYearResult" [style.color]="'red'" class="analytics-data">
-                <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
-                <h3>{{ yearExpenses }}%</h3>
-            </div>
-            <ng-template #positiveYearResult>
-                <div [style.color]="'green'" class="analytics-data">
-                    <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
-                    <h3>{{ yearExpenses }}%</h3>
-                </div>
-            </ng-template>
-        </div> -->
+        <div class="card shadow p-3">
+            <ng-container *ngTemplateOutlet="
+                analytics; 
+                context: {title: 'Em relação à média dos meses anteriores do mesmo ano', $implicit: yearExpenses}"
+            ></ng-container>
+        </div>
         
         <!-- <div class="card shadow p-3">
             <div>
@@ -76,3 +57,20 @@
         </div> -->
     </div>
 </div>
+
+<ng-template #analytics let-title="title" let-expenses>
+    <div>
+        <h4>{{ title }}</h4>
+    </div>
+    <div *ngIf="expenses == '--'" class="analytics-data">
+        <h3>{{ expenses }}</h3>
+    </div>
+    <div *ngIf="expenses > 0" [style.color]="'red'" class="analytics-data">
+        <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
+        <h3>{{ expenses | number:'.0-1' }}%</h3>
+    </div>
+    <div *ngIf="expenses <= 0" [style.color]="'green'" class="analytics-data">
+        <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
+        <h3>{{ expenses | number:'.0-1' }}%</h3>
+    </div>
+</ng-template>
