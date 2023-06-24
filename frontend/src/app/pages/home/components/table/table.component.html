@@ -1,28 +1,5 @@
-<div class="main-container">
-  <!-- <div>
-    <div class="filter">
-        <label class="form-label">Categorias</label>
-        <ng-select
-            [items]="categories"
-            bindLabel="name"
-            [multiple]="true"
-            [(ngModel)]="filters.category"
-            [compareWith]="compareId"
-            notFoundText="Nenhum registro disponível."
-        ></ng-select>
-    </div>
-    <div class="filter">
-        <label class="form-label">Grupos</label>
-        <ng-select
-            [items]="groups"
-            bindLabel="name"
-            [multiple]="true"
-            [(ngModel)]="filters.group"
-            [compareWith]="compareId"
-            notFoundText="Nenhum registro disponível."
-        ></ng-select>
-    </div>
-  </div> -->
+<div class="main-container">  
+  <app-filters></app-filters>
   
   <!-- <mat-tab-group mat-align-tabs="start" animationDuration="500ms" dynamicHeight>
     <mat-tab *ngFor="let year of years">
