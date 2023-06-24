@@ -34,31 +34,38 @@
     <div class="cards d-flex">
         <div class="card shadow p-3">
             <ng-container *ngTemplateOutlet="
-                analytics; 
+                expenses; 
                 context: {title: 'Em relação ao mês anterior', $implicit: recentExpenses}"
             ></ng-container>
         </div>
         
         <div class="card shadow p-3">
             <ng-container *ngTemplateOutlet="
-                analytics; 
+                expenses; 
                 context: {title: 'Em relação à média dos meses anteriores do mesmo ano', $implicit: yearExpenses}"
             ></ng-container>
         </div>
         
-        <!-- <div class="card shadow p-3">
+        <div class="card shadow p-3">
             <div>
                 <h4>Maior concentração de gastos:</h4>
             </div>
             <div class="most-expensive">
-                <h3>Categoria: <span>{{ mostExpensiveCategory }}</span></h3>
-                <h3>Grupo: <span>{{ mostExpensiveGroup }}</span></h3>
+                <h3>Categoria: 
+                    <span *ngIf="mostExpensiveCategory == '--'">
+                        {{ mostExpensiveCategory }}
+                    </span>
+                    <span *ngIf="mostExpensiveCategory != '--'">
+                        {{ mostExpensiveCategory.category }} (R${{ mostExpensiveCategory.total }})
+                    </span>
+                </h3>
+                <!-- <h3>Grupo: <span>{{ mostExpensiveGroup }}</span></h3> -->
             </div>
-        </div> -->
+        </div>
     </div>
 </div>
 
-<ng-template #analytics let-title="title" let-expenses>
+<ng-template #expenses let-title="title" let-expenses>
     <div>
         <h4>{{ title }}</h4>
     </div>
