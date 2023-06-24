@@ -51,15 +51,14 @@
                 <h4>Maior concentração de gastos:</h4>
             </div>
             <div class="most-expensive">
-                <h3>Categoria: 
-                    <span *ngIf="mostExpensiveCategory == '--'">
-                        {{ mostExpensiveCategory }}
-                    </span>
-                    <span *ngIf="mostExpensiveCategory != '--'">
-                        {{ mostExpensiveCategory.category }} (R${{ mostExpensiveCategory.total }})
-                    </span>
-                </h3>
-                <!-- <h3>Grupo: <span>{{ mostExpensiveGroup }}</span></h3> -->
+                <ng-container *ngTemplateOutlet="
+                    mostExpensive; 
+                    context: {title: 'Categoria:', $implicit: mostExpensiveCategory}"
+                ></ng-container>
+                <ng-container *ngTemplateOutlet="
+                    mostExpensive; 
+                    context: {title: 'Grupo:', $implicit: mostExpensiveGroup}"
+                ></ng-container>
             </div>
         </div>
     </div>
@@ -80,4 +79,15 @@
         <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
         <h3>{{ expenses | number:'.0-1' }}%</h3>
     </div>
+</ng-template>
+
+<ng-template #mostExpensive let-title="title" let-data>
+    <h3>{{ title }}
+        <span *ngIf="data == '--'">
+            {{ data }}
+        </span>
+        <span *ngIf="data != '--'">
+            {{ data.name }} (R${{ data.total }})
+        </span>
+    </h3>
 </ng-template>
