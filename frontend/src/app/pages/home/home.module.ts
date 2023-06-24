@@ -5,6 +5,7 @@ import { HomeComponent } from './home.component';
 import { DirectivesModule } from 'src/app/utils/directives/directives.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { TableComponent } from './components/table/table.component';
 
 
 
@@ -12,6 +13,7 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     HomeComponent,
     AnalyticsComponent,
+    TableComponent,
   ],
   imports: [
     CommonModule,
