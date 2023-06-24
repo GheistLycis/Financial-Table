@@ -131,7 +131,6 @@ export class AnalyticsComponent implements OnInit {
       allCategoriesExpenses$ = forkJoin(forkJoinObj)
       
       allCategoriesExpenses$.subscribe(res => {
-        console.log(res)
         let max = { name: '--', total: 0 }
         
         Object.entries(res).forEach(([ name, total ]) => {
@@ -162,7 +161,6 @@ export class AnalyticsComponent implements OnInit {
       allGroupsExpenses$ = forkJoin(forkJoinObj)
       
       allGroupsExpenses$.subscribe(res => {
-        console.log(res)
         let max = { name: '--', total: 0 }
         
         Object.entries(res).forEach(([ name, total ]) => {
