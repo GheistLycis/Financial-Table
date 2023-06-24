@@ -15,6 +15,7 @@
                 [ngModel]="year$ | async"
                 (ngModelChange)="year$.next($event)"
                 (change)="dropdown = ''"
+                [clearable]="false"
                 bindLabel="year"
             ></ng-select>
         </div>
@@ -24,27 +25,29 @@
                 [ngModel]="month$ | async"
                 (ngModelChange)="month$.next($event)"
                 (change)="dropdown = ''"
+                [clearable]="false"
                 bindLabel="month" 
             ></ng-select>
         </div>
     </div>
     
     <div class="cards d-flex">
-        <!-- <div class="card shadow p-3">
+        <div class="card shadow p-3">
             <div>
                 <h4>Em relação ao mês anterior</h4>
             </div>
-            <div *ngIf="recentExpenses > 0; else positiveRecentResult" [style.color]="'red'" class="analytics-data">
-                <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
-                <h3>{{ recentExpenses }}%</h3>
+            <div *ngIf="recentExpenses == '--'" class="analytics-data">
+                <h3>{{ recentExpenses }}</h3>
             </div>
-            <ng-template #positiveRecentResult>
-                <div [style.color]="'green'" class="analytics-data">
-                    <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
-                    <h3>{{ recentExpenses }}%</h3>
-                </div>
-            </ng-template>
-        </div> -->
+            <div *ngIf="recentExpenses > 0" [style.color]="'red'" class="analytics-data">
+                <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
+                <h3>{{ recentExpenses | number:'.0-1' }}%</h3>
+            </div>
+            <div *ngIf="recentExpenses <= 0" [style.color]="'green'" class="analytics-data">
+                <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
+                <h3>{{ recentExpenses | number:'.0-1' }}%</h3>
+            </div>
+        </div>
         
         <!-- <div class="card shadow p-3">
             <div>
