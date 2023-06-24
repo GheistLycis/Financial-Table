@@ -82,12 +82,12 @@
 </ng-template>
 
 <ng-template #mostExpensive let-title="title" let-data>
-    <h3>{{ title }}
+    <h4>{{ title }}
         <span *ngIf="data == '--'">
             {{ data }}
         </span>
         <span *ngIf="data != '--'">
             {{ data.name }} (R${{ data.total }})
         </span>
-    </h3>
+    </h4>
 </ng-template>
