@@ -2,9 +2,9 @@
     <div class="header mb-4 d-flex">
         <h2>
             Gastos do mês (
-            <span [appMonthName]="(month$ | async)?.month" (click)="dropdown = dropdown == 'month' ? '' : 'month'"></span>
+            <span [appMonthName]="(month$ | async)?.month" (click)="dropdown = 'month'"></span>
             de 
-            <span (click)="dropdown = dropdown == 'year' ? '' : 'year'">
+            <span (click)="dropdown = 'year'">
                 {{ (year$ | async)?.year }}
             </span>
             )
@@ -14,6 +14,7 @@
                 [items]="years" 
                 [ngModel]="year$ | async"
                 (ngModelChange)="year$.next($event)"
+                (change)="dropdown = ''"
                 bindLabel="year"
             ></ng-select>
         </div>
@@ -22,6 +23,7 @@
                 [items]="months$ | async" 
                 [ngModel]="month$ | async"
                 (ngModelChange)="month$.next($event)"
+                (change)="dropdown = ''"
                 bindLabel="month" 
             ></ng-select>
         </div>

@@ -34,6 +34,6 @@ export class UserService {
   }
   
   logIn(name: string) {
-    return this.http.post<Res<Session>>(`${environment.apiUrl}/${this.baseRoute}/login`, name)
+    return this.http.post<Res<Session>>(`${environment.apiUrl}/${this.baseRoute}/login`, { name })
   }
 }

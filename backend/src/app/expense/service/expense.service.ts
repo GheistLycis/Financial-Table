@@ -77,6 +77,8 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     if(errors.length) throw classValidatorError(errors)
       
     await this.repo.save(entity)
+    
+    this.cacheService.reset()
 
     return Expense.toDTO(entity)
   }
@@ -106,6 +108,8 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     if(errors.length) throw classValidatorError(errors)
 
     await this.repo.save(entity)
+    
+    this.cacheService.reset()
 
     return Expense.toDTO(entity)
   }
