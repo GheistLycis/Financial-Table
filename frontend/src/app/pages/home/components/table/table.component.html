@@ -1,5 +1,5 @@
 <div class="main-container">  
-  <app-filters></app-filters>
+  <app-filters (filters)="getFilters($event)"></app-filters>
   
   <!-- <mat-tab-group mat-align-tabs="start" animationDuration="500ms" dynamicHeight>
     <mat-tab *ngFor="let year of years">

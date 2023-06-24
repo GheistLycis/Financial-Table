@@ -1,0 +1,29 @@
+<div class="main-container">
+    <ng-container *ngTemplateOutlet="filter; 
+        context: {title: 'Ano', $implicit: years, model: selectedYears$, label: 'year'}"
+    ></ng-container>
+    <ng-container *ngTemplateOutlet="filter; 
+        context: {title: 'Mês', $implicit: months$, model: selectedMonths$, label: 'month'}"
+    ></ng-container>
+    <ng-container *ngTemplateOutlet="filter; 
+        context: {title: 'Categoria', $implicit: categories$, model: selectedCategories$, label: 'name'}"
+    ></ng-container>
+    <ng-container *ngTemplateOutlet="filter; 
+        context: {title: 'Grupo', $implicit: groups$, model: selectedGroups$, label: 'name'}"
+    ></ng-container>
+</div>
+
+<ng-template #filter let-title="title" let-items let-model="model" let-label="label">
+    <div class="filter">
+        <label class="form-label">{{ title }}</label>
+        <ng-select
+            [items]="label == 'year' ? items : (items | async)"
+            [ngModel]="model | async"
+            (ngModelChange)="model.next($event)"
+            [clearable]="label != 'year'"
+            [bindLabel]="label"
+            [multiple]="true"
+            notFoundText="Nenhum registro disponível."
+        ></ng-select>
+    </div>
+</ng-template>
