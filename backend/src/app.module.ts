@@ -47,7 +47,7 @@ const cacheLifeMinutes = 5
     CacheModule.register({
       isGlobal: true,
       ttl: cacheLifeMinutes * 60 * 1000,
-      max: 10,
+      max: 20,
     }),
     AuthModule,
     YearModule, 

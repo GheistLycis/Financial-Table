@@ -26,16 +26,16 @@ export class ErrorsInterceptor implements HttpInterceptor {
             location.reload()
           } 
           else if(this.warnings.includes(status)) {
-            this.toastr.warning(error.error.message || '', 'Aviso')
+            this.toastr.warning(error.message || '', 'Aviso')
           } 
           else if(this.errors.includes(status)) {
-            this.toastr.error(error.error.message || '', 'Erro')
+            this.toastr.error(error.message || '', 'Erro')
           }
           else {
             this.toastr.error('Ocorreu um erro inesperado no sistema. Por gentileza, contate o suporte.')
           }
           
-          return throwError(() => new Error(error))
+          return throwError(() => new Error(error.message))
         })
       )
   }

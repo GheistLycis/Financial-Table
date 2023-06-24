@@ -1,0 +1,53 @@
+@import '../../../../../variables.scss';
+
+.main-container {
+  gap: 20px;
+
+  .header {
+    gap: 20px;
+
+    span {
+      color: auto;
+      font-style: italic;
+      transition-duration: .3s;
+      cursor: pointer;
+      
+      &:hover {
+        color: $palette-4;
+      }
+    }
+  }
+}
+
+.cards {
+  gap: 20px;
+
+  > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .analytics-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .svg-arrow-up {
+      filter: invert(14%) sepia(93%) saturate(7485%) hue-rotate(0deg) brightness(100%) contrast(110%);
+    }
+
+    .svg-arrow-down {
+      filter: invert(25%) sepia(76%) saturate(6344%) hue-rotate(115deg) brightness(94%) contrast(104%); 
+    }
+  }
+
+  .most-expensive {
+    span {
+      color: red;
+    }
+  }
+}

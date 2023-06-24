@@ -35,7 +35,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
       .leftJoin('Category.month', 'Month')
       .orderBy('Expense.date', 'DESC')
 
-    if(month) query.andWhere('Month.id = :month', { month })
+    if(month) query.where('Month.id = :month', { month })
     if(category) query.where('Category.id = :category', { category })
     if(group) query.where('Group.id = :group', { group })
 
@@ -77,6 +77,8 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     if(errors.length) throw classValidatorError(errors)
       
     await this.repo.save(entity)
+    
+    this.cacheService.reset()
 
     return Expense.toDTO(entity)
   }
@@ -106,6 +108,8 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     if(errors.length) throw classValidatorError(errors)
 
     await this.repo.save(entity)
+    
+    this.cacheService.reset()
 
     return Expense.toDTO(entity)
   }

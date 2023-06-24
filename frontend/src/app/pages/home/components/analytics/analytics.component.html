@@ -1,0 +1,93 @@
+<div class="main-container">
+    <div class="header mb-4 d-flex">
+        <h2>
+            Gastos do mês (
+            <span [appMonthName]="(month$ | async)?.month" (click)="dropdown = 'month'"></span>
+            de 
+            <span (click)="dropdown = 'year'">
+                {{ (year$ | async)?.year }}
+            </span>
+            )
+        </h2>
+        <div [ngClass]="{'d-none': dropdown != 'year'}">
+            <ng-select
+                [items]="years" 
+                [ngModel]="year$ | async"
+                (ngModelChange)="year$.next($event)"
+                (change)="dropdown = ''"
+                [clearable]="false"
+                bindLabel="year"
+            ></ng-select>
+        </div>
+        <div [ngClass]="{'d-none': dropdown != 'month'}">
+            <ng-select
+                [items]="months$ | async" 
+                [ngModel]="month$ | async"
+                (ngModelChange)="month$.next($event)"
+                (change)="dropdown = ''"
+                [clearable]="false"
+                bindLabel="month" 
+            ></ng-select>
+        </div>
+    </div>
+    
+    <div class="cards d-flex">
+        <div class="card shadow p-3">
+            <ng-container *ngTemplateOutlet="
+                expenses; 
+                context: {title: 'Em relação ao mês anterior', $implicit: recentExpenses}"
+            ></ng-container>
+        </div>
+        
+        <div class="card shadow p-3">
+            <ng-container *ngTemplateOutlet="
+                expenses; 
+                context: {title: 'Em relação à média dos meses anteriores do mesmo ano', $implicit: yearExpenses}"
+            ></ng-container>
+        </div>
+        
+        <div class="card shadow p-3">
+            <div>
+                <h4>Maior concentração de gastos:</h4>
+            </div>
+            <div class="most-expensive">
+                <ng-container *ngTemplateOutlet="
+                    mostExpensive; 
+                    context: {title: 'Categoria:', $implicit: mostExpensiveCategory}"
+                ></ng-container>
+                <ng-container *ngTemplateOutlet="
+                    mostExpensive; 
+                    context: {title: 'Grupo:', $implicit: mostExpensiveGroup}"
+                ></ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #expenses let-title="title" let-expenses>
+    <div>
+        <h4>{{ title }}</h4>
+    </div>
+    <div *ngIf="expenses == '--'" class="analytics-data">
+        <h3>{{ expenses }}</h3>
+    </div>
+    <div *ngIf="expenses > 0" [style.color]="'red'" class="analytics-data">
+        <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
+        <h3>{{ expenses | number:'.0-1' }}%</h3>
+    </div>
+    <div *ngIf="expenses <= 0" [style.color]="'green'" class="analytics-data">
+        <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
+        <h3>{{ expenses | number:'.0-1' }}%</h3>
+    </div>
+</ng-template>
+
+<ng-template #mostExpensive let-title="title" let-data>
+    <h4>{{ title }}
+        <span *ngIf="data == '--'">
+            {{ data }}
+        </span>
+        <span *ngIf="data != '--'">
+            {{ data.name }} (R${{ data.total }})
+        </span>
+    </h4>
+</ng-template>

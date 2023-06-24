@@ -12,10 +12,6 @@ export class YearService {
 
   constructor(private http: HttpClient) {}
 
-  fetchAll() {
-    return this.http.get<Res<YearDTO[]>>(`${environment.apiUrl}/${this.baseRoute}/fetch-all`)
-  }
-
   list() {
     return this.http.get<Res<YearDTO[]>>(`${environment.apiUrl}/${this.baseRoute}`)
   }
