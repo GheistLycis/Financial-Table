@@ -30,7 +30,18 @@ export class AnalyticsComponent implements OnInit {
     private expenseService: ExpenseService,
     private categoryService: CategoryService,
     private groupService: GroupService,
-  ) {
+  ) { }
+  
+  ngOnInit(): void {
+    this.handleYears()
+    this.handleMonths()
+    
+    this.yearService.list().pipe(
+      map(({ data }) => data)
+    ).subscribe(this.years$)
+  }
+  
+  handleYears(): void {
     this.years$.pipe(
       skip(1), 
       tap(years => this.year$.next(years[0]))
@@ -42,7 +53,9 @@ export class AnalyticsComponent implements OnInit {
         )
       )
     ).subscribe(this.months$)
-    
+  }
+  
+  handleMonths(): void {
     this.months$.pipe(
       skip(1), 
       map(months => months[0])
@@ -52,12 +65,6 @@ export class AnalyticsComponent implements OnInit {
       skip(1),
       tap(() => this.calculateAnalytics())
     ).subscribe()
-  }
-  
-  ngOnInit(): void {
-    this.yearService.list().pipe(
-      map(({ data }) => data)
-    ).subscribe(this.years$)
   }
   
   // TO-DO: transfer methods' logic to backend analytics service - too complex for frontend to handle

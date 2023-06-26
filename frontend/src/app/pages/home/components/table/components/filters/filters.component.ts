@@ -32,7 +32,20 @@ export class FiltersComponent implements OnInit {
     private monthService: MonthService,
     private categoryService: CategoryService,
     private groupService: GroupService,
-  ) { 
+  ) { }
+  
+  ngOnInit(): void {
+    this.handleYears()
+    this.handleMonths()
+    this.handleCategories()
+    this.handleGroups()
+    
+    this.yearService.list().pipe(
+      map(({ data }) => data)
+    ).subscribe(this.years$)
+  }
+  
+  handleYears(): void {
     this.years$.pipe(
       tap(years => this.selectedYears$.next([years[0]]))
     ).subscribe()
@@ -44,8 +57,9 @@ export class FiltersComponent implements OnInit {
       )),
       map(yearsMonths => yearsMonths.flat())
     ).subscribe(this.months$)
-    
-    
+  }
+  
+  handleMonths(): void {
     this.months$.pipe(
       tap(months => this.selectedMonths$.next([months[0]])),
     ).subscribe()
@@ -57,8 +71,9 @@ export class FiltersComponent implements OnInit {
       )),
       map(monthsCategories => monthsCategories.flat())
     ).subscribe(this.categories$)
-    
-    
+  }
+  
+  handleCategories(): void {
     this.categories$.pipe(
       tap(categories => this.selectedCategories$.next([categories[0]])),
     ).subscribe()
@@ -70,18 +85,16 @@ export class FiltersComponent implements OnInit {
       )),
       map(monthsGroups => monthsGroups.flat())
     ).subscribe(this.groups$)
-    
-    
-    this.groups$.pipe(
-      tap(groups => this.selectedGroups$.next([groups[0]])),
-      tap(() => this.emitFilters())
-    ).subscribe()
   }
   
-  ngOnInit(): void {
-    this.yearService.list().pipe(
-      map(({ data }) => data)
-    ).subscribe(this.years$)
+  handleGroups(): void {
+    this.groups$.pipe(
+      tap(groups => {
+        this.selectedGroups$.next([groups[0]])
+        
+        this.emitFilters()
+      })
+    ).subscribe()
   }
   
   emitFilters(): void {
