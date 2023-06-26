@@ -53,6 +53,8 @@ export class TableComponent implements OnInit {
       key = 'month'
     }
     
+    console.log(key, filters)
+    
     const forkJoinArr = filters.map(({ id }) => this.expensesService.list({ [key]: id }).pipe(
       map(({ data }) => data)
     ))

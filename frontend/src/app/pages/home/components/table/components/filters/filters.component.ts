@@ -56,7 +56,7 @@ export class FiltersComponent implements OnInit {
   
   handleCategories(): void {
     this.categories$.pipe(
-      tap(categories => this.selectedCategories$.next([categories[0]])),
+      tap(() => this.selectedCategories$.next([])),
     ).subscribe()
     
     this.selectedCategories$.pipe(
@@ -70,7 +70,7 @@ export class FiltersComponent implements OnInit {
   
   handleGroups(): void {
     this.groups$.pipe(
-      tap(groups => this.selectedGroups$.next([groups[0]]))
+      tap(() => this.selectedGroups$.next([]))
     ).subscribe()
     
     this.selectedGroups$.pipe(
