@@ -5,9 +5,6 @@
     
     <div class="d-flex justify-content-center w-100 filters">
         <ng-container *ngTemplateOutlet="filter; 
-            context: {title: 'Ano', $implicit: years$, model: selectedYears$, label: 'year'}"
-        ></ng-container>
-        <ng-container *ngTemplateOutlet="filter; 
             context: {title: 'Mês', $implicit: months$, model: selectedMonths$, label: 'month'}"
         ></ng-container>
         <ng-container *ngTemplateOutlet="filter; 
@@ -26,7 +23,7 @@
             [items]="items | async"
             [ngModel]="model | async"
             (ngModelChange)="model.next($event)"
-            [clearable]="label != 'year'"
+            [clearable]="true"
             [bindLabel]="label"
             [multiple]="true"
             [hideSelected]="true"
