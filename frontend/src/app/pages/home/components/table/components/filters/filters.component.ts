@@ -70,11 +70,12 @@ export class FiltersComponent implements OnInit {
   
   handleGroups(): void {
     this.groups$.pipe(
-      tap(groups => {
-        this.selectedGroups$.next([groups[0]])
-        this.emitFilters()
-      })
+      tap(groups => this.selectedGroups$.next([groups[0]]))
     ).subscribe()
+    
+    this.selectedGroups$.pipe(
+      skip(1)
+    ).subscribe(() => this.emitFilters())
   }
   
   emitFilters(): void {

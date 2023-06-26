@@ -1,5 +1,5 @@
 <div class="main-container">  
-  <app-filters [year]="activeYear" (filters)="getFilters($event)"></app-filters>
+  <app-filters [year]="activeYear" (filters)="listExpenses($event)"></app-filters>
   
   <div class="mt-3 table-container">
     <ul 
@@ -10,13 +10,26 @@
       class="nav-tabs"
     >
       <li 
-        *ngFor="let year of years; first as first"
+        *ngFor="let year of years"
         [ngbNavItem]="year.id"
         [destroyOnHide]="true"
       >
         <button ngbNavLink>{{ year.year }}</button>
         <ng-template ngbNavContent>
-          TESTE
+          <table class="table table-striped">
+            <thead>
+              <th>Valor</th>
+              <th>Descrição</th>
+              <th>Data</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let expense of expenses">
+                <td>{{ expense.value }}</td>
+                <td>{{ expense.description }}</td>
+                <td>{{ expense.date }}</td>
+              </tr>
+            </tbody>
+          </table>
         </ng-template>
       </li>
     </ul>
