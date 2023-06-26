@@ -1,0 +1,32 @@
+@import '../../../../../variables.scss';
+
+.main-container {
+  .header {
+    .search-box {
+      img {
+        position: absolute;
+        width: 35px;
+        display: block;
+      }
+
+      .search-field {
+        padding: 10px 10px 10px 45px;
+        height: 40px;
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+
+    img {
+      width: 20px;
+      transition-duration: .3s;
+
+      &:hover {
+        filter: invert(52%) sepia(26%) saturate(745%) hue-rotate(129deg) brightness(97%) contrast(92%);
+      }
+    }
+  }
+}

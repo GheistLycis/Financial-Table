@@ -1,0 +1,33 @@
+<div>
+    <div>
+        <h2 class="mb-2">Histórico de gastos</h2>
+    </div>
+    
+    <div class="d-flex justify-content-center w-100 filters">
+        <ng-container *ngTemplateOutlet="filter; 
+            context: {title: 'Mês', $implicit: months$, model: selectedMonths$, label: 'month'}"
+        ></ng-container>
+        <ng-container *ngTemplateOutlet="filter; 
+            context: {title: 'Categoria', $implicit: categories$, model: selectedCategories$, label: 'name'}"
+        ></ng-container>
+        <ng-container *ngTemplateOutlet="filter; 
+            context: {title: 'Grupo', $implicit: groups$, model: selectedGroups$, label: 'name'}"
+        ></ng-container>
+    </div>
+</div>
+
+<ng-template #filter let-title="title" let-items let-model="model" let-label="label">
+    <div>
+        <label class="form-label">{{ title }}</label>
+        <ng-select
+            [items]="items | async"
+            [ngModel]="model | async"
+            (ngModelChange)="model.next($event)"
+            [clearable]="true"
+            [bindLabel]="label"
+            [multiple]="true"
+            [hideSelected]="true"
+            notFoundText="Nenhum registro disponível."
+        ></ng-select>
+    </div>
+</ng-template>

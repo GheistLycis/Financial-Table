@@ -1,0 +1,25 @@
+<div class="main-container">  
+  <app-filters [year]="activeYear" (filters)="getFilters($event)"></app-filters>
+  
+  <div class="mt-3 table-container">
+    <ul 
+      ngbNav 
+      #nav="ngbNav" 
+      [activeId]="activeYear"
+      (navChange)="activeYear = $event.nextId"
+      class="nav-tabs"
+    >
+      <li 
+        *ngFor="let year of years; first as first"
+        [ngbNavItem]="year.id"
+        [destroyOnHide]="true"
+      >
+        <button ngbNavLink>{{ year.year }}</button>
+        <ng-template ngbNavContent>
+          TESTE
+        </ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+  </div>
+</div>
