@@ -4,7 +4,7 @@ import YearDTO from 'src/app/DTOs/year';
 import { MonthService } from 'src/app/services/month/month.service';
 import { YearService } from 'src/app/services/year/year.service';
 import { ExpenseService } from 'src/app/services/expense/expense.service';
-import { Subject, forkJoin, map, firstValueFrom, Observable, BehaviorSubject, skip } from 'rxjs';
+import { forkJoin, map, firstValueFrom, Observable, BehaviorSubject, Subject, skip, tap, switchMap } from 'rxjs';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { GroupService } from 'src/app/services/group/group.service';
 
@@ -15,10 +15,10 @@ import { GroupService } from 'src/app/services/group/group.service';
 })
 export class AnalyticsComponent implements OnInit {
   dropdown: '' | 'year' | 'month' = ''
-  years: YearDTO[] = []
+  years$ = new BehaviorSubject<YearDTO[]>(undefined)
   year$ = new Subject<YearDTO>()
-  months$ = new BehaviorSubject<MonthDTO[]>(null)
-  month$ = new BehaviorSubject<MonthDTO>(null)
+  months$ = new BehaviorSubject<MonthDTO[]>(undefined)
+  month$ = new BehaviorSubject<MonthDTO>(undefined)
   recentExpenses: number | '--' = '--'
   yearExpenses: number | '--' = '--'
   mostExpensiveCategory: { name: string, total: number } | '--' = '--'
@@ -31,19 +31,33 @@ export class AnalyticsComponent implements OnInit {
     private categoryService: CategoryService,
     private groupService: GroupService,
   ) {
-    this.year$.subscribe(value => this.monthService.list({ year: value.id }).subscribe(({ data }) => this.months$.next(data)))
+    this.years$.pipe(
+      skip(1), 
+      tap(years => this.year$.next(years[0]))
+    ).subscribe()
     
-    this.months$.pipe(skip(1)).subscribe(value => this.month$.next(value[0]))
+    this.year$.pipe(
+      switchMap(({ id }) => this.monthService.list({ year: id }).pipe((
+          map(({ data }) => data)
+        ))
+      )
+    ).subscribe(this.months$)
     
-    this.month$.pipe(skip(1)).subscribe(() => this.calculateAnalytics())
+    this.months$.pipe(
+      skip(1), 
+      map(months => months[0])
+    ).subscribe(this.month$)
+    
+    this.month$.pipe(
+      skip(1),
+      tap(() => this.calculateAnalytics())
+    ).subscribe()
   }
   
   ngOnInit(): void {
-    this.yearService.list().subscribe(({ data }) => {
-      this.years = data
-      
-      this.year$.next(this.years[0])
-    })
+    this.yearService.list().pipe(
+      map(({ data }) => data)
+    ).subscribe(this.years$)
   }
   
   // TO-DO: transfer methods' logic to backend analytics service - too complex for frontend to handle
@@ -58,7 +72,7 @@ export class AnalyticsComponent implements OnInit {
     let previousMonth: MonthDTO
     
     if(actualMonth.month == 1) {
-      const previousYear = this.years.find(({ year }) => year == actualMonth.year.year-1)
+      const previousYear = this.years$.getValue().find(({ year }) => year == actualMonth.year.year-1)
       
       previousMonth = await firstValueFrom(this.monthService.list({ year: previousYear.id })).then(({ data }) => data[0])
     }

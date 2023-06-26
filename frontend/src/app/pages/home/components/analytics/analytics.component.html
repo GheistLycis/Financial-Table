@@ -11,7 +11,7 @@
         </h2>
         <div [ngClass]="{'d-none': dropdown != 'year'}">
             <ng-select
-                [items]="years" 
+                [items]="years$ | async" 
                 [ngModel]="year$ | async"
                 (ngModelChange)="year$.next($event)"
                 (change)="dropdown = ''"
