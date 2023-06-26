@@ -7,7 +7,7 @@ import { CategoryService } from 'src/app/services/category/category.service';
 import { GroupService } from 'src/app/services/group/group.service';
 import { MonthService } from 'src/app/services/month/month.service';
 import { YearService } from 'src/app/services/year/year.service';
-import { BehaviorSubject, Observable, Subject, forkJoin, skip, map } from 'rxjs';
+import { BehaviorSubject, Subject, forkJoin, skip, map, tap, switchMap } from 'rxjs';
 import TableFilters from 'src/app/utils/interfaces/tableFilters';
 
 
@@ -18,14 +18,14 @@ import TableFilters from 'src/app/utils/interfaces/tableFilters';
 })
 export class FiltersComponent implements OnInit {
   @Output() filters = new EventEmitter<TableFilters>()
-  years: YearDTO[] = []
-  selectedYears$ = new BehaviorSubject<YearDTO[]>([])
+  years$ = new Subject<YearDTO[]>()
+  selectedYears$ = new BehaviorSubject<YearDTO[]>(undefined)
   months$ = new Subject<MonthDTO[]>()
-  selectedMonths$ = new BehaviorSubject<MonthDTO[]>([])
+  selectedMonths$ = new BehaviorSubject<MonthDTO[]>(undefined)
   categories$ = new Subject<CategoryDTO[]>()
-  selectedCategories$ = new BehaviorSubject<CategoryDTO[]>([])
+  selectedCategories$ = new BehaviorSubject<CategoryDTO[]>(undefined)
   groups$ = new Subject<GroupDTO[]>()
-  selectedGroups$ = new BehaviorSubject<GroupDTO[]>([])
+  selectedGroups$ = new BehaviorSubject<GroupDTO[]>(undefined)
   
   constructor(
     private yearService: YearService,
@@ -33,53 +33,55 @@ export class FiltersComponent implements OnInit {
     private categoryService: CategoryService,
     private groupService: GroupService,
   ) { 
-    this.selectedYears$.pipe(skip(1)).subscribe(years => {
-      const forkJoinArr: Observable<MonthDTO[]>[] = []
-      
-      years.forEach(({ id }) => forkJoinArr.push(this.monthService.list({ year: id }).pipe(map(({ data }) => data))))
-      
-      const months$ = forkJoin(forkJoinArr)
-      
-      months$.subscribe(months => this.months$.next(months.flat()))
-    })
+    this.years$.pipe(
+      tap(years => this.selectedYears$.next([years[0]]))
+    ).subscribe()
     
-    this.months$.subscribe(value => this.selectedMonths$.next([value[0]]))
+    this.selectedYears$.pipe(
+      skip(1),
+      switchMap(years => forkJoin(years.map(({ id }) => this.monthService.list({ year: id }).pipe(
+        map(({ data }) => data)))
+      )),
+      map(yearsMonths => yearsMonths.flat())
+    ).subscribe(this.months$)
     
-    this.selectedMonths$.pipe(skip(1)).subscribe(months => {
-      const forkJoinArr: Observable<CategoryDTO[]>[] = []
-      
-      months.forEach(({ id }) => forkJoinArr.push(this.categoryService.list({ month: id }).pipe(map(({ data }) => data))))
-      
-      const categories$ = forkJoin(forkJoinArr)
-      
-      categories$.subscribe(categories => this.categories$.next(categories.flat()))
-    })
     
-    this.categories$.subscribe(value => this.selectedCategories$.next([value[0]]))
+    this.months$.pipe(
+      tap(months => this.selectedMonths$.next([months[0]])),
+    ).subscribe()
     
-    this.selectedCategories$.pipe(skip(1)).subscribe(categories => {
-      const forkJoinArr: Observable<GroupDTO[]>[] = []
-      
-      categories.forEach(({ id }) => forkJoinArr.push(this.groupService.list({ category: id }).pipe(map(({ data }) => data))))
-      
-      const groups$ = forkJoin(forkJoinArr)
-      
-      groups$.subscribe(groups => this.groups$.next(groups.flat()))
-    })
+    this.selectedMonths$.pipe(
+      skip(1),
+      switchMap(months => forkJoin(months.map(({ id }) => this.categoryService.list({ month: id }).pipe(
+        map(({ data }) => data)))
+      )),
+      map(monthsCategories => monthsCategories.flat())
+    ).subscribe(this.categories$)
     
-    this.groups$.subscribe(value => {
-      this.selectedGroups$.next([value[0]])
-      
-      this.emitFilters()
-    })
+    
+    this.categories$.pipe(
+      tap(categories => this.selectedCategories$.next([categories[0]])),
+    ).subscribe()
+    
+    this.selectedCategories$.pipe(
+      skip(1),
+      switchMap(categories => forkJoin(categories.map(({ id }) => this.groupService.list({ category: id }).pipe(
+        map(({ data }) => data)))
+      )),
+      map(monthsGroups => monthsGroups.flat())
+    ).subscribe(this.groups$)
+    
+    
+    this.groups$.pipe(
+      tap(groups => this.selectedGroups$.next([groups[0]])),
+      tap(() => this.emitFilters())
+    ).subscribe()
   }
   
   ngOnInit(): void {
-    this.yearService.list().subscribe(({ data }) => {
-      this.years = data
-      
-      this.selectedYears$.next([this.years[0]])
-    })
+    this.yearService.list().pipe(
+      map(({ data }) => data)
+    ).subscribe(this.years$)
   }
   
   emitFilters(): void {

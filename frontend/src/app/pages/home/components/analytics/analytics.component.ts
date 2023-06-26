@@ -37,9 +37,9 @@ export class AnalyticsComponent implements OnInit {
     ).subscribe()
     
     this.year$.pipe(
-      switchMap(({ id }) => this.monthService.list({ year: id }).pipe((
+      switchMap(({ id }) => this.monthService.list({ year: id }).pipe(
           map(({ data }) => data)
-        ))
+        )
       )
     ).subscribe(this.months$)
     

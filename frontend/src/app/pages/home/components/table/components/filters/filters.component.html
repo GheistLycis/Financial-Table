@@ -1,6 +1,6 @@
 <div class="main-container">
     <ng-container *ngTemplateOutlet="filter; 
-        context: {title: 'Ano', $implicit: years, model: selectedYears$, label: 'year'}"
+        context: {title: 'Ano', $implicit: years$, model: selectedYears$, label: 'year'}"
     ></ng-container>
     <ng-container *ngTemplateOutlet="filter; 
         context: {title: 'Mês', $implicit: months$, model: selectedMonths$, label: 'month'}"
@@ -17,12 +17,13 @@
     <div class="filter">
         <label class="form-label">{{ title }}</label>
         <ng-select
-            [items]="label == 'year' ? items : (items | async)"
+            [items]="items | async"
             [ngModel]="model | async"
             (ngModelChange)="model.next($event)"
             [clearable]="label != 'year'"
             [bindLabel]="label"
             [multiple]="true"
+            [hideSelected]="true"
             notFoundText="Nenhum registro disponível."
         ></ng-select>
     </div>
