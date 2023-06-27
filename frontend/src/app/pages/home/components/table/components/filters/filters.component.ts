@@ -5,7 +5,7 @@ import MonthDTO from 'src/app/DTOs/month';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { GroupService } from 'src/app/services/group/group.service';
 import { MonthService } from 'src/app/services/month/month.service';
-import { BehaviorSubject, Subject, forkJoin, skip, map, tap, switchMap } from 'rxjs';
+import { BehaviorSubject, Subject, forkJoin, skip, map, tap, switchMap, combineLatest, debounceTime } from 'rxjs';
 import TableFilters from 'src/app/utils/interfaces/tableFilters';
 
 
@@ -22,11 +22,11 @@ export class FiltersComponent implements OnInit {
   }
   @Output() filters = new EventEmitter<TableFilters>()
   months$ = new Subject<MonthDTO[]>()
-  selectedMonths$ = new BehaviorSubject<MonthDTO[]>(undefined)
+  selectedMonths$ = new BehaviorSubject<MonthDTO[]>([])
   categories$ = new Subject<CategoryDTO[]>()
-  selectedCategories$ = new BehaviorSubject<CategoryDTO[]>(undefined)
+  selectedCategories$ = new BehaviorSubject<CategoryDTO[]>([])
   groups$ = new Subject<GroupDTO[]>()
-  selectedGroups$ = new BehaviorSubject<GroupDTO[]>(undefined)
+  selectedGroups$ = new BehaviorSubject<GroupDTO[]>([])
   
   constructor(
     private monthService: MonthService,
@@ -38,6 +38,7 @@ export class FiltersComponent implements OnInit {
     this.handleMonths()
     this.handleCategories()
     this.handleGroups()
+    this.handleFilters()
   }
   
   handleMonths(): void {
@@ -64,7 +65,7 @@ export class FiltersComponent implements OnInit {
       switchMap(categories => forkJoin(categories.map(({ id }) => this.groupService.list({ category: id }).pipe(
         map(({ data }) => data)))
       )),
-      map(monthsGroups => monthsGroups.flat())
+      map(monthsGroups => monthsGroups.flat()),
     ).subscribe(this.groups$)
   }
   
@@ -72,17 +73,21 @@ export class FiltersComponent implements OnInit {
     this.groups$.pipe(
       tap(() => this.selectedGroups$.next([]))
     ).subscribe()
-    
-    this.selectedGroups$.pipe(
-      skip(1)
-    ).subscribe(() => this.emitFilters())
   }
   
-  emitFilters(): void {
-    this.filters.emit({
-      months: this.selectedMonths$.getValue(),
-      categories: this.selectedCategories$.getValue(),
-      groups: this.selectedGroups$.getValue(),
+  handleFilters(): void {
+    combineLatest([
+      this.selectedMonths$, 
+      this.selectedCategories$, 
+      this.selectedGroups$
+    ]).pipe(
+      debounceTime(500)
+    ).subscribe(() => {
+      this.filters.emit({
+        months: this.selectedMonths$.getValue(),
+        categories: this.selectedCategories$.getValue(),
+        groups: this.selectedGroups$.getValue(),
+      })
     })
   }
 }
