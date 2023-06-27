@@ -1,9 +1,9 @@
 <div class="container">
     <section class="w-100 mb-5">
-        <app-analytics></app-analytics>
+        <app-analytics [update]="update"></app-analytics>
     </section>
     
     <section class="w-100">
-        <app-table></app-table>
+        <app-table (expensesUpdated)="update = update + 1"></app-table>
     </section>
 </div>

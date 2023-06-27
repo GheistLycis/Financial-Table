@@ -1,0 +1,19 @@
+<div class="p-4 d-flex flex-column gap-20">
+  <div *ngIf="title" class="d-flex justify-content-between">
+    <h3 class="pl-0 ml-0">{{ title }}</h3>
+    <span (click)="activeModal.close(false)" class="pointer">&times;</span>
+  </div>
+  
+  <div class="px-3 my-4 form-group">
+    <span [innerHtml]="text"></span>
+  </div>
+  
+  <div class="w-100 d-flex justify-content-evenly align-items-center">
+    <button *ngIf="showCancelButton" (click)="activeModal.close(false)" class="btn button rounded-btn light-gray-btn">
+      {{ cancelButtonText }}
+    </button>
+    <button *ngIf="showConfirmButton" (click)="activeModal.close(true)" class="btn button rounded-btn primary-btn">
+      {{ confirmButtonText }}
+    </button>
+  </div>
+</div>

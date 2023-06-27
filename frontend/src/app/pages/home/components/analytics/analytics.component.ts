@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { MonthService } from 'src/app/shared/services/month/month.service';
@@ -14,6 +14,9 @@ import { GroupService } from 'src/app/shared/services/group/group.service';
   styleUrls: ['./analytics.component.scss']
 })
 export class AnalyticsComponent implements OnInit {
+  @Input() set update(signal: number) {
+    if(signal) this.calculateAnalytics()
+  }
   dropdown: '' | 'year' | 'month' = ''
   years$ = new BehaviorSubject<YearDTO[]>(undefined)
   year$ = new Subject<YearDTO>()

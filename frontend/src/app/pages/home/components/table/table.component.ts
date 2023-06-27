@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { map, tap, forkJoin } from 'rxjs';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { YearService } from 'src/app/shared/services/year/year.service';
@@ -8,6 +8,9 @@ import MonthDTO from 'src/app/shared/DTOs/month';
 import CategoryDTO from 'src/app/shared/DTOs/category';
 import GroupDTO from 'src/app/shared/DTOs/group';
 import ExpenseDTO from 'src/app/shared/DTOs/expense';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-table',
@@ -15,14 +18,18 @@ import ExpenseDTO from 'src/app/shared/DTOs/expense';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
+  @Output() expensesUpdated = new EventEmitter<void>()
   activeYear!: YearDTO['id']
   years: YearDTO[] = []
   expenses: ExpenseDTO[] = []
-  loading = false;
+  filters!: TableFilters
+  loading = false
   
   constructor(
     private yearService: YearService,
     private expensesService: ExpenseService,
+    private modalService: NgbModal,
+    private toastr: ToastrService,
   ) { }
   
   ngOnInit(): void {
@@ -36,9 +43,12 @@ export class TableComponent implements OnInit {
     ).subscribe()
   }
   
-  listExpenses({ months, categories, groups }: TableFilters) {
+  listExpenses(filter: TableFilters) {
+    const { months, categories, groups } = filter
     let filters: MonthDTO[] | CategoryDTO[] | GroupDTO[]
     let key: 'month' | 'category' | 'group'
+    
+    this.filters = filter
     
     if(groups.length) {
       filters = groups
@@ -78,10 +88,23 @@ export class TableComponent implements OnInit {
   }
   
   editExpense(expense: ExpenseDTO) {
-    console.log('edit', expense)
+    
   }
   
-  deleteExpense(expense: ExpenseDTO) {
-    console.log('delete', expense)
+  deleteExpense({ id, value, description }: ExpenseDTO) {
+    const { componentInstance, result } = this.modalService.open(GeneralWarningComponent, { size: 'md' })
+    
+    componentInstance.title = 'Excluir registro'
+    componentInstance.text = `Deseja realmente excluir este registro de gasto? <br><br> <b>R$${value.toString()} - ${description}</b>`
+    
+    result.then(res => res && 
+      this.expensesService.delete(id).subscribe(() => {
+        this.toastr.success('Excluído com sucesso!')
+        
+        this.expensesUpdated.emit()
+        
+        this.listExpenses(this.filters)
+      })
+    )
   }
 }

@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { TableComponent } from './components/table/table.component';
 import { FiltersComponent } from './components/table/components/filters/filters.component';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap'
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 
 
@@ -23,7 +24,8 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap'
     DirectivesModule,
     NgSelectModule,
     FormsModule,
-    NgbNavModule
+    NgbNavModule,
+    ComponentsModule
   ]
 })
 export class HomeModule { }
