@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from 'src/app/services/session/session.service';
+import { SessionService } from 'src/app/shared/services/session/session.service';
 
 
 export type navItem = {

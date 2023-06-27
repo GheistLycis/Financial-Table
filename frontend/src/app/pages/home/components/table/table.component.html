@@ -18,17 +18,34 @@
         <ng-template ngbNavContent>
           <table class="table table-striped">
             <thead>
-              <th>Valor</th>
-              <th>Descrição</th>
               <th>Data</th>
-              <th>Grupo</th>
+              <th>R$</th>
+              <th>Descrição</th>
+              <th>Categoria</th>
+              <th></th>
             </thead>
             <tbody *ngIf="!loading else loadingSpinner">
               <tr *ngFor="let expense of expenses">
+                <td>{{ expense.date | date : 'fullDate' : '' : 'pt' }}</td>
                 <td>{{ expense.value }}</td>
                 <td>{{ expense.description }}</td>
-                <td>{{ expense.date }}</td>
-                <td>{{ expense.group.name }}</td>
+                <td>{{ expense.group.category.name }}</td>
+                <td>
+                  <div class="d-flex gap-10">
+                    <img 
+                      src="../../../../../assets/icons/pencil.svg"
+                      (click)="editExpense(expense)"
+                      alt="Editar"
+                      width="25px"
+                      class="pointer">
+                    <img 
+                      src="../../../../../assets/icons/trash.svg"
+                      (click)="deleteExpense(expense)"
+                      alt="Excluir"
+                      width="25px"
+                      class="pointer">
+                  </div>
+                </td>
               </tr>
             </tbody>
             <ng-template #loadingSpinner>

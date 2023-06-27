@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { map, tap, forkJoin } from 'rxjs';
-import YearDTO from 'src/app/DTOs/year';
-import { YearService } from 'src/app/services/year/year.service';
-import TableFilters from 'src/app/utils/interfaces/tableFilters';
-import { ExpenseService } from 'src/app/services/expense/expense.service';
-import MonthDTO from 'src/app/DTOs/month';
-import CategoryDTO from 'src/app/DTOs/category';
-import GroupDTO from 'src/app/DTOs/group';
-import ExpenseDTO from 'src/app/DTOs/expense';
+import YearDTO from 'src/app/shared/DTOs/year';
+import { YearService } from 'src/app/shared/services/year/year.service';
+import TableFilters from 'src/app/shared/interfaces/tableFilters';
+import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
+import MonthDTO from 'src/app/shared/DTOs/month';
+import CategoryDTO from 'src/app/shared/DTOs/category';
+import GroupDTO from 'src/app/shared/DTOs/group';
+import ExpenseDTO from 'src/app/shared/DTOs/expense';
 
 @Component({
   selector: 'app-table',
@@ -75,5 +75,13 @@ export class TableComponent implements OnInit {
         complete: () => this.loading = false 
       })
     }
+  }
+  
+  editExpense(expense: ExpenseDTO) {
+    console.log('edit', expense)
+  }
+  
+  deleteExpense(expense: ExpenseDTO) {
+    console.log('delete', expense)
   }
 }

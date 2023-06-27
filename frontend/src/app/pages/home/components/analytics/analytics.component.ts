@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import MonthDTO from 'src/app/DTOs/month';
-import YearDTO from 'src/app/DTOs/year';
-import { MonthService } from 'src/app/services/month/month.service';
-import { YearService } from 'src/app/services/year/year.service';
-import { ExpenseService } from 'src/app/services/expense/expense.service';
+import MonthDTO from 'src/app/shared/DTOs/month';
+import YearDTO from 'src/app/shared/DTOs/year';
+import { MonthService } from 'src/app/shared/services/month/month.service';
+import { YearService } from 'src/app/shared/services/year/year.service';
+import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
 import { forkJoin, map, firstValueFrom, Observable, BehaviorSubject, Subject, skip, tap, switchMap } from 'rxjs';
-import { CategoryService } from 'src/app/services/category/category.service';
-import { GroupService } from 'src/app/services/group/group.service';
+import { CategoryService } from 'src/app/shared/services/category/category.service';
+import { GroupService } from 'src/app/shared/services/group/group.service';
 
 @Component({
   selector: 'app-analytics',

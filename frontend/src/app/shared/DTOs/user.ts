@@ -1,5 +1,6 @@
-import BaseDTO from "src/interfaces/BaseDTO";
+import BaseDTO from "../interfaces/BaseDTO";
 
 export default interface UserDTO extends BaseDTO {
   name: string
+  password?: string
 }

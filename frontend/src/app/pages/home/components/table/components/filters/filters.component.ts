@@ -1,13 +1,13 @@
-import { Component, OnInit, Output, EventEmitter, Input, ViewChild, Directive } from '@angular/core';
-import CategoryDTO from 'src/app/DTOs/category';
-import GroupDTO from 'src/app/DTOs/group';
-import MonthDTO from 'src/app/DTOs/month';
-import { CategoryService } from 'src/app/services/category/category.service';
-import { GroupService } from 'src/app/services/group/group.service';
-import { MonthService } from 'src/app/services/month/month.service';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
+import CategoryDTO from 'src/app/shared/DTOs/category';
+import GroupDTO from 'src/app/shared/DTOs/group';
+import MonthDTO from 'src/app/shared/DTOs/month';
+import { CategoryService } from 'src/app/shared/services/category/category.service';
+import { GroupService } from 'src/app/shared/services/group/group.service';
+import { MonthService } from 'src/app/shared/services/month/month.service';
 import { BehaviorSubject, Subject, forkJoin, skip, map, tap, switchMap, combineLatest, debounceTime } from 'rxjs';
-import TableFilters from 'src/app/utils/interfaces/tableFilters';
-import { MonthNameDirective } from 'src/app/utils/directives/month-name/month-name.directive';
+import TableFilters from 'src/app/shared/interfaces/tableFilters';
+import { MonthNameDirective } from 'src/app/shared/directives/month-name/month-name.directive';
 
 
 @Component({
@@ -19,7 +19,14 @@ export class FiltersComponent implements OnInit {
   @ViewChild(MonthNameDirective) monthNameDirective!: MonthNameDirective
   @Input() set year(yearId: string | undefined) {
     yearId && this.monthService.list({ year: yearId }).pipe(
-      tap(({ data }) => this.months$.next(data))
+      map(({ data }) => data.map(month => {
+          //@ts-ignore
+          month.month = this.monthNameDirective.convert(month.month)
+          
+          return month
+        })
+      ),
+      tap(months => this.months$.next(months))
     ).subscribe()
   }
   @Output() filters = new EventEmitter<TableFilters>()

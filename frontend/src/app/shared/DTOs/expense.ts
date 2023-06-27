@@ -1,5 +1,5 @@
-import BaseDTO from "src/interfaces/BaseDTO";
-import GroupDTO from "../group/Group.dto";
+import BaseDTO from "../interfaces/BaseDTO";
+import GroupDTO from "./group";
 
 export default interface ExpenseDTO extends BaseDTO {
   value: number

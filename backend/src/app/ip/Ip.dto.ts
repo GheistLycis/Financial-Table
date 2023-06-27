@@ -1,4 +1,4 @@
-import BaseDTO from "src/shared/interfaces/BaseDTO";
+import BaseDTO from "src/interfaces/BaseDTO";
 
 export default interface IpDTO extends BaseDTO {
   ip: string

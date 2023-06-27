@@ -1,7 +1,7 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { SessionService } from 'src/app/services/session/session.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { SessionService } from 'src/app/shared/services/session/session.service';
+import { UserService } from 'src/app/shared/services/user/user.service';
 
 @Component({
   selector: 'app-auth-layout',
