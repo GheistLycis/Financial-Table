@@ -12,8 +12,8 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) {}
 
-  list({ month='', category='', group='' }) {
-    return this.http.get<Res<ExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?month=${month}&category=${category}&group=${group}`)
+  list({ year='', month='', category='', group='' }) {
+    return this.http.get<Res<ExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?year=${year}&month=${month}&category=${category}&group=${group}`)
   }
 
   get(id: string) {

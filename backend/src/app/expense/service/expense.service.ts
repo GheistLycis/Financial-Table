@@ -12,7 +12,7 @@ import { Cache } from 'cache-manager';
 import { Request } from 'express';
 
 type body = { value: number, description: string, date: Date, group: string }
-type queries = { month: string, category: string, group: string }
+type queries = { year: string, month: string, category: string, group: string }
 
 @Injectable()
 export class ExpenseService implements BaseService<ExpenseDTO> {
@@ -22,19 +22,21 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
-  async list({ month, category, group }: queries, req: Request) {
-    const cacheKey = `${req['user'].id}-expenses-${month}-${category}-${group}`
+  async list({ year, month, category, group }: queries, req: Request) {
+    const cacheKey = `${req['user'].id}-expenses-${year}-${month}-${category}-${group}`
     
     const cache = await this.cacheService.get<ExpenseDTO[]>(cacheKey)
     if(cache) return cache
     
     const query = this.repo
       .createQueryBuilder('Expense')
-      .leftJoin('Expense.group', 'Group')
-      .leftJoin('Group.category', 'Category')
-      .leftJoin('Category.month', 'Month')
+      .leftJoinAndSelect('Expense.group', 'Group')
+      .leftJoinAndSelect('Group.category', 'Category')
+      .leftJoinAndSelect('Category.month', 'Month')
+      .leftJoinAndSelect('Month.year', 'Year')
       .orderBy('Expense.date', 'DESC')
 
+    if(year) query.where('Year.id = :year', { year })
     if(month) query.where('Month.id = :month', { month })
     if(category) query.where('Category.id = :category', { category })
     if(group) query.where('Group.id = :group', { group })
