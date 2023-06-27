@@ -30,10 +30,10 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     
     const query = this.repo
       .createQueryBuilder('Expense')
-      .leftJoin('Expense.group', 'Group')
-      .leftJoin('Group.category', 'Category')
-      .leftJoin('Category.month', 'Month')
-      .leftJoin('Month.year', 'Year')
+      .leftJoinAndSelect('Expense.group', 'Group')
+      .leftJoinAndSelect('Group.category', 'Category')
+      .leftJoinAndSelect('Category.month', 'Month')
+      .leftJoinAndSelect('Month.year', 'Year')
       .orderBy('Expense.date', 'DESC')
 
     if(year) query.where('Year.id = :year', { year })

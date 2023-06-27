@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, Directive } from '@angular/core';
 import CategoryDTO from 'src/app/DTOs/category';
 import GroupDTO from 'src/app/DTOs/group';
 import MonthDTO from 'src/app/DTOs/month';
@@ -7,6 +7,7 @@ import { GroupService } from 'src/app/services/group/group.service';
 import { MonthService } from 'src/app/services/month/month.service';
 import { BehaviorSubject, Subject, forkJoin, skip, map, tap, switchMap, combineLatest, debounceTime } from 'rxjs';
 import TableFilters from 'src/app/utils/interfaces/tableFilters';
+import { MonthNameDirective } from 'src/app/utils/directives/month-name/month-name.directive';
 
 
 @Component({
@@ -15,6 +16,7 @@ import TableFilters from 'src/app/utils/interfaces/tableFilters';
   styleUrls: ['./filters.component.scss']
 })
 export class FiltersComponent implements OnInit {
+  @ViewChild(MonthNameDirective) monthNameDirective!: MonthNameDirective
   @Input() set year(yearId: string | undefined) {
     yearId && this.monthService.list({ year: yearId }).pipe(
       tap(({ data }) => this.months$.next(data))
@@ -31,7 +33,7 @@ export class FiltersComponent implements OnInit {
   constructor(
     private monthService: MonthService,
     private categoryService: CategoryService,
-    private groupService: GroupService,
+    private groupService: GroupService
   ) { }
   
   ngOnInit(): void {
@@ -51,7 +53,14 @@ export class FiltersComponent implements OnInit {
       switchMap(months => forkJoin(months.map(({ id }) => this.categoryService.list({ month: id }).pipe(
         map(({ data }) => data)))
       )),
-      map(monthsCategories => monthsCategories.flat())
+      map(monthsCategories => monthsCategories
+        .flat()
+        .map(category => {
+          category.name = `${category.name} (${this.monthNameDirective.convert(category.month.month)})`
+          
+          return category
+        })
+      ),
     ).subscribe(this.categories$)
   }
   
@@ -65,7 +74,14 @@ export class FiltersComponent implements OnInit {
       switchMap(categories => forkJoin(categories.map(({ id }) => this.groupService.list({ category: id }).pipe(
         map(({ data }) => data)))
       )),
-      map(monthsGroups => monthsGroups.flat()),
+      map(monthsGroups => monthsGroups
+        .flat()
+        .map(group => {
+          group.name = `${group.name} (${this.monthNameDirective.convert(group.category.month.month)})`
+          
+          return group
+        })
+      ),
     ).subscribe(this.groups$)
   }
   
@@ -81,13 +97,14 @@ export class FiltersComponent implements OnInit {
       this.selectedCategories$, 
       this.selectedGroups$
     ]).pipe(
-      debounceTime(500)
-    ).subscribe(() => {
-      this.filters.emit({
-        months: this.selectedMonths$.getValue(),
-        categories: this.selectedCategories$.getValue(),
-        groups: this.selectedGroups$.getValue(),
+      debounceTime(500),
+      tap(() => {
+        this.filters.emit({
+          months: this.selectedMonths$.getValue(),
+          categories: this.selectedCategories$.getValue(),
+          groups: this.selectedGroups$.getValue(),
+        })
       })
-    })
+    ).subscribe()
   }
 }

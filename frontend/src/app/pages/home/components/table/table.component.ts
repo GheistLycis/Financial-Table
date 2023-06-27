@@ -18,6 +18,7 @@ export class TableComponent implements OnInit {
   activeYear!: YearDTO['id']
   years: YearDTO[] = []
   expenses: ExpenseDTO[] = []
+  loading = false;
   
   constructor(
     private yearService: YearService,
@@ -59,13 +60,19 @@ export class TableComponent implements OnInit {
       
       forkJoin(forkJoinArr).pipe(
         map(filtersExpenses => filtersExpenses.flat()),
-        tap(expenses => this.expenses = expenses),
+        tap(expenses => {
+          this.expenses = expenses
+          this.loading = false
+        })
       ).subscribe()
     }
     else {
       this.expensesService.list({ year: this.activeYear }).pipe(
         map(({ data }) => data),
-        tap(expenses => this.expenses = expenses)
+        tap(expenses => {
+          this.expenses = expenses
+          this.loading = false
+        })
       ).subscribe()
     }
   }
