@@ -1,0 +1,25 @@
+button {
+  background-color: $palette-4;
+  color: white;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 5px 10px;
+  transition-duration: .3s;
+  transition-timing-function: ease-out;
+
+  &:hover {
+      border-color: $palette-4;
+      color: $palette-4;
+  }
+
+  &:disabled {
+      border-color: grey;
+      color: grey;
+      font-style: italic;
+  }
+
+  &:hover,
+  &:disabled {
+      background-color: transparent;
+  }
+}

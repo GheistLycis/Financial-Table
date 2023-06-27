@@ -1,0 +1,18 @@
+.ng-select {
+  .ng-select-container {
+      min-height: 43px;
+      min-width: 100px;
+      padding: 5px 10px;
+      background: white;
+      border: 1px solid black;
+      border-radius: 15px;
+  }
+
+  .ng-option {
+      padding: 3px 5px;
+      background: white;
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+      border-bottom: 1px solid black;
+  }
+}

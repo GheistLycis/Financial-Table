@@ -18,12 +18,16 @@ registerLocaleData(localePT)
     AppComponent,
   ],
   imports: [
-    ToastrModule.forRoot(), 
+    AppRoutingModule,
     CommonModule,
+    HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
+    ToastrModule.forRoot({
+      timeOut: 4000,
+      preventDuplicates: true,
+      countDuplicates: true
+    }), 
     HomeModule,
   ],
   providers: [

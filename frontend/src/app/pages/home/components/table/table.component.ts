@@ -60,20 +60,20 @@ export class TableComponent implements OnInit {
       
       forkJoin(forkJoinArr).pipe(
         map(filtersExpenses => filtersExpenses.flat()),
-        tap(expenses => {
-          this.expenses = expenses
-          this.loading = false
-        })
-      ).subscribe()
+        tap(expenses => this.expenses = expenses)
+      ).subscribe({ 
+        error: () => this.loading = false, 
+        complete: () => this.loading = false 
+      })
     }
     else {
       this.expensesService.list({ year: this.activeYear }).pipe(
         map(({ data }) => data),
-        tap(expenses => {
-          this.expenses = expenses
-          this.loading = false
-        })
-      ).subscribe()
+        tap(expenses => this.expenses = expenses)
+      ).subscribe({ 
+        error: () => this.loading = false, 
+        complete: () => this.loading = false 
+      })
     }
   }
 }
