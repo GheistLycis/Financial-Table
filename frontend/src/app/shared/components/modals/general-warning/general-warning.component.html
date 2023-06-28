@@ -1,18 +1,18 @@
-<div class="p-4 d-flex flex-column gap-20">
-  <div *ngIf="title" class="d-flex justify-content-between">
-    <h3 class="pl-0 ml-0">{{ title }}</h3>
-    <span (click)="activeModal.close(false)" class="pointer">&times;</span>
+<div class="modal-container">
+  <div *ngIf="title" class="modal-header">
+    <h3>{{ title }}</h3>
+    <span (click)="activeModal.close(false)">&times;</span>
   </div>
   
-  <div class="px-3 my-4 form-group">
+  <div class="modal-body">
     <span [innerHtml]="text"></span>
   </div>
   
-  <div class="w-100 d-flex justify-content-evenly align-items-center">
-    <button *ngIf="showCancelButton" (click)="activeModal.close(false)" class="btn button rounded-btn light-gray-btn">
+  <div class="modal-footer">
+    <button *ngIf="showCancelButton" (click)="activeModal.close(false)" class="cancel">
       {{ cancelButtonText }}
     </button>
-    <button *ngIf="showConfirmButton" (click)="activeModal.close(true)" class="btn button rounded-btn primary-btn">
+    <button *ngIf="showConfirmButton" (click)="activeModal.close(true)">
       {{ confirmButtonText }}
     </button>
   </div>

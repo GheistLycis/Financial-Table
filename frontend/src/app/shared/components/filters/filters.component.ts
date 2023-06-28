@@ -16,7 +16,6 @@ import { MonthNameDirective } from 'src/app/shared/directives/month-name/month-n
   styleUrls: ['./filters.component.scss']
 })
 export class FiltersComponent implements OnInit {
-  @ViewChild(MonthNameDirective) monthNameDirective!: MonthNameDirective
   @Input() set year(yearId: string | undefined) {
     yearId && this.monthService.list({ year: yearId }).pipe(
       map(({ data }) => data.map(month => {
@@ -29,7 +28,10 @@ export class FiltersComponent implements OnInit {
       tap(months => this.months$.next(months))
     ).subscribe()
   }
+  @Input() multiple = true
+  @Input() clearable = true
   @Output() filters = new EventEmitter<TableFilters>()
+  @ViewChild(MonthNameDirective) monthNameDirective!: MonthNameDirective
   months$ = new Subject<MonthDTO[]>()
   selectedMonths$ = new BehaviorSubject<MonthDTO[]>([])
   categories$ = new Subject<CategoryDTO[]>()

@@ -1,0 +1,43 @@
+.modal-container {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    
+    h3 {
+      margin: 0;
+      padding: 0;
+    }
+    
+    span {
+      font-size: 30px;
+      cursor: pointer;
+    }
+  }
+  
+  .modal-body {
+    margin: 10px 0 20px;
+    padding: 0 10px;
+  }
+  
+  .modal-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border: none;
+    
+    button {
+      width: 150px;
+      height: 60px;
+      font-size: 24px;
+    }
+  }
+}

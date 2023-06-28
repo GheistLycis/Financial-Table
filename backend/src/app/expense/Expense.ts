@@ -12,7 +12,7 @@ import BaseEntity, { manyToOneOptions } from "../../shared/classes/BaseEntity";
 @Entity("expenses")
 export class Expense extends BaseEntity  {
   // COLUMNS
-  @Column()
+  @Column({ type: 'decimal', scale: 2 })
   value: number
 
   @Column()

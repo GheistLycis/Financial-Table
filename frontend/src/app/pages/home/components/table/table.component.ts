@@ -11,6 +11,7 @@ import ExpenseDTO from 'src/app/shared/DTOs/expense';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { ToastrService } from 'ngx-toastr';
+import { AddEditExpenseComponent } from 'src/app/shared/components/modals/add-edit-expense/add-edit-expense.component';
 
 @Component({
   selector: 'app-table',
@@ -43,7 +44,7 @@ export class TableComponent implements OnInit {
     ).subscribe()
   }
   
-  listExpenses(filter: TableFilters) {
+  listExpenses(filter: TableFilters): void {
     const { months, categories, groups } = filter
     let filters: MonthDTO[] | CategoryDTO[] | GroupDTO[]
     let key: 'month' | 'category' | 'group'
@@ -87,8 +88,36 @@ export class TableComponent implements OnInit {
     }
   }
   
-  editExpense(expense: ExpenseDTO) {
+  addExpense(): void {
+    const { componentInstance, result } = this.modalService.open(AddEditExpenseComponent, { size: 'xl' })
     
+    componentInstance.year = this.activeYear
+    
+    result.then((res: boolean) => {
+      if(res) {
+        this.toastr.success('Criado com sucesso!')
+        
+        this.expensesUpdated.emit()
+        
+        this.listExpenses(this.filters)
+      }
+    })
+  }
+  
+  editExpense(expense: ExpenseDTO): void {
+    const { componentInstance, result } = this.modalService.open(AddEditExpenseComponent, { size: 'xl' })
+    
+    componentInstance.expense = expense
+    
+    result.then((res: boolean) => {
+      if(res) {
+        this.toastr.success('Editado com sucesso!')
+        
+        this.expensesUpdated.emit()
+        
+        this.listExpenses(this.filters)
+      }
+    })
   }
   
   deleteExpense({ id, value, description }: ExpenseDTO) {
@@ -97,7 +126,7 @@ export class TableComponent implements OnInit {
     componentInstance.title = 'Excluir registro'
     componentInstance.text = `Deseja realmente excluir este registro de gasto? <br><br> <b>R$${value.toString()} - ${description}</b>`
     
-    result.then(res => res && 
+    result.then((res: boolean) => res && 
       this.expensesService.delete(id).subscribe(() => {
         this.toastr.success('Excluído com sucesso!')
         

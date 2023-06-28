@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import ExpenseDTO from 'src/app/shared/DTOs/expense';
 import { environment } from 'src/environments/environment';
 import { Response as Res } from 'src/app/shared/interfaces/response';
+import ExpenseForm from '../../classes/ExpenseForm';
 
 @Injectable({
   providedIn: 'root'
@@ -17,18 +18,18 @@ export class ExpenseService {
   }
 
   get(id: string) {
-    return this.http.get<Res<ExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
+    return this.http.get<Res<ExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
-  post(payload: ExpenseDTO) {
-    return this.http.post<Res<ExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
+  post(payload: ExpenseForm) {
+    return this.http.post<Res<ExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: ExpenseDTO) {
-    return this.http.put<Res<ExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
+  put(id: string, payload: ExpenseForm) {
+    return this.http.put<Res<ExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 
   delete(id: string) {
-    return this.http.delete<Res<ExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
+    return this.http.delete<Res<ExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 }

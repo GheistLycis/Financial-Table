@@ -10,6 +10,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { ErrorsInterceptor } from './interceptors/errors.interceptor';
 import { HomeModule } from './pages/home/home.module';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxMaskModule } from 'ngx-mask';
 
 registerLocaleData(localePT)
 
@@ -27,7 +28,8 @@ registerLocaleData(localePT)
       timeOut: 4000,
       preventDuplicates: true,
       countDuplicates: true
-    }), 
+    }),
+    NgxMaskModule.forRoot(),
     HomeModule,
   ],
   providers: [

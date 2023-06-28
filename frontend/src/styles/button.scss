@@ -22,4 +22,16 @@ button {
   &:disabled {
       background-color: transparent;
   }
+  
+  &.cancel {
+    background-color: transparent;
+    border-color: $palette-4;
+    color: $palette-4;
+    
+    &:hover {
+        background-color: $palette-4;
+        border-color: transparent;
+        color: white;
+    }
+  }
 }

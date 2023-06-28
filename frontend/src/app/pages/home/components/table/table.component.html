@@ -1,4 +1,14 @@
 <div class="main-container">  
+  <div class="d-flex justify-content-between align-items-center">
+    <h2 class="mb-2">Histórico de gastos</h2>
+    <img 
+      src="../../../../../assets/icons/plus.svg"
+      (click)="addExpense()"
+      alt="Adicionar registro"
+      width="30px"
+      class="pointer">
+  </div>
+
   <app-filters [year]="activeYear" (filters)="listExpenses($event)"></app-filters>
   
   <div class="mt-3 table-container">
