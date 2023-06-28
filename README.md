@@ -21,6 +21,8 @@ cd frontend && npm i
 cd backend && npm run start
 cd frontend && npm run start
 ```
-Backend default port is 8000 - can be changed by passing another one in ```.env``` - and frontend default port is 4200.
+-> In backend, you can also use either ```npm run dev``` to run on Nest native watch mode or ```npm run hot``` to run on Webpack hot reload mode.
+
+-> Backend default port is 8000 - can be changed by passing another one in ```.env``` - and frontend default port is 4200.
 
 -To populate your db with kickstarter sample data simply run, in order, the queries in ```populate_db.sql``` file. Default database used is PostgreSQL - can be changed by editing ```TypeOrmModule.forRoot()``` configs in ```app.module```.

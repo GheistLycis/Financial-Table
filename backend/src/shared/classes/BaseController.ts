@@ -1,5 +1,5 @@
 import { Req, Body, Delete, Get, Param, Post, Put, Query, Res } from '@nestjs/common';
-import { handleException, handleResponse } from 'src/shared/functions/GlobalHandlers';
+import { handleException, handleResponse } from 'src/shared/functions/globalHandlers';
 import GlobalException from '../interfaces/GlobalException';
 
 export default class BaseController {

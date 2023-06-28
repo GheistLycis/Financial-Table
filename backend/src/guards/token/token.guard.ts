@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from 'src/app/auth/service/auth.service';
-import { handleException } from 'src/shared/functions/GlobalHandlers';
+import { handleException } from 'src/shared/functions/globalHandlers';
 import { UnauthorizedException } from 'src/shared/functions/globalExceptions';
 import { Reflector } from '@nestjs/core';
 
