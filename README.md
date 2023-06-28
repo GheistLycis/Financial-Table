@@ -13,12 +13,12 @@ USAGE:
 
 ```
 # to get backend/frontend ready-to-go
-cd backend/frontend
-npm i
+cd backend && npm i
+cd frontend && npm i
 
 # to run backend/frontend
-cd backend/frontend
-npm run start
+cd backend && npm run start
+cd frontend && npm run start
 ```
 
 Backend default port is 8000 - can be changed by passing another one in .env - and frontend default port is 4200.
