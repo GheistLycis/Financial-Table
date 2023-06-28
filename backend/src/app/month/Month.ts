@@ -10,7 +10,8 @@ import BaseEntity, { manyToOneOptions, OneToManyOptions } from "src/shared/class
 import { Category } from "../category/Category";
 import MonthDTO from "./Month.dto";
 import { Year } from "../year/Year";
-import { MonthlyEntry } from "../monthly-entry/MonthlyEntry";
+import { MonthlyIncome } from "../monthly-income/MonthlyIncome";
+import { MonthlyExpense } from "../monthly-expense/MonthlyExpense";
 
 @Service()
 @Entity("months")
@@ -30,8 +31,11 @@ export class Month extends BaseEntity {
   @OneToMany(() => Category, category => category.month, OneToManyOptions)
   categories: Category[]
 
-  @OneToMany(() => MonthlyEntry, entry => entry.month, OneToManyOptions)
-  entries: MonthlyEntry[]
+  @OneToMany(() => MonthlyIncome, income => income.month, OneToManyOptions)
+  incomes: MonthlyIncome[]
+  
+  @OneToMany(() => MonthlyExpense, expense => expense.month, OneToManyOptions)
+  expenses: MonthlyExpense[]
 
   static toDTO(row: Month): MonthDTO {
     return {

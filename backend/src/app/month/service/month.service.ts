@@ -21,7 +21,8 @@ export class MonthService implements BaseService<MonthDTO> {
   async list({ year }: queries) {
     const query = this.repo.createQueryBuilder('Month')
       .leftJoinAndSelect('Month.year', 'Year')
-      .orderBy('Month.month', 'DESC')
+      .orderBy('Year.year', 'DESC')
+      .addOrderBy('Month.month', 'DESC')
 
     if(year) query.where('Year.id = :year', { year })
 
