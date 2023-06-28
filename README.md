@@ -9,8 +9,9 @@ Basically, you create your own categories and groups and register your expenses 
 
 USAGE:
 
--To set up the project, from root dir:
+-> ```.env``` structure is typed by @hapi/joi and can be checked in ```app.module```'s ```ConfigModule.validationSchema```.
 
+-> To set up the project, from root dir:
 ```
 # to get backend/frontend ready-to-go
 cd backend && npm i
@@ -20,10 +21,7 @@ cd frontend && npm i
 cd backend && npm run start
 cd frontend && npm run start
 ```
-
 Backend default port is 8000 - can be changed by passing another one in ```.env``` - and frontend default port is 4200.
 
--To populate your DB tables with kickstarter sample data, run SQL queries from SQL folder following its README instructions. Default database used is PostgreSQL - can be changed by editing ```TypeOrmModule.forRoot()``` configs in ```app.module```.
-
--```.env``` structure is typed by @hapi/joi and can be checked in ```app.module```'s ```ConfigModule.validationSchema```.
+-> DB tables will be created automatically upon backend first init. To populate your DB tables with kickstarter sample data, run SQL queries from SQL folder following its README instructions. Default database used is PostgreSQL - can be changed by editing ```TypeOrmModule.forRoot()``` configs in ```app.module```.
 
