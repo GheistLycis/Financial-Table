@@ -42,7 +42,6 @@ const cacheLifeMinutes = 5
       database: process.env.DB_NAME,
       synchronize: true,
       autoLoadEntities: true,
-      logging: false,
     }),
     CacheModule.register({
       isGlobal: true,

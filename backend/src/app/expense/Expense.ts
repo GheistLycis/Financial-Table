@@ -7,12 +7,13 @@ import {
 import ExpenseDTO from "./Expense.dto";
 import { Group } from "../group/Group";
 import BaseEntity, { manyToOneOptions } from "../../shared/classes/BaseEntity";
+import DecimalTransformer from "src/shared/classes/DecimalTransformer";
 
 @Service()
 @Entity("expenses")
 export class Expense extends BaseEntity  {
   // COLUMNS
-  @Column({ type: 'decimal', scale: 2 })
+  @Column({ type: 'decimal', scale: 2, transformer: new DecimalTransformer() })
   value: number
 
   @Column()

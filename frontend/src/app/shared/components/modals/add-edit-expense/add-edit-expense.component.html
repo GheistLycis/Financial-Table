@@ -31,14 +31,14 @@
       <div class="col mt-4">
         <div class="row mb-4">
           <label for="value" class="mb-1 required">Valor</label>
-          <input 
+          <input
             id="value"
-            type="text" 
+            type="text"
             [(ngModel)]="form.value"
             name="value"
             required
-            prefix="R$ " 
-            mask="separator.2" 
+            mask="separator.2"
+            prefix="R$ "
             thousandSeparator="."
             class="form-control"
             [ngClass]="{'is-invalid': submitted && formModel.form.controls['value'].errors}">
