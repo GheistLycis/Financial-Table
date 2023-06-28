@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ConfigsComponent } from 'src/app/pages/configs/configs.component';
 import { HomeComponent } from 'src/app/pages/home/home.component';
 
 const routes: Routes = [
@@ -9,8 +8,13 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'configs',
-    component: ConfigsComponent,
+    path: 'gerenciar',
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/management/management.module').then(m => m.ManagementModule)
+      },
+    ]
   }
 ]
 

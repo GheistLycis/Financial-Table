@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { MonthNameDirective } from './month-name/month-name.directive';
 
 
-
 @NgModule({
   declarations: [
     MonthNameDirective
