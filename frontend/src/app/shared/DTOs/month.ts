@@ -3,6 +3,7 @@ import YearDTO from "./year";
 
 export default interface MonthDTO extends BaseDTO {
   month: number
+  available: number
   obs: string
   year: YearDTO
 }

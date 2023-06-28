@@ -12,6 +12,7 @@ import MonthDTO from "./Month.dto";
 import { Year } from "../year/Year";
 import { MonthlyIncome } from "../monthly-income/MonthlyIncome";
 import { MonthlyExpense } from "../monthly-expense/MonthlyExpense";
+import DecimalTransformer from "src/shared/classes/DecimalTransformer";
 
 @Service()
 @Entity("months")
@@ -20,6 +21,10 @@ export class Month extends BaseEntity {
   @Column()
   @IsInt() @Min(1) @Max(12)
   month: number
+  
+  @Column({ type: 'decimal', scale: 1, transformer: new DecimalTransformer() })
+  @Min(1) @Max(100)
+  available: number
 
   @Column({ nullable: true, default: '' })
   obs: string
@@ -40,6 +45,7 @@ export class Month extends BaseEntity {
   static toDTO(row: Month): MonthDTO {
     return {
       month: row.month,
+      available: row.available,
       obs: row.obs,
       year: row.year ? Year.toDTO(row.year) : null,
       id: row.id,

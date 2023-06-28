@@ -8,7 +8,7 @@ import { classValidatorError, DuplicatedException, NotFoundException } from 'src
 import { Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 
-type body = { month: number, obs: string, year: string }
+type body = { month: number, available: number, obs: string, year: string }
 type queries = { year: string }
 
 @Injectable()
@@ -36,7 +36,7 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
 
-  async post({ month, obs, year }: body) {
+  async post({ month, available, obs, year }: body) {
     const repeated = await this.repo.createQueryBuilder('Month')
       .leftJoinAndSelect('Month.year', 'Year')
       .where('Month.month = :month', { month })
@@ -46,7 +46,7 @@ export class MonthService implements BaseService<MonthDTO> {
 
     const yearEntity = await this.yearRepo.findOneBy({ id: year })
     
-    const entity = this.repo.create({ month, obs, year: yearEntity })
+    const entity = this.repo.create({ month, available, obs, year: yearEntity })
       
     const errors = await validate(entity)
     if(errors.length) throw classValidatorError(errors)
@@ -56,7 +56,7 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
 
-  async put(id: string, { month, obs, year }: body) {
+  async put(id: string, { month, available, obs, year }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 
@@ -71,6 +71,7 @@ export class MonthService implements BaseService<MonthDTO> {
     const yearEntity = await this.yearRepo.findOneBy({ id: year })
 
     entity.month = month
+    entity.available = available
     entity.obs = obs
     entity.year = yearEntity
 
