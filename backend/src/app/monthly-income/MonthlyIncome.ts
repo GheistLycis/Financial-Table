@@ -6,23 +6,26 @@ import {
 } from "typeorm";
 import BaseEntity, { manyToOneOptions } from "src/shared/classes/BaseEntity";
 import { Month } from "../month/Month";
-import MonthlyEntryDTO from "../monthly-entry/MonthlyEntry.dto";
+import MonthlyIncomeDTO from "./MonthlyIncome.dto";
+import { Min } from "class-validator";
+import DecimalTransformer from "src/shared/classes/DecimalTransformer";
 
 @Service()
-@Entity("monthly_entries")
-export class MonthlyEntry extends BaseEntity {
+@Entity("monthly_incomes")
+export class MonthlyIncome extends BaseEntity {
   // COLUMNS
-  @Column()
+  @Column({ type: 'decimal', scale: 2, transformer: new DecimalTransformer() })
+  @Min(1)
   value: number
 
   @Column({ nullable: true, default: '' })
   description: string
 
   // RELATIONS
-  @ManyToOne(() => Month, month => month.entries, manyToOneOptions)
+  @ManyToOne(() => Month, month => month.incomes, manyToOneOptions)
   month: Month
 
-  static toDTO(row: MonthlyEntry): MonthlyEntryDTO {
+  static toDTO(row: MonthlyIncome): MonthlyIncomeDTO {
     return {
       value: row.value,
       description: row.description,

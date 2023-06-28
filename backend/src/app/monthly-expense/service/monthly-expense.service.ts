@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import BaseService from 'src/shared/interfaces/BaseService';
-import MonthlyEntryDTO from '../MonthlyEntry.dto';
+import MonthlyExpenseDTO from '../MonthlyExpense.dto';
 import { Month } from '../../month/Month';
-import { MonthlyEntry } from '../MonthlyEntry';
+import { MonthlyExpense } from '../MonthlyExpense';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/functions/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,39 +12,41 @@ type body = { value: number, description: string, month: string }
 type queries = { month: string }
 
 @Injectable()
-export class MonthlyEntryService implements BaseService<MonthlyEntryDTO> {
+export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
   constructor(
-    @Repo(MonthlyEntry) private repo: Repository<MonthlyEntry>,
+    @Repo(MonthlyExpense) private repo: Repository<MonthlyExpense>,
     @Repo(Month) private monthRepo: Repository<Month>,
   ) {}
 
   async list({ month }: queries) {
     const query = this.repo
-      .createQueryBuilder('Entry')
-      .leftJoinAndSelect('Entry.month', 'Month')
+      .createQueryBuilder('Expense')
+      .leftJoinAndSelect('Expense.month', 'Month')
       .leftJoinAndSelect('Month.year', 'Year')
-      .orderBy('Entry.createdAt', 'DESC')
+      .orderBy('Year.year', 'DESC')
+      .addOrderBy('Month.month', 'DESC')
+      .addOrderBy('Expense.createdAt', 'DESC')
 
     if(month) query.where('Month.id = :month', { month })
 
-    return await query.getMany().then(entities => entities.map(row => MonthlyEntry.toDTO(row)))
+    return await query.getMany().then(entities => entities.map(row => MonthlyExpense.toDTO(row)))
   }
 
   async get(id: string) {
     const entity = await this.repo.findOneBy({ id })
-    if(!entity) throw NotFoundException('Nenhum registro mensal encontrado.')
+    if(!entity) throw NotFoundException('Nenhum gasto mensal encontrado.')
 
-    return MonthlyEntry.toDTO(entity)
+    return MonthlyExpense.toDTO(entity)
   }
 
   async post({ value, description, month }: body) {
-    const repeated = await this.repo.createQueryBuilder('Entry')
-      .leftJoinAndSelect('Entry.month', 'Month')
-      .where('Entry.value = :value', { value })
-      .andWhere('Entry.description = :description', { description })
+    const repeated = await this.repo.createQueryBuilder('Expense')
+      .leftJoinAndSelect('Expense.month', 'Month')
+      .where('Expense.value = :value', { value })
+      .andWhere('Expense.description = :description', { description })
       .andWhere('Month.id = :month', { month })
       .getOne()
-    if(repeated) throw DuplicatedException('Este registro mensal já foi cadastrado.')
+    if(repeated) throw DuplicatedException('Este gasto mensal já foi cadastrado.')
 
     const monthEntity = await this.monthRepo.findOneBy({ id: month })
     
@@ -55,21 +57,21 @@ export class MonthlyEntryService implements BaseService<MonthlyEntryDTO> {
   
     await this.repo.save(entity)
 
-    return MonthlyEntry.toDTO(entity)
+    return MonthlyExpense.toDTO(entity)
   }
 
   async put(id: string, { value, description, month }: body) {
     const entity = await this.repo.findOneBy({ id })
-    if(!entity) throw NotFoundException('Registro mensal não encontrado.')
+    if(!entity) throw NotFoundException('Gasto mensal não encontrado.')
 
-    const repeated = await this.repo.createQueryBuilder('Entry')
-      .leftJoinAndSelect('Entry.month', 'Month')
-      .where('Entry.id != :id', { id })
-      .andWhere('Entry.value = :value', { value })
-      .andWhere('Entry.description = :description', { description })
+    const repeated = await this.repo.createQueryBuilder('Expense')
+      .leftJoinAndSelect('Expense.month', 'Month')
+      .where('Expense.id != :id', { id })
+      .andWhere('Expense.value = :value', { value })
+      .andWhere('Expense.description = :description', { description })
       .andWhere('Month.id = :month', { month })
       .getOne()
-    if(repeated) throw DuplicatedException('Este registro mensal já foi cadastrado.')
+    if(repeated) throw DuplicatedException('Este gasto mensal já foi cadastrado.')
 
     const monthEntity = await this.monthRepo.findOneBy({ id: month })
 
@@ -82,15 +84,15 @@ export class MonthlyEntryService implements BaseService<MonthlyEntryDTO> {
 
     await this.repo.save(entity)
 
-    return MonthlyEntry.toDTO(entity)
+    return MonthlyExpense.toDTO(entity)
   }
 
   async delete(id: string) {
     const entity = await this.repo.findOneBy({ id })
-    if(!entity) throw NotFoundException('Registro mensal não encontrado.')
+    if(!entity) throw NotFoundException('Gasto mensal não encontrado.')
 
     await this.repo.softRemove(entity)
 
-    return MonthlyEntry.toDTO(entity)
+    return MonthlyExpense.toDTO(entity)
   }
 }
