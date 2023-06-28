@@ -3,10 +3,10 @@ import { SessionService } from 'src/app/shared/services/session/session.service'
 
 
 export type navItem = {
-  type: string,
-  title: string,
+  type: 'link' | 'menu'
+  title: string
   link?: string
-  children?: navItem[]
+  children?: { title: string, link: string }[]
 }
 
 @Component({
@@ -24,20 +24,26 @@ export class NavbarComponent implements OnInit {
     },
     {
       type: 'menu',
-      title: 'Configurações',
+      title: 'Gerenciar',
       children: [
         {
-          type: 'link',
-          title: 'Grupos',
-          link: 'configs/groups'
+          title: 'Anos',
+          link: 'gerenciar/anos'
         },
         {
-          type: 'link',
-          title: 'Classes',
-          link: 'configs/classes'
+          title: 'Meses',
+          link: 'gerenciar/meses'
+        },
+        {
+          title: 'Categorias',
+          link: 'gerenciar/categorias'
+        },
+        {
+          title: 'Grupos',
+          link: 'gerenciar/grupos'
         },
       ],
-    }
+    },
   ]
 
   constructor(

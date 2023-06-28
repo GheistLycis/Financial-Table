@@ -14,6 +14,7 @@ import { NgxMaskModule } from 'ngx-mask';
 
 registerLocaleData(localePT)
 
+
 @NgModule({
   declarations: [
     AppComponent,

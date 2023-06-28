@@ -5,22 +5,29 @@
         </a>
     </div>
 
-    <ul class="d-flex align-items-center justify-content-center p-0">
-        <!-- <li *ngFor="let item of navItems">
+    <ul class="d-flex gap-20 align-items-center justify-content-center p-0">
+        <li *ngFor="let item of navItems" class="mr-4">
             <a *ngIf="item.type == 'link'" [routerLink]="item.link">
                 {{ item.title }}
             </a>
-            <a *ngIf="item.type == 'menu'">
-                <a mat-button [matMenuTriggerFor]="menu">
+            <div *ngIf="item.type == 'menu'" ngbDropdown class="d-inline-block">
+                <button 
+                    ngbDropdownToggle
+                    [id]="'dropdown' + item.title"
+                    type="button" 
+                    class="btn btn-outline-primary">
                     {{ item.title }}
-                </a>
-                <mat-menu #menu="matMenu">
-                    <a *ngFor="let child of item.children" [routerLink]="child.link" mat-menu-item>
+                </button>
+                <div ngbDropdownMenu>
+                    <a 
+                        ngbDropdownItem 
+                        *ngFor="let child of item.children" 
+                        [routerLink]="child.link">
                         {{ child.title }}
                     </a>
-                </mat-menu>
-            </a>
-        </li> -->
+                </div>
+            </div>
+        </li>
     </ul>
 
     <div class="user">

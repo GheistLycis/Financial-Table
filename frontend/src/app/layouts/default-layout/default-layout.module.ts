@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { DirectivesModule } from 'src/app/shared/directives/directives.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -22,6 +22,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     DirectivesModule,
     FormsModule,
     NgSelectModule,
+    NgbDropdownModule,
   ]
 })
 export class DefaultLayoutModule { }
