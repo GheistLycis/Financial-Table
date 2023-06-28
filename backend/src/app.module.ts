@@ -4,7 +4,7 @@ import * as Joi from "@hapi/joi";
 import { RequestLoggerMiddleware } from './middlewares/request-logger/request-logger.middleware';
 import { YearModule } from './app/year/year.module';
 import { MonthModule } from './app/month/month.module';
-import { MonthlyIncomeModule } from './app/monthly-entry/monthly-income.module';
+import { MonthlyIncomeModule } from './app/monthly-income/monthly-income.module';
 import { GroupModule } from './app/group/group.module';
 import { CategoryModule } from './app/category/category.module';
 import { ExpenseModule } from './app/expense/expense.module';
@@ -17,6 +17,7 @@ import { TokenGuard } from './guards/token/token.guard';
 import { UserModule } from './app/user/user.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { AuthModule } from './app/auth/auth.module';
+import { MonthlyExpenseModule } from './app/monthly-expense/monthly-expense.module';
 
 const cacheLifeMinutes = 5
 
@@ -52,6 +53,7 @@ const cacheLifeMinutes = 5
     YearModule, 
     MonthModule, 
     MonthlyIncomeModule, 
+    MonthlyExpenseModule, 
     GroupModule, 
     CategoryModule, 
     ExpenseModule, 

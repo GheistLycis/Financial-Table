@@ -8,12 +8,13 @@ import BaseEntity, { manyToOneOptions } from "src/shared/classes/BaseEntity";
 import { Month } from "../month/Month";
 import MonthlyExpenseDTO from "./MonthlyExpense.dto";
 import { Min } from "class-validator";
+import DecimalTransformer from "src/shared/classes/DecimalTransformer";
 
 @Service()
 @Entity("monthly_expenses")
 export class MonthlyExpense extends BaseEntity {
   // COLUMNS
-  @Column()
+  @Column({ type: 'decimal', scale: 2, transformer: new DecimalTransformer() })
   @Min(1)
   value: number
 

@@ -10,7 +10,8 @@ import BaseEntity, { manyToOneOptions, OneToManyOptions } from "src/shared/class
 import { Category } from "../category/Category";
 import MonthDTO from "./Month.dto";
 import { Year } from "../year/Year";
-import { MonthlyIncome } from "../monthly-entry/MonthlyIncome";
+import { MonthlyIncome } from "../monthly-income/MonthlyIncome";
+import { MonthlyExpense } from "../monthly-expense/MonthlyExpense";
 
 @Service()
 @Entity("months")
