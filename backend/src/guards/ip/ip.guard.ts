@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { IpService } from 'src/app/ip/service/ip.service';
-import { handleException } from 'src/shared/functions/GlobalHandlers';
+import { handleException } from 'src/shared/functions/globalHandlers';
 import { ForbiddenException } from 'src/shared/functions/globalExceptions';
 
 @Injectable()
