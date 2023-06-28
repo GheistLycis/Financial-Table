@@ -21,7 +21,9 @@ cd backend && npm run start
 cd frontend && npm run start
 ```
 
-Backend default port is 8000 - can be changed by passing another one in .env - and frontend default port is 4200.
+Backend default port is 8000 - can be changed by passing another one in ```.env``` - and frontend default port is 4200.
 
--To populate your db with kickstarter sample data, run SQL queries from SQL folder following its README instructions. Default database used is PostgreSQL - can be changed by editing TypeOrmModule.forRoot() configs in app.module.
+-To populate your db with kickstarter sample data, run SQL queries from SQL folder following its README instructions. Default database used is PostgreSQL - can be changed by editing ```TypeOrmModule.forRoot()``` configs in app.module.
+
+-```.env``` structure is typed by @hapi/joi and can be checked in app.module's ```ConfigModule.validationSchema```.
 
