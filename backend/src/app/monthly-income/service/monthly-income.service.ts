@@ -23,7 +23,9 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
       .createQueryBuilder('Income')
       .leftJoinAndSelect('Income.month', 'Month')
       .leftJoinAndSelect('Month.year', 'Year')
-      .orderBy('Income.createdAt', 'DESC')
+      .orderBy('Year.year', 'DESC')
+      .addOrderBy('Month.month', 'DESC')
+      .addOrderBy('Income.createdAt', 'DESC')
 
     if(month) query.where('Month.id = :month', { month })
 

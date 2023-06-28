@@ -23,7 +23,9 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
       .createQueryBuilder('Expense')
       .leftJoinAndSelect('Expense.month', 'Month')
       .leftJoinAndSelect('Month.year', 'Year')
-      .orderBy('Expense.createdAt', 'DESC')
+      .orderBy('Year.year', 'DESC')
+      .addOrderBy('Month.month', 'DESC')
+      .addOrderBy('Expense.createdAt', 'DESC')
 
     if(month) query.where('Month.id = :month', { month })
 
