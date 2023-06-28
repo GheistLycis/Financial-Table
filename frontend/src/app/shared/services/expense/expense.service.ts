@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import ExpenseDTO from 'src/app/shared/DTOs/expense';
 import { environment } from 'src/environments/environment';
-import { Response as Res } from 'src/app/shared/interfaces/response';
+import { Response as Res } from 'src/app/shared/interfaces/Response';
 import ExpenseForm from '../../classes/ExpenseForm';
 
 @Injectable({

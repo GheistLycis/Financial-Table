@@ -13,19 +13,22 @@
     <table class="table table-striped">
       <thead>
         <th>Ano</th>
-        <th>Disponível</th>
-        <th>Entradas</th>
-        <th>Gastos fixos</th>
-        <th>Gastos variáveis</th>
+        <th>Total Disponível</th>
+        <th>Total de entradas</th>
+        <th>Total de gastos fixos</th>
+        <th>Total de gastos variáveis</th>
       </thead>
       <tbody>
-        <tr *ngFor="let year of yearsAnalytics$ | async">
-          <td>{{ year.year }}</td>
-          <td>{{ year.available | number : '.2-2' : 'pt' }}</td>
-          <td>{{ year.incomes | number : '.2-2' : 'pt' }}</td>
-          <td>{{ year.fixedExpenses | number : '.2-2' : 'pt' }}</td>
-          <td>{{ year.variableExpenses | number : '.2-2' : 'pt' }}</td>
-        </tr>
+        <ng-container *ngFor="let history of yearsHistories$ | async">
+          <tr>
+            <td>{{ history.year.year }}</td>
+            <td>{{ history.available | number : '.2-2' : 'pt' }}</td>
+            <td>{{ history.monthlyIncomes | number : '.2-2' : 'pt' }}</td>
+            <td>{{ history.monthlyExpenses | number : '.2-2' : 'pt' }}</td>
+            <td>{{ history.expenses | number : '.2-2' : 'pt' }}</td>
+          </tr>
+          <tr></tr>
+        </ng-container>
       </tbody>
     </table>
   </div>

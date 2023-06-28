@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import { environment } from 'src/environments/environment';
-import { Response as Res } from 'src/app/shared/interfaces/response';
+import { Response as Res } from 'src/app/shared/interfaces/Response';
 
 @Injectable({
   providedIn: 'root'

@@ -1,19 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { InjectDataSource, InjectRepository as Repo } from '@nestjs/typeorm';
-import { Expense } from 'src/app/expense/Expense';
-import { DataSource, Repository } from 'typeorm';
+import { InjectDataSource } from '@nestjs/typeorm';
+import YearHistory from 'src/shared/interfaces/YearHistory';
+import { DataSource } from 'typeorm';
+
 
 @Injectable()
 export class AnalyticsService {
   constructor(
-    @InjectDataSource() private dataSource: DataSource,
-    @Repo(Expense) private expensesRepo: Repository<Expense>,
+    @InjectDataSource() private dataSource: DataSource
   ) {}
 
-  async recentExpenses(): Promise<number> {
-    let result: number = 0
+  async yearHistory(id: string): Promise<YearHistory> {
+    const result: YearHistory = {
+      year: undefined,
+      available: undefined,
+      monthlyIncomes: undefined,
+      monthlyExpenses: undefined,
+      expenses: undefined,
+    }
 
-    result = await this.dataSource.query(``)
+    const rawResult = await this.dataSource.query(``)
 
     return result
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import YearDTO from 'src/app/shared/DTOs/year';
-import { Response as Res } from 'src/app/shared/interfaces/response';
+import { Response as Res } from 'src/app/shared/interfaces/Response';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

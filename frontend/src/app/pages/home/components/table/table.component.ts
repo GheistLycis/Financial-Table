@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { map, tap, forkJoin } from 'rxjs';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { YearService } from 'src/app/shared/services/year/year.service';
-import TableFilters from 'src/app/shared/interfaces/tableFilters';
+import TableFilters from 'src/app/shared/interfaces/TableFilters';
 import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import CategoryDTO from 'src/app/shared/DTOs/category';

@@ -6,7 +6,7 @@ import { CategoryService } from 'src/app/shared/services/category/category.servi
 import { GroupService } from 'src/app/shared/services/group/group.service';
 import { MonthService } from 'src/app/shared/services/month/month.service';
 import { BehaviorSubject, Subject, forkJoin, skip, map, tap, switchMap, combineLatest, debounceTime } from 'rxjs';
-import TableFilters from 'src/app/shared/interfaces/tableFilters';
+import TableFilters from 'src/app/shared/interfaces/TableFilters';
 import { MonthNameDirective } from 'src/app/shared/directives/month-name/month-name.directive';
 
 
