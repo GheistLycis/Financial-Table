@@ -4,7 +4,7 @@ import * as Joi from "@hapi/joi";
 import { RequestLoggerMiddleware } from './middlewares/request-logger/request-logger.middleware';
 import { YearModule } from './app/year/year.module';
 import { MonthModule } from './app/month/month.module';
-import { MonthlyEntryModule } from './app/monthly-entry/monthly-entry.module';
+import { MonthlyIncomeModule } from './app/monthly-entry/monthly-income.module';
 import { GroupModule } from './app/group/group.module';
 import { CategoryModule } from './app/category/category.module';
 import { ExpenseModule } from './app/expense/expense.module';
@@ -51,7 +51,7 @@ const cacheLifeMinutes = 5
     AuthModule,
     YearModule, 
     MonthModule, 
-    MonthlyEntryModule, 
+    MonthlyIncomeModule, 
     GroupModule, 
     CategoryModule, 
     ExpenseModule, 

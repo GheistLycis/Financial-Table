@@ -6,23 +6,25 @@ import {
 } from "typeorm";
 import BaseEntity, { manyToOneOptions } from "src/shared/classes/BaseEntity";
 import { Month } from "../month/Month";
-import MonthlyEntryDTO from "../monthly-entry/MonthlyEntry.dto";
+import MonthlyExpenseDTO from "./MonthlyExpense.dto";
+import { Min } from "class-validator";
 
 @Service()
-@Entity("monthly_entries")
-export class MonthlyEntry extends BaseEntity {
+@Entity("monthly_expenses")
+export class MonthlyExpense extends BaseEntity {
   // COLUMNS
   @Column()
+  @Min(1)
   value: number
 
   @Column({ nullable: true, default: '' })
   description: string
 
   // RELATIONS
-  @ManyToOne(() => Month, month => month.entries, manyToOneOptions)
+  @ManyToOne(() => Month, month => month.expenses, manyToOneOptions)
   month: Month
 
-  static toDTO(row: MonthlyEntry): MonthlyEntryDTO {
+  static toDTO(row: MonthlyExpense): MonthlyExpenseDTO {
     return {
       value: row.value,
       description: row.description,
