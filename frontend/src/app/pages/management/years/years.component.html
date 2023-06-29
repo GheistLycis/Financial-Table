@@ -10,7 +10,7 @@
   </div>
   
   <div class="mt-3">
-    <table class="table table-striped">
+    <table class="table table-hover">
       <thead>
         <th>Ano</th>
         <th>Total Disponível</th>
@@ -19,16 +19,13 @@
         <th>Total de gastos variáveis</th>
       </thead>
       <tbody>
-        <ng-container *ngFor="let history of yearsHistories$ | async">
-          <tr>
-            <td>{{ history.year.year }}</td>
-            <td>{{ history.available | number : '.2-2' : 'pt' }}</td>
-            <td>{{ history.monthlyIncomes | number : '.2-2' : 'pt' }}</td>
-            <td>{{ history.monthlyExpenses | number : '.2-2' : 'pt' }}</td>
-            <td>{{ history.expenses | number : '.2-2' : 'pt' }}</td>
-          </tr>
-          <tr></tr>
-        </ng-container>
+        <tr *ngFor="let history of yearsHistories$ | async">
+          <td>{{ history.year.year }}</td>
+          <td>{{ history.available | number : '.2-2' : 'pt' }}</td>
+          <td>{{ history.monthlyIncomes | number : '.2-2' : 'pt' }}</td>
+          <td>{{ history.monthlyExpenses | number : '.2-2' : 'pt' }}</td>
+          <td>{{ history.expenses | number : '.2-2' : 'pt' }}</td>
+        </tr>
       </tbody>
     </table>
   </div>
