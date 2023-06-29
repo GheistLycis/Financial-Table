@@ -29,4 +29,4 @@ cd frontend && npm run start
 
 -> Backend default port is 8000 - can be changed by passing another one in ```.env``` - and frontend default port is 4200.
 
--> DB tables will be automatically created upon backend first init. To populate your db with kickstarter sample data simply run, in order, the queries in ```populate_db.sql``` file.
+-> DB tables will be automatically created upon backend first init. To populate your DB with kickstarter sample data simply run, in order, the queries in ```populate_db.sql``` file.
