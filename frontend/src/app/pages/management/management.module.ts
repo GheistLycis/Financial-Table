@@ -1,22 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ManagementRoutingModule } from './management-routing.module';
-import { YearsComponent } from './years/years.component';
-import { MonthsComponent } from './months/months.component';
-import { CategoriesComponent } from './categories/categories.component';
-import { GroupsComponent } from './groups/groups.component';
+import { YearsModule } from './years/years.module';
+import { MonthsModule } from './months/months.module';
+import { GroupsModule } from './groups/groups.module';
+import { CategoriesModule } from './categories/categories.module';
 
 
 @NgModule({
-  declarations: [
-    YearsComponent,
-    MonthsComponent,
-    CategoriesComponent,
-    GroupsComponent,
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     ManagementRoutingModule,
+    YearsModule,
+    MonthsModule,
+    CategoriesModule,
+    GroupsModule,
   ]
 })
 export class ManagementModule { }
