@@ -4,8 +4,8 @@ import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { HomeComponent } from './home.component';
 import { DirectivesModule } from 'src/app/shared/directives/directives.module';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ExpensesTableModule } from './components/expenses-table/expenses-table.module';
 import { FormsModule } from '@angular/forms';
+import { ExpensesModule } from './components/expenses-table/expenses.module';
 
 
 
@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     DirectivesModule,
-    ExpensesTableModule,
+    ExpensesModule,
     NgSelectModule,
     FormsModule,
   ]

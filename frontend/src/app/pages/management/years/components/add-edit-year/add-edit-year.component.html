@@ -1,1 +1,33 @@
-<p>add-edit-year works!</p>
+<div class="modal-container">
+  <div class="modal-header">
+    <h3>{{ action | titlecase }} ano</h3>
+    <span (click)="activeModal.close(false)">&times;</span>
+  </div>
+  
+  <div class="modal-body">
+    <form #formModel="ngForm">      
+      <div class="col mt-4">
+        <div class="row mb-4">
+          <label for="year" class="mb-1 required">Ano</label>
+          <input
+            id="year"
+            type="number"
+            [(ngModel)]="form.year"
+            name="year"
+            required
+            class="form-control"
+            [ngClass]="{'is-invalid': submitted && formModel.form.controls['year'].errors}">
+          <div *ngIf="submitted && formModel.form.controls['year'].errors && formModel.form.controls['year'].errors['required']" class="invalid-feedback">
+            * Insira o ano
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <div class="modal-footer justify-content-end">
+    <button (click)="validateForm()">
+      {{ action | titlecase }}
+    </button>
+  </div>
+</div>

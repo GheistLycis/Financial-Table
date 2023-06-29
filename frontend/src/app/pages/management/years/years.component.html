@@ -13,18 +13,35 @@
     <table class="table table-hover">
       <thead>
         <th>Ano</th>
-        <th>Total Disponível</th>
-        <th>Total de entradas</th>
-        <th>Total de gastos fixos</th>
-        <th>Total de gastos variáveis</th>
+        <th>Entradas</th>
+        <th>Gastos fixos</th>
+        <th>Disponível para gastos variáveis</th>
+        <th>Gastos variáveis</th>
+        <th></th>
       </thead>
       <tbody>
-        <tr *ngFor="let history of yearsHistories$ | async">
+        <tr *ngFor="let history of yearsHistories" class="table-active">
           <td>{{ history.year.year }}</td>
-          <td>{{ history.available | number : '.2-2' : 'pt' }}</td>
           <td>{{ history.monthlyIncomes | number : '.2-2' : 'pt' }}</td>
           <td>{{ history.monthlyExpenses | number : '.2-2' : 'pt' }}</td>
-          <td>{{ history.expenses | number : '.2-2' : 'pt' }}</td>
+          <td>{{ history.available | number : '.2-2' : 'pt' }}</td>
+          <td [ngClass]="history.expenses > history.available ? 'text-danger' : 'text-success'">{{ history.expenses | number : '.2-2' : 'pt' }}</td>
+          <td>
+            <div class="d-flex gap-10">
+              <img 
+                src="../../../../../assets/icons/pencil.svg"
+                (click)="editYear(history.year)"
+                alt="Editar"
+                width="25px"
+                class="pointer">
+              <img 
+                src="../../../../../assets/icons/trash.svg"
+                (click)="deleteYear(history.year)"
+                alt="Excluir"
+                width="25px"
+                class="pointer">
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

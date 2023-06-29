@@ -14,11 +14,11 @@ import { ToastrService } from 'ngx-toastr';
 import { AddEditExpenseComponent } from 'src/app/pages/home/components/expenses-table/components/add-edit-expense/add-edit-expense.component';
 
 @Component({
-  selector: 'app-expenses-table',
-  templateUrl: './expenses-table.component.html',
-  styleUrls: ['./expenses-table.component.scss']
+  selector: 'app-expenses',
+  templateUrl: './expenses.component.html',
+  styleUrls: ['./expenses.component.scss']
 })
-export class ExpensesTableComponent implements OnInit {
+export class ExpensesComponent implements OnInit {
   @Output() expensesUpdated = new EventEmitter<void>()
   activeYear!: YearDTO['id']
   years: YearDTO[] = []

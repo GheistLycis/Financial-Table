@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { Response as Res } from 'src/app/shared/interfaces/Response';
 import { environment } from 'src/environments/environment';
+import YearForm from '../../classes/YearForm';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +21,11 @@ export class YearService {
     return this.http.get<Res<YearDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
-  post(payload: YearDTO) {
+  post(payload: YearForm) {
     return this.http.post<Res<YearDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: YearDTO) {
+  put(id: string, payload: YearForm) {
     return this.http.put<Res<YearDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 

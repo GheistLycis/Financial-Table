@@ -18,7 +18,6 @@ export class AddEditExpenseComponent implements OnInit {
   form = new ExpenseForm()
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
-  today = new Date()
   
   constructor(
     protected activeModal: NgbActiveModal,
