@@ -6,7 +6,7 @@ import { CategoryService } from 'src/app/shared/services/category/category.servi
 import { GroupService } from 'src/app/shared/services/group/group.service';
 import { MonthService } from 'src/app/shared/services/month/month.service';
 import { BehaviorSubject, Subject, forkJoin, skip, map, tap, switchMap, combineLatest, debounceTime } from 'rxjs';
-import TableFilters from 'src/app/shared/interfaces/TableFilters';
+import Filters from 'src/app/shared/interfaces/Filters';
 import { MonthNameDirective } from 'src/app/shared/directives/month-name/month-name.directive';
 
 
@@ -30,7 +30,7 @@ export class FiltersComponent implements OnInit {
   }
   @Input() multiple = true
   @Input() clearable = true
-  @Output() filters = new EventEmitter<TableFilters>()
+  @Output() filters = new EventEmitter<Filters>()
   @ViewChild(MonthNameDirective) monthNameDirective!: MonthNameDirective
   months$ = new Subject<MonthDTO[]>()
   selectedMonths$ = new BehaviorSubject<MonthDTO[]>([])

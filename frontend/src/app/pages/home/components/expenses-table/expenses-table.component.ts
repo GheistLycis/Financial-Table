@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { map, tap, forkJoin } from 'rxjs';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { YearService } from 'src/app/shared/services/year/year.service';
-import TableFilters from 'src/app/shared/interfaces/TableFilters';
+import Filters from 'src/app/shared/interfaces/Filters';
 import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import CategoryDTO from 'src/app/shared/DTOs/category';
@@ -11,19 +11,19 @@ import ExpenseDTO from 'src/app/shared/DTOs/expense';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { ToastrService } from 'ngx-toastr';
-import { AddEditExpenseComponent } from 'src/app/shared/components/modals/add-edit-expense/add-edit-expense.component';
+import { AddEditExpenseComponent } from 'src/app/pages/home/components/expenses-table/components/add-edit-expense/add-edit-expense.component';
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  selector: 'app-expenses-table',
+  templateUrl: './expenses-table.component.html',
+  styleUrls: ['./expenses-table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class ExpensesTableComponent implements OnInit {
   @Output() expensesUpdated = new EventEmitter<void>()
   activeYear!: YearDTO['id']
   years: YearDTO[] = []
   expenses: ExpenseDTO[] = []
-  filters!: TableFilters
+  filters!: Filters
   loading = false
   
   constructor(
@@ -44,7 +44,7 @@ export class TableComponent implements OnInit {
     ).subscribe()
   }
   
-  listExpenses(filter: TableFilters): void {
+  listExpenses(filter: Filters): void {
     const { months, categories, groups } = filter
     let filters: MonthDTO[] | CategoryDTO[] | GroupDTO[]
     let key: 'month' | 'category' | 'group'
