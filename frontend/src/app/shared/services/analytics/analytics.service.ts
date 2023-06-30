@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import YearHistory from '../../interfaces/YearHistory';
 import CategoryRemaining from '../../interfaces/CategoryRemaining';
 import MonthHistory from '../../interfaces/MonthHistory';
+import MonthDTO from '../../DTOs/month';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class AnalyticsService {
 
   categoryRemaining(category: string) {
     return this.http.get<Res<CategoryRemaining>>(`${environment.apiUrl}/${this.baseRoute}/category-remaining/${category}`)
+  }
+  
+  monthBalance(month: string) {
+    return this.http.get<Res<{ month: MonthDTO, balance: number }>>(`${environment.apiUrl}/${this.baseRoute}/month-balance/${month}`)
   }
   
   monthHistory(month: string) {

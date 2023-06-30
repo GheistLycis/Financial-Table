@@ -3,12 +3,13 @@ import { InjectDataSource } from '@nestjs/typeorm';
 import { Year } from 'src/app/year/Year';
 import { NotFoundException, ServerException } from 'src/shared/functions/globalExceptions';
 import YearHistory from 'src/shared/interfaces/YearHistory';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Equal, LessThan, Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import CategoryRemaining from 'src/shared/interfaces/CategoryRemaining';
 import { Category } from 'src/app/category/Category';
 import MonthHistory from 'src/shared/interfaces/MonthHistory';
 import { Month } from 'src/app/month/Month';
+import MonthDTO from 'src/app/month/Month.dto';
 
 
 @Injectable()
@@ -66,6 +67,71 @@ export class AnalyticsService {
       category,
       originalAvailable,
       remaining,
+    }
+  }
+  
+  async monthBalance(id: string): Promise<{ month: MonthDTO, balance: number } | any> {
+    const actualMonth = await this.monthRepo.createQueryBuilder('Month')
+      .leftJoinAndSelect('Month.year', 'Year')
+      .where('Month.id = :id', { id })
+      .getOne()
+      .then(entity => {
+        if(!entity) throw NotFoundException('Nenhum mês encontrado.')
+        
+        return Month.toDTO(entity)
+      })
+    
+    const previousMonths = await this.monthRepo.createQueryBuilder('Month')
+      .leftJoin('Month.year', 'Year')
+      .where('Year.year = :year', { year: actualMonth.year.year })
+      .andWhere('Month.month < :month', { month: actualMonth.month })
+      .orderBy('Month.month')
+      .getMany()
+      .then(entities => entities.map(row => Month.toDTO(row)))
+    
+    const months = previousMonths.concat(actualMonth)
+    let balance: number = 0
+    
+    for(let i = 0; i < months.length; i++) {
+      const { id } = months[i]
+      
+      balance += await this.dataSource
+        .query(`
+          SELECT (
+            total_incomes.sum * (m.available::DECIMAL / 100) -
+            total_monthly_expenses.sum -
+            total_expenses.sum
+          ) AS balance
+          FROM
+            months m,
+            (
+              SELECT SUM(mi.value)
+              FROM monthly_incomes mi
+              JOIN months m ON mi."monthId" = m.id
+              WHERE m.id = '${id}'
+            ) total_incomes,
+            (
+              SELECT SUM(me.value)
+              FROM monthly_expenses me
+              JOIN months m ON me."monthId" = m.id
+              WHERE m.id = '${id}'
+            ) total_monthly_expenses,
+            (
+              SELECT SUM(e.value)
+              FROM expenses e
+              JOIN groups g ON e."groupId" = g.id
+              JOIN categories c ON g."categoryId" = c.id
+              JOIN months m ON c."monthId" = m.id
+              WHERE m.id = '${id}'
+            ) total_expenses
+          WHERE m.id = '${id}'
+        `)
+        .then(rows => +rows[0].balance, err => { throw ServerException(`${err}`) })
+    }
+      
+    return {
+      month: actualMonth,
+      balance,
     }
   }
   

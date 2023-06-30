@@ -10,7 +10,7 @@ import { AddEditMonthComponent } from './components/add-edit-month/add-edit-mont
 import MonthDTO from 'src/app/shared/DTOs/month';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { monthNames } from 'src/app/shared/enums/monthNames';
-import { BehaviorSubject, skip, tap, forkJoin, map } from 'rxjs';
+import { Observable, BehaviorSubject, skip, tap, forkJoin, map, switchMap, pipe } from 'rxjs';
 
 @Component({
   selector: 'app-months',
@@ -56,13 +56,24 @@ export class MonthsComponent {
           ))
         
         forkJoin(histories$).subscribe({
-          next: histories => {
-            this.monthsHistories = histories.map(history => {
-              const h: any = history
-              h.balance = 0
-              return h
+          next: partialHistories => {
+            const balances$ = partialHistories.map(({ month }) => this.analyticsService.monthBalance(month.id).pipe(
+                map(({ data }) => data)
+              ))
+              
+            forkJoin(balances$).subscribe(balances => {
+              const histories: MonthHistory[] = balances.map((balance, i) => {
+                const partialHistory: any = partialHistories[i]
+                
+                partialHistory.balance = balance.balance
+                
+                return partialHistory
+              })
+              
+              this.monthsHistories = histories
+              this.loading = false
             })
-            this.loading = false
+
           },
           error: () => this.loading = false
         })
