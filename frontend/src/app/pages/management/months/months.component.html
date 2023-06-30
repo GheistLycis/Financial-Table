@@ -45,7 +45,8 @@
                 <td [ngClass]="{'text-danger': history.expenses > history.available}">
                   {{ history.expenses | number : '.2-2' : 'pt' }}
                 </td>
-                <td>{{ history.balance | number : '.2-2' : 'pt' }}</td>
+                <td [ngClass]="{'text-danger': history.balance <= 0}">
+                  {{ history.balance | number : '.2-2' : 'pt' }}</td>
                 <td>
                   <div class="d-flex gap-10">
                     <img 

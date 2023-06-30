@@ -24,6 +24,7 @@ export class AnalyticsComponent implements OnInit {
   year$ = new Subject<YearDTO>()
   months$ = new BehaviorSubject<MonthDTO[]>(undefined)
   month$ = new BehaviorSubject<MonthDTO>(undefined)
+  actualBalance: number | '--' = '--'
   recentExpenses: number | '--' = '--'
   yearExpenses: number | '--' = '--'
   mostExpensiveCategory: { name: string, total: number } | '--' = '--'
@@ -76,11 +77,19 @@ export class AnalyticsComponent implements OnInit {
   
   // TO-DO: transfer methods' logic to backend analytics service - too complex for frontend to handle
   calculateAnalytics(): void {
+    this.calculateActualBalance(this.month$.getValue())
     this.calculateRecentExpenses(this.month$.getValue(), this.months$.getValue())
     this.calculateYearExpenses(this.month$.getValue(), this.months$.getValue())
     this.getMostExpensiveCategory(this.month$.getValue())
     this.getMostExpensiveGroup(this.month$.getValue())
     this.listCategoriesRemaining(this.month$.getValue())
+  }
+  
+  calculateActualBalance({ id }: MonthDTO): void {
+    this.analyticsService.monthBalance(id).pipe(
+      map(({ data }) => data.balance),
+      tap(balance => this.actualBalance = balance || '--')
+    ).subscribe()
   }
   
   async calculateRecentExpenses(actualMonth: MonthDTO, monthsList: MonthDTO[]): Promise<void> {

@@ -33,6 +33,16 @@
     
     <div class="cards d-flex mb-2 gap-20">
         <div class="card shadow p-3">
+            <h4>Saldo atual:</h4>
+            <h4 *ngIf="actualBalance == '--'">
+                {{ actualBalance }}
+            </h4>
+            <h4 *ngIf="actualBalance != '--'" [ngClass]="{'text-danger': actualBalance <= 0}">
+                <b>R${{ actualBalance | number : '.2-2' : 'pt' }}</b>
+            </h4>
+        </div>
+        
+        <div class="card shadow p-3">
             <ng-container *ngTemplateOutlet="
                 expenses; 
                 context: {title: 'Em relação ao mês anterior', $implicit: recentExpenses}"
@@ -67,10 +77,10 @@
         <div *ngFor="let remaining of categoriesRemaining" class="card shadow p-3">
             <h4>{{ remaining.category.name }} ({{ remaining.category.percentage | number : '.0-2' }}%)</h4>
             <h5>
-                Disponível: {{ remaining.originalAvailable | number : '.2-2' : 'pt' }}
+                Disponível: R${{ remaining.originalAvailable | number : '.2-2' : 'pt' }}
             </h5>
             <h5 [ngClass]="{'text-danger': remaining.remaining <= 0}">
-                <b>Restante: {{ remaining.remaining | number : '.2-2' : 'pt' }}</b>
+                <b>Restante: R${{ remaining.remaining | number : '.2-2' : 'pt' }}</b>
             </h5>
         </div>
     </div>
@@ -78,28 +88,28 @@
 
 <ng-template #expenses let-title="title" let-expenses>
     <div>
-        <h4>{{ title }}</h4>
+        <h5>{{ title }}</h5>
     </div>
     <div *ngIf="expenses == '--'" class="analytics-data">
-        <h3>{{ expenses }}</h3>
+        <h4>{{ expenses }}</h4>
     </div>
     <div *ngIf="expenses > 0" [style.color]="'red'" class="analytics-data">
         <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
-        <h3>{{ expenses | number:'.0-1' }}%</h3>
+        <h4>{{ expenses | number:'.0-1' }}%</h4>
     </div>
     <div *ngIf="expenses <= 0" [style.color]="'green'" class="analytics-data">
         <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
-        <h3>{{ expenses | number:'.0-1' }}%</h3>
+        <h4>{{ expenses | number:'.0-1' }}%</h4>
     </div>
 </ng-template>
 
 <ng-template #mostExpensive let-title="title" let-data>
-    <h4>{{ title }}
+    <h5>{{ title }}
         <span *ngIf="data == '--'">
             {{ data }}
         </span>
         <span *ngIf="data != '--'">
-            {{ data.name }} (R${{ data.total }})
+            {{ data.name }} (R${{ data.total | number : '.2-2' : 'pt' }})
         </span>
-    </h4>
+    </h5>
 </ng-template>
