@@ -31,7 +31,7 @@
         </div>
     </div>
     
-    <div class="cards d-flex">
+    <div class="cards d-flex mb-2 gap-20">
         <div class="card shadow p-3">
             <ng-container *ngTemplateOutlet="
                 expenses; 
@@ -60,6 +60,18 @@
                     context: {title: 'Grupo:', $implicit: mostExpensiveGroup}"
                 ></ng-container>
             </div>
+        </div>
+    </div>
+    
+    <div class="cards d-flex gap-10">
+        <div *ngFor="let remaining of categoriesRemaining" class="card shadow p-3">
+            <h4>{{ remaining.category.name }} ({{ remaining.category.percentage | number : '.0-2' }}%)</h4>
+            <h5>
+                Disponível: {{ remaining.originalAvailable | number : '.2-2' : 'pt' }}
+            </h5>
+            <h5 [ngClass]="{'text-danger': remaining.remaining <= 0}">
+                <b>Restante: {{ remaining.remaining | number : '.2-2' : 'pt' }}</b>
+            </h5>
         </div>
     </div>
 </div>

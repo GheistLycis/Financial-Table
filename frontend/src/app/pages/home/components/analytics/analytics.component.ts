@@ -7,6 +7,8 @@ import { ExpenseService } from 'src/app/shared/services/expense/expense.service'
 import { forkJoin, map, firstValueFrom, Observable, BehaviorSubject, Subject, skip, tap, switchMap } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { GroupService } from 'src/app/shared/services/group/group.service';
+import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
+import CategoryRemaining from 'src/app/shared/interfaces/CategoryRemaining';
 
 @Component({
   selector: 'app-analytics',
@@ -26,6 +28,7 @@ export class AnalyticsComponent implements OnInit {
   yearExpenses: number | '--' = '--'
   mostExpensiveCategory: { name: string, total: number } | '--' = '--'
   mostExpensiveGroup: { name: string, total: number } | '--' = '--'
+  categoriesRemaining: CategoryRemaining[] = []
   
   constructor(
     private yearService: YearService,
@@ -33,6 +36,7 @@ export class AnalyticsComponent implements OnInit {
     private expenseService: ExpenseService,
     private categoryService: CategoryService,
     private groupService: GroupService,
+    private analyticsService: AnalyticsService,
   ) { }
   
   ngOnInit(): void {
@@ -76,6 +80,7 @@ export class AnalyticsComponent implements OnInit {
     this.calculateYearExpenses(this.month$.getValue(), this.months$.getValue())
     this.getMostExpensiveCategory(this.month$.getValue())
     this.getMostExpensiveGroup(this.month$.getValue())
+    this.listCategoriesRemaining(this.month$.getValue())
   }
   
   async calculateRecentExpenses(actualMonth: MonthDTO, monthsList: MonthDTO[]): Promise<void> {
@@ -193,6 +198,16 @@ export class AnalyticsComponent implements OnInit {
         
         this.mostExpensiveGroup = max
       })
+    })
+  }
+  
+  listCategoriesRemaining({ id }: MonthDTO): void {
+    this.categoryService.list({ month: id }).subscribe(({ data }) => {
+      const categoriesRemaining$ = data.map(({ id }) => this.analyticsService.categoryRemaining(id).pipe(
+          map(({ data }) => data)
+        ))
+        
+      forkJoin(categoriesRemaining$).subscribe(categoriesRemainings => this.categoriesRemaining = categoriesRemainings)
     })
   }
 }

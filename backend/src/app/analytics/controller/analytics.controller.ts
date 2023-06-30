@@ -10,7 +10,13 @@ export class AnalyticsController {
 
   @Get('year-history/:id') async yearHistory(@Req() req, @Param('id') id, @Res() res) {
     return await this.service.yearHistory(id)
-      .then((data: any) => handleResponse(res, { data }))
+      .then(data => handleResponse(res, { data }))
+      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  }
+  
+  @Get('category-remaining/:id') async categoryRemaining(@Req() req, @Param('id') id, @Res() res) {
+    return await this.service.categoryRemaining(id)
+      .then(data => handleResponse(res, { data }))
       .catch((error: GlobalException | Error) => handleException(req, res, error))
   }
 }

@@ -5,6 +5,8 @@ import { NotFoundException, ServerException } from 'src/shared/functions/globalE
 import YearHistory from 'src/shared/interfaces/YearHistory';
 import { DataSource, Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
+import CategoryRemaining from 'src/shared/interfaces/CategoryRemaining';
+import { Category } from 'src/app/category/Category';
 
 
 @Injectable()
@@ -12,6 +14,7 @@ export class AnalyticsService {
   constructor(
     @InjectDataSource() private dataSource: DataSource,
     @Repo(Year) private yearRepo: Repository<Year>,
+    @Repo(Category) private categoryRepo: Repository<Category>,
   ) {}
 
   async yearHistory(id: string): Promise<YearHistory> {
@@ -28,7 +31,7 @@ export class AnalyticsService {
           SUM(month_available) AS available
         FROM (
           SELECT 
-            (mi.value * (m.available::DECIMAL / 100)) AS month_available
+            (mi.value * (m.available / 100)) AS month_available
           FROM
             monthly_incomes mi
             JOIN months m ON mi."monthId" = m.id
@@ -87,5 +90,54 @@ export class AnalyticsService {
       monthlyExpenses,
       expenses,
     } 
+  }
+  
+  async categoryRemaining(id: string): Promise<CategoryRemaining> {
+    const category = await this.categoryRepo.findOneBy({ id })
+      .then(entity => {
+        if(!entity) throw NotFoundException('Nenhuma categoria encontrada.')
+        
+        return Category.toDTO(entity)
+      })
+      
+    const originalAvailable = await this.dataSource
+      .query(`
+        SELECT 
+          (month_incomes.sum - month_expenses.sum) * 
+          (m.available / 100) * 
+          (c.percentage::DECIMAL / 100) AS originalavailable
+        FROM categories c
+        JOIN months m ON c."monthId" = m.id,
+        (
+          SELECT SUM(mi.value)
+          FROM categories c
+          JOIN monthly_incomes mi ON mi."monthId" = c."monthId"
+          WHERE c.id = '${id}'
+        ) month_incomes,
+        (
+          SELECT SUM(me.value)
+          FROM categories c
+          JOIN monthly_expenses me ON me."monthId" = c."monthId"
+          WHERE c.id = '${id}'
+        ) month_expenses
+        WHERE c.id = '${id}'
+      `)
+      .then(rows => +rows[0].originalavailable, err => { throw ServerException(`${err}`) })
+      
+    const remaining = await this.dataSource
+      .query(`
+        SELECT SUM(e.value) as totalexpenses
+        FROM expenses e
+        JOIN groups g ON e."groupId" = g.id
+        JOIN categories c ON g."categoryId" = c.id
+        WHERE c.id = '${id}'
+      `)
+      .then(rows => originalAvailable - rows[0].totalexpenses, err => { throw ServerException(`${err}`) })
+    
+    return {
+      category,
+      originalAvailable,
+      remaining,
+    }
   }
 }
