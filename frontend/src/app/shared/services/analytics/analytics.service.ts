@@ -4,6 +4,7 @@ import { Response as Res } from 'src/app/shared/interfaces/Response';
 import { environment } from 'src/environments/environment';
 import YearHistory from '../../interfaces/YearHistory';
 import CategoryRemaining from '../../interfaces/CategoryRemaining';
+import MonthHistory from '../../interfaces/MonthHistory';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,15 @@ export class AnalyticsService {
 
   constructor(private http: HttpClient) {}
 
-  yearHistory(year: string) {
-    return this.http.get<Res<YearHistory>>(`${environment.apiUrl}/${this.baseRoute}/year-history/${year}`)
-  }
-  
   categoryRemaining(category: string) {
     return this.http.get<Res<CategoryRemaining>>(`${environment.apiUrl}/${this.baseRoute}/category-remaining/${category}`)
+  }
+  
+  monthHistory(month: string) {
+    return this.http.get<Res<MonthHistory>>(`${environment.apiUrl}/${this.baseRoute}/month-history/${month}`)
+  }
+  
+  yearHistory(year: string) {
+    return this.http.get<Res<YearHistory>>(`${environment.apiUrl}/${this.baseRoute}/year-history/${year}`)
   }
 }

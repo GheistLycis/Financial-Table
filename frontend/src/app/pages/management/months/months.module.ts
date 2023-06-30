@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MonthsComponent } from './months.component';
 import { AddEditMonthComponent } from './components/add-edit-month/add-edit-month.component';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -11,7 +12,8 @@ import { AddEditMonthComponent } from './components/add-edit-month/add-edit-mont
     AddEditMonthComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgbNavModule,
   ]
 })
 export class MonthsModule { }
