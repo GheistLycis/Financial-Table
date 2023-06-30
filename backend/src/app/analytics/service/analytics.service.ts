@@ -7,90 +7,18 @@ import { DataSource, Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import CategoryRemaining from 'src/shared/interfaces/CategoryRemaining';
 import { Category } from 'src/app/category/Category';
+import MonthHistory from 'src/shared/interfaces/MonthHistory';
+import { Month } from 'src/app/month/Month';
 
 
 @Injectable()
 export class AnalyticsService {
   constructor(
     @InjectDataSource() private dataSource: DataSource,
-    @Repo(Year) private yearRepo: Repository<Year>,
     @Repo(Category) private categoryRepo: Repository<Category>,
+    @Repo(Month) private monthRepo: Repository<Month>,
+    @Repo(Year) private yearRepo: Repository<Year>,
   ) {}
-
-  async yearHistory(id: string): Promise<YearHistory> {
-    const year = await this.yearRepo.findOneBy({ id })
-      .then(entity => {
-        if(!entity) throw NotFoundException('Nenhum ano encontrado.')
-        
-        return Year.toDTO(entity)
-      })
-    
-    const available = await this.dataSource
-      .query(`
-        SELECT 
-          SUM(month_available) AS available
-        FROM (
-          SELECT 
-            (mi.value * (m.available / 100)) AS month_available
-          FROM
-            monthly_incomes mi
-            JOIN months m ON mi."monthId" = m.id
-            JOIN years y ON m."yearId" = y.id
-          WHERE
-            y.id = '${id}'
-        ) sub;
-      `)
-      .then(rows => +rows[0].available, err => { throw ServerException(`${err}`) })
-      
-    const monthlyIncomes = await this.dataSource
-      .query(`
-        SELECT 
-          SUM(mi.value) AS monthlyincomes
-        FROM
-          monthly_incomes mi
-          JOIN months m ON mi."monthId" = m.id
-          JOIN years y ON m."yearId" = y.id
-        WHERE
-          y.id = '${id}'
-      `)
-      .then(rows => +rows[0].monthlyincomes, err => { throw ServerException(`${err}`) })
-      
-    const monthlyExpenses = await this.dataSource
-      .query(`
-        SELECT 
-          SUM(me.value) AS monthlyexpenses
-        FROM
-          monthly_expenses me
-          JOIN months m ON me."monthId" = m.id
-          JOIN years y ON m."yearId" = y.id
-        WHERE
-          y.id = '${id}'
-      `)
-      .then(rows => +rows[0].monthlyexpenses, err => { throw ServerException(`${err}`) })
-      
-    const expenses = await this.dataSource
-      .query(`
-        SELECT 
-          SUM(e.value) AS expenses
-        FROM
-          expenses e
-          JOIN groups g ON e."groupId" = g.id
-          JOIN categories c ON g."categoryId" = c.id
-          JOIN months m ON c."monthId" = m.id
-          JOIN years y ON m."yearId" = y.id
-        WHERE
-          y.id = '${id}'
-      `)
-      .then(rows => +rows[0].expenses, err => { throw ServerException(`${err}`) })
-
-    return {
-      year,
-      available,
-      monthlyIncomes,
-      monthlyExpenses,
-      expenses,
-    } 
-  }
   
   async categoryRemaining(id: string): Promise<CategoryRemaining> {
     const category = await this.categoryRepo.findOneBy({ id })
@@ -102,10 +30,10 @@ export class AnalyticsService {
       
     const originalAvailable = await this.dataSource
       .query(`
-        SELECT 
-          (month_incomes.sum - month_expenses.sum) * 
-          (m.available / 100) * 
-          (c.percentage::DECIMAL / 100) AS originalavailable
+        SELECT (
+          (total_monthly_incomes.sum * (m.available / 100) - total_monthly_expenses.sum) * 
+          (c.percentage::DECIMAL / 100)
+        ) AS originalavailable
         FROM categories c
         JOIN months m ON c."monthId" = m.id,
         (
@@ -113,13 +41,13 @@ export class AnalyticsService {
           FROM categories c
           JOIN monthly_incomes mi ON mi."monthId" = c."monthId"
           WHERE c.id = '${id}'
-        ) month_incomes,
+        ) total_monthly_incomes,
         (
           SELECT SUM(me.value)
           FROM categories c
           JOIN monthly_expenses me ON me."monthId" = c."monthId"
           WHERE c.id = '${id}'
-        ) month_expenses
+        ) total_monthly_expenses
         WHERE c.id = '${id}'
       `)
       .then(rows => +rows[0].originalavailable, err => { throw ServerException(`${err}`) })
@@ -139,5 +67,144 @@ export class AnalyticsService {
       originalAvailable,
       remaining,
     }
+  }
+  
+  async monthHistory(id: string): Promise<MonthHistory> {
+    const month = await this.monthRepo.findOneBy({ id })
+      .then(entity => {
+        if(!entity) throw NotFoundException('Nenhum mês encontrado.')
+        
+        return Month.toDTO(entity)
+      })
+    
+    const { 
+      monthlyIncomes, 
+      monthlyExpenses,
+      available,
+      expenses
+    } = await this.dataSource
+      .query(`
+        SELECT 
+          total_incomes.sum AS monthlyincomes, 
+          total_monthly_expenses.sum AS mothlyexpenses,
+          (
+            total_incomes.sum * (m.available::DECIMAL / 100) - total_monthly_expenses.sum
+          ) AS available,
+          total_expenses.sum AS expenses
+        FROM
+          months m,
+          (
+            SELECT SUM(mi.value)
+            FROM monthly_incomes mi
+            JOIN months m ON mi."monthId" = m.id
+            WHERE m.id = '${id}'
+          ) total_incomes,
+          (
+            SELECT SUM(me.value)
+            FROM monthly_expenses me
+            JOIN months m ON me."monthId" = m.id
+            WHERE m.id = '${id}'
+          ) total_monthly_expenses,
+          (
+            SELECT SUM(e.value)
+            FROM expenses e
+            JOIN groups g ON e."groupId" = g.id
+            JOIN categories c ON g."categoryId" = c.id
+            JOIN months m ON c."monthId" = m.id
+            WHERE m.id = '${id}'
+          ) total_expenses
+        WHERE m.id = '${id}'
+      `)
+      .then(([ row ]) => {
+        return { 
+          monthlyIncomes: +row.monthlyincomes, 
+          monthlyExpenses: +row.mothlyexpenses,
+          available: +row.available,
+          expenses: +row.expenses,
+        }
+      }, err => { throw ServerException(`${err}`) })
+
+    return {
+      month,
+      monthlyIncomes,
+      monthlyExpenses,
+      available,
+      expenses
+    } 
+  }
+
+  async yearHistory(id: string): Promise<YearHistory> {
+    const year = await this.yearRepo.findOneBy({ id })
+      .then(entity => {
+        if(!entity) throw NotFoundException('Nenhum ano encontrado.')
+        
+        return Year.toDTO(entity)
+      })
+    
+    const available = await this.dataSource
+      .query(`
+        SELECT total_incomes.sum - total_monthly_expenses.sum AS available
+        FROM
+          years y,
+          (
+            SELECT SUM(mi.value * (m.available:: DECIMAL / 100))
+            FROM monthly_incomes mi
+            JOIN months m ON mi."monthId" = m.id
+            JOIN years y ON m."yearId" = y.id
+            WHERE y.id = '${id}'
+          ) total_incomes,
+          (
+            SELECT SUM(me.value)
+            FROM monthly_expenses me
+            JOIN months m ON me."monthId" = m.id
+            JOIN years y ON m."yearId" = y.id
+            WHERE y.id = '${id}'
+          ) total_monthly_expenses
+        WHERE y.id = '${id}'
+      `)
+      .then(rows => +rows[0].available, err => { throw ServerException(`${err}`) })
+      
+    const monthlyIncomes = await this.dataSource
+      .query(`
+        SELECT SUM(mi.value) AS monthlyincomes
+        FROM
+          monthly_incomes mi
+          JOIN months m ON mi."monthId" = m.id
+          JOIN years y ON m."yearId" = y.id
+        WHERE y.id = '${id}'
+      `)
+      .then(rows => +rows[0].monthlyincomes, err => { throw ServerException(`${err}`) })
+      
+    const monthlyExpenses = await this.dataSource
+      .query(`
+        SELECT SUM(me.value) AS monthlyexpenses
+        FROM
+          monthly_expenses me
+          JOIN months m ON me."monthId" = m.id
+          JOIN years y ON m."yearId" = y.id
+        WHERE y.id = '${id}'
+      `)
+      .then(rows => +rows[0].monthlyexpenses, err => { throw ServerException(`${err}`) })
+      
+    const expenses = await this.dataSource
+      .query(`
+        SELECT SUM(e.value) AS expenses
+        FROM
+          expenses e
+          JOIN groups g ON e."groupId" = g.id
+          JOIN categories c ON g."categoryId" = c.id
+          JOIN months m ON c."monthId" = m.id
+          JOIN years y ON m."yearId" = y.id
+        WHERE y.id = '${id}'
+      `)
+      .then(rows => +rows[0].expenses, err => { throw ServerException(`${err}`) })
+
+    return {
+      year,
+      available,
+      monthlyIncomes,
+      monthlyExpenses,
+      expenses,
+    } 
   }
 }

@@ -4,12 +4,14 @@ import { AnalyticsController } from './controller/analytics.controller';
 import { AnalyticsService } from './service/analytics.service';
 import { Year } from '../year/Year';
 import { Category } from '../category/Category';
+import { Month } from '../month/Month';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      Year,
       Category,
+      Month,
+      Year,
     ])
   ],
   controllers: [AnalyticsController],

@@ -19,7 +19,7 @@ export class AnalyticsService {
   }
   
   monthHistory(month: string) {
-    return this.http.get<Res<MonthHistory>>(`${environment.apiUrl}/${this.baseRoute}/month-history/${month}`)
+    return this.http.get<Res<Omit<MonthHistory, 'balance'>>>(`${environment.apiUrl}/${this.baseRoute}/month-history/${month}`)
   }
   
   yearHistory(year: string) {

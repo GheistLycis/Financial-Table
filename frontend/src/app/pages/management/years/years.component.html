@@ -25,7 +25,9 @@
           <td>{{ history.monthlyIncomes | number : '.2-2' : 'pt' }}</td>
           <td>{{ history.monthlyExpenses | number : '.2-2' : 'pt' }}</td>
           <td>{{ history.available | number : '.2-2' : 'pt' }}</td>
-          <td [ngClass]="history.expenses > history.available ? 'text-danger' : 'text-success'">{{ history.expenses | number : '.2-2' : 'pt' }}</td>
+          <td [ngClass]="{'text-danger': history.expenses > history.available}">
+            {{ history.expenses | number : '.2-2' : 'pt' }}
+          </td>
           <td>
             <div class="d-flex gap-10">
               <img 

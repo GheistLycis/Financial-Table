@@ -57,7 +57,11 @@ export class MonthsComponent {
         
         forkJoin(histories$).subscribe({
           next: histories => {
-            this.monthsHistories = histories
+            this.monthsHistories = histories.map(history => {
+              const h: any = history
+              h.balance = 0
+              return h
+            })
             this.loading = false
           },
           error: () => this.loading = false

@@ -19,7 +19,8 @@ export class FiltersComponent implements OnInit {
   @Input() set year(yearId: string | undefined) {
     yearId && this.monthService.list({ year: yearId }).pipe(
       map(({ data }) => data.map(month => {
-          month.month = +this.monthNameDirective.convert(month.month)
+          //@ts-ignore
+          month.month = this.monthNameDirective.convert(month.month)
           
           return month
         })

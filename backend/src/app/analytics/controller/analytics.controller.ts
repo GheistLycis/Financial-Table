@@ -8,14 +8,20 @@ import GlobalException from 'src/shared/interfaces/GlobalException';
 export class AnalyticsController {
   constructor(private service: AnalyticsService) {}
 
-  @Get('year-history/:id') async yearHistory(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.yearHistory(id)
+  @Get('category-remaining/:id') async categoryRemaining(@Req() req, @Param('id') id, @Res() res) {
+    return await this.service.categoryRemaining(id)
       .then(data => handleResponse(res, { data }))
       .catch((error: GlobalException | Error) => handleException(req, res, error))
   }
   
-  @Get('category-remaining/:id') async categoryRemaining(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.categoryRemaining(id)
+  @Get('month-history/:id') async monthHistory(@Req() req, @Param('id') id, @Res() res) {
+    return await this.service.monthHistory(id)
+      .then(data => handleResponse(res, { data }))
+      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  }
+  
+  @Get('year-history/:id') async yearHistory(@Req() req, @Param('id') id, @Res() res) {
+    return await this.service.yearHistory(id)
       .then(data => handleResponse(res, { data }))
       .catch((error: GlobalException | Error) => handleException(req, res, error))
   }

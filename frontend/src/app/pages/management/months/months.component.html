@@ -39,8 +39,12 @@
                 <td>{{ history.month.month }}</td>
                 <td>{{ history.monthlyIncomes | number : '.2-2' : 'pt' }}</td>
                 <td>{{ history.monthlyExpenses | number : '.2-2' : 'pt' }}</td>
-                <td>{{ history.available | number : '.2-2' : 'pt' }} ({{ history.month.available | number : '.0-2' : 'pt' }}%)</td>
-                <td>{{ history.expenses | number : '.2-2' : 'pt' }}</td>
+                <td>
+                  {{ history.available | number : '.2-2' : 'pt' }} ({{ history.month.available | number : '.0-2' : 'pt' }}%)
+                </td>
+                <td [ngClass]="{'text-danger': history.expenses > history.available}">
+                  {{ history.expenses | number : '.2-2' : 'pt' }}
+                </td>
                 <td>{{ history.balance | number : '.2-2' : 'pt' }}</td>
                 <td>
                   <div class="d-flex gap-10">
