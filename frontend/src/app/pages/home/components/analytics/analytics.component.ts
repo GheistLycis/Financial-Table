@@ -203,17 +203,14 @@ export class AnalyticsComponent implements OnInit {
   
   listCategoriesRemaining({ id }: MonthDTO): void {
     this.categoryService.list({ month: id }).subscribe(({ data }) => {
-      if(!data.length) {
-        this.categoriesRemaining = []
-        
-        return
+      if(!data.length) this.categoriesRemaining = []
+      else {
+        const categoriesRemaining$ = data.map(({ id }) => this.analyticsService.categoryRemaining(id).pipe(
+            map(({ data }) => data)
+          ))
+          
+        forkJoin(categoriesRemaining$).subscribe(categoriesRemainings => this.categoriesRemaining = categoriesRemainings)
       }
-      
-      const categoriesRemaining$ = data.map(({ id }) => this.analyticsService.categoryRemaining(id).pipe(
-          map(({ data }) => data)
-        ))
-        
-      forkJoin(categoriesRemaining$).subscribe(categoriesRemainings => this.categoriesRemaining = categoriesRemainings)
     })
   }
 }
