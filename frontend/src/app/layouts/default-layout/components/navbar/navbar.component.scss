@@ -57,6 +57,7 @@ ul {
 }
 
 .user {
+    cursor: default;
     height: 100%;
     width: 150px;
     background-color: $palette-4;
@@ -66,4 +67,11 @@ ul {
     align-items: center;
     font-weight: 400;
     color: white;
+    transition-duration: .2s;
+    transition-timing-function: ease-in-out;
+    
+    &:hover {
+        background-color: white;
+        color: $palette-4;
+    }
 }
