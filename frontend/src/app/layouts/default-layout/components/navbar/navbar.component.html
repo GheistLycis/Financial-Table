@@ -1,11 +1,11 @@
-<nav class="shadow w-100 d-flex align-items-center justify-content-between px-4">
+<nav class="shadow w-100 d-flex align-items-center justify-content-between">
     <div class="logo">
         <a routerLink="">
             <img src="../../../assets/icons/graph.svg">
         </a>
     </div>
 
-    <ul class="d-flex gap-20 align-items-center justify-content-center p-0">
+    <ul class="d-flex align-items-center justify-content-center p-0 m-0">
         <li *ngFor="let item of navItems" class="mr-4">
             <a *ngIf="item.type == 'link'" [routerLink]="item.link">
                 {{ item.title }}
@@ -22,7 +22,8 @@
                     <a 
                         ngbDropdownItem 
                         *ngFor="let child of item.children" 
-                        [routerLink]="child.link">
+                        [routerLink]="child.link"
+                    >
                         {{ child.title }}
                     </a>
                 </div>
@@ -31,6 +32,6 @@
     </ul>
 
     <div class="user">
-        <button><i>Olá, {{ user }}!</i></button>
+        <i>Olá, {{ user }}!</i>
     </div>
 </nav>
