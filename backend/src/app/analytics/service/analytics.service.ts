@@ -136,7 +136,11 @@ export class AnalyticsService {
   }
   
   async monthHistory(id: string): Promise<MonthHistory> {
-    const month = await this.monthRepo.findOneBy({ id })
+    const month = await this.monthRepo
+      .findOne({ 
+        where: { id }, 
+        relations: { year: true } 
+      })
       .then(entity => {
         if(!entity) throw NotFoundException('Nenhum mês encontrado.')
         

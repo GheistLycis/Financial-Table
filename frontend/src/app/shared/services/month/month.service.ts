@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import { environment } from 'src/environments/environment';
 import { Response as Res } from 'src/app/shared/interfaces/Response';
+import MonthForm from '../../classes/MonthForm';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +21,11 @@ export class MonthService {
     return this.http.get<Res<MonthDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
-  post(payload: MonthDTO) {
+  post(payload: MonthForm) {
     return this.http.post<Res<MonthDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: MonthDTO) {
+  put(id: string, payload: MonthForm) {
     return this.http.put<Res<MonthDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 

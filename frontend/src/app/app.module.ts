@@ -26,7 +26,7 @@ registerLocaleData(localePT)
     BrowserModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      timeOut: 4000,
+      timeOut: 5000,
       preventDuplicates: true,
       countDuplicates: true
     }),

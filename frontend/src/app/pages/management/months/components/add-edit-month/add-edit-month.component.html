@@ -1,77 +1,75 @@
 <div class="modal-container">
   <div class="modal-header">
-    <h3>{{ action | titlecase }} registro de gasto</h3>
+    <h3>{{ action | titlecase }} mês</h3>
     <span (click)="activeModal.close(false)">&times;</span>
   </div>
   
-  <div class="modal-body">
-    <div *ngIf="action == 'adicionar'">
-      <app-filters 
-        [year]="year" 
-        [multiple]="false"
-        [clearable]="false"
-        (filters)="form.group = $event.groups[0]?.id || undefined"
-      ></app-filters>
-    </div>
-    
-    <form #formModel="ngForm">
-      <div>
-        <input 
-         [(ngModel)]="form.group"
-          name="group"
-          required
-          hidden
-          class="form-control"
-          [ngClass]="{'is-invalid': submitted && formModel.form.controls['group'].errors}">
-        <div *ngIf="submitted && formModel.form.controls['group'].errors && formModel.form.controls['group'].errors['required']" class="invalid-feedback">
-          * Grupo é obrigatório
-        </div>
-      </div>
-      
-      <div class="col mt-4">
-        <div class="row mb-4">
-          <label for="value" class="mb-1 required">Valor</label>
-          <input
-            id="value"
-            type="text"
-            [(ngModel)]="form.value"
-            name="value"
+  <div class="modal-body">    
+    <form #formModel="ngForm">      
+      <div class="col">
+        <div class="row mb-4" *ngIf="action == 'adicionar'">
+          <label for="year" class="form-label required">Ano</label>
+          <ng-select
+            id="year"
+            name="year"
             required
-            mask="separator.2"
-            prefix="R$ "
-            thousandSeparator="."
+            [items]="years$ | async"
+            [(ngModel)]="form.year"
+            [clearable]="false"
+            bindLabel="year"
+            bindValue="id"
+            notFoundText="Nenhum registro disponível."
+          ></ng-select>
+        </div>
+        
+        <div class="row mb-4">
+          <label for="month" class="mb-1 required">Mês</label>
+          <select
+            id="month"
+            [(ngModel)]="form.month"
+            name="month"
+            required
+            class="form-control">
+            <option [ngValue]="1">Janeiro</option>
+            <option [ngValue]="2">Fevereiro</option>
+            <option [ngValue]="3">Março</option>
+            <option [ngValue]="4">Abril</option>
+            <option [ngValue]="5">Maio</option>
+            <option [ngValue]="6">Junho</option>
+            <option [ngValue]="7">Julho</option>
+            <option [ngValue]="8">Agosto</option>
+            <option [ngValue]="9">Setembro</option>
+            <option [ngValue]="10">Outubro</option>
+            <option [ngValue]="11">Novembro</option>
+            <option [ngValue]="12">Dezembro</option>
+          </select>
+        </div>
+        
+        <div class="row mb-4">
+          <label for="available" class="mb-1 required">Porcentagem reservada</label>
+          <input 
+            id="available"
+            name="available"
+            type="number"
+            required
+            [(ngModel)]="form.available"
             class="form-control"
-            [ngClass]="{'is-invalid': submitted && formModel.form.controls['value'].errors}">
-          <div *ngIf="submitted && formModel.form.controls['value'].errors && formModel.form.controls['value'].errors['required']" class="invalid-feedback">
-            * Valor é obrigatório
+            [ngClass]="{'is-invalid': submitted && formModel.form.controls['available'].errors}">
+          <div *ngIf="submitted && formModel.form.controls['available'].errors && formModel.form.controls['available'].errors['required']" class="invalid-feedback">
+            * Defina uma porcentagem
           </div>
         </div>
         
         <div class="row mb-4">
-          <label for="description" class="mb-1">Descrição</label>
-          <textarea 
-            id="description"
-            type="text" 
-            [(ngModel)]="form.description"
-            name="description"
+          <label for="obs" class="mb-1">Observação</label>
+          <textarea
+            id="obs"
+            name="obs"
+            type="text"
             rows="2"
-            class="form-control">
+            [(ngModel)]="form.obs"
+            class="form-control resize-none">
           </textarea>
-        </div>
-        
-        <div class="row">
-          <label for="date" class="mb-1 required">Data</label>
-          <input 
-            id="date"
-            type="date" 
-            [(ngModel)]="form.date"
-            name="date"
-            required
-            class="form-control"
-            [ngClass]="{'is-invalid': submitted && formModel.form.controls['date'].errors}">
-            <div *ngIf="submitted && formModel.form.controls['date'].errors && formModel.form.controls['date'].errors['required']" class="invalid-feedback">
-              * Data é obrigatória
-            </div>
         </div>
       </div>
     </form>

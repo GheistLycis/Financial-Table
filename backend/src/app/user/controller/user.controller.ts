@@ -6,7 +6,7 @@ import { Post, Req, Body, Res } from '@nestjs/common';
 import { handleException, handleResponse } from 'src/shared/functions/globalHandlers';
 import GlobalException from 'src/shared/interfaces/GlobalException';
 import Session from 'src/shared/interfaces/Session';
-import BypassTokenGuard from 'src/shared/decorators/BypassTokenGuard';
+import BypassTokenGuard from 'src/shared/decorators/bypassTokenGuard';
 
 @ApiTags('users')
 @Injectable()

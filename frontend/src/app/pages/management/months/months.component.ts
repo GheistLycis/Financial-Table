@@ -10,7 +10,7 @@ import { AddEditMonthComponent } from './components/add-edit-month/add-edit-mont
 import MonthDTO from 'src/app/shared/DTOs/month';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { monthNames } from 'src/app/shared/enums/monthNames';
-import { Observable, BehaviorSubject, skip, tap, forkJoin, map, switchMap, pipe } from 'rxjs';
+import { BehaviorSubject, skip, tap, forkJoin, map } from 'rxjs';
 
 @Component({
   selector: 'app-months',
@@ -73,7 +73,6 @@ export class MonthsComponent {
               this.monthsHistories = histories
               this.loading = false
             })
-
           },
           error: () => this.loading = false
         })
@@ -107,7 +106,7 @@ export class MonthsComponent {
     })
   }
   
-  deleteMonth({ id, month }: MonthDTO) {
+  deleteMonth({ id, month, year }: MonthDTO) {
     const { componentInstance, result } = this.modalService.open(GeneralWarningComponent, { size: 'md' })
     let monthName: string
     
@@ -115,7 +114,7 @@ export class MonthsComponent {
     
     componentInstance.title = 'Excluir mês'
     componentInstance.text = `
-      Deseja realmente excluir o mês de ${monthName}? 
+      Deseja realmente excluir o mês de ${monthName} de ${year.year}? 
       <b>Tudo</b> que está registrado nele - registros, grupos e categorias - será <b>perdido!</b>`
     
     result.then((res: boolean) => res && 
