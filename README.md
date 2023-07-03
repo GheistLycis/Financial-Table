@@ -19,9 +19,11 @@ cd backend/frontend && npm i
 
 # to run backend/frontend
 cd backend/frontend && npm run start
-```
 
--> In backend, you can also use either ```npm run dev``` to run on Nest native watch mode or ```npm run hot``` to run on Webpack hot reload mode.
+# backend can also be bootstrapped with:
+npm run dev  # to run on Nest's native watch mode
+npm run hot  # to run on Webpack's hot reload mode
+```
 
 -> Backend's ```.env``` structure is typed by ```@hapi/joi``` and can be checked in ```app.module```'s ```ConfigModule.validationSchema```.
 
