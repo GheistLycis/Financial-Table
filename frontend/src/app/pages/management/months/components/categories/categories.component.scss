@@ -1,0 +1,11 @@
+.category-color {
+  width: 80px;
+  height: 25px;
+  padding: 4px;
+  border: 1px solid grey;
+  
+  > div {
+    width: 100%;
+    height: 100%;
+  }
+}

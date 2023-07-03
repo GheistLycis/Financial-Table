@@ -12,19 +12,23 @@ import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-
 import { CategoriesComponent } from './components/categories/categories.component';
 import { GroupsComponent } from './components/categories/components/groups/groups.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { AddEditCategoryComponent } from './components/categories/components/add-edit-category/add-edit-category.component';
+import { AddEditGroupComponent } from './components/categories/components/groups/components/add-edit-group/add-edit-group.component';
 
 
 
 @NgModule({
   declarations: [
-    MonthsComponent,
+    AddEditCategoryComponent,
+    AddEditGroupComponent,
     AddEditMonthComponent,
-    AddEditMonthlyIncomeComponent,
     AddEditMonthlyExpenseComponent,
-    MonthlyIncomesComponent,
-    MonthlyExpensesComponent,
+    AddEditMonthlyIncomeComponent,
     CategoriesComponent,
     GroupsComponent,
+    MonthlyExpensesComponent,
+    MonthlyIncomesComponent,
+    MonthsComponent,
   ],
   imports: [
     CommonModule,

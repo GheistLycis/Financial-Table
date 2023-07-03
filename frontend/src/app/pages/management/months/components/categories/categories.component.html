@@ -1,1 +1,58 @@
-<p>categories works!</p>
+<div class="modal-container">
+  <div class="modal-header">
+    <div class="d-flex align-items-center gap-15">
+      <h2 class="mb-2">Categorias de {{ month.month }}</h2>
+      <img 
+        src="../../../../../assets/icons/plus.svg"
+        (click)="addCategory()"
+        alt="Adicionar entrada mensal"
+        width="30px"
+        class="pointer">
+    </div>
+    <span (click)="activeModal.close(false)">&times;</span>
+  </div>
+  
+  <div class="modal-body">
+    <table class="table table-hover">
+      <thead>
+        <th>Nome</th>
+        <th>Porcentagem</th>
+        <th>Cor</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of categories" class="table-active">
+          <td>{{ category.name }}</td>
+          <td>{{ category.percentage }}%</td>
+          <td>
+            <div class="category-color">
+              <div [style.background-color]="category.color"></div>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex justify-content-evenly">
+              <img 
+                src="../../../../../../assets/icons/pencil.svg"
+                (click)="editCategory(category)"
+                alt="Editar"
+                width="25px"
+                class="pointer">
+              <img 
+                src="../../../../../../assets/icons/trash.svg"
+                (click)="deleteCategory(category)"
+                alt="Excluir"
+                width="25px"
+                class="pointer">
+              <img 
+                src="../../../../../../assets/icons/category.svg"
+                (click)="listGroups(category)"
+                alt="Listar grupos"
+                width="25px"
+                class="pointer">
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

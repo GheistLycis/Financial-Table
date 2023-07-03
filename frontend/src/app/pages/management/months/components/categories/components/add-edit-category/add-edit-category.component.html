@@ -1,1 +1,65 @@
-<p>add-edit-category works!</p>
+<div class="modal-container">
+  <div class="modal-header">
+    <h3>{{ action | titlecase }} categoria</h3>
+    <span (click)="activeModal.close(false)">&times;</span>
+  </div>
+  
+  <div class="modal-body">    
+    <form #formModel="ngForm">      
+      <div class="col">        
+        <div class="row mb-4">
+          <label for="name" class="mb-1 required">Nome</label>
+          <input 
+            id="name"
+            name="name"
+            type="text"
+            required
+            [(ngModel)]="form.name"
+            class="form-control"
+            [ngClass]="{'is-invalid': submitted && formModel.form.controls['name'].errors}">
+          <div *ngIf="submitted && formModel.form.controls['name'].errors && formModel.form.controls['name'].errors['required']" class="invalid-feedback">
+            * Defina um nome
+          </div>
+        </div>
+        
+        <div class="row mb-4">
+          <label for="percentage" class="mb-1 required">Porcentagem reservada</label>
+          <input 
+            id="percentage"
+            name="percentage"
+            type="text"
+            required
+            [(ngModel)]="form.percentage"
+            mask="0||00"
+            suffix=" %"
+            class="form-control"
+            [ngClass]="{'is-invalid': submitted && formModel.form.controls['percentage'].errors}">
+          <div *ngIf="submitted && formModel.form.controls['percentage'].errors && formModel.form.controls['percentage'].errors['required']" class="invalid-feedback">
+            * Defina a porcentagem
+          </div>
+        </div>
+        
+        <div class="row mb-4">
+          <label for="color" class="mb-1 required">Cor</label>
+          <input 
+            id="color"
+            name="color"
+            type="color"
+            required
+            [(ngModel)]="form.color"
+            class="form-control"
+            [ngClass]="{'is-invalid': submitted && formModel.form.controls['color'].errors}">
+          <div *ngIf="submitted && formModel.form.controls['color'].errors && formModel.form.controls['color'].errors['required']" class="invalid-feedback">
+            * Defina uma cor
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <div class="modal-footer justify-content-end">
+    <button (click)="validateForm()">
+      {{ action | titlecase }}
+    </button>
+  </div>
+</div>

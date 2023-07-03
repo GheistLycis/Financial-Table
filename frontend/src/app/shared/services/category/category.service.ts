@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import CategoryDTO from 'src/app/shared/DTOs/category';
 import { environment } from 'src/environments/environment';
 import { Response as Res } from 'src/app/shared/interfaces/Response';
+import CategoryForm from '../../classes/CategoryForm';
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +21,11 @@ export class CategoryService {
     return this.http.get<Res<CategoryDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
-  post(payload: CategoryDTO) {
+  post(payload: CategoryForm) {
     return this.http.post<Res<CategoryDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: CategoryDTO) {
+  put(id: string, payload: CategoryForm) {
     return this.http.put<Res<CategoryDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 

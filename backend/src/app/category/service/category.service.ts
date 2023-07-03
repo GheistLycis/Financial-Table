@@ -49,7 +49,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
     const entity = this.repo.create({ 
       name, 
       color, 
-      percentage,
+      percentage: +percentage,
       month: monthEntity
     })
 
@@ -66,8 +66,8 @@ export class CategoryService implements BaseService<CategoryDTO> {
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 
     const repeated = await this.repo.createQueryBuilder('Category')
-      .leftJoinAndSelect('Category.group', 'Month')
-      .where('Category.name = :name', { name })
+      .leftJoinAndSelect('Category.month', 'Month')
+      .where('Category.id != :id', { id })
       .andWhere('Category.name = :name', { name })
       .andWhere('Month.id = :month', { month })
       .getOne()
