@@ -10,7 +10,8 @@ import { AddEditMonthlyExpenseComponent } from './components/monthly-expenses/co
 import { MonthlyIncomesComponent } from './components/monthly-incomes/monthly-incomes.component';
 import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-expenses.component';
 import { CategoriesComponent } from './components/categories/categories.component';
-import { GroupsComponent } from './components/groups/groups.component';
+import { GroupsComponent } from './components/categories/components/groups/groups.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 
 
@@ -30,6 +31,7 @@ import { GroupsComponent } from './components/groups/groups.component';
     NgbNavModule,
     FormsModule,
     NgSelectModule,
+    NgxMaskModule,
   ]
 })
 export class MonthsModule { }

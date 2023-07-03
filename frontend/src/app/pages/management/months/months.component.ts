@@ -11,6 +11,9 @@ import MonthDTO from 'src/app/shared/DTOs/month';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { monthNames } from 'src/app/shared/enums/monthNames';
 import { BehaviorSubject, skip, tap, forkJoin, map } from 'rxjs';
+import { MonthlyIncomesComponent } from './components/monthly-incomes/monthly-incomes.component';
+import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-expenses.component';
+import { CategoriesComponent } from './components/categories/categories.component';
 
 @Component({
   selector: 'app-months',
@@ -81,7 +84,7 @@ export class MonthsComponent {
   }
   
   addMonth(): void {
-    const { result } = this.modalService.open(AddEditMonthComponent, { size: 'xl' })
+    const { result } = this.modalService.open(AddEditMonthComponent, { size: 'lg' })
     
     result.then((res: boolean) => {
       if(res) {
@@ -93,7 +96,7 @@ export class MonthsComponent {
   }
   
   editMonth(month: MonthDTO): void {
-    const { componentInstance, result } = this.modalService.open(AddEditMonthComponent, { size: 'xl' })
+    const { componentInstance, result } = this.modalService.open(AddEditMonthComponent, { size: 'lg' })
     
     componentInstance.month = month
     
@@ -127,18 +130,26 @@ export class MonthsComponent {
   }
   
   listMonthlyIncomes(month: MonthDTO): void {
+    const { componentInstance, result } = this.modalService.open(MonthlyIncomesComponent, { size: 'xl' })
     
+    componentInstance.month = month
+    
+    result.then(() => this.listHistories(), () => this.listHistories())
   }
   
   listMonthlyExpenses(month: MonthDTO): void {
+    const { componentInstance, result } = this.modalService.open(MonthlyExpensesComponent, { size: 'xl' })
     
+    componentInstance.month = month
+    
+    result.then(() => this.listHistories(), () => this.listHistories())
   }
   
   listCategories(month: MonthDTO): void {
+    const { componentInstance, result } = this.modalService.open(CategoriesComponent, { size: 'xl' })
     
-  }
-  
-  listGroups(month: MonthDTO): void {
+    componentInstance.month = month
     
+    result.then(() => this.listHistories(), () => this.listHistories())
   }
 }

@@ -1,1 +1,46 @@
-<p>monthly-incomes works!</p>
+<div class="modal-container">
+  <div class="modal-header">
+    <div class="d-flex align-items-center gap-15">
+      <h2 class="mb-2">Entradas de {{ month.month }}</h2>
+      <img 
+        src="../../../../../assets/icons/plus.svg"
+        (click)="addIncome()"
+        alt="Adicionar entrada mensal"
+        width="30px"
+        class="pointer">
+    </div>
+    <span (click)="activeModal.close(false)">&times;</span>
+  </div>
+  
+  <div class="modal-body">
+    <table class="table table-hover">
+      <thead>
+        <th>Valor</th>
+        <th>Descrição</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let income of incomes" class="table-active">
+          <td>{{ income.value | number : '.2-2' : 'pt' }}</td>
+          <td>{{ income.description }}</td>
+          <td>
+            <div class="d-flex justify-content-evenly">
+              <img 
+                src="../../../../../assets/icons/pencil.svg"
+                (click)="editIncome(income)"
+                alt="Editar"
+                width="25px"
+                class="pointer">
+              <img 
+                src="../../../../../assets/icons/trash.svg"
+                (click)="deleteIncome(income)"
+                alt="Excluir"
+                width="25px"
+                class="pointer">
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

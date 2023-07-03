@@ -89,7 +89,7 @@ export class ExpensesComponent implements OnInit {
   }
   
   addExpense(): void {
-    const { componentInstance, result } = this.modalService.open(AddEditExpenseComponent, { size: 'xl' })
+    const { componentInstance, result } = this.modalService.open(AddEditExpenseComponent, { size: 'lg' })
     
     componentInstance.year = this.activeYear
     
@@ -105,7 +105,7 @@ export class ExpensesComponent implements OnInit {
   }
   
   editExpense(expense: ExpenseDTO): void {
-    const { componentInstance, result } = this.modalService.open(AddEditExpenseComponent, { size: 'xl' })
+    const { componentInstance, result } = this.modalService.open(AddEditExpenseComponent, { size: 'lg' })
     
     componentInstance.expense = expense
     
