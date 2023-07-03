@@ -106,7 +106,7 @@ export class MonthsComponent {
     })
   }
   
-  deleteMonth({ id, month, year }: MonthDTO) {
+  deleteMonth({ id, month, year }: MonthDTO): void {
     const { componentInstance, result } = this.modalService.open(GeneralWarningComponent, { size: 'md' })
     let monthName: string
     
@@ -124,5 +124,21 @@ export class MonthsComponent {
         this.listHistories()
       })
     )
+  }
+  
+  listMonthlyIncomes(month: MonthDTO): void {
+    
+  }
+  
+  listMonthlyExpenses(month: MonthDTO): void {
+    
+  }
+  
+  listCategories(month: MonthDTO): void {
+    
+  }
+  
+  listGroups(month: MonthDTO): void {
+    
   }
 }

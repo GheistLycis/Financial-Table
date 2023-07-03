@@ -48,7 +48,7 @@
                 <td [ngClass]="{'text-danger': history.balance <= 0}">
                   {{ history.balance | number : '.2-2' : 'pt' }}</td>
                 <td>
-                  <div class="d-flex gap-10">
+                  <div class="d-flex justify-content-evenly">
                     <img 
                       src="../../../../../assets/icons/pencil.svg"
                       (click)="editMonth(history.month)"
@@ -60,6 +60,30 @@
                       (click)="deleteMonth(history.month)"
                       alt="Excluir"
                       width="25px"
+                      class="pointer">
+                    <img 
+                      src="../../../../../assets/icons/money.svg"
+                      (click)="listMonthlyIncomes(history.month)"
+                      alt="Adicionar entrada"
+                      width="30px"
+                      class="pointer">
+                    <img 
+                      src="../../../../../assets/icons/dollar-sign.svg"
+                      (click)="listMonthlyExpenses(history.month)"
+                      alt="Adicionar gasto fixo"
+                      width="30px"
+                      class="pointer">
+                    <img 
+                      src="../../../../../assets/icons/category.svg"
+                      (click)="listCategories(history.month)"
+                      alt="Adicionar categoria"
+                      width="30px"
+                      class="pointer">
+                    <img 
+                      src="../../../../../assets/icons/group.svg"
+                      (click)="listGroups(history.month)"
+                      alt="Adicionar grupo"
+                      width="30px"
                       class="pointer">
                   </div>
                 </td>

@@ -34,14 +34,6 @@ export class NavbarComponent implements OnInit {
           title: 'Meses',
           link: 'gerenciar/meses'
         },
-        {
-          title: 'Categorias',
-          link: 'gerenciar/categorias'
-        },
-        {
-          title: 'Grupos',
-          link: 'gerenciar/grupos'
-        },
       ],
     },
   ]
