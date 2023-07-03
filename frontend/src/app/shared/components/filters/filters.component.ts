@@ -28,6 +28,9 @@ export class FiltersComponent implements OnInit {
       tap(months => this.months$.next(months))
     ).subscribe()
   }
+  @Input() showMonths = true
+  @Input() showCategories = true
+  @Input() showGroups = true
   @Input() multiple = true
   @Input() clearable = true
   @Output() filters = new EventEmitter<Filters>()

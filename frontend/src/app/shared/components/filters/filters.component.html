@@ -1,19 +1,19 @@
 <div>
     <div class="d-flex justify-content-center w-100 filters">
         <ng-container *ngTemplateOutlet="filter; 
-            context: { $implicit: months$, title: 'Mês', model: selectedMonths$, label: 'month' }"
+            context: { $implicit: months$, title: 'Mês', model: selectedMonths$, label: 'month', condition: showMonths }"
         ></ng-container>
         <ng-container *ngTemplateOutlet="filter; 
-            context: { $implicit: categories$, title: 'Categoria', model: selectedCategories$, label: 'name' }"
+            context: { $implicit: categories$, title: 'Categoria', model: selectedCategories$, label: 'name', condition: showCategories }"
         ></ng-container>
         <ng-container *ngTemplateOutlet="filter; 
-            context: { $implicit: groups$, title: 'Grupo', model: selectedGroups$, label: 'name' }"
+            context: { $implicit: groups$, title: 'Grupo', model: selectedGroups$, label: 'name', condition: showGroups }"
         ></ng-container>
     </div>
 </div>
 
-<ng-template #filter let-items let-title="title" let-model="model" let-label="label">
-    <div>
+<ng-template #filter let-condition="condition" let-items let-title="title" let-model="model" let-label="label">
+    <div *ngIf="condition">
         <label class="form-label">{{ title }}</label>
         <ng-select
             [items]="items | async"
