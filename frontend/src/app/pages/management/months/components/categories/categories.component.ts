@@ -81,10 +81,6 @@ export class CategoriesComponent implements OnInit {
   }
   
   listGroups(category: CategoryDTO): void {
-    const { componentInstance, result } = this.modalService.open(GroupsComponent, { size: 'xl' })
-    
-    componentInstance.category = category
-    
-    result.then(() => this.listCategories(), () => this.listCategories())
+    this.modalService.open(GroupsComponent, { size: 'xl' }).componentInstance.category = category
   }
 }

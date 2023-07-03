@@ -146,10 +146,6 @@ export class MonthsComponent {
   }
   
   listCategories(month: MonthDTO): void {
-    const { componentInstance, result } = this.modalService.open(CategoriesComponent, { size: 'xl' })
-    
-    componentInstance.month = month
-    
-    result.then(() => this.listHistories(), () => this.listHistories())
+    this.modalService.open(CategoriesComponent, { size: 'xl' }).componentInstance.month = month
   }
 }

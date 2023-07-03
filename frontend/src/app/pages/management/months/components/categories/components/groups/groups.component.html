@@ -1,1 +1,50 @@
-<p>groups works!</p>
+<div class="modal-container">
+  <div class="modal-header">
+    <div class="d-flex align-items-center gap-15">
+      <h2 class="mb-2">Grupos de {{ category.name }}</h2>
+      <img 
+        src="../../../../../assets/icons/plus.svg"
+        (click)="addGroup()"
+        alt="Adicionar entrada mensal"
+        width="30px"
+        class="pointer">
+    </div>
+    <span (click)="activeModal.close(false)">&times;</span>
+  </div>
+  
+  <div class="modal-body">
+    <table class="table table-hover">
+      <thead>
+        <th>Nome</th>
+        <th>Cor</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let group of groups" class="table-active">
+          <td>{{ group.name }}</td>
+          <td>
+            <div class="color-label">
+              <div [style.background-color]="group.color"></div>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex justify-content-evenly">
+              <img 
+                src="../../../../../assets/icons/pencil.svg"
+                (click)="editGroup(group)"
+                alt="Editar"
+                width="25px"
+                class="pointer">
+              <img 
+                src="../../../../../assets/icons/trash.svg"
+                (click)="deleteGroup(group)"
+                alt="Excluir"
+                width="25px"
+                class="pointer">
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
