@@ -9,5 +9,6 @@ import { MonthlyIncomeService } from './service/monthly-income.service';
   imports: [TypeOrmModule.forFeature([MonthlyIncome, Month])],
   controllers: [MonthlyIncomeController],
   providers: [MonthlyIncomeService],
+  exports: [MonthlyIncomeService]
 })
 export class MonthlyIncomeModule {}

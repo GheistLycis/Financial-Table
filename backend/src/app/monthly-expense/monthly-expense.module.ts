@@ -9,5 +9,6 @@ import { MonthlyExpenseService } from './service/monthly-expense.service';
   imports: [TypeOrmModule.forFeature([MonthlyExpense, Month])],
   controllers: [MonthlyExpenseController],
   providers: [MonthlyExpenseService],
+  exports: [MonthlyExpenseService]
 })
 export class MonthlyExpenseModule {}

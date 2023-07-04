@@ -4,39 +4,22 @@ import { Year } from '../year/Year';
 import { MonthController } from './controller/month.controller';
 import { Month } from './Month';
 import { MonthService } from './service/month.service';
-import { MonthlyIncome } from '../monthly-income/MonthlyIncome';
-import { MonthlyExpense } from '../monthly-expense/MonthlyExpense';
-import { Category } from '../category/Category';
-import { Group } from '../group/Group';
-import { Expense } from '../expense/Expense';
-import { YearService } from '../year/service/year.service';
-import { MonthlyIncomeService } from '../monthly-income/service/monthly-income.service';
-import { MonthlyExpenseService } from '../monthly-expense/service/monthly-expense.service';
-import { CategoryService } from '../category/service/category.service';
-import { GroupService } from '../group/service/group.service';
-import { ExpenseService } from '../expense/service/expense.service';
+import { YearModule } from '../year/year.module';
+import { MonthlyIncomeModule } from '../monthly-income/monthly-income.module';
+import { MonthlyExpenseModule } from '../monthly-expense/monthly-expense.module';
+import { CategoryModule } from '../category/category.module';
+import { GroupModule } from '../group/group.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      Year,
-      Month, 
-      MonthlyIncome,
-      MonthlyExpense,
-      Category,
-      Group,
-      Expense,
-    ]),
+    TypeOrmModule.forFeature([Year, Month]),
+    YearModule,
+    MonthlyIncomeModule,
+    MonthlyExpenseModule,
+    CategoryModule,
+    GroupModule,
   ],
   controllers: [MonthController],
-  providers: [
-    YearService,
-    MonthService, 
-    MonthlyIncomeService,
-    MonthlyExpenseService,
-    CategoryService,
-    GroupService,
-    ExpenseService,
-  ],
+  providers: [MonthService],
 })
 export class MonthModule {}

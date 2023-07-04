@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { validate } from 'class-validator';
 import BaseService from 'src/shared/interfaces/BaseService';
 import MonthDTO from '../Month.dto';
@@ -7,22 +7,13 @@ import { Year } from '../../year/Year'
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/functions/globalExceptions';
 import { Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
-import CategoryDTO from 'src/app/category/Category.dto';
-import MonthlyIncomeDTO from 'src/app/monthly-income/MonthlyIncome.dto';
-import MonthlyExpenseDTO from 'src/app/monthly-expense/MonthlyExpense.dto';
-import GroupDTO from 'src/app/group/Group.dto';
-import { MonthlyIncome } from 'src/app/monthly-income/MonthlyIncome';
-import { MonthlyExpense } from 'src/app/monthly-expense/MonthlyExpense';
-import { Category } from 'src/app/category/Category';
-import { Group } from 'src/app/group/Group';
-import { Expense } from 'src/app/expense/Expense';
 import { YearService } from 'src/app/year/service/year.service';
 import { MonthlyIncomeService } from 'src/app/monthly-income/service/monthly-income.service';
 import { MonthlyExpenseService } from 'src/app/monthly-expense/service/monthly-expense.service';
 import { CategoryService } from 'src/app/category/service/category.service';
 import { GroupService } from 'src/app/group/service/group.service';
-import { ExpenseService } from 'src/app/expense/service/expense.service';
 import YearDTO from 'src/app/year/Year.dto';
+import CategoryDTO from 'src/app/category/Category.dto';
 
 type body = { month: number, available: number, obs: string, year: string }
 type queries = { year: string }
@@ -32,17 +23,11 @@ export class MonthService implements BaseService<MonthDTO> {
   constructor(
     @Repo(Year) private yearRepo: Repository<Year>,
     @Repo(Month) private repo: Repository<Month>,
-    @Repo(MonthlyIncome) private monthlyIncomeRepo: Repository<MonthlyIncome>,
-    @Repo(MonthlyExpense) private monthlyExpenseRepo: Repository<MonthlyExpense>,
-    @Repo(Category) private categoryRepo: Repository<Category>,
-    @Repo(Group) private groupRepo: Repository<Group>,
-    @Repo(Expense) private expenseRepo: Repository<Expense>,
-    private yearService: YearService,
-    private monthlyIncomeService: MonthlyIncomeService,
-    private monthlyExpenseService: MonthlyExpenseService,
-    private categoryService: CategoryService,
-    private groupService: GroupService,
-    private expenseService: ExpenseService,
+    @Inject(YearService) private yearService: YearService,
+    @Inject(MonthlyIncomeService) private monthlyIncomeService: MonthlyIncomeService,
+    @Inject(MonthlyExpenseService) private monthlyExpenseService: MonthlyExpenseService,
+    @Inject(CategoryService) private categoryService: CategoryService,
+    @Inject(GroupService) private groupService: GroupService,
   ) {}
 
   async list({ year }: queries) {
@@ -154,12 +139,54 @@ export class MonthService implements BaseService<MonthDTO> {
       available: targetMonth.available, 
       obs: targetMonth.obs, 
       year: yearDTO.id,
+    }).catch(err => {
+      if(err?.code == 406) err.message = 'O mês seguinte já existe.'
+
+      throw err
     })
     
-    let monthlyIncomes: MonthlyIncomeDTO[]
-    let monthlyExpenses: MonthlyExpenseDTO[]
-    let categories: CategoryDTO[]
-    let groups: GroupDTO[]
+    const monthlyIncomes = await this.monthlyIncomeService.list({ month: targetMonth.id })
+    monthlyIncomes.forEach(({ value, description }) => {
+      this.monthlyIncomeService.post({
+        value,
+        description,
+        month: newMonth.id,
+      })
+    })
+    
+    const monthlyExpenses = await this.monthlyExpenseService.list({ month: targetMonth.id })
+    monthlyExpenses.forEach(({ value, description }) => {
+      this.monthlyExpenseService.post({
+        value,
+        description,
+        month: newMonth.id,
+      })
+    })
+    
+    const targetCategories = await this.categoryService.list({ month: targetMonth.id })
+    const newCategories: CategoryDTO[] = []
+    for(let i = 0; i < targetCategories.length; i++) {
+      const { name, color, percentage } = targetCategories[i]
+      const newCategory = await this.categoryService.post({
+        name,
+        percentage,
+        color,
+        month: newMonth.id,
+      })
+      
+      newCategories.push(newCategory)
+    }
+    
+    const groups = await this.groupService.list({ month: targetMonth.id, category: '' })
+    groups.forEach(({ name, color, category }) => {
+      const { id } = newCategories.find(({ name }) => name == category.name)
+      
+      this.groupService.post({
+        name,
+        color,
+        category: id,
+      })
+    })
     
     return newMonth
   }
