@@ -7,6 +7,22 @@ import { Year } from '../../year/Year'
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/functions/globalExceptions';
 import { Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
+import CategoryDTO from 'src/app/category/Category.dto';
+import MonthlyIncomeDTO from 'src/app/monthly-income/MonthlyIncome.dto';
+import MonthlyExpenseDTO from 'src/app/monthly-expense/MonthlyExpense.dto';
+import GroupDTO from 'src/app/group/Group.dto';
+import { MonthlyIncome } from 'src/app/monthly-income/MonthlyIncome';
+import { MonthlyExpense } from 'src/app/monthly-expense/MonthlyExpense';
+import { Category } from 'src/app/category/Category';
+import { Group } from 'src/app/group/Group';
+import { Expense } from 'src/app/expense/Expense';
+import { YearService } from 'src/app/year/service/year.service';
+import { MonthlyIncomeService } from 'src/app/monthly-income/service/monthly-income.service';
+import { MonthlyExpenseService } from 'src/app/monthly-expense/service/monthly-expense.service';
+import { CategoryService } from 'src/app/category/service/category.service';
+import { GroupService } from 'src/app/group/service/group.service';
+import { ExpenseService } from 'src/app/expense/service/expense.service';
+import YearDTO from 'src/app/year/Year.dto';
 
 type body = { month: number, available: number, obs: string, year: string }
 type queries = { year: string }
@@ -14,8 +30,19 @@ type queries = { year: string }
 @Injectable()
 export class MonthService implements BaseService<MonthDTO> {
   constructor(
-    @Repo(Month) private repo: Repository<Month>,
     @Repo(Year) private yearRepo: Repository<Year>,
+    @Repo(Month) private repo: Repository<Month>,
+    @Repo(MonthlyIncome) private monthlyIncomeRepo: Repository<MonthlyIncome>,
+    @Repo(MonthlyExpense) private monthlyExpenseRepo: Repository<MonthlyExpense>,
+    @Repo(Category) private categoryRepo: Repository<Category>,
+    @Repo(Group) private groupRepo: Repository<Group>,
+    @Repo(Expense) private expenseRepo: Repository<Expense>,
+    private yearService: YearService,
+    private monthlyIncomeService: MonthlyIncomeService,
+    private monthlyExpenseService: MonthlyExpenseService,
+    private categoryService: CategoryService,
+    private groupService: GroupService,
+    private expenseService: ExpenseService,
   ) {}
 
   async list({ year }: queries) {
@@ -90,5 +117,50 @@ export class MonthService implements BaseService<MonthDTO> {
     await this.repo.softRemove(entity)
 
     return Month.toDTO(entity)
+  }
+  
+  async duplicate(id: string): Promise<MonthDTO | any> {
+    const targetMonth = await this.repo.findOne({ 
+      where: { id }, 
+      relations: { year: true } 
+    }).then(entity => Month.toDTO(entity))
+    if(!targetMonth) throw NotFoundException('Mês não encontrado.')
+    
+    let newMonthNumber: number
+    let yearDTO: YearDTO
+    
+    if(targetMonth.month < 12) {
+      newMonthNumber = targetMonth.month + 1
+      
+      yearDTO = await this.yearService.get(targetMonth.year.id)
+    }
+    else {
+      newMonthNumber = 1
+      
+      yearDTO = await this.yearRepo.findOneBy({ year: targetMonth.year.year + 1 })
+        .then(year =>{
+          if(year) {
+            return this.yearService.get(year.id)
+          }
+          else {
+            return this.yearService.post({ year: targetMonth.year.year + 1 })
+          }
+        })
+        .then(year => year)
+    }
+    
+    const newMonth = await this.post({
+      month: newMonthNumber,
+      available: targetMonth.available, 
+      obs: targetMonth.obs, 
+      year: yearDTO.id,
+    })
+    
+    let monthlyIncomes: MonthlyIncomeDTO[]
+    let monthlyExpenses: MonthlyExpenseDTO[]
+    let categories: CategoryDTO[]
+    let groups: GroupDTO[]
+    
+    return newMonth
   }
 }
