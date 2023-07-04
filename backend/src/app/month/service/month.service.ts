@@ -17,6 +17,12 @@ import CategoryDTO from 'src/app/category/Category.dto';
 
 type body = { month: number, available: number, obs: string, year: string }
 type queries = { year: string }
+type duplicateQueries = { 
+  duplicateMonthlyExpenses: 'true' | 'false',
+  duplicateMonthlyIncomes: 'true' | 'false',
+  duplicateCategories: 'true' | 'false',
+  duplicateGroups: 'true' | 'false',
+}
 
 @Injectable()
 export class MonthService implements BaseService<MonthDTO> {
@@ -104,7 +110,7 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
   
-  async duplicate(id: string): Promise<MonthDTO | any> {
+  async duplicate(id: string, { duplicateMonthlyExpenses, duplicateMonthlyIncomes, duplicateCategories, duplicateGroups }: duplicateQueries): Promise<MonthDTO> {
     const targetMonth = await this.repo.findOne({ 
       where: { id }, 
       relations: { year: true } 
@@ -145,48 +151,54 @@ export class MonthService implements BaseService<MonthDTO> {
       throw err
     })
     
-    const monthlyIncomes = await this.monthlyIncomeService.list({ month: targetMonth.id })
-    monthlyIncomes.forEach(({ value, description }) => {
-      this.monthlyIncomeService.post({
-        value,
-        description,
-        month: newMonth.id,
+    if(duplicateMonthlyIncomes == 'true') {
+      const monthlyIncomes = await this.monthlyIncomeService.list({ month: targetMonth.id })
+      monthlyIncomes.forEach(({ value, description }) => {
+        this.monthlyIncomeService.post({
+          value,
+          description,
+          month: newMonth.id,
+        })
       })
-    })
-    
-    const monthlyExpenses = await this.monthlyExpenseService.list({ month: targetMonth.id })
-    monthlyExpenses.forEach(({ value, description }) => {
-      this.monthlyExpenseService.post({
-        value,
-        description,
-        month: newMonth.id,
-      })
-    })
-    
-    const targetCategories = await this.categoryService.list({ month: targetMonth.id })
-    const newCategories: CategoryDTO[] = []
-    for(let i = 0; i < targetCategories.length; i++) {
-      const { name, color, percentage } = targetCategories[i]
-      const newCategory = await this.categoryService.post({
-        name,
-        percentage,
-        color,
-        month: newMonth.id,
-      })
-      
-      newCategories.push(newCategory)
     }
-    
-    const groups = await this.groupService.list({ month: targetMonth.id, category: '' })
-    groups.forEach(({ name, color, category }) => {
-      const { id } = newCategories.find(({ name }) => name == category.name)
-      
-      this.groupService.post({
-        name,
-        color,
-        category: id,
+    if(duplicateMonthlyExpenses == 'true') {
+      const monthlyExpenses = await this.monthlyExpenseService.list({ month: targetMonth.id })
+      monthlyExpenses.forEach(({ value, description }) => {
+        this.monthlyExpenseService.post({
+          value,
+          description,
+          month: newMonth.id,
+        })
       })
-    })
+    }
+    if(duplicateCategories == 'true') {
+      const targetCategories = await this.categoryService.list({ month: targetMonth.id })
+      const newCategories: CategoryDTO[] = []
+      for(let i = 0; i < targetCategories.length; i++) {
+        const { name, color, percentage } = targetCategories[i]
+        const newCategory = await this.categoryService.post({
+          name,
+          percentage,
+          color,
+          month: newMonth.id,
+        })
+        
+        newCategories.push(newCategory)
+      }
+      
+      if(duplicateGroups == 'true') {
+        const groups = await this.groupService.list({ month: targetMonth.id, category: '' })
+        groups.forEach(({ name, color, category }) => {
+          const { id } = newCategories.find(({ name }) => name == category.name)
+          
+          this.groupService.post({
+            name,
+            color,
+            category: id,
+          })
+        })
+      }
+    }
     
     return newMonth
   }
