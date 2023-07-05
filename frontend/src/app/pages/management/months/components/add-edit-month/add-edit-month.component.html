@@ -54,8 +54,8 @@
             required
             [(ngModel)]="form.available"
             class="form-control"
-            [ngClass]="{'is-invalid': submitted && formModel.form.controls['available'].errors}">
-          <div *ngIf="submitted && formModel.form.controls['available'].errors && formModel.form.controls['available'].errors['required']" class="invalid-feedback">
+            [ngClass]="{'is-invalid': submitted && f['available'].errors}">
+          <div *ngIf="submitted && f['available'].errors && f['available'].errors['required']" class="invalid-feedback">
             * Defina uma porcentagem
           </div>
         </div>

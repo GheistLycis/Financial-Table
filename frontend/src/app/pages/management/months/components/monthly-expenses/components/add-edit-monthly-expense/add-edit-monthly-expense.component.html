@@ -19,8 +19,8 @@
             prefix="R$ "
             thousandSeparator="."
             class="form-control"
-            [ngClass]="{'is-invalid': submitted && formModel.form.controls['value'].errors}">
-          <div *ngIf="submitted && formModel.form.controls['value'].errors && formModel.form.controls['value'].errors['required']" class="invalid-feedback">
+            [ngClass]="{'is-invalid': submitted && f['value'].errors}">
+          <div *ngIf="submitted && f['value'].errors && f['value'].errors['required']" class="invalid-feedback">
             * Insira o valor
           </div>
         </div>

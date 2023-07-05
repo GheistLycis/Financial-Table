@@ -22,8 +22,8 @@
           required
           hidden
           class="form-control"
-          [ngClass]="{'is-invalid': submitted && formModel.form.controls['group'].errors}">
-        <div *ngIf="submitted && formModel.form.controls['group'].errors && formModel.form.controls['group'].errors['required']" class="invalid-feedback">
+          [ngClass]="{'is-invalid': submitted && f['group'].errors}">
+        <div *ngIf="submitted && f['group'].errors && f['group'].errors['required']" class="invalid-feedback">
           * Grupo é obrigatório
         </div>
       </div>
@@ -41,8 +41,8 @@
             prefix="R$ "
             thousandSeparator="."
             class="form-control"
-            [ngClass]="{'is-invalid': submitted && formModel.form.controls['value'].errors}">
-          <div *ngIf="submitted && formModel.form.controls['value'].errors && formModel.form.controls['value'].errors['required']" class="invalid-feedback">
+            [ngClass]="{'is-invalid': submitted && f['value'].errors}">
+          <div *ngIf="submitted && f['value'].errors && f['value'].errors['required']" class="invalid-feedback">
             * Valor é obrigatório
           </div>
         </div>
@@ -68,8 +68,8 @@
             name="date"
             required
             class="form-control"
-            [ngClass]="{'is-invalid': submitted && formModel.form.controls['date'].errors}">
-            <div *ngIf="submitted && formModel.form.controls['date'].errors && formModel.form.controls['date'].errors['required']" class="invalid-feedback">
+            [ngClass]="{'is-invalid': submitted && f['date'].errors}">
+            <div *ngIf="submitted && f['date'].errors && f['date'].errors['required']" class="invalid-feedback">
               * Data é obrigatória
             </div>
         </div>

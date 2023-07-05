@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import CategoryDTO from 'src/app/shared/DTOs/category';
 import GroupDTO from 'src/app/shared/DTOs/group';
@@ -58,5 +58,9 @@ export class AddEditGroupComponent implements OnInit {
       complete: () => this.activeModal.close(true),
       error: () => this.activeModal.close(false)
     })
+  }
+  
+  get f(): FormGroup['controls'] {
+    return this.formModel.form.controls
   }
 }

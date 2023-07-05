@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import MonthForm from 'src/app/shared/classes/MonthForm';
@@ -64,5 +64,9 @@ export class AddEditMonthComponent {
       complete: () => this.activeModal.close(true),
       error: () => this.activeModal.close(false)
     })
+  }
+  
+  get f(): FormGroup['controls'] {
+    return this.formModel.form.controls
   }
 }

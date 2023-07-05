@@ -16,8 +16,8 @@
             name="year"
             required
             class="form-control"
-            [ngClass]="{'is-invalid': submitted && formModel.form.controls['year'].errors}">
-          <div *ngIf="submitted && formModel.form.controls['year'].errors && formModel.form.controls['year'].errors['required']" class="invalid-feedback">
+            [ngClass]="{'is-invalid': submitted && f['year'].errors}">
+          <div *ngIf="submitted && f['year'].errors && f['year'].errors['required']" class="invalid-feedback">
             * Insira o ano
           </div>
         </div>

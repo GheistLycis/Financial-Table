@@ -16,8 +16,8 @@
             required
             [(ngModel)]="form.name"
             class="form-control"
-            [ngClass]="{'is-invalid': submitted && formModel.form.controls['name'].errors}">
-          <div *ngIf="submitted && formModel.form.controls['name'].errors && formModel.form.controls['name'].errors['required']" class="invalid-feedback">
+            [ngClass]="{'is-invalid': submitted && f['name'].errors}">
+          <div *ngIf="submitted && f['name'].errors && f['name'].errors['required']" class="invalid-feedback">
             * Defina um nome
           </div>
         </div>
@@ -31,8 +31,8 @@
             required
             [(ngModel)]="form.color"
             class="form-control"
-            [ngClass]="{'is-invalid': submitted && formModel.form.controls['color'].errors}">
-          <div *ngIf="submitted && formModel.form.controls['color'].errors && formModel.form.controls['color'].errors['required']" class="invalid-feedback">
+            [ngClass]="{'is-invalid': submitted && f['color'].errors}">
+          <div *ngIf="submitted && f['color'].errors && f['color'].errors['required']" class="invalid-feedback">
             * Defina uma cor
           </div>
         </div>

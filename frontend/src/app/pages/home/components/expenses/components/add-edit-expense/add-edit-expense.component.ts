@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import ExpenseDTO from 'src/app/shared/DTOs/expense';
 import YearDTO from 'src/app/shared/DTOs/year';
@@ -57,5 +57,9 @@ export class AddEditExpenseComponent implements OnInit {
       complete: () => this.activeModal.close(true),
       error: () => this.activeModal.close(false)
     })
+  }
+  
+  get f(): FormGroup['controls'] {
+    return this.f
   }
 }
