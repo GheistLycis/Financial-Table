@@ -34,11 +34,7 @@ export class MonthService {
     return this.http.delete<Res<MonthDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
   
-  duplicate(id: string, query: MonthDuplicationForm) {
-    const queries = Object.entries(query)
-      .map(([ key, val ]) => key + '=' + val)
-      .join('&')
-    
-    return this.http.post<Res<MonthDTO>>(`${environment.apiUrl}/${this.baseRoute}/duplicate/${id}?${queries}`, null)
+  duplicate(id: string, payload: MonthDuplicationForm) {
+    return this.http.post<Res<MonthDTO>>(`${environment.apiUrl}/${this.baseRoute}/duplicate/${id}`, payload)
   }
 }
