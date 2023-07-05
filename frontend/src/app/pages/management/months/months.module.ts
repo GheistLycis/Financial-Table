@@ -15,6 +15,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { AddEditCategoryComponent } from './components/categories/components/add-edit-category/add-edit-category.component';
 import { AddEditGroupComponent } from './components/categories/components/groups/components/add-edit-group/add-edit-group.component';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
+import { DuplicateMonthComponent } from './components/duplicate-month/duplicate-month.component';
 
 
 
@@ -30,6 +31,7 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
     MonthlyExpensesComponent,
     MonthlyIncomesComponent,
     MonthsComponent,
+    DuplicateMonthComponent,
   ],
   imports: [
     CommonModule,

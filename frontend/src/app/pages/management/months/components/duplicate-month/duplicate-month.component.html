@@ -1,0 +1,54 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <h3>Duplicar mês</h3>
+    <span (click)="activeModal.close(false)">&times;</span>
+  </div>
+  
+  <div class="modal-body">    
+    <form #formModel="ngForm">      
+      <div class="col">
+        <div class="row mb-4">
+          <input 
+            id="duplicateMonthlyIncomes"
+            name="duplicateMonthlyIncomes"
+            type="checkbox"
+            [(ngModel)]="form.duplicateMonthlyIncomes">
+          <label for="duplicateMonthlyIncomes" class="form-label">Entradas</label>
+        </div>
+        
+        <div class="row mb-4">
+          <input 
+            id="duplicateMonthlyExpenses"
+            name="duplicateMonthlyExpenses"
+            type="checkbox"
+            [(ngModel)]="form.duplicateMonthlyExpenses">
+          <label for="duplicateMonthlyExpenses" class="form-label">Gastos fixos</label>
+        </div>
+        
+        <div class="row mb-4">
+          <input 
+            id="duplicateCategories"
+            name="duplicateCategories"
+            type="checkbox"
+            [(ngModel)]="form.duplicateCategories"
+            (ngModelChange)="!$event && form.duplicateGroups = false">
+          <label for="duplicateCategories" class="form-label">Categorias</label>
+        </div>
+        
+        <div class="row mb-4">
+          <input 
+            id="duplicateGroups"
+            name="duplicateGroups"
+            type="checkbox"
+            [(ngModel)]="form.duplicateGroups"
+            [disabled]="!form.duplicateCategories">
+          <label for="duplicateGroups" class="form-label">Grupos</label>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <div class="modal-footer justify-content-end">
+    <button (click)="submit()">Duplicar</button>
+  </div>
+</div>

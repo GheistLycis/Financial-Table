@@ -14,6 +14,7 @@ import { BehaviorSubject, skip, tap, forkJoin, map } from 'rxjs';
 import { MonthlyIncomesComponent } from './components/monthly-incomes/monthly-incomes.component';
 import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-expenses.component';
 import { CategoriesComponent } from './components/categories/categories.component';
+import { DuplicateMonthComponent } from './components/duplicate-month/duplicate-month.component';
 
 @Component({
   selector: 'app-months',
@@ -89,6 +90,20 @@ export class MonthsComponent {
     result.then((res: boolean) => {
       if(res) {
         this.toastr.success('Criado com sucesso!')
+        
+        this.listHistories()
+      }
+    })
+  }
+  
+  duplicateMonth(month: MonthDTO): void {
+    const { componentInstance, result } = this.modalService.open(DuplicateMonthComponent, { size: 'md' })
+    
+    componentInstance.month = month
+    
+    result.then((res: boolean) => {
+      if(res) {
+        this.toastr.success('Duplicado com sucesso!')
         
         this.listHistories()
       }

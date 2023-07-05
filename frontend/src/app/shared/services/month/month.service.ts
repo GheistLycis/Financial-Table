@@ -4,6 +4,7 @@ import MonthDTO from 'src/app/shared/DTOs/month';
 import { environment } from 'src/environments/environment';
 import { Response as Res } from 'src/app/shared/interfaces/Response';
 import MonthForm from '../../classes/MonthForm';
+import MonthDuplicationForm from '../../classes/MonthDuplicationForm';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +32,13 @@ export class MonthService {
 
   delete(id: string) {
     return this.http.delete<Res<MonthDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
+  }
+  
+  duplicate(id: string, query: MonthDuplicationForm) {
+    const queries = Object.entries(query)
+      .map(([ key, val ]) => key + '=' + val)
+      .join('&')
+    
+    return this.http.post<Res<MonthDTO>>(`${environment.apiUrl}/${this.baseRoute}/duplicate/${id}?${queries}`, null)
   }
 }
