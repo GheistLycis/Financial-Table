@@ -60,6 +60,6 @@ export class AddEditExpenseComponent implements OnInit {
   }
   
   get f(): FormGroup['controls'] {
-    return this.f
+    return this.formModel.controls
   }
 }
