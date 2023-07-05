@@ -5,9 +5,9 @@
       <img 
         src="../../../../../assets/icons/plus.svg"
         (click)="addGroup()"
-        alt="Adicionar entrada mensal"
         width="30px"
-        class="pointer">
+        class="pointer"
+        ngbTooltip="Adicionar entrada mensal">
     </div>
     <span (click)="activeModal.close(false)">&times;</span>
   </div>
@@ -32,15 +32,15 @@
               <img 
                 src="../../../../../assets/icons/pencil.svg"
                 (click)="editGroup(group)"
-                alt="Editar"
                 width="25px"
-                class="pointer">
+                class="pointer"
+                ngbTooltip="Editar">
               <img 
                 src="../../../../../assets/icons/trash.svg"
                 (click)="deleteGroup(group)"
-                alt="Excluir"
                 width="25px"
-                class="pointer">
+                class="pointer"
+                ngbTooltip="Excluir">
             </div>
           </td>
         </tr>

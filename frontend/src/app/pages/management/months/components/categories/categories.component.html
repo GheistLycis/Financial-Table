@@ -5,9 +5,9 @@
       <img 
         src="../../../../../assets/icons/plus.svg"
         (click)="addCategory()"
-        alt="Adicionar entrada mensal"
         width="30px"
-        class="pointer">
+        class="pointer"
+        ngbTooltip="Adicionar entrada mensal">
     </div>
     <span (click)="activeModal.close(false)">&times;</span>
   </div>
@@ -34,21 +34,21 @@
               <img 
                 src="../../../../../../assets/icons/pencil.svg"
                 (click)="editCategory(category)"
-                alt="Editar"
                 width="25px"
-                class="pointer">
+                class="pointer"
+                ngbTooltip="Editar">
               <img 
                 src="../../../../../../assets/icons/trash.svg"
                 (click)="deleteCategory(category)"
-                alt="Excluir"
                 width="25px"
-                class="pointer">
+                class="pointer"
+                ngbTooltip="Excluir">
               <img 
                 src="../../../../../../assets/icons/category.svg"
                 (click)="listGroups(category)"
-                alt="Listar grupos"
                 width="25px"
-                class="pointer">
+                class="pointer"
+                ngbTooltip="Listar grupos">
             </div>
           </td>
         </tr>

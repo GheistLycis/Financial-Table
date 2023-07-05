@@ -1,0 +1,22 @@
+.custom-tooltip .tooltip-inner {
+  background-color: $palette-4;
+  color: white;
+  font-size: 14px;
+  text-align: start;
+}
+
+.custom-tooltip.bs-tooltip-end .tooltip-arrow::before {
+  border-right-color: $palette-4;
+}
+
+.custom-tooltip.bs-tooltip-start .tooltip-arrow::before {
+  border-left-color: $palette-4;
+}
+
+.custom-tooltip.bs-tooltip-top .tooltip-arrow::before {
+  border-top-color: $palette-4;
+}
+
+.custom-tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+  border-bottom-color: $palette-4;
+}

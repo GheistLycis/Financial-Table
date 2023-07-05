@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MonthsComponent } from './months.component';
 import { AddEditMonthComponent } from './components/add-edit-month/add-edit-month.component';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AddEditMonthlyIncomeComponent } from './components/monthly-incomes/components/add-edit-monthly-income/add-edit-monthly-income.component';
@@ -14,6 +14,7 @@ import { GroupsComponent } from './components/categories/components/groups/group
 import { NgxMaskModule } from 'ngx-mask';
 import { AddEditCategoryComponent } from './components/categories/components/add-edit-category/add-edit-category.component';
 import { AddEditGroupComponent } from './components/categories/components/groups/components/add-edit-group/add-edit-group.component';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 
 
@@ -36,6 +37,8 @@ import { AddEditGroupComponent } from './components/categories/components/groups
     FormsModule,
     NgSelectModule,
     NgxMaskModule,
+    ComponentsModule,
+    NgbTooltipModule,
   ]
 })
 export class MonthsModule { }

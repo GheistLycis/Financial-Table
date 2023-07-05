@@ -4,9 +4,9 @@
     <img 
       src="../../../../../assets/icons/plus.svg"
       (click)="addYear()"
-      alt="Adicionar ano"
       width="30px"
-      class="pointer">
+      class="pointer"
+      ngbTooltip="Adicionar ano">
   </div>
   
   <div class="mt-3">
@@ -16,7 +16,7 @@
         <th>Entradas</th>
         <th>Gastos fixos</th>
         <th>Disponível</th>
-        <th>Gastos variáveis</th>
+        <th>Gastos variáveis </th>
         <th></th>
       </thead>
       <tbody>
@@ -33,15 +33,15 @@
               <img 
                 src="../../../../../assets/icons/pencil.svg"
                 (click)="editYear(history.year)"
-                alt="Editar"
                 width="25px"
-                class="pointer">
+                class="pointer"
+                ngbTooltip="Editar">
               <img 
                 src="../../../../../assets/icons/trash.svg"
                 (click)="deleteYear(history.year)"
-                alt="Excluir"
                 width="25px"
-                class="pointer">
+                class="pointer"
+                ngbTooltip="Excluir">
             </div>
           </td>
         </tr>

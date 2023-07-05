@@ -4,7 +4,7 @@ import { AddEditExpenseComponent } from './components/add-edit-expense/add-edit-
 import { DirectivesModule } from 'src/app/shared/directives/directives.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { ExpensesComponent } from './expenses.component';
@@ -24,6 +24,7 @@ import { ExpensesComponent } from './expenses.component';
     NgbNavModule,
     ComponentsModule,
     NgxMaskModule,
+    NgbTooltipModule,
   ],
   exports: [
     ExpensesComponent,

@@ -4,9 +4,9 @@
     <img 
       src="../../../../../assets/icons/plus.svg"
       (click)="addExpense()"
-      alt="Adicionar registro"
       width="30px"
-      class="pointer">
+      class="pointer"
+      ngbTooltip="Adicionar registro">
   </div>
 
   <app-filters [year]="activeYear" (filters)="listExpenses($event)"></app-filters>
@@ -45,15 +45,15 @@
                     <img 
                       src="../../../../../assets/icons/pencil.svg"
                       (click)="editExpense(expense)"
-                      alt="Editar"
                       width="25px"
-                      class="pointer">
+                      class="pointer"
+                      ngbTooltip="Editar">
                     <img 
                       src="../../../../../assets/icons/trash.svg"
                       (click)="deleteExpense(expense)"
-                      alt="Excluir"
                       width="25px"
-                      class="pointer">
+                      class="pointer"
+                      ngbTooltip="Excluir">
                   </div>
                 </td>
               </tr>
