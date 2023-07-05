@@ -7,20 +7,21 @@ import { GroupService } from 'src/app/shared/services/group/group.service';
 import { MonthService } from 'src/app/shared/services/month/month.service';
 import { BehaviorSubject, Subject, forkJoin, skip, map, tap, switchMap, combineLatest, debounceTime } from 'rxjs';
 import Filters from 'src/app/shared/interfaces/Filters';
-import { MonthNameDirective } from 'src/app/shared/directives/month-name/month-name.directive';
+import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
-  styleUrls: ['./filters.component.scss']
+  styleUrls: ['./filters.component.scss'],
+  providers: [MonthNamePipe],
 })
 export class FiltersComponent implements OnInit {
   @Input() set year(yearId: string | undefined) {
     yearId && this.monthService.list({ year: yearId }).pipe(
       map(({ data }) => data.map(month => {
           //@ts-ignore
-          month.month = this.monthNameDirective.convert(month.month)
+          month.month = this.monthNamePipe.transform(month.month)
           
           return month
         })
@@ -34,7 +35,7 @@ export class FiltersComponent implements OnInit {
   @Input() multiple = true
   @Input() clearable = true
   @Output() filters = new EventEmitter<Filters>()
-  @ViewChild(MonthNameDirective) monthNameDirective!: MonthNameDirective
+  @ViewChild(MonthNamePipe) MonthNamePipe!: MonthNamePipe
   months$ = new Subject<MonthDTO[]>()
   selectedMonths$ = new BehaviorSubject<MonthDTO[]>([])
   categories$ = new Subject<CategoryDTO[]>()
@@ -45,7 +46,8 @@ export class FiltersComponent implements OnInit {
   constructor(
     private monthService: MonthService,
     private categoryService: CategoryService,
-    private groupService: GroupService
+    private groupService: GroupService,
+    private monthNamePipe: MonthNamePipe,
   ) { }
   
   ngOnInit(): void {
@@ -68,7 +70,7 @@ export class FiltersComponent implements OnInit {
       map(monthsCategories => monthsCategories
         .flat()
         .map(category => {
-          category.name = `${category.name} (${this.monthNameDirective.convert(category.month.month)})`
+          category.name = `${category.name} (${this.monthNamePipe.transform(category.month.month)})`
           
           return category
         })
@@ -89,7 +91,7 @@ export class FiltersComponent implements OnInit {
       map(monthsGroups => monthsGroups
         .flat()
         .map(group => {
-          group.name = `${group.name} (${this.monthNameDirective.convert(group.category.month.month)})`
+          group.name = `${group.name} (${this.monthNamePipe.transform(group.category.month.month)})`
           
           return group
         })

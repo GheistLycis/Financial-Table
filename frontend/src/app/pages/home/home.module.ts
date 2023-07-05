@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { HomeComponent } from './home.component';
-import { DirectivesModule } from 'src/app/shared/directives/directives.module';
+import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { ExpensesModule } from './components/expenses/expenses.module';
@@ -16,7 +16,7 @@ import { ExpensesModule } from './components/expenses/expenses.module';
   ],
   imports: [
     CommonModule,
-    DirectivesModule,
+    PipesModule,
     ExpensesModule,
     NgSelectModule,
     FormsModule,

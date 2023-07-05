@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MonthNameDirective } from './month-name/month-name.directive';
+import { MonthNamePipe } from './month-name/month-name.pipe';
 
 
 @NgModule({
   declarations: [
-    MonthNameDirective
+    MonthNamePipe
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    MonthNameDirective,
+    MonthNamePipe,
   ]
 })
-export class DirectivesModule { }
+export class PipesModule { }

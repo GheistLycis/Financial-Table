@@ -2,7 +2,9 @@
     <div class="header mb-4 d-flex">
         <h2>
             Gastos do mês (
-            <span [appMonthName]="(month$ | async)?.month" (click)="dropdown = 'month'"></span>
+            <span (click)="dropdown = 'month'">
+                {{ (month$ | async)?.month | monthName }}
+            </span>
             de 
             <span (click)="dropdown = 'year'">
                 {{ (year$ | async)?.year }}
@@ -27,7 +29,14 @@
                 (change)="dropdown = ''"
                 [clearable]="false"
                 bindLabel="month" 
-            ></ng-select>
+            >
+                <ng-template ng-label-tmp let-item="item">
+                    {{ item.month | monthName }}
+                </ng-template>  
+                <ng-template ng-option-tmp let-item="item">
+                    {{ item.month | monthName }}
+                </ng-template>  
+            </ng-select>
         </div>
     </div>
     

@@ -4,7 +4,7 @@ import { GeneralWarningComponent } from './modals/general-warning/general-warnin
 import { FiltersComponent } from './filters/filters.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { DirectivesModule } from '../directives/directives.module';
+import { PipesModule } from '../pipes/pipes.module';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -20,7 +20,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     NgSelectModule,
     FormsModule,
-    DirectivesModule,
+    PipesModule,
     NgbTooltipModule,
   ],
   exports: [

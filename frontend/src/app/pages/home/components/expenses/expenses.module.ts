@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AddEditExpenseComponent } from './components/add-edit-expense/add-edit-expense.component';
-import { DirectivesModule } from 'src/app/shared/directives/directives.module';
+import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -18,7 +18,7 @@ import { ExpensesComponent } from './expenses.component';
   ],
   imports: [
     CommonModule,
-    DirectivesModule,
+    PipesModule,
     NgSelectModule,
     FormsModule,
     NgbNavModule,

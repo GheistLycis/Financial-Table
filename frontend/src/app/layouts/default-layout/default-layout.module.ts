@@ -4,7 +4,7 @@ import { DefaultLayoutRoutingModule } from './default-layout-routing.module';
 import { DefaultLayoutComponent } from './default-layout.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { DirectivesModule } from 'src/app/shared/directives/directives.module';
+import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -19,7 +19,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     DefaultLayoutRoutingModule,
-    DirectivesModule,
+    PipesModule,
     FormsModule,
     NgSelectModule,
     NgbDropdownModule,
