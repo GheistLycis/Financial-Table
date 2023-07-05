@@ -1,7 +1,7 @@
 <div class="modal-container">
   <div class="modal-header">
     <div class="d-flex align-items-center gap-15">
-      <h2 class="mb-2">Mensalidades de {{ month.month }}</h2>
+      <h2 class="mb-2">Mensalidades de {{ month.month | monthName }}</h2>
       <img 
         src="../../../../../assets/icons/plus.svg"
         (click)="addExpense()"
@@ -21,7 +21,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let expense of expenses" class="table-active">
-          <td>{{ expense.value | number : '.2-2' : 'pt' }}</td>
+          <td>{{ expense.value | number:'.2-2':'pt' }}</td>
           <td>{{ expense.description }}</td>
           <td>
             <div class="d-flex justify-content-evenly">

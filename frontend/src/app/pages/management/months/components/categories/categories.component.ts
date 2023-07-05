@@ -6,13 +6,14 @@ import MonthDTO from 'src/app/shared/DTOs/month';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { AddEditCategoryComponent } from './components/add-edit-category/add-edit-category.component';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
-import { monthNames } from 'src/app/shared/enums/monthNames';
 import { GroupsComponent } from './components/groups/groups.component';
+import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.scss']
+  styleUrls: ['./categories.component.scss'],
+  providers: [MonthNamePipe],
 })
 export class CategoriesComponent implements OnInit {
   @Input() month!: MonthDTO
@@ -23,6 +24,7 @@ export class CategoriesComponent implements OnInit {
     private modalService: NgbModal,
     protected activeModal: NgbActiveModal,
     private toastr: ToastrService,
+    private monthNamePipe: MonthNamePipe,
   ) { }
   
   ngOnInit(): void {
@@ -63,13 +65,10 @@ export class CategoriesComponent implements OnInit {
   
   deleteCategory({ month, name, id }: CategoryDTO): void {
     const { componentInstance, result } = this.modalService.open(GeneralWarningComponent, { size: 'md' })
-    let monthName: string
-    
-    for(const m in monthNames) if(monthNames[m] == `${month.month}`) monthName = m
-    
+
     componentInstance.title = 'Excluir categoria'
     componentInstance.text = `
-      Deseja realmente excluir a categoria <b>${name}</b> de ${monthName}? Todos grupos e registros contidos nela serão <b>perdidos!</b>`
+      Deseja realmente excluir a categoria <b>${name}</b> de ${this.monthNamePipe.transform(month.month)}? Todos grupos e registros contidos nela serão <b>perdidos!</b>`
     
     result.then((res: boolean) => res && 
       this.categoryService.delete(id).subscribe(() => {

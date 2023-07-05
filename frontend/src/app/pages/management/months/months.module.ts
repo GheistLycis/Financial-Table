@@ -16,6 +16,7 @@ import { AddEditCategoryComponent } from './components/categories/components/add
 import { AddEditGroupComponent } from './components/categories/components/groups/components/add-edit-group/add-edit-group.component';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { DuplicateMonthComponent } from './components/duplicate-month/duplicate-month.component';
+import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 
 
 
@@ -41,6 +42,7 @@ import { DuplicateMonthComponent } from './components/duplicate-month/duplicate-
     NgxMaskModule,
     ComponentsModule,
     NgbTooltipModule,
+    PipesModule,
   ]
 })
 export class MonthsModule { }

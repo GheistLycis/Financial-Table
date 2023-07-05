@@ -6,12 +6,13 @@ import MonthlyExpenseDTO from 'src/app/shared/DTOs/monthlyExpense';
 import { MonthlyExpenseService } from 'src/app/shared/services/monthly-expense/monthly-expense.service';
 import { AddEditMonthlyExpenseComponent } from './components/add-edit-monthly-expense/add-edit-monthly-expense.component';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
-import { monthNames } from 'src/app/shared/enums/monthNames';
+import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 
 @Component({
   selector: 'app-monthly-expenses',
   templateUrl: './monthly-expenses.component.html',
-  styleUrls: ['./monthly-expenses.component.scss']
+  styleUrls: ['./monthly-expenses.component.scss'],
+  providers: [MonthNamePipe],
 })
 export class MonthlyExpensesComponent implements OnInit {
   @Input() month!: MonthDTO
@@ -22,6 +23,7 @@ export class MonthlyExpensesComponent implements OnInit {
     private modalService: NgbModal,
     protected activeModal: NgbActiveModal,
     private toastr: ToastrService,
+    private monthNamePipe: MonthNamePipe,
   ) { }
   
   ngOnInit(): void {
@@ -62,13 +64,10 @@ export class MonthlyExpensesComponent implements OnInit {
   
   deleteExpense({ month, value, description, id }: MonthlyExpenseDTO): void {
     const { componentInstance, result } = this.modalService.open(GeneralWarningComponent, { size: 'md' })
-    let monthName: string
-    
-    for(const m in monthNames) if(monthNames[m] == `${month.month}`) monthName = m
     
     componentInstance.title = 'Excluir gasto fixo'
     componentInstance.text = `
-      Deseja realmente excluir esta mensalidade de ${monthName}? <br><br> <b>R$${value.toString()} - ${description}</b>`
+      Deseja realmente excluir esta mensalidade de ${this.monthNamePipe.transform(month.month)}? <br><br> <b>R$${value.toString()} - ${description}</b>`
     
     result.then((res: boolean) => res && 
       this.monthlyExpenseService.delete(id).subscribe(() => {

@@ -54,17 +54,17 @@
             </thead>
             <tbody *ngIf="!loading else loadingSpinner">
               <tr *ngFor="let history of monthsHistories; first as first" class="table-active">
-                <td>{{ history.month.month }}</td>
-                <td>{{ history.monthlyIncomes | number : '.2-2' : 'pt' }}</td>
-                <td>{{ history.monthlyExpenses | number : '.2-2' : 'pt' }}</td>
+                <td>{{ history.month.month | monthName }}</td>
+                <td>{{ history.monthlyIncomes | number:'.2-2':'pt' }}</td>
+                <td>{{ history.monthlyExpenses | number:'.2-2':'pt' }}</td>
                 <td>
-                  {{ history.available | number : '.2-2' : 'pt' }} ({{ history.month.available | number : '.0-2' : 'pt' }}%)
+                  {{ history.available | number:'.2-2':'pt' }} ({{ history.month.available | number:'.0-2':'pt' }}%)
                 </td>
                 <td [ngClass]="{'text-danger': history.expenses > history.available}">
-                  {{ history.expenses | number : '.2-2' : 'pt' }}
+                  {{ history.expenses | number:'.2-2':'pt' }}
                 </td>
                 <td [ngClass]="{'text-danger': history.balance <= 0}">
-                  {{ history.balance | number : '.2-2' : 'pt' }}
+                  {{ history.balance | number:'.2-2':'pt' }}
                 </td>
                 <td>
                   <div class="d-flex justify-content-evenly">

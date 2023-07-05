@@ -7,11 +7,13 @@ import { AddEditMonthlyIncomeComponent } from './components/add-edit-monthly-inc
 import MonthlyIncomeDTO from 'src/app/shared/DTOs/monthlyIncome';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { monthNames } from 'src/app/shared/enums/monthNames';
+import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 
 @Component({
   selector: 'app-monthly-incomes',
   templateUrl: './monthly-incomes.component.html',
-  styleUrls: ['./monthly-incomes.component.scss']
+  styleUrls: ['./monthly-incomes.component.scss'],
+  providers: [MonthNamePipe],
 })
 export class MonthlyIncomesComponent implements OnInit {
   @Input() month!: MonthDTO
@@ -22,6 +24,7 @@ export class MonthlyIncomesComponent implements OnInit {
     private modalService: NgbModal,
     protected activeModal: NgbActiveModal,
     private toastr: ToastrService,
+    private monthNamePipe: MonthNamePipe,
   ) { }
   
   ngOnInit(): void {
@@ -62,13 +65,10 @@ export class MonthlyIncomesComponent implements OnInit {
   
   deleteIncome({ month, value, description, id }: MonthlyIncomeDTO): void {
     const { componentInstance, result } = this.modalService.open(GeneralWarningComponent, { size: 'md' })
-    let monthName: string
-    
-    for(const m in monthNames) if(monthNames[m] == `${month.month}`) monthName = m
     
     componentInstance.title = 'Excluir entrada mensal'
     componentInstance.text = `
-      Deseja realmente excluir esta entrada de ${monthName}? <br><br> <b>R$${value.toString()} - ${description}</b>`
+      Deseja realmente excluir esta entrada de ${this.monthNamePipe.transform(month.month)}? <br><br> <b>R$${value.toString()} - ${description}</b>`
     
     result.then((res: boolean) => res && 
       this.monthlyIncomeService.delete(id).subscribe(() => {

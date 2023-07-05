@@ -1,7 +1,7 @@
 <div class="modal-container">
   <div class="modal-header">
     <div class="d-flex align-items-center gap-15">
-      <h2 class="mb-2">Categorias de {{ month.month }}</h2>
+      <h2 class="mb-2">Categorias de {{ month.month | monthName }}</h2>
       <img 
         src="../../../../../assets/icons/plus.svg"
         (click)="addCategory()"

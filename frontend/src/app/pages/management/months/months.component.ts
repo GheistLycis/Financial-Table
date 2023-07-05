@@ -9,17 +9,18 @@ import { YearService } from 'src/app/shared/services/year/year.service';
 import { AddEditMonthComponent } from './components/add-edit-month/add-edit-month.component';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
-import { monthNames } from 'src/app/shared/enums/monthNames';
 import { BehaviorSubject, skip, tap, forkJoin, map } from 'rxjs';
 import { MonthlyIncomesComponent } from './components/monthly-incomes/monthly-incomes.component';
 import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-expenses.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { DuplicateMonthComponent } from './components/duplicate-month/duplicate-month.component';
+import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 
 @Component({
   selector: 'app-months',
   templateUrl: './months.component.html',
-  styleUrls: ['./months.component.scss']
+  styleUrls: ['./months.component.scss'],
+  providers: [MonthNamePipe],
 })
 export class MonthsComponent {
   years: YearDTO[] = []
@@ -33,6 +34,7 @@ export class MonthsComponent {
     private analyticsService: AnalyticsService,
     private modalService: NgbModal,
     private toastr: ToastrService,
+    private monthNamePipe: MonthNamePipe,
   ) { 
     this.activeYear$.pipe(
       skip(1),
@@ -126,13 +128,10 @@ export class MonthsComponent {
   
   deleteMonth({ id, month, year }: MonthDTO): void {
     const { componentInstance, result } = this.modalService.open(GeneralWarningComponent, { size: 'md' })
-    let monthName: string
-    
-    for(const m in monthNames) if(monthNames[m] == `${month}`) monthName = m
     
     componentInstance.title = 'Excluir mês'
     componentInstance.text = `
-      Deseja realmente excluir o mês de ${monthName} de ${year.year}? 
+      Deseja realmente excluir o mês de ${this.monthNamePipe.transform(month)} de ${year.year}? 
       <b>Tudo</b> que está registrado nele - registros, grupos e categorias - será <b>perdido!</b>`
     
     result.then((res: boolean) => res && 
