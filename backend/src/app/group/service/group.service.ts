@@ -7,9 +7,10 @@ import { Group } from '../../group/Group';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/functions/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Month } from 'src/app/month/Month';
 
-type body = { name: string, color: string, category: string }
-type queries = { month: string, category: string }
+type body = { name: string, color: string, category: Category['id'] }
+type queries = { month: Month['id'], category: Category['id'] }
 
 @Injectable()
 export class GroupService implements BaseService<GroupDTO> {
@@ -31,7 +32,7 @@ export class GroupService implements BaseService<GroupDTO> {
     return await query.getMany().then(entities => entities.map(row => Group.toDTO(row)))
   }
 
-  async get(id: string) {
+  async get(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum grupo encontrado.')
 
@@ -59,7 +60,7 @@ export class GroupService implements BaseService<GroupDTO> {
     return Group.toDTO(entity)
   }
 
-  async put(id: string, { name, color, category }: body) {
+  async put(id: number, { name, color, category }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Grupo não encontrado.')
 
@@ -85,7 +86,7 @@ export class GroupService implements BaseService<GroupDTO> {
     return Group.toDTO(entity)
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Grupo não encontrado.')
 

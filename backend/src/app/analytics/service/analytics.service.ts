@@ -21,7 +21,7 @@ export class AnalyticsService {
     @Repo(Year) private yearRepo: Repository<Year>,
   ) {}
   
-  async categoryRemaining(id: string): Promise<CategoryRemaining> {
+  async categoryRemaining(id: number): Promise<CategoryRemaining> {
     const category = await this.categoryRepo.findOneBy({ id })
       .then(entity => {
         if(!entity) throw NotFoundException('Nenhuma categoria encontrada.')
@@ -42,7 +42,7 @@ export class AnalyticsService {
           FROM categories c
           JOIN monthly_incomes mi ON mi."monthId" = c."monthId"
           WHERE 
-            c.id = '${id}'
+            c.id = ${id}
             AND c."deletedAt" IS NULL
             AND mi."deletedAt" IS NULL
         ) total_monthly_incomes,
@@ -51,12 +51,12 @@ export class AnalyticsService {
           FROM categories c
           JOIN monthly_expenses me ON me."monthId" = c."monthId"
           WHERE 
-            c.id = '${id}'
+            c.id = ${id}
             AND c."deletedAt" IS NULL
             AND me."deletedAt" IS NULL
         ) total_monthly_expenses
         WHERE 
-          c.id = '${id}'
+          c.id = ${id}
           AND c."deletedAt" IS NULL
           AND m."deletedAt" IS NULL
       `)
@@ -69,7 +69,7 @@ export class AnalyticsService {
         JOIN groups g ON e."groupId" = g.id
         JOIN categories c ON g."categoryId" = c.id
         WHERE 
-          c.id = '${id}'
+          c.id = ${id}
           AND e."deletedAt" IS NULL
           AND g."deletedAt" IS NULL
           AND c."deletedAt" IS NULL
@@ -83,7 +83,7 @@ export class AnalyticsService {
     }
   }
   
-  async monthBalance(id: string): Promise<{ month: MonthDTO, balance: number } | any> {
+  async monthBalance(id: number): Promise<{ month: MonthDTO, balance: number } | any> {
     const actualMonth = await this.monthRepo.createQueryBuilder('Month')
       .leftJoinAndSelect('Month.year', 'Year')
       .where('Month.id = :id', { id })
@@ -122,7 +122,7 @@ export class AnalyticsService {
               FROM monthly_incomes mi
               JOIN months m ON mi."monthId" = m.id
               WHERE 
-                m.id = '${id}'
+                m.id = ${id}
                 AND mi."deletedAt" IS NULL
                 AND m."deletedAt" IS NULL
             ) total_incomes,
@@ -131,7 +131,7 @@ export class AnalyticsService {
               FROM monthly_expenses me
               JOIN months m ON me."monthId" = m.id
               WHERE 
-                m.id = '${id}'
+                m.id = ${id}
                 AND me."deletedAt" IS NULL
                 AND m."deletedAt" IS NULL
             ) total_monthly_expenses,
@@ -142,14 +142,14 @@ export class AnalyticsService {
               JOIN categories c ON g."categoryId" = c.id
               JOIN months m ON c."monthId" = m.id
               WHERE 
-                m.id = '${id}'
+                m.id = ${id}
                 AND e."deletedAt" IS NULL
                 AND g."deletedAt" IS NULL
                 AND c."deletedAt" IS NULL
                 AND m."deletedAt" IS NULL
             ) total_expenses
           WHERE 
-            m.id = '${id}'
+            m.id = ${id}
             AND m."deletedAt" IS NULL
         `)
         .then(rows => Number(rows[0].balance), err => { throw ServerException(`${err}`) })
@@ -161,7 +161,7 @@ export class AnalyticsService {
     }
   }
   
-  async monthHistory(id: string): Promise<MonthHistory> {
+  async monthHistory(id: number): Promise<MonthHistory> {
     const month = await this.monthRepo
       .findOne({ 
         where: { id }, 
@@ -194,7 +194,7 @@ export class AnalyticsService {
             FROM monthly_incomes mi
             JOIN months m ON mi."monthId" = m.id
             WHERE 
-              m.id = '${id}'
+              m.id = ${id}
               AND mi."deletedAt" IS NULL
               AND m."deletedAt" IS NULL
           ) total_incomes,
@@ -203,7 +203,7 @@ export class AnalyticsService {
             FROM monthly_expenses me
             JOIN months m ON me."monthId" = m.id
             WHERE 
-              m.id = '${id}'
+              m.id = ${id}
               AND me."deletedAt" IS NULL
               AND m."deletedAt" IS NULL
           ) total_monthly_expenses,
@@ -214,14 +214,14 @@ export class AnalyticsService {
             JOIN categories c ON g."categoryId" = c.id
             JOIN months m ON c."monthId" = m.id
             WHERE 
-              m.id = '${id}'
+              m.id = ${id}
               AND e."deletedAt" IS NULL
               AND g."deletedAt" IS NULL
               AND c."deletedAt" IS NULL
               AND m."deletedAt" IS NULL
           ) total_expenses
         WHERE 
-          m.id = '${id}'
+          m.id = ${id}
           AND m."deletedAt" IS NULL
       `)
       .then(([ row ]) => {
@@ -242,7 +242,7 @@ export class AnalyticsService {
     } 
   }
 
-  async yearHistory(id: string): Promise<YearHistory> {
+  async yearHistory(id: number): Promise<YearHistory> {
     const year = await this.yearRepo.findOneBy({ id })
       .then(entity => {
         if(!entity) throw NotFoundException('Nenhum ano encontrado.')
@@ -261,7 +261,7 @@ export class AnalyticsService {
             JOIN months m ON mi."monthId" = m.id
             JOIN years y ON m."yearId" = y.id
             WHERE 
-              y.id = '${id}'
+              y.id = ${id}
               AND mi."deletedAt" IS NULL
               AND m."deletedAt" IS NULL
               AND y."deletedAt" IS NULL
@@ -272,13 +272,13 @@ export class AnalyticsService {
             JOIN months m ON me."monthId" = m.id
             JOIN years y ON m."yearId" = y.id
             WHERE 
-              y.id = '${id}'
+              y.id = ${id}
               AND me."deletedAt" IS NULL
               AND m."deletedAt" IS NULL
               AND y."deletedAt" IS NULL
           ) total_monthly_expenses
         WHERE 
-          y.id = '${id}'
+          y.id = ${id}
           AND y."deletedAt" IS NULL
       `)
       .then(rows => Number(rows[0].available), err => { throw ServerException(`${err}`) })
@@ -291,7 +291,7 @@ export class AnalyticsService {
           JOIN months m ON mi."monthId" = m.id
           JOIN years y ON m."yearId" = y.id
         WHERE 
-          y.id = '${id}'
+          y.id = ${id}
           AND mi."deletedAt" IS NULL
           AND m."deletedAt" IS NULL
           AND y."deletedAt" IS NULL
@@ -306,7 +306,7 @@ export class AnalyticsService {
           JOIN months m ON me."monthId" = m.id
           JOIN years y ON m."yearId" = y.id
         WHERE 
-          y.id = '${id}'
+          y.id = ${id}
           AND me."deletedAt" IS NULL
           AND m."deletedAt" IS NULL
           AND y."deletedAt" IS NULL
@@ -323,7 +323,7 @@ export class AnalyticsService {
           JOIN months m ON c."monthId" = m.id
           JOIN years y ON m."yearId" = y.id
         WHERE 
-          y.id = '${id}'
+          y.id = ${id}
           AND e."deletedAt" IS NULL
           AND g."deletedAt" IS NULL
           AND c."deletedAt" IS NULL

@@ -1,5 +1,5 @@
 export default interface BaseDTO {
-  id: string
+  id: number
   createdAt: Date
   updatedAt: Date
 }

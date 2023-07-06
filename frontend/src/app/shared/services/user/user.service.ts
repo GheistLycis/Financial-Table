@@ -17,7 +17,7 @@ export class UserService {
     return this.http.get<Res<UserDTO[]>>(`${environment.apiUrl}/${this.baseRoute}`)
   }
 
-  get(id: string) {
+  get(id: number) {
     return this.http.get<Res<UserDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
@@ -25,11 +25,11 @@ export class UserService {
     return this.http.post<Res<UserDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: UserDTO) {
+  put(id: number, payload: UserDTO) {
     return this.http.put<Res<UserDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 
-  delete(id: string) {
+  delete(id: number) {
     return this.http.delete<Res<UserDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
   

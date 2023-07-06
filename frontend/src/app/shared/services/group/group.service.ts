@@ -4,6 +4,9 @@ import GroupDTO from 'src/app/shared/DTOs/group';
 import { environment } from 'src/environments/environment';
 import { Response as Res } from 'src/app/shared/interfaces/Response';
 import GroupForm from '../../classes/GroupForm';
+import { queryMaker } from '../queryMaker';
+import MonthDTO from '../../DTOs/month';
+import CategoryDTO from '../../DTOs/category';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +16,11 @@ export class GroupService {
 
   constructor(private http: HttpClient) {}
 
-  list({ month='', category='' }) {
-    return this.http.get<Res<GroupDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?month=${month}&category=${category}`)
+  list(query: { month?: MonthDTO['id'], category?: CategoryDTO['id'] }) {
+    return this.http.get<Res<GroupDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 
-  get(id: string) {
+  get(id: number) {
     return this.http.get<Res<GroupDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
@@ -25,11 +28,11 @@ export class GroupService {
     return this.http.post<Res<GroupDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: GroupForm) {
+  put(id: number, payload: GroupForm) {
     return this.http.put<Res<GroupDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 
-  delete(id: string) {
+  delete(id: number) {
     return this.http.delete<Res<GroupDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 }

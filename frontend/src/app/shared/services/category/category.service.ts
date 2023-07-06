@@ -4,6 +4,8 @@ import CategoryDTO from 'src/app/shared/DTOs/category';
 import { environment } from 'src/environments/environment';
 import { Response as Res } from 'src/app/shared/interfaces/Response';
 import CategoryForm from '../../classes/CategoryForm';
+import { queryMaker } from '../queryMaker';
+import MonthDTO from '../../DTOs/month';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +15,11 @@ export class CategoryService {
 
   constructor(private http: HttpClient) {}
 
-  list({ month='' }) {
-    return this.http.get<Res<CategoryDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?month=${month}`)
+  list(query: { month?: MonthDTO['id'] }) {
+    return this.http.get<Res<CategoryDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 
-  get(id: string) {
+  get(id: number) {
     return this.http.get<Res<CategoryDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
@@ -25,11 +27,11 @@ export class CategoryService {
     return this.http.post<Res<CategoryDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: CategoryForm) {
+  put(id: number, payload: CategoryForm) {
     return this.http.put<Res<CategoryDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 
-  delete(id: string) {
+  delete(id: number) {
     return this.http.delete<Res<CategoryDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 }

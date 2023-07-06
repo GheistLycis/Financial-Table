@@ -10,9 +10,12 @@ import { Repository } from 'typeorm';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { Request } from 'express';
+import { Year } from 'src/app/year/Year';
+import { Month } from 'src/app/month/Month';
+import { Category } from 'src/app/category/Category';
 
-type body = { value: number, description: string, date: Date, group: string }
-type queries = { year: string, month: string, category: string, group: string }
+type body = { value: number, description: string, date: Date, group: Group['id'] }
+type queries = { year: Year['id'], month: Month['id'], category: Category['id'], group: Group['id'] }
 
 @Injectable()
 export class ExpenseService implements BaseService<ExpenseDTO> {
@@ -49,7 +52,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     })
   }
 
-  async get(id: string) {
+  async get(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum registro encontrado.')
 
@@ -85,7 +88,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     return Expense.toDTO(entity)
   }
 
-  async put(id: string, { value, description, date, group }: body) {
+  async put(id: number, { value, description, date, group }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro não encontrado.')
 
@@ -116,7 +119,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     return Expense.toDTO(entity)
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro não encontrado.')
 

@@ -17,7 +17,7 @@ import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
   providers: [MonthNamePipe],
 })
 export class FiltersComponent implements OnInit {
-  @Input() set year(yearId: string | undefined) {
+  @Input() set year(yearId: number | undefined) {
     yearId && this.monthService.list({ year: yearId }).pipe(
       map(({ data }) => data.map(month => {
           //@ts-ignore

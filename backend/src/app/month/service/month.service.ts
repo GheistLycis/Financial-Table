@@ -15,14 +15,18 @@ import { GroupService } from 'src/app/group/service/group.service';
 import YearDTO from 'src/app/year/Year.dto';
 import CategoryDTO from 'src/app/category/Category.dto';
 
-type body = { month: number, available: number, obs: string, year: string }
-type queries = { year: string }
+type body = { month: number, available: number, obs: string, year: Year['id'] }
+type queries = { year: Year['id'] }
 type duplicationBody = { 
   duplicateMonthlyExpenses: boolean
   duplicateMonthlyIncomes: boolean
-  duplicateCategories: boolean
+} & ({
+  duplicateCategories: true
   duplicateGroups: boolean
-}
+} | {
+  duplicateCategories: false
+  duplicateGroups: false
+})
 
 @Injectable()
 export class MonthService implements BaseService<MonthDTO> {
@@ -47,7 +51,7 @@ export class MonthService implements BaseService<MonthDTO> {
     return await query.getMany().then(entities => entities.map(row => Month.toDTO(row)))
   }
 
-  async get(id: string) {
+  async get(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum mês encontrado.')
 
@@ -74,7 +78,7 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
 
-  async put(id: string, { month, available, obs, year }: body) {
+  async put(id: number, { month, available, obs, year }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 
@@ -101,7 +105,7 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 
@@ -110,7 +114,7 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
   
-  async duplicate(id: string, { 
+  async duplicate(id: number, { 
     duplicateMonthlyExpenses,
     duplicateMonthlyIncomes,
     duplicateCategories,
@@ -191,7 +195,7 @@ export class MonthService implements BaseService<MonthDTO> {
       }
       
       if(duplicateGroups) {
-        const groups = await this.groupService.list({ month: targetMonth.id, category: '' })
+        const groups = await this.groupService.list({ month: targetMonth.id, category: undefined })
         groups.forEach(({ name, color, category }) => {
           const { id } = newCategories.find(({ name }) => name == category.name)
           

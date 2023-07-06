@@ -4,6 +4,11 @@ import ExpenseDTO from 'src/app/shared/DTOs/expense';
 import { environment } from 'src/environments/environment';
 import { Response as Res } from 'src/app/shared/interfaces/Response';
 import ExpenseForm from '../../classes/ExpenseForm';
+import { queryMaker } from '../queryMaker';
+import YearDTO from '../../DTOs/year';
+import MonthDTO from '../../DTOs/month';
+import CategoryDTO from '../../DTOs/category';
+import GroupDTO from '../../DTOs/group';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +18,11 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) {}
 
-  list({ year='', month='', category='', group='' }) {
-    return this.http.get<Res<ExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?year=${year}&month=${month}&category=${category}&group=${group}`)
+  list(query: { year?: YearDTO['id'], month?: MonthDTO['id'], category?: CategoryDTO['id'], group?: GroupDTO['id'] }) {
+    return this.http.get<Res<ExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 
-  get(id: string) {
+  get(id: number) {
     return this.http.get<Res<ExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
@@ -25,11 +30,11 @@ export class ExpenseService {
     return this.http.post<Res<ExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: ExpenseForm) {
+  put(id: number, payload: ExpenseForm) {
     return this.http.put<Res<ExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 
-  delete(id: string) {
+  delete(id: number) {
     return this.http.delete<Res<ExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 }

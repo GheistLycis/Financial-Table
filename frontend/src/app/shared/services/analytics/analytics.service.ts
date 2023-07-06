@@ -6,6 +6,8 @@ import YearHistory from '../../interfaces/YearHistory';
 import CategoryRemaining from '../../interfaces/CategoryRemaining';
 import MonthHistory from '../../interfaces/MonthHistory';
 import MonthDTO from '../../DTOs/month';
+import YearDTO from '../../DTOs/year';
+import CategoryDTO from '../../DTOs/category';
 
 @Injectable({
   providedIn: 'root'
@@ -15,19 +17,19 @@ export class AnalyticsService {
 
   constructor(private http: HttpClient) {}
 
-  categoryRemaining(category: string) {
+  categoryRemaining(category: CategoryDTO['id']) {
     return this.http.get<Res<CategoryRemaining>>(`${environment.apiUrl}/${this.baseRoute}/category-remaining/${category}`)
   }
   
-  monthBalance(month: string) {
+  monthBalance(month: MonthDTO['id']) {
     return this.http.get<Res<{ month: MonthDTO, balance: number }>>(`${environment.apiUrl}/${this.baseRoute}/month-balance/${month}`)
   }
   
-  monthHistory(month: string) {
+  monthHistory(month: MonthDTO['id']) {
     return this.http.get<Res<Omit<MonthHistory, 'balance'>>>(`${environment.apiUrl}/${this.baseRoute}/month-history/${month}`)
   }
   
-  yearHistory(year: string) {
+  yearHistory(year: YearDTO['id']) {
     return this.http.get<Res<YearHistory>>(`${environment.apiUrl}/${this.baseRoute}/year-history/${year}`)
   }
 }

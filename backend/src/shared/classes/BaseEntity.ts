@@ -1,9 +1,8 @@
-import { CreateDateColumn, DeleteDateColumn, PrimaryColumn, RelationOptions, UpdateDateColumn } from "typeorm"
-import { v4 as uuid } from "uuid";
+import { CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, RelationOptions, UpdateDateColumn } from "typeorm"
 
 export default class BaseEntity {
-  @PrimaryColumn({ type: 'uuid' })
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number
 
   @CreateDateColumn()
   createdAt: Date
@@ -13,10 +12,6 @@ export default class BaseEntity {
 
   @DeleteDateColumn()
   deletedAt: Date
-
-  constructor() {
-    if(!this.id) this.id = uuid()
-  }
 }
 
 export const manyToOneOptions: RelationOptions = {

@@ -22,7 +22,7 @@ export class YearService implements BaseService<YearDTO> {
     return await query.getMany().then(entities => entities.map(row => Year.toDTO(row)))
   }
 
-  async get(id: string) {
+  async get(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum ano encontrado.')
 
@@ -43,7 +43,7 @@ export class YearService implements BaseService<YearDTO> {
     return Year.toDTO(entity)
   }
 
-  async put(id: string, { year }: body) {
+  async put(id: number, { year }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Ano não encontrado.')
 
@@ -63,7 +63,7 @@ export class YearService implements BaseService<YearDTO> {
     return Year.toDTO(entity)
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Ano não encontrado.')
 

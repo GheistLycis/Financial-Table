@@ -8,8 +8,8 @@ import { classValidatorError, DuplicatedException, NotFoundException } from 'src
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-type body = { value: number, description: string, month: string }
-type queries = { month: string }
+type body = { value: number, description: string, month: Month['id'] }
+type queries = { month: Month['id'] }
 
 @Injectable()
 export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
@@ -32,7 +32,7 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
     return await query.getMany().then(entities => entities.map(row => MonthlyExpense.toDTO(row)))
   }
 
-  async get(id: string) {
+  async get(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum gasto mensal encontrado.')
 
@@ -60,7 +60,7 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
     return MonthlyExpense.toDTO(entity)
   }
 
-  async put(id: string, { value, description, month }: body) {
+  async put(id: number, { value, description, month }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Gasto mensal não encontrado.')
 
@@ -87,7 +87,7 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
     return MonthlyExpense.toDTO(entity)
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Gasto mensal não encontrado.')
 

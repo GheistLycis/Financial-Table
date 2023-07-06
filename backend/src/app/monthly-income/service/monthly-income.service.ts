@@ -8,9 +8,9 @@ import { classValidatorError, DuplicatedException, NotFoundException } from 'src
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-type body = { value: number, description: string, month: string }
-type queries = { month: string }
+type queries = { month: Month['id'] }
 
+type body = { value: number, description: string, month: Month['id'] }
 @Injectable()
 export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
   constructor(
@@ -32,7 +32,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     return await query.getMany().then(entities => entities.map(row => MonthlyIncome.toDTO(row)))
   }
 
-  async get(id: string) {
+  async get(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhuma entrada mensal encontrada.')
 
@@ -60,7 +60,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     return MonthlyIncome.toDTO(entity)
   }
 
-  async put(id: string, { value, description, month }: body) {
+  async put(id: number, { value, description, month }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Entrada mensal não encontrada.')
 
@@ -87,7 +87,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     return MonthlyIncome.toDTO(entity)
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Entrada mensal não encontrada.')
 

@@ -4,6 +4,8 @@ import MonthlyIncomeDTO from 'src/app/shared/DTOs/monthlyIncome';
 import { environment } from 'src/environments/environment';
 import { Response as Res } from 'src/app/shared/interfaces/Response';
 import MonthlyIncomeForm from '../../classes/MonthlyIncomeForm';
+import { queryMaker } from '../queryMaker';
+import MonthDTO from '../../DTOs/month';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +15,11 @@ export class MonthlyIncomeService {
 
   constructor(private http: HttpClient) {}
 
-  list({ month='' }) {
-    return this.http.get<Res<MonthlyIncomeDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?month=${month}`)
+  list(query: { month?: MonthDTO['id'] }) {
+    return this.http.get<Res<MonthlyIncomeDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 
-  get(id: string) {
+  get(id: number) {
     return this.http.get<Res<MonthlyIncomeDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
@@ -25,11 +27,11 @@ export class MonthlyIncomeService {
     return this.http.post<Res<MonthlyIncomeDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: MonthlyIncomeForm) {
+  put(id: number, payload: MonthlyIncomeForm) {
     return this.http.put<Res<MonthlyIncomeDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 
-  delete(id: string) {
+  delete(id: number) {
     return this.http.delete<Res<MonthlyIncomeDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 }

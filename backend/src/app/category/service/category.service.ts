@@ -8,8 +8,8 @@ import { Repository } from 'typeorm';
 import { Category } from '../Category';
 import CategoryDTO from '../Category.dto';
 
-type body = { name: string, color: string, percentage: number, month: string }
-type queries = { month: string }
+type body = { name: string, color: string, percentage: number, month: Month['id'] }
+type queries = { month: Month['id'] }
 
 @Injectable()
 export class CategoryService implements BaseService<CategoryDTO> {
@@ -29,7 +29,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
     return await query.getMany().then(entities => entities.map(row => Category.toDTO(row)))
   }
 
-  async get(id: string) {
+  async get(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhuma categoria encontrada.')
 
@@ -61,7 +61,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
     return Category.toDTO(entity)
   }
 
-  async put(id: string, { name, color, percentage, month }: body) {
+  async put(id: number, { name, color, percentage, month }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 
@@ -88,7 +88,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
     return Category.toDTO(entity)
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 

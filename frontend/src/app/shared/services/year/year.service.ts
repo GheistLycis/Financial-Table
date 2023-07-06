@@ -17,7 +17,7 @@ export class YearService {
     return this.http.get<Res<YearDTO[]>>(`${environment.apiUrl}/${this.baseRoute}`)
   }
 
-  get(id: string) {
+  get(id: number) {
     return this.http.get<Res<YearDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
@@ -25,11 +25,11 @@ export class YearService {
     return this.http.post<Res<YearDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: YearForm) {
+  put(id: number, payload: YearForm) {
     return this.http.put<Res<YearDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 
-  delete(id: string) {
+  delete(id: number) {
     return this.http.delete<Res<YearDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 }

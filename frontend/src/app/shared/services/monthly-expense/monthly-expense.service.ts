@@ -4,6 +4,8 @@ import MonthlyExpenseDTO from 'src/app/shared/DTOs/monthlyExpense';
 import { environment } from 'src/environments/environment';
 import { Response as Res } from 'src/app/shared/interfaces/Response';
 import MonthlyExpenseForm from '../../classes/MonthlyExpenseForm';
+import { queryMaker } from '../queryMaker';
+import MonthDTO from '../../DTOs/month';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +15,11 @@ export class MonthlyExpenseService {
 
   constructor(private http: HttpClient) {}
 
-  list({ month='' }) {
-    return this.http.get<Res<MonthlyExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?month=${month}`)
+  list(query: { month?: MonthDTO['id'] }) {
+    return this.http.get<Res<MonthlyExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 
-  get(id: string) {
+  get(id: number) {
     return this.http.get<Res<MonthlyExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
@@ -25,11 +27,11 @@ export class MonthlyExpenseService {
     return this.http.post<Res<MonthlyExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
-  put(id: string, payload: MonthlyExpenseForm) {
+  put(id: number, payload: MonthlyExpenseForm) {
     return this.http.put<Res<MonthlyExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 
-  delete(id: string) {
+  delete(id: number) {
     return this.http.delete<Res<MonthlyExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 }

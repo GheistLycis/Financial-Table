@@ -49,7 +49,7 @@ export class IpService implements BaseService<IpDTO> {
     return Ip.toDTO(entity)
   }
 
-  async put(id: string, { active }: body) {
+  async put(id: number, { active }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Ip não encontrado.')
 
@@ -63,7 +63,7 @@ export class IpService implements BaseService<IpDTO> {
     return Ip.toDTO(entity)
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Ip não encontrado.')
 
