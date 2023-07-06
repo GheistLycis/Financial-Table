@@ -1,19 +1,18 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import CategoryDTO from 'src/app/shared/DTOs/category';
-import GroupDTO from 'src/app/shared/DTOs/tag';
+import TagDTO from 'src/app/shared/DTOs/tag';
+import TagForm from 'src/app/shared/classes/TagForm';
 import GroupForm from 'src/app/shared/classes/TagForm';
-import { GroupService } from 'src/app/shared/services/tag/tag.service';
+import { TagService } from 'src/app/shared/services/tag/tag.service';
 
 @Component({
-  selector: 'app-add-edit-group',
-  templateUrl: './add-edit-group.component.html',
-  styleUrls: ['./add-edit-group.component.scss']
+  selector: 'app-add-edit-tag',
+  templateUrl: './add-edit-tag.component.html',
+  styleUrls: ['./add-edit-tag.component.scss']
 })
-export class AddEditGroupComponent implements OnInit {
-  @Input() category?: CategoryDTO
-  @Input() group?: GroupDTO
+export class AddEditTagComponent implements OnInit {
+  @Input() tag?: TagDTO
   @ViewChild('formModel') formModel!: NgForm
   form = new GroupForm()
   action: 'editar' | 'adicionar' = 'adicionar'
@@ -21,23 +20,19 @@ export class AddEditGroupComponent implements OnInit {
   
   constructor(
     protected activeModal: NgbActiveModal,
-    private groupService: GroupService,
+    private groupService: TagService,
   ) { }
   
   ngOnInit(): void {
-    if(this.group) {
+    if(this.tag) {
       this.action = 'editar'
       
-      const { name, color, category } = this.group
+      const { name, color } = this.tag
       
       this.form = {
         name,
         color,
-        category: category.id
       }
-    }
-    else if(this.category) {
-      this.form.category = this.category.id
     }
   }
   
@@ -51,8 +46,8 @@ export class AddEditGroupComponent implements OnInit {
   
   submit(): void {
     const service = this.action == 'adicionar'
-      ? (obj: GroupForm) => this.groupService.post(obj)
-      : (obj: GroupForm) => this.groupService.put(this.group.id, obj)
+      ? (obj: TagForm) => this.groupService.post(obj)
+      : (obj: TagForm) => this.groupService.put(this.tag.id, obj)
     
     service(this.form).subscribe({
       complete: () => this.activeModal.close(true),

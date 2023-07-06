@@ -10,21 +10,22 @@
         [year]="year" 
         [multiple]="false"
         [clearable]="false"
-        (filters)="form.group = $event.groups[0]?.id || undefined"
+        (filters)="form.category = $event.categories[0]?.id || undefined"
+        [showTags]="false"
       ></app-filters>
     </div>
     
     <form #formModel="ngForm">
       <div>
         <input 
-         [(ngModel)]="form.group"
-          name="group"
+         [(ngModel)]="form.category"
+          name="category"
           required
           hidden
           class="form-control"
-          [ngClass]="{'is-invalid': submitted && f['group'].errors}">
-        <div *ngIf="submitted && f['group'].errors && f['group'].errors['required']" class="invalid-feedback">
-          * Grupo é obrigatório
+          [ngClass]="{'is-invalid': submitted && f['category'].errors}">
+        <div *ngIf="submitted && f['category'].errors && f['category'].errors['required']" class="invalid-feedback">
+          * Selecione uma categoria
         </div>
       </div>
       
@@ -72,6 +73,21 @@
             <div *ngIf="submitted && f['date'].errors && f['date'].errors['required']" class="invalid-feedback">
               * Data é obrigatória
             </div>
+        </div>
+        
+        <div class="row">
+          <label for="tags" class="mb-1 required">Tags</label>
+          <ng-select
+            id="tags"
+            name="tags"
+            [items]="tags$ | async"
+            [(ngModel)]="form.tags"
+            [multiple]="true"
+            [hideSelected]="true"
+            bindLabel="name"
+            notFoundText="Nenhum registro disponível."
+            class="form-control"
+          ></ng-select>
         </div>
       </div>
     </form>

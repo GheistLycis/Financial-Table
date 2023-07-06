@@ -43,6 +43,10 @@ export class MonthsComponent {
   }
   
   ngOnInit(): void {
+    this.listYears()
+  }
+  
+  listYears(): void {
     this.yearService.list().pipe(
       tap(({ data }) => {
         this.years = data
@@ -138,6 +142,7 @@ export class MonthsComponent {
       this.monthService.delete(id).subscribe(() => {
         this.toastr.success('Excluído com sucesso!')
         
+        this.listYears()
         this.listHistories()
       })
     )

@@ -1,10 +1,12 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { map } from 'rxjs';
 import ExpenseDTO from 'src/app/shared/DTOs/expense';
 import YearDTO from 'src/app/shared/DTOs/year';
 import ExpenseForm from 'src/app/shared/classes/ExpenseForm';
 import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
+import { TagService } from 'src/app/shared/services/tag/tag.service';
 
 @Component({
   selector: 'app-add-edit-expense',
@@ -15,6 +17,7 @@ export class AddEditExpenseComponent implements OnInit {
   @Input() expense?: ExpenseDTO
   @Input() year!: YearDTO['id']
   @ViewChild('formModel') formModel!: NgForm
+  tags$ = this.tagService.list().pipe(map(({ data }) => data))
   form = new ExpenseForm()
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
@@ -22,20 +25,22 @@ export class AddEditExpenseComponent implements OnInit {
   constructor(
     protected activeModal: NgbActiveModal,
     private expenseService: ExpenseService,
+    private tagService: TagService,
   ) { }
   
   ngOnInit(): void {
     if(this.expense) {
       this.action = 'editar'
-      this.year = this.expense.group.category.month.year.id
+      this.year = this.expense.category.month.year.id
       
-      const { value, date, description, group } = this.expense
+      const { value, date, description, category, tags } = this.expense
       
       this.form = {
         value,
         date,
         description,
-        group: group.id
+        category: category.id,
+        tags
       }
     }
   }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { YearsComponent } from './years/years.component';
 import { MonthsComponent } from './months/months.component';
+import { TagsComponent } from './tags/tags.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'meses',
     component: MonthsComponent,
+  },
+  {
+    path: 'tags',
+    component: TagsComponent,
   },
 ]
 

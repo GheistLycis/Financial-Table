@@ -23,6 +23,6 @@ export const oneToManyOptions: RelationOptions = {
 }
 
 export const manyToManyOptions: RelationOptions = {
-  cascade: true,
+  onDelete: 'CASCADE',
   eager: true,
 }

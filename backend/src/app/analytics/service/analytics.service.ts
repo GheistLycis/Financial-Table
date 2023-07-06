@@ -68,12 +68,10 @@ export class AnalyticsService {
       .query(`
         SELECT COALESCE(SUM(e.value), 0) AS totalexpenses
         FROM expenses e
-        JOIN groups g ON e."groupId" = g.id
-        JOIN categories c ON g."categoryId" = c.id
+        JOIN categories c ON e."categoryId" = c.id
         WHERE 
           c.id = ${id}
           AND e."deletedAt" IS NULL
-          AND g."deletedAt" IS NULL
           AND c."deletedAt" IS NULL
       `)
       .then(rows => originalAvailable - rows[0].totalexpenses, err => { throw ServerException(`${err}`) })
@@ -140,13 +138,11 @@ export class AnalyticsService {
             (
               SELECT COALESCE(SUM(e.value), 0) AS sum
               FROM expenses e
-              JOIN groups g ON e."groupId" = g.id
-              JOIN categories c ON g."categoryId" = c.id
+              JOIN categories c ON e."categoryId" = c.id
               JOIN months m ON c."monthId" = m.id
               WHERE 
                 m.id = ${id}
                 AND e."deletedAt" IS NULL
-                AND g."deletedAt" IS NULL
                 AND c."deletedAt" IS NULL
                 AND m."deletedAt" IS NULL
             ) total_expenses
@@ -212,13 +208,11 @@ export class AnalyticsService {
           (
             SELECT COALESCE(SUM(e.value), 0) AS sum
             FROM expenses e
-            JOIN groups g ON e."groupId" = g.id
-            JOIN categories c ON g."categoryId" = c.id
+            JOIN categories c ON e."categoryId" = c.id
             JOIN months m ON c."monthId" = m.id
             WHERE 
               m.id = ${id}
               AND e."deletedAt" IS NULL
-              AND g."deletedAt" IS NULL
               AND c."deletedAt" IS NULL
               AND m."deletedAt" IS NULL
           ) total_expenses
@@ -320,14 +314,12 @@ export class AnalyticsService {
         SELECT COALESCE(SUM(e.value), 0) AS expenses
         FROM
           expenses e
-          JOIN groups g ON e."groupId" = g.id
-          JOIN categories c ON g."categoryId" = c.id
+          JOIN categories c ON e."categoryId" = c.id
           JOIN months m ON c."monthId" = m.id
           JOIN years y ON m."yearId" = y.id
         WHERE 
           y.id = ${id}
           AND e."deletedAt" IS NULL
-          AND g."deletedAt" IS NULL
           AND c."deletedAt" IS NULL
           AND m."deletedAt" IS NULL
           AND y."deletedAt" IS NULL

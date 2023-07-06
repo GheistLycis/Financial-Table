@@ -21,7 +21,7 @@ export class Expense extends BaseEntity  {
   @Min(1)
   value: number
 
-  @Column()
+  @Column({ nullable: true, default: '' })
   description: string
 
   @Column({ type: 'date' })

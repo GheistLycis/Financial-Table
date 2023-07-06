@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SessionService } from 'src/app/shared/services/session/session.service';
 
 
-export type navItem = {
+type navItem = {
   type: 'link' | 'menu'
   title: string
   link?: string
@@ -33,6 +33,10 @@ export class NavbarComponent implements OnInit {
         {
           title: 'Meses',
           link: 'gerenciar/meses'
+        },
+        {
+          title: 'Tags',
+          link: 'gerenciar/tags'
         },
       ],
     },

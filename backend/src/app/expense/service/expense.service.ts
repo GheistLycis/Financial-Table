@@ -13,8 +13,9 @@ import { Request } from 'express';
 import { Year } from 'src/app/year/Year';
 import { Month } from 'src/app/month/Month';
 import { Category } from 'src/app/category/Category';
+import TagDTO from 'src/app/tag/Tag.dto';
 
-type body = { value: number, description: string, date: Date, category: Category['id'], tags: { id: Tag['id'] }[] }
+type body = { value: number, description: string, date: Date, category: Category['id'], tags: TagDTO[] }
 type queries = { year: Year['id'], month: Month['id'], category: Category['id'], tags: Tag['id'][] }
 
 @Injectable()
@@ -27,7 +28,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
   ) {}
 
   async list({ year, month, category, tags }: queries, req: Request) {
-    const cacheKey = `${req['user'].id}-expenses-${year}_${month}_${category}_${tags.join(',')}`
+    const cacheKey = `${req['user'].id}-expenses-${year}_${month}_${category}_${tags}`
     
     const cache = await this.cacheService.get<ExpenseDTO[]>(cacheKey)
     if(cache) return cache
@@ -42,7 +43,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     if(year) query.where('Year.id = :year', { year })
     if(month) query.where('Month.id = :month', { month })
     if(category) query.where('Category.id = :category', { category })
-    if(tags) query.where('Tag.id IN (:tags)', { tags })
+    if(tags.length) query.where('Tag.id IN (:...tags)', { tags })
 
     return await query.getMany().then(entities => {
       const result = entities.map(row => Expense.toDTO(row))

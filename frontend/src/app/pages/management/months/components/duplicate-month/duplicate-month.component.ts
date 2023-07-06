@@ -30,8 +30,7 @@ export class DuplicateMonthComponent {
       .map(([ key ]) => {
         if(key == 'duplicateMonthlyIncomes') return 'Entradas'
         if(key == 'duplicateMonthlyExpenses') return 'Mensalidades'
-        if(key == 'duplicateCategories') return 'Categorias'
-        else return 'Grupos'
+        else return 'Categorias'
       })
     
     componentInstance.title = 'Duplicar mês'

@@ -6,7 +6,6 @@ import MonthDTO from 'src/app/shared/DTOs/month';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { AddEditCategoryComponent } from './components/add-edit-category/add-edit-category.component';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
-import { GroupsComponent } from './components/groups/groups.component';
 import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 
 @Component({
@@ -77,9 +76,5 @@ export class CategoriesComponent implements OnInit {
         this.listCategories()
       })
     )
-  }
-  
-  listGroups(category: CategoryDTO): void {
-    this.modalService.open(GroupsComponent, { size: 'xl' }).componentInstance.category = category
   }
 }

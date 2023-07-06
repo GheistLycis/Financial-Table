@@ -10,10 +10,8 @@ import { AddEditMonthlyExpenseComponent } from './components/monthly-expenses/co
 import { MonthlyIncomesComponent } from './components/monthly-incomes/monthly-incomes.component';
 import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-expenses.component';
 import { CategoriesComponent } from './components/categories/categories.component';
-import { GroupsComponent } from './components/categories/components/groups/groups.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { AddEditCategoryComponent } from './components/categories/components/add-edit-category/add-edit-category.component';
-import { AddEditGroupComponent } from './components/categories/components/groups/components/add-edit-group/add-edit-group.component';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { DuplicateMonthComponent } from './components/duplicate-month/duplicate-month.component';
 import { PipesModule } from 'src/app/shared/pipes/pipes.module';
@@ -23,16 +21,14 @@ import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 @NgModule({
   declarations: [
     AddEditCategoryComponent,
-    AddEditGroupComponent,
     AddEditMonthComponent,
     AddEditMonthlyExpenseComponent,
     AddEditMonthlyIncomeComponent,
     CategoriesComponent,
-    GroupsComponent,
+    DuplicateMonthComponent,
     MonthlyExpensesComponent,
     MonthlyIncomesComponent,
     MonthsComponent,
-    DuplicateMonthComponent,
   ],
   imports: [
     CommonModule,

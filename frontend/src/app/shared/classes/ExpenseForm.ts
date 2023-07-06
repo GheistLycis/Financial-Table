@@ -6,5 +6,5 @@ export default class ExpenseForm {
   description: string
   date: Date
   category: CategoryDTO['id']
-  tags: { id: TagDTO['id'] }[]
+  tags: TagDTO[]
 }

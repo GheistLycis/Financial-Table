@@ -14,7 +14,9 @@ export class ExpenseController extends BaseController {
   }
   
   @Get() async list(@Req() req, @Query() query, @Res() res) {
-    query.tags = query.tags.split(',')
+    query.tags = query.tags?.length
+      ? query.tags.split(',')
+      : []
     
     return await this.service.list(query, req)
       .then((data: any) => handleResponse(res, { data }))

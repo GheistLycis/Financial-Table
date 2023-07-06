@@ -30,19 +30,8 @@
             id="duplicateCategories"
             name="duplicateCategories"
             type="checkbox"
-            [(ngModel)]="form.duplicateCategories"
-            (ngModelChange)="!$event && form.duplicateGroups = false">
+            [(ngModel)]="form.duplicateCategories">
           <label for="duplicateCategories" class="form-label">Categorias</label>
-        </div>
-        
-        <div class="row mb-4">
-          <input 
-            id="duplicateGroups"
-            name="duplicateGroups"
-            type="checkbox"
-            [(ngModel)]="form.duplicateGroups"
-            [disabled]="!form.duplicateCategories">
-          <label for="duplicateGroups" class="form-label">Grupos</label>
         </div>
       </div>
     </form>
