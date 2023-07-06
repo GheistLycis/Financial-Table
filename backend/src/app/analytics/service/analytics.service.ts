@@ -10,6 +10,8 @@ import { Category } from 'src/app/category/Category';
 import MonthHistory from 'src/shared/interfaces/MonthHistory';
 import { Month } from 'src/app/month/Month';
 import MonthDTO from 'src/app/month/Month.dto';
+import CategoryDTO from 'src/app/category/Category.dto';
+import YearDTO from 'src/app/year/Year.dto';
 
 
 @Injectable()
@@ -21,7 +23,7 @@ export class AnalyticsService {
     @Repo(Year) private yearRepo: Repository<Year>,
   ) {}
   
-  async categoryRemaining(id: number): Promise<CategoryRemaining> {
+  async categoryRemaining(id: CategoryDTO['id']): Promise<CategoryRemaining> {
     const category = await this.categoryRepo.findOneBy({ id })
       .then(entity => {
         if(!entity) throw NotFoundException('Nenhuma categoria encontrada.')
@@ -83,7 +85,7 @@ export class AnalyticsService {
     }
   }
   
-  async monthBalance(id: number): Promise<{ month: MonthDTO, balance: number } | any> {
+  async monthBalance(id: MonthDTO['id']): Promise<{ month: MonthDTO, balance: number } | any> {
     const actualMonth = await this.monthRepo.createQueryBuilder('Month')
       .leftJoinAndSelect('Month.year', 'Year')
       .where('Month.id = :id', { id })
@@ -161,7 +163,7 @@ export class AnalyticsService {
     }
   }
   
-  async monthHistory(id: number): Promise<MonthHistory> {
+  async monthHistory(id: MonthDTO['id']): Promise<MonthHistory> {
     const month = await this.monthRepo
       .findOne({ 
         where: { id }, 
@@ -242,7 +244,7 @@ export class AnalyticsService {
     } 
   }
 
-  async yearHistory(id: number): Promise<YearHistory> {
+  async yearHistory(id: YearDTO['id']): Promise<YearHistory> {
     const year = await this.yearRepo.findOneBy({ id })
       .then(entity => {
         if(!entity) throw NotFoundException('Nenhum ano encontrado.')

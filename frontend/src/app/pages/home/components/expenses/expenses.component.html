@@ -39,7 +39,7 @@
                 <td><small>{{ expense.date | date:'fullDate':'':'pt' }}</small></td>
                 <td>{{ expense.value | number:'.2-2':'pt' }}</td>
                 <td><small>{{ expense.description }}</small></td>
-                <td>{{ expense.group.category.name }}</td>
+                <td>{{ expense.category.name }}</td>
                 <td>
                   <div class="d-flex justify-content-evenly">
                     <img 

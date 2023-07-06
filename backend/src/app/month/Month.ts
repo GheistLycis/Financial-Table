@@ -6,7 +6,7 @@ import {
   ManyToOne,
 } from "typeorm";
 import { IsInt, Max, Min } from 'class-validator';
-import BaseEntity, { manyToOneOptions, OneToManyOptions } from "src/shared/classes/BaseEntity";
+import BaseEntity, { manyToOneOptions, oneToManyOptions } from "src/shared/classes/BaseEntity";
 import { Category } from "../category/Category";
 import MonthDTO from "./Month.dto";
 import { Year } from "../year/Year";
@@ -33,13 +33,13 @@ export class Month extends BaseEntity {
   @ManyToOne(() => Year, year => year.months, manyToOneOptions)
   year: Year
 
-  @OneToMany(() => Category, category => category.month, OneToManyOptions)
+  @OneToMany(() => Category, category => category.month, oneToManyOptions)
   categories: Category[]
 
-  @OneToMany(() => MonthlyIncome, income => income.month, OneToManyOptions)
+  @OneToMany(() => MonthlyIncome, income => income.month, oneToManyOptions)
   incomes: MonthlyIncome[]
   
-  @OneToMany(() => MonthlyExpense, expense => expense.month, OneToManyOptions)
+  @OneToMany(() => MonthlyExpense, expense => expense.month, oneToManyOptions)
   expenses: MonthlyExpense[]
 
   static toDTO(row: Month): MonthDTO {

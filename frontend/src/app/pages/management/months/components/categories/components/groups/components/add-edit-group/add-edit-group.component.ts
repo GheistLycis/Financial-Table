@@ -2,9 +2,9 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import CategoryDTO from 'src/app/shared/DTOs/category';
-import GroupDTO from 'src/app/shared/DTOs/group';
-import GroupForm from 'src/app/shared/classes/GroupForm';
-import { GroupService } from 'src/app/shared/services/group/group.service';
+import GroupDTO from 'src/app/shared/DTOs/tag';
+import GroupForm from 'src/app/shared/classes/TagForm';
+import { GroupService } from 'src/app/shared/services/tag/tag.service';
 
 @Component({
   selector: 'app-add-edit-group',

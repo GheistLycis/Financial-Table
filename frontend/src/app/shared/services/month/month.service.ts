@@ -20,7 +20,7 @@ export class MonthService {
     return this.http.get<Res<MonthDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 
-  get(id: number) {
+  get(id: MonthDTO['id']) {
     return this.http.get<Res<MonthDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 

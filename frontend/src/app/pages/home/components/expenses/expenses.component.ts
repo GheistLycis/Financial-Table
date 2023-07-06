@@ -6,7 +6,6 @@ import Filters from 'src/app/shared/interfaces/Filters';
 import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import CategoryDTO from 'src/app/shared/DTOs/category';
-import GroupDTO from 'src/app/shared/DTOs/group';
 import ExpenseDTO from 'src/app/shared/DTOs/expense';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
@@ -45,17 +44,13 @@ export class ExpensesComponent implements OnInit {
   }
   
   listExpenses(filter: Filters): void {
-    const { months, categories, groups } = filter
-    let filters: MonthDTO[] | CategoryDTO[] | GroupDTO[]
-    let key: 'month' | 'category' | 'group'
+    const { months, categories, tags } = filter
+    let filters: MonthDTO[] | CategoryDTO[]
+    let key: 'month' | 'category'
     
     this.filters = filter
     
-    if(groups.length) {
-      filters = groups
-      key = 'group'
-    }
-    else if(categories.length) {
+    if(categories.length) {
       filters = categories
       key = 'category'
     }
@@ -65,7 +60,7 @@ export class ExpensesComponent implements OnInit {
     }
     
     if(key) {
-      const forkJoinArr = filters.map(({ id }) => this.expensesService.list({ [key]: id }).pipe(
+      const forkJoinArr = filters.map(({ id }) => this.expensesService.list({ [key]: id, tags: tags.map(({ id }) => id) }).pipe(
         map(({ data }) => data)
       ))
       

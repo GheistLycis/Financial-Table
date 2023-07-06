@@ -17,7 +17,7 @@ export class YearService {
     return this.http.get<Res<YearDTO[]>>(`${environment.apiUrl}/${this.baseRoute}`)
   }
 
-  get(id: number) {
+  get(id: YearDTO['id']) {
     return this.http.get<Res<YearDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 

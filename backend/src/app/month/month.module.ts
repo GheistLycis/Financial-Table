@@ -8,7 +8,7 @@ import { YearModule } from '../year/year.module';
 import { MonthlyIncomeModule } from '../monthly-income/monthly-income.module';
 import { MonthlyExpenseModule } from '../monthly-expense/monthly-expense.module';
 import { CategoryModule } from '../category/category.module';
-import { GroupModule } from '../group/group.module';
+import { TagModule } from '../tag/tag.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { GroupModule } from '../group/group.module';
     MonthlyIncomeModule,
     MonthlyExpenseModule,
     CategoryModule,
-    GroupModule,
+    TagModule,
   ],
   controllers: [MonthController],
   providers: [MonthService],

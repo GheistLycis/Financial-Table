@@ -6,11 +6,11 @@ import {
   ManyToOne,
 } from "typeorm";
 import CategoryDTO from "./Category.dto";
-import BaseEntity, { manyToOneOptions, OneToManyOptions } from "src/shared/classes/BaseEntity";
-import { Group } from "../group/Group";
+import BaseEntity, { manyToOneOptions, oneToManyOptions } from "src/shared/classes/BaseEntity";
 import { Month } from "../month/Month";
 import { Max, Min, Validate } from "class-validator";
 import IsColor from "src/shared/decorators/class-validator/IsColor";
+import { Expense } from "../expense/Expense";
 
 @Service()
 @Entity("categories")
@@ -31,8 +31,8 @@ export class Category extends BaseEntity  {
   @ManyToOne(() => Month, month => month.categories, manyToOneOptions)
   month: Month
 
-  @OneToMany(() => Group, group => group.category, OneToManyOptions)
-  groups: Group[]
+  @OneToMany(() => Expense, expense => expense.category, oneToManyOptions)
+  expenses: Expense[]
 
   static toDTO(row: Category): CategoryDTO {
     return {

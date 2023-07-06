@@ -1,13 +1,13 @@
 import { Controller, Injectable } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import BaseController from 'src/shared/classes/BaseController';
-import { GroupService } from '../service/group.service';
+import { TagService } from '../service/tag.service';
 
-@ApiTags('groups')
+@ApiTags('tags')
 @Injectable()
-@Controller('groups')
-export class GroupController extends BaseController {
-  constructor(service: GroupService) { 
+@Controller('tags')
+export class TagController extends BaseController {
+  constructor(service: TagService) { 
     super(service) 
   }
 }

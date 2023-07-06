@@ -11,7 +11,7 @@ import { YearService } from 'src/app/year/service/year.service';
 import { MonthlyIncomeService } from 'src/app/monthly-income/service/monthly-income.service';
 import { MonthlyExpenseService } from 'src/app/monthly-expense/service/monthly-expense.service';
 import { CategoryService } from 'src/app/category/service/category.service';
-import { GroupService } from 'src/app/group/service/group.service';
+import { TagService } from 'src/app/tag/service/tag.service';
 import YearDTO from 'src/app/year/Year.dto';
 import CategoryDTO from 'src/app/category/Category.dto';
 
@@ -20,13 +20,8 @@ type queries = { year: Year['id'] }
 type duplicationBody = { 
   duplicateMonthlyExpenses: boolean
   duplicateMonthlyIncomes: boolean
-} & ({
-  duplicateCategories: true
-  duplicateGroups: boolean
-} | {
-  duplicateCategories: false
-  duplicateGroups: false
-})
+  duplicateCategories: boolean
+}
 
 @Injectable()
 export class MonthService implements BaseService<MonthDTO> {
@@ -37,7 +32,7 @@ export class MonthService implements BaseService<MonthDTO> {
     @Inject(MonthlyIncomeService) private monthlyIncomeService: MonthlyIncomeService,
     @Inject(MonthlyExpenseService) private monthlyExpenseService: MonthlyExpenseService,
     @Inject(CategoryService) private categoryService: CategoryService,
-    @Inject(GroupService) private groupService: GroupService,
+    @Inject(TagService) private tagService: TagService,
   ) {}
 
   async list({ year }: queries) {
@@ -51,7 +46,7 @@ export class MonthService implements BaseService<MonthDTO> {
     return await query.getMany().then(entities => entities.map(row => Month.toDTO(row)))
   }
 
-  async get(id: number) {
+  async get(id: MonthDTO['id']) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum mês encontrado.')
 
@@ -78,7 +73,7 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
 
-  async put(id: number, { month, available, obs, year }: body) {
+  async put(id: MonthDTO['id'], { month, available, obs, year }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 
@@ -105,7 +100,7 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
 
-  async delete(id: number) {
+  async delete(id: MonthDTO['id']) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 
@@ -114,11 +109,10 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
   
-  async duplicate(id: number, { 
+  async duplicate(id: MonthDTO['id'], { 
     duplicateMonthlyExpenses,
     duplicateMonthlyIncomes,
-    duplicateCategories,
-    duplicateGroups }: duplicationBody): Promise<MonthDTO> {
+    duplicateCategories }: duplicationBody): Promise<MonthDTO> {
     const targetMonth = await this.repo.findOne({ 
       where: { id }, 
       relations: { year: true } 
@@ -180,32 +174,15 @@ export class MonthService implements BaseService<MonthDTO> {
       })
     }
     if(duplicateCategories) {
-      const targetCategories = await this.categoryService.list({ month: targetMonth.id })
-      const newCategories: CategoryDTO[] = []
-      for(let i = 0; i < targetCategories.length; i++) {
-        const { name, color, percentage } = targetCategories[i]
-        const newCategory = await this.categoryService.post({
+      const categories = await this.categoryService.list({ month: targetMonth.id })
+      categories.forEach(({ name, color, percentage }) => {
+        this.categoryService.post({
           name,
-          percentage,
           color,
+          percentage,
           month: newMonth.id,
         })
-        
-        newCategories.push(newCategory)
-      }
-      
-      if(duplicateGroups) {
-        const groups = await this.groupService.list({ month: targetMonth.id, category: undefined })
-        groups.forEach(({ name, color, category }) => {
-          const { id } = newCategories.find(({ name }) => name == category.name)
-          
-          this.groupService.post({
-            name,
-            color,
-            category: id,
-          })
-        })
-      }
+      })
     }
     
     return newMonth

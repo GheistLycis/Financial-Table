@@ -6,7 +6,7 @@ import { YearService } from 'src/app/shared/services/year/year.service';
 import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
 import { forkJoin, map, firstValueFrom, Observable, BehaviorSubject, Subject, skip, tap, switchMap } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
-import { GroupService } from 'src/app/shared/services/group/group.service';
+import { TagService } from 'src/app/shared/services/tag/tag.service';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
 import CategoryRemaining from 'src/app/shared/interfaces/CategoryRemaining';
 
@@ -28,7 +28,7 @@ export class AnalyticsComponent implements OnInit {
   recentExpenses: number | '--' = '--'
   yearExpenses: number | '--' = '--'
   mostExpensiveCategory: { name: string, total: number } | '--' = '--'
-  mostExpensiveGroup: { name: string, total: number } | '--' = '--'
+  mostExpensiveTag: { name: string, total: number } | '--' = '--'
   categoriesRemaining: CategoryRemaining[] = []
   
   constructor(
@@ -36,7 +36,7 @@ export class AnalyticsComponent implements OnInit {
     private monthService: MonthService,
     private expenseService: ExpenseService,
     private categoryService: CategoryService,
-    private groupService: GroupService,
+    private tagService: TagService,
     private analyticsService: AnalyticsService,
   ) { }
   
@@ -81,7 +81,7 @@ export class AnalyticsComponent implements OnInit {
     this.calculateRecentExpenses(this.month$.getValue(), this.months$.getValue())
     this.calculateYearExpenses(this.month$.getValue(), this.months$.getValue())
     this.getMostExpensiveCategory(this.month$.getValue())
-    this.getMostExpensiveGroup(this.month$.getValue())
+    this.getMostExpensiveTag(this.month$.getValue())
     this.listCategoriesRemaining(this.month$.getValue())
   }
   
@@ -180,34 +180,36 @@ export class AnalyticsComponent implements OnInit {
     })
   }
   
-  getMostExpensiveGroup(actualMonth: MonthDTO): void {
-    const groups$ = this.groupService.list({ month: actualMonth.id }).pipe(map(({ data }) => data))
-    const forkJoinObj: { [group: string]: Observable<number> } = {}
-    let allGroupsExpenses$: Observable<{ [group: string]: number }>
+  getMostExpensiveTag(actualMonth: MonthDTO): void {
+    this.mostExpensiveTag = '--'
     
-    groups$.subscribe(groups => {
-      if(!groups.length) {
-        this.mostExpensiveGroup = '--'
+    // const groups$ = this.groupService.list({ month: actualMonth.id }).pipe(map(({ data }) => data))
+    // const forkJoinObj: { [group: string]: Observable<number> } = {}
+    // let allGroupsExpenses$: Observable<{ [group: string]: number }>
+    
+    // groups$.subscribe(groups => {
+    //   if(!groups.length) {
+    //     this.mostExpensiveGroup = '--'
         
-        return
-      }
+    //     return
+    //   }
       
-      groups.forEach(({ id, name }) => {
-        forkJoinObj[name] = this.expenseService.list({ group: id }).pipe(map(res => res.data.reduce((prev, curr) => prev += curr.value, 0)))
-      })
+    //   groups.forEach(({ id, name }) => {
+    //     forkJoinObj[name] = this.expenseService.list({ group: id }).pipe(map(res => res.data.reduce((prev, curr) => prev += curr.value, 0)))
+    //   })
       
-      allGroupsExpenses$ = forkJoin(forkJoinObj)
+    //   allGroupsExpenses$ = forkJoin(forkJoinObj)
       
-      allGroupsExpenses$.subscribe(res => {
-        let max = { name: '--', total: 0 }
+    //   allGroupsExpenses$.subscribe(res => {
+    //     let max = { name: '--', total: 0 }
         
-        Object.entries(res).forEach(([ name, total ]) => {
-          if(total > max.total) max = { name, total }
-        })
+    //     Object.entries(res).forEach(([ name, total ]) => {
+    //       if(total > max.total) max = { name, total }
+    //     })
         
-        this.mostExpensiveGroup = max
-      })
-    })
+    //     this.mostExpensiveGroup = max
+    //   })
+    // })
   }
   
   listCategoriesRemaining({ id }: MonthDTO): void {

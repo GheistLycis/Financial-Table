@@ -29,7 +29,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
     return await query.getMany().then(entities => entities.map(row => Category.toDTO(row)))
   }
 
-  async get(id: number) {
+  async get(id: CategoryDTO['id']) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhuma categoria encontrada.')
 
@@ -61,7 +61,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
     return Category.toDTO(entity)
   }
 
-  async put(id: number, { name, color, percentage, month }: body) {
+  async put(id: CategoryDTO['id'], { name, color, percentage, month }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 
@@ -88,7 +88,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
     return Category.toDTO(entity)
   }
 
-  async delete(id: number) {
+  async delete(id: CategoryDTO['id']) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 

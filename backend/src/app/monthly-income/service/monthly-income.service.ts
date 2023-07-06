@@ -32,7 +32,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     return await query.getMany().then(entities => entities.map(row => MonthlyIncome.toDTO(row)))
   }
 
-  async get(id: number) {
+  async get(id: MonthlyIncomeDTO['id']) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhuma entrada mensal encontrada.')
 
@@ -60,7 +60,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     return MonthlyIncome.toDTO(entity)
   }
 
-  async put(id: number, { value, description, month }: body) {
+  async put(id: MonthlyIncomeDTO['id'], { value, description, month }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Entrada mensal não encontrada.')
 
@@ -87,7 +87,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     return MonthlyIncome.toDTO(entity)
   }
 
-  async delete(id: number) {
+  async delete(id: MonthlyIncomeDTO['id']) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Entrada mensal não encontrada.')
 

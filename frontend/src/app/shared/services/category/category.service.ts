@@ -19,7 +19,7 @@ export class CategoryService {
     return this.http.get<Res<CategoryDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 
-  get(id: number) {
+  get(id: CategoryDTO['id']) {
     return this.http.get<Res<CategoryDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
@@ -27,11 +27,11 @@ export class CategoryService {
     return this.http.post<Res<CategoryDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
   }
 
-  put(id: number, payload: CategoryForm) {
+  put(id: CategoryDTO['id'], payload: CategoryForm) {
     return this.http.put<Res<CategoryDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 
-  delete(id: number) {
+  delete(id: CategoryDTO['id']) {
     return this.http.delete<Res<CategoryDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 }

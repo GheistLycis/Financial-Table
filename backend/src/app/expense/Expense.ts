@@ -2,13 +2,16 @@ import { Service } from "typedi";
 import {
   Entity,
   Column,
+  ManyToMany,
+  JoinTable,
   ManyToOne,
 } from "typeorm";
 import ExpenseDTO from "./Expense.dto";
-import { Group } from "../group/Group";
-import BaseEntity, { manyToOneOptions } from "../../shared/classes/BaseEntity";
+import BaseEntity, { manyToManyOptions, manyToOneOptions } from "../../shared/classes/BaseEntity";
 import DecimalTransformer from "src/shared/classes/DecimalTransformer";
 import { Min } from "class-validator";
+import { Tag } from "../tag/Tag";
+import { Category } from "../category/Category";
 
 @Service()
 @Entity("expenses")
@@ -25,15 +28,20 @@ export class Expense extends BaseEntity  {
   date: Date
 
   // RELATIONS
-  @ManyToOne(() => Group, group => group.expenses, manyToOneOptions)
-  group: Group
+  @ManyToOne(() => Category, category => category.expenses, manyToOneOptions)
+  category: Category
+  
+  @ManyToMany(() => Tag, manyToManyOptions)
+  @JoinTable()
+  tags: Tag[]
 
   static toDTO(row: Expense): ExpenseDTO {
     return {
       value: row.value,
       description: row.description,
       date: row.date,
-      group: row.group ? Group.toDTO(row.group) : null,
+      category: row.category ? Category.toDTO(row.category) : null,
+      tags: row.tags ? row.tags.map(tag => Tag.toDTO(tag)) : null,
       id: row.id,
       createdAt: row.createdAt,
       updatedAt: row.updatedAt,

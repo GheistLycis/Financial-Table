@@ -3,10 +3,10 @@ import { validate } from 'class-validator';
 import BaseService from 'src/shared/interfaces/BaseService';
 import ExpenseDTO from '../Expense.dto';
 import { Expense } from '../Expense';
-import { Group } from '../../group/Group';
+import { Tag } from '../../tag/Tag';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/functions/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { Request } from 'express';
@@ -14,27 +14,27 @@ import { Year } from 'src/app/year/Year';
 import { Month } from 'src/app/month/Month';
 import { Category } from 'src/app/category/Category';
 
-type body = { value: number, description: string, date: Date, group: Group['id'] }
-type queries = { year: Year['id'], month: Month['id'], category: Category['id'], group: Group['id'] }
+type body = { value: number, description: string, date: Date, category: Category['id'], tags: { id: Tag['id'] }[] }
+type queries = { year: Year['id'], month: Month['id'], category: Category['id'], tags: Tag['id'][] }
 
 @Injectable()
 export class ExpenseService implements BaseService<ExpenseDTO> {
   constructor(
     @Repo(Expense) private repo: Repository<Expense>,
-    @Repo(Group) private groupRepo: Repository<Group>,
+    @Repo(Category) private categoryRepo: Repository<Category>,
+    @Repo(Tag) private tagRepo: Repository<Tag>,
     @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
-  async list({ year, month, category, group }: queries, req: Request) {
-    const cacheKey = `${req['user'].id}-expenses-${year}-${month}-${category}-${group}`
+  async list({ year, month, category, tags }: queries, req: Request) {
+    const cacheKey = `${req['user'].id}-expenses-${year}_${month}_${category}_${tags.join(',')}`
     
     const cache = await this.cacheService.get<ExpenseDTO[]>(cacheKey)
     if(cache) return cache
     
-    const query = this.repo
-      .createQueryBuilder('Expense')
-      .leftJoinAndSelect('Expense.group', 'Group')
-      .leftJoinAndSelect('Group.category', 'Category')
+    const query = this.repo.createQueryBuilder('Expense')
+      .leftJoinAndSelect('Expense.tags', 'Tag')
+      .leftJoinAndSelect('Expense.category', 'Category')
       .leftJoinAndSelect('Category.month', 'Month')
       .leftJoinAndSelect('Month.year', 'Year')
       .orderBy('Expense.date', 'DESC')
@@ -42,7 +42,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     if(year) query.where('Year.id = :year', { year })
     if(month) query.where('Month.id = :month', { month })
     if(category) query.where('Category.id = :category', { category })
-    if(group) query.where('Group.id = :group', { group })
+    if(tags) query.where('Tag.id IN (:tags)', { tags })
 
     return await query.getMany().then(entities => {
       const result = entities.map(row => Expense.toDTO(row))
@@ -52,30 +52,29 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     })
   }
 
-  async get(id: number) {
+  async get(id: ExpenseDTO['id']) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum registro encontrado.')
 
     return Expense.toDTO(entity)
   }
 
-  async post({ value, description, date, group }: body) {
+  async post({ value, description, date, category, tags }: body) {
     const repeated = await this.repo.createQueryBuilder('Expense')
-      .leftJoinAndSelect('Expense.group', 'Group')
       .where('Expense.value = :value', { value })
       .andWhere('Expense.description = :description', { description })
       .andWhere('Expense.date = :date', { date })
-      .andWhere('Group.id = :group', { group })
       .getOne()
     if(repeated) throw DuplicatedException('Este registro já foi cadastrado.')
 
-    const groupEntity = await this.groupRepo.findOneBy({ id: group })
+    const categoryEntity = await this.categoryRepo.findOneBy({ id: category })
     
     const entity = this.repo.create({ 
       value, 
       description, 
       date,
-      group: groupEntity
+      category: categoryEntity,
+      tags
     })
 
     const errors = await validate(entity)
@@ -88,26 +87,26 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     return Expense.toDTO(entity)
   }
 
-  async put(id: number, { value, description, date, group }: body) {
+  async put(id: ExpenseDTO['id'], { value, description, date, category, tags }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro não encontrado.')
 
     const repeated = await this.repo.createQueryBuilder('Expense')
-      .leftJoinAndSelect('Expense.group', 'Group')
       .where('Expense.id != :id', { id })
       .andWhere('Expense.value = :value', { value })
       .andWhere('Expense.description = :description', { description })
       .andWhere('Expense.date = :date', { date })
-      .andWhere('Group.id = :group', { group })
       .getOne()
     if(repeated) throw DuplicatedException('Este registro já foi cadastrado.')
 
-    const groupEntity = await this.groupRepo.findOneBy({ id: group })
+    const categoryEntity = await this.categoryRepo.findOneBy({ id: category })
+    const tagEntities = await this.tagRepo.findBy({ id: In(tags.map(({ id }) => id)) })
 
     entity.value = value
     entity.description = description
     entity.date = date
-    entity.group = groupEntity
+    entity.category = categoryEntity
+    entity.tags = tagEntities
 
     const errors = await validate(entity)
     if(errors.length) throw classValidatorError(errors)
@@ -119,7 +118,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     return Expense.toDTO(entity)
   }
 
-  async delete(id: number) {
+  async delete(id: ExpenseDTO['id']) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro não encontrado.')
 

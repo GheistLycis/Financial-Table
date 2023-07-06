@@ -17,7 +17,7 @@ export class UserService {
     return this.http.get<Res<UserDTO[]>>(`${environment.apiUrl}/${this.baseRoute}`)
   }
 
-  get(id: number) {
+  get(id: UserDTO['id']) {
     return this.http.get<Res<UserDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 

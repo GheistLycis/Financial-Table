@@ -25,7 +25,7 @@ export class UserService implements BaseService<UserDTO> {
     return await query.getMany().then(entities => entities.map(row => User.toDTO(row)))
   }
 
-  async get(id: number) {
+  async get(id: UserDTO['id']) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum usuário encontrado.')
 
@@ -48,7 +48,7 @@ export class UserService implements BaseService<UserDTO> {
     return User.toDTO(entity)
   }
 
-  async put(id: number, { name }: body) {
+  async put(id: UserDTO['id'], { name }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Usuário não encontrado.')
 
@@ -68,7 +68,7 @@ export class UserService implements BaseService<UserDTO> {
     return User.toDTO(entity)
   }
 
-  async delete(id: number) {
+  async delete(id: UserDTO['id']) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Usuário não encontrado.')
 

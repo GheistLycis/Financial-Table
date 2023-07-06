@@ -19,7 +19,7 @@ export class MonthlyIncomeService {
     return this.http.get<Res<MonthlyIncomeDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 
-  get(id: number) {
+  get(id: MonthlyIncomeDTO['id']) {
     return this.http.get<Res<MonthlyIncomeDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 

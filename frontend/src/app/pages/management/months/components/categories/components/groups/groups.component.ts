@@ -2,8 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import CategoryDTO from 'src/app/shared/DTOs/category';
-import GroupDTO from 'src/app/shared/DTOs/group';
-import { GroupService } from 'src/app/shared/services/group/group.service';
+import GroupDTO from 'src/app/shared/DTOs/tag';
+import { GroupService } from 'src/app/shared/services/tag/tag.service';
 import { AddEditGroupComponent } from './components/add-edit-group/add-edit-group.component';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 

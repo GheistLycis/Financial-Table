@@ -4,7 +4,7 @@ import {
   Column,
   OneToMany,
 } from "typeorm";
-import BaseEntity, { OneToManyOptions } from "src/shared/classes/BaseEntity";
+import BaseEntity, { oneToManyOptions } from "src/shared/classes/BaseEntity";
 import { Month } from "../month/Month";
 import YearDTO from "./Year.dto";
 
@@ -16,7 +16,7 @@ export class Year extends BaseEntity {
   year: number
 
   // RELATIONS
-  @OneToMany(() => Month, month => month.year, OneToManyOptions)
+  @OneToMany(() => Month, month => month.year, oneToManyOptions)
   months: Month[]
 
   static toDTO(row: Year): YearDTO {

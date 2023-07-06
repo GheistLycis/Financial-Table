@@ -18,6 +18,11 @@ export const manyToOneOptions: RelationOptions = {
   onDelete: 'CASCADE',
 }
 
-export const OneToManyOptions: RelationOptions = {
+export const oneToManyOptions: RelationOptions = {
   cascade: true,
+}
+
+export const manyToManyOptions: RelationOptions = {
+  cascade: true,
+  eager: true,
 }

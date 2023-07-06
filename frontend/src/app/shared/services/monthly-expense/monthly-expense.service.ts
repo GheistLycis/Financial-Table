@@ -19,7 +19,7 @@ export class MonthlyExpenseService {
     return this.http.get<Res<MonthlyExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 
-  get(id: number) {
+  get(id: MonthlyExpenseDTO['id']) {
     return this.http.get<Res<MonthlyExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 

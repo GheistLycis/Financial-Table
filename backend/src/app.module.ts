@@ -5,7 +5,7 @@ import { RequestLoggerMiddleware } from './middlewares/request-logger/request-lo
 import { YearModule } from './app/year/year.module';
 import { MonthModule } from './app/month/month.module';
 import { MonthlyIncomeModule } from './app/monthly-income/monthly-income.module';
-import { GroupModule } from './app/group/group.module';
+import { TagModule } from './app/tag/tag.module';
 import { CategoryModule } from './app/category/category.module';
 import { ExpenseModule } from './app/expense/expense.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -54,7 +54,7 @@ const cacheLifeMinutes = 5
     MonthModule, 
     MonthlyIncomeModule, 
     MonthlyExpenseModule, 
-    GroupModule, 
+    TagModule, 
     CategoryModule, 
     ExpenseModule, 
     AnalyticsModule,
