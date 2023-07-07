@@ -48,7 +48,7 @@
                     {{ balance }}
                 </h4>
                 <h4 *ngIf="balance != '--'" [ngClass]="{'text-danger': balance <= 0}">
-                    <b>R${{ balance | number : '.2-2' : 'pt' }}</b>
+                    <b>R${{ balance | number:'.2-2':'pt' }}</b>
                 </h4>
             </ng-container>
         </div>
@@ -74,11 +74,11 @@
             <div class="most-expensive">
                 <ng-container *ngTemplateOutlet="
                     mostExpensive; 
-                    context: {title: 'Categoria:', $implicit: mostExpensiveCategory}"
+                    context: {title: 'Categoria:', $implicit: mostExpensiveCategory$ | async}"
                 ></ng-container>
                 <ng-container *ngTemplateOutlet="
                     mostExpensive; 
-                    context: {title: 'Tag:', $implicit: mostExpensiveTag}"
+                    context: {title: 'Tag:', $implicit: mostExpensiveTag$ | async}"
                 ></ng-container>
             </div>
         </div>
@@ -86,12 +86,12 @@
     
     <div class="cards d-flex gap-10">
         <div *ngFor="let remaining of categoriesRemaining" class="card shadow p-3">
-            <h4>{{ remaining.category.name }} ({{ remaining.category.percentage | number : '.0-2' }}%)</h4>
+            <h4>{{ remaining.category.name }} ({{ remaining.category.percentage | number:'.0-2' }}%)</h4>
             <h5>
-                Disponível: R${{ remaining.originalAvailable | number : '.2-2' : 'pt' }}
+                Disponível: R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
             </h5>
             <h5 [ngClass]="{'text-danger': remaining.remaining <= 0}">
-                <b>Restante: R${{ remaining.remaining | number : '.2-2' : 'pt' }}</b>
+                <b>Restante: R${{ remaining.remaining | number:'.2-2':'pt' }}</b>
             </h5>
         </div>
     </div>
@@ -119,8 +119,8 @@
         <span *ngIf="data == '--'">
             {{ data }}
         </span>
-        <span *ngIf="data != '--'">
-            {{ data.name }} (R${{ data.total | number : '.2-2' : 'pt' }})
+        <span *ngIf="data?.name">
+            {{ data.name }} (R${{ data.total | number:'.2-2':'pt' }})
         </span>
     </h5>
 </ng-template>

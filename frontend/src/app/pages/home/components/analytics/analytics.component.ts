@@ -27,8 +27,8 @@ export class AnalyticsComponent implements OnInit {
   actualBalance$ = new Subject<number | '--'>()
   recentExpenses$ = new Subject<number | '--'>()
   yearExpenses$ = new Subject<number | '--'>()
-  mostExpensiveCategory: { name: string, total: number } | '--' = '--'
-  mostExpensiveTag: { name: string, total: number } | '--' = '--'
+  mostExpensiveCategory$ = new Subject<{ name: string, total: number } | '--'>()
+  mostExpensiveTag$ = new Subject<{ name: string, total: number } | '--'>()
   categoriesRemaining: CategoryRemaining[] = []
   
   constructor(
@@ -80,7 +80,7 @@ export class AnalyticsComponent implements OnInit {
     this.calculateActualBalance(this.month$.getValue())
     this.calculateRecentExpenses(this.month$.getValue())
     this.calculateYearExpenses(this.month$.getValue())
-    this.getMostExpensiveCategory(this.month$.getValue()) // TODO
+    this.getMostExpensiveCategory(this.month$.getValue())
     this.getMostExpensiveTag(this.month$.getValue()) // TODO
     this.listCategoriesRemaining(this.month$.getValue())
   }
@@ -102,38 +102,12 @@ export class AnalyticsComponent implements OnInit {
     }
   }
   
-  getMostExpensiveCategory(actualMonth: MonthDTO): void {
-    const categories$ = this.categoryService.list({ month: actualMonth.id }).pipe(map(({ data }) => data))
-    const forkJoinObj: { [category: string]: Observable<number> } = {}
-    let allCategoriesExpenses$: Observable<{ [category: string]: number }>
-    
-    categories$.subscribe(categories => {
-      if(!categories.length) {
-        this.mostExpensiveCategory = '--'
-        
-        return
-      }
-      
-      categories.forEach(({ id, name }) => {
-        forkJoinObj[name] = this.expenseService.list({ category: id }).pipe(map(res => res.data.reduce((prev, curr) => prev += curr.value, 0)))
-      })
-      
-      allCategoriesExpenses$ = forkJoin(forkJoinObj)
-      
-      allCategoriesExpenses$.subscribe(res => {
-        let max = { name: '--', total: 0 }
-        
-        Object.entries(res).forEach(([ name, total ]) => {
-          if(total > max.total) max = { name, total }
-        })
-        
-        this.mostExpensiveCategory = max
-      })
-    })
+  getMostExpensiveCategory({ id }: MonthDTO): void {
+    this.analyticsService.mostExpensiveCategory(id).subscribe(({ data }) => this.mostExpensiveCategory$.next(data))
   }
   
   getMostExpensiveTag(actualMonth: MonthDTO): void {
-    this.mostExpensiveTag = '--'
+    this.mostExpensiveTag$.next('--')
     
     // const groups$ = this.groupService.list({ month: actualMonth.id }).pipe(map(({ data }) => data))
     // const forkJoinObj: { [group: string]: Observable<number> } = {}

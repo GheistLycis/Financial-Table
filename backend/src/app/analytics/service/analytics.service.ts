@@ -71,7 +71,7 @@ export class AnalyticsService {
     }
   }
   
-  async monthBalance(id: MonthDTO['id']): Promise<{ month: MonthDTO, balance: number } | any> {
+  async monthBalance(id: MonthDTO['id']): Promise<{ month: MonthDTO, balance: number }> {
     const actualMonth = await this.monthRepo.createQueryBuilder('Month')
       .leftJoinAndSelect('Month.year', 'Year')
       .where('Month.id = :id', { id })
@@ -135,11 +135,38 @@ export class AnalyticsService {
     }
   }
   
+  async mostExpensiveCategory(id: MonthDTO['id']): Promise<{ name: string, total: number } | '--'> {
+    const actualMonth = await this.monthRepo.findOne({
+      where: { id },
+      relations: ['categories']
+    })
+    if(!actualMonth) throw NotFoundException('Nenhum mês encontrado.')
+    
+    if(!actualMonth.categories.length) return '--'
+    
+    let max = { name: undefined, total: 0 }
+    
+    for(const { name, id } of actualMonth.categories) {
+      const total = await this.dataSource
+        .query(`
+          SELECT COALESCE(SUM(e.value), 0) AS total
+          FROM expenses e
+          JOIN categories c ON e."categoryId" = c.id
+          WHERE c.id = ${id}
+        `)
+        .then(rows => Number(rows[0].total), err => { throw ServerException(`${err}`) })
+
+      if(total > max.total) max = { name, total }
+    }
+
+    return max
+  }
+  
   async monthHistory(id: MonthDTO['id']): Promise<MonthHistory> {
     const month = await this.monthRepo
       .findOne({ 
         where: { id }, 
-        relations: { year: true } 
+        relations: ['year'] 
       })
       .then(entity => {
         if(!entity) throw NotFoundException('Nenhum mês encontrado.')
@@ -205,7 +232,7 @@ export class AnalyticsService {
   async recentExpenses(id: MonthDTO['id']): Promise<number | '--'> {
     const actualMonth = await this.monthRepo.findOne({
       where: { id },
-      relations: { year: true }
+      relations: ['year']
     })
     if(!actualMonth) throw NotFoundException('Nenhum mês encontrado.')
     
@@ -255,7 +282,7 @@ export class AnalyticsService {
   async yearExpenses(id: MonthDTO['id']): Promise<number | '--'> {
     const actualMonth = await this.monthRepo.findOne({
       where: { id },
-      relations: { year: true }
+      relations: ['year']
     })
     if(!actualMonth) throw NotFoundException('Nenhum mês encontrado.')
     

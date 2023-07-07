@@ -25,6 +25,10 @@ export class AnalyticsService {
     return this.http.get<Res<{ month: MonthDTO, balance: number }>>(`${environment.apiUrl}/${this.baseRoute}/month-balance/${month}`)
   }
   
+  mostExpensiveCategory(month: MonthDTO['id']) {
+    return this.http.get<Res<{ name: string, total: number } | '--'>>(`${environment.apiUrl}/${this.baseRoute}/most-expensive-category/${month}`)
+  }
+  
   monthHistory(month: MonthDTO['id']) {
     return this.http.get<Res<Omit<MonthHistory, 'balance'>>>(`${environment.apiUrl}/${this.baseRoute}/month-history/${month}`)
   }
