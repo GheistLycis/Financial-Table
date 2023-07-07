@@ -229,26 +229,61 @@ export class AnalyticsService {
     
     const actualMonthExpenses = await this.dataSource
       .query(`
-        SELECT COALESCE(SUM(e.value), 0) AS total
+        SELECT AVG(e.value) AS average
         FROM expenses e
         JOIN categories c ON e."categoryId" = c.id
         JOIN months m ON c."monthId" = m.id
         WHERE m.id = ${actualMonth.id}
       `)
-      .then(rows => Number(rows[0].total), err => { throw ServerException(`${err}`) })
+      .then(rows => Number(rows[0].average), err => { throw ServerException(`${err}`) })
       
     const previousMonthExpenses = await this.dataSource
       .query(`
-        SELECT COALESCE(SUM(e.value), 0) AS total
+        SELECT AVG(e.value) AS average
         FROM expenses e
         JOIN categories c ON e."categoryId" = c.id
         JOIN months m ON c."monthId" = m.id
         WHERE m.id = ${previousMonth.id}
       `)
-      .then(rows => Number(rows[0].total), err => { throw ServerException(`${err}`) })
+      .then(rows => Number(rows[0].average), err => { throw ServerException(`${err}`) })
       
     return actualMonthExpenses && previousMonthExpenses 
       ? ((100 * actualMonthExpenses / previousMonthExpenses) -100)
+      : '--'
+  }
+  
+  async yearExpenses(id: MonthDTO['id']): Promise<number | '--'> {
+    const actualMonth = await this.monthRepo.findOne({
+      where: { id },
+      relations: { year: true }
+    })
+    if(!actualMonth) throw NotFoundException('Nenhum mês encontrado.')
+    
+    const actualMonthExpenses = await this.dataSource
+      .query(`
+        SELECT AVG(e.value) AS average
+        FROM expenses e
+        JOIN categories c ON e."categoryId" = c.id
+        JOIN months m ON c."monthId" = m.id
+        WHERE m.id = ${actualMonth.id}
+      `)
+      .then(rows => Number(rows[0].average), err => { throw ServerException(`${err}`) })
+      
+    const yearAverageExpenses = await this.dataSource
+      .query(`
+        SELECT AVG(e.value) AS average
+        FROM expenses e
+        JOIN categories c ON e."categoryId" = c.id
+        JOIN months m ON c."monthId" = m.id
+        JOIN years y ON m."yearId" = y.id
+        WHERE
+          m.month < ${actualMonth.month}
+          AND y.id = ${actualMonth.year.id}
+      `)
+      .then(rows => Number(rows[0].average), err => { throw ServerException(`${err}`) })
+      
+    return actualMonthExpenses && yearAverageExpenses 
+      ? ((100 * actualMonthExpenses / yearAverageExpenses) -100)
       : '--'
   }
 

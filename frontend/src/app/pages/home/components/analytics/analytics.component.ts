@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { MonthService } from 'src/app/shared/services/month/month.service';
@@ -38,6 +38,7 @@ export class AnalyticsComponent implements OnInit {
     private categoryService: CategoryService,
     private tagService: TagService,
     private analyticsService: AnalyticsService,
+    private cd: ChangeDetectorRef
   ) { }
   
   ngOnInit(): void {
@@ -78,8 +79,8 @@ export class AnalyticsComponent implements OnInit {
   // TODO: transfer methods' logic to backend analytics service - too complex for frontend to handle
   calculateAnalytics(): void {
     this.calculateActualBalance(this.month$.getValue())
-    this.calculateRecentExpenses(this.month$.getValue().id)
-    this.calculateYearExpenses(this.month$.getValue(), this.months$.getValue()) // TODO
+    this.calculateRecentExpenses(this.month$.getValue())
+    this.calculateYearExpenses(this.month$.getValue())
     this.getMostExpensiveCategory(this.month$.getValue()) // TODO
     this.getMostExpensiveTag(this.month$.getValue()) // TODO
     this.listCategoriesRemaining(this.month$.getValue())
@@ -92,42 +93,17 @@ export class AnalyticsComponent implements OnInit {
     ).subscribe()
   }
   
-  calculateRecentExpenses(monthId: MonthDTO['id']): void {
-    this.analyticsService.recentExpenses(monthId).subscribe(({ data }) => this.recentExpenses = data)
+  calculateRecentExpenses({ id }: MonthDTO): void {
+    this.analyticsService.recentExpenses(id).subscribe(({ data }) => this.recentExpenses = data)
   }
   
-  calculateYearExpenses(actualMonth: MonthDTO, monthsList: MonthDTO[]): void {
-    if(actualMonth.month == 1) {
+  calculateYearExpenses({ month, id }: MonthDTO): void {
+    if(month == 1) {
       this.yearExpenses == '--'
-
-      return
     }
-    
-    const forkJoinObj: { [month: string]: Observable<number> } = {
-      actualMonth: this.expenseService.list({ month: actualMonth.id }).pipe(map(res => res.data.reduce((prev, curr) => prev += curr.value, 0))),
+    else {
+      this.analyticsService.yearExpenses(id).subscribe(({ data }) => this.yearExpenses = data)
     }
-    const previousMonths = monthsList.filter(({ month }) => month < actualMonth.month)
-    
-    previousMonths.forEach(({ month, id }) => {
-      forkJoinObj[month] = this.expenseService.list({ month: id }).pipe(map(res => res.data.reduce((prev, curr) => prev += curr.value, 0)))
-    })
-    
-    const yearExpenses$ = forkJoin(forkJoinObj)
-    
-    yearExpenses$.subscribe(res => {
-      const actualMonthExpenses = res['actualMonth']
-      let previousMonthsExpenses = 0 
-      
-      for(const month in res) {
-        if(month != 'actualMonth') previousMonthsExpenses += res[month]
-      }
-      
-      previousMonthsExpenses = previousMonthsExpenses / previousMonths.length
-      
-      this.yearExpenses = actualMonthExpenses && previousMonthsExpenses 
-        ? ((100 * actualMonthExpenses / previousMonthsExpenses) -100)
-        : '--'
-    })
   }
   
   getMostExpensiveCategory(actualMonth: MonthDTO): void {

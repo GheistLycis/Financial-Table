@@ -32,6 +32,12 @@ export class AnalyticsController {
       .catch((error: GlobalException | Error) => handleException(req, res, error))
   }
   
+  @Get('year-expenses/:id') async yearExpenses(@Req() req, @Param('id') id, @Res() res) {
+    return await this.service.yearExpenses(id)
+      .then(data => handleResponse(res, { data }))
+      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  }
+  
   @Get('year-history/:id') async yearHistory(@Req() req, @Param('id') id, @Res() res) {
     return await this.service.yearHistory(id)
       .then(data => handleResponse(res, { data }))

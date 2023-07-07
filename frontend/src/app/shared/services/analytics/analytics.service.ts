@@ -33,6 +33,10 @@ export class AnalyticsService {
     return this.http.get<Res<number | '--'>>(`${environment.apiUrl}/${this.baseRoute}/recent-expenses/${month}`)
   }
   
+  yearExpenses(month: MonthDTO['id']) {
+    return this.http.get<Res<number | '--'>>(`${environment.apiUrl}/${this.baseRoute}/year-expenses/${month}`)
+  }
+  
   yearHistory(year: YearDTO['id']) {
     return this.http.get<Res<YearHistory>>(`${environment.apiUrl}/${this.baseRoute}/year-history/${year}`)
   }
