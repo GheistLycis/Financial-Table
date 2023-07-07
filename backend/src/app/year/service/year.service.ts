@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { validate } from 'class-validator';
 import BaseService from 'src/shared/interfaces/BaseService';
 import YearDTO from '../Year.dto';
@@ -6,6 +6,8 @@ import { Year } from '../Year';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/functions/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 type body = { year: number }
 
@@ -13,6 +15,7 @@ type body = { year: number }
 export class YearService implements BaseService<YearDTO> {
   constructor(
     @Repo(Year) private repo: Repository<Year>,
+    @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
   async list() {    
@@ -64,10 +67,15 @@ export class YearService implements BaseService<YearDTO> {
   }
 
   async delete(id: YearDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+    const entity = await this.repo.findOne({ 
+      where: { id },
+      relations: ['months', 'months.incomes', 'months.expenses', 'months.categories', 'months.categories.expenses']
+    })
     if(!entity) throw NotFoundException('Ano não encontrado.')
 
     await this.repo.softRemove(entity)
+    
+    await this.cacheService.reset()
 
     return Year.toDTO(entity)
   }

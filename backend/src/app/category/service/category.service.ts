@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { validate } from 'class-validator';
 import BaseService from 'src/shared/interfaces/BaseService';
@@ -7,6 +7,8 @@ import { classValidatorError, DuplicatedException, NotFoundException } from 'src
 import { Repository } from 'typeorm';
 import { Category } from '../Category';
 import CategoryDTO from '../Category.dto';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 
 type body = { name: string, color: string, percentage: number, month: Month['id'] }
 type queries = { month: Month['id'] }
@@ -16,6 +18,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
   constructor(
     @Repo(Category) private repo: Repository<Category>,
     @Repo(Month) private monthRepo: Repository<Month>,
+    @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
   async list({ month }: queries) {
@@ -89,10 +92,15 @@ export class CategoryService implements BaseService<CategoryDTO> {
   }
 
   async delete(id: CategoryDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+    const entity = await this.repo.findOne({ 
+      where: { id },
+      relations: ['expenses']
+    })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 
     await this.repo.softRemove(entity)
+    
+    await this.cacheService.reset()
 
     return Category.toDTO(entity)
   }

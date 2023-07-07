@@ -1,3 +1,7 @@
+TRUNCATE TABLE 
+  ips, users, expenses_tags_tags, tags, expenses, categories, monthly_expenses, monthly_incomes, months, years
+  RESTART IDENTITY;
+
 INSERT INTO years ("createdAt","updatedAt","deletedAt","year") VALUES
 	('2023-07-06 16:56:51.594966','2023-07-06 16:56:51.594966',NULL,2022),
 	('2023-07-06 17:05:07.385224','2023-07-06 17:05:07.385224',NULL,2023);

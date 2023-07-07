@@ -11,9 +11,9 @@ import { YearService } from 'src/app/year/service/year.service';
 import { MonthlyIncomeService } from 'src/app/monthly-income/service/monthly-income.service';
 import { MonthlyExpenseService } from 'src/app/monthly-expense/service/monthly-expense.service';
 import { CategoryService } from 'src/app/category/service/category.service';
-import { TagService } from 'src/app/tag/service/tag.service';
 import YearDTO from 'src/app/year/Year.dto';
-import CategoryDTO from 'src/app/category/Category.dto';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 type body = { month: number, available: number, obs: string, year: Year['id'] }
 type queries = { year: Year['id'] }
@@ -32,7 +32,7 @@ export class MonthService implements BaseService<MonthDTO> {
     @Inject(MonthlyIncomeService) private monthlyIncomeService: MonthlyIncomeService,
     @Inject(MonthlyExpenseService) private monthlyExpenseService: MonthlyExpenseService,
     @Inject(CategoryService) private categoryService: CategoryService,
-    @Inject(TagService) private tagService: TagService,
+    @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
   async list({ year }: queries) {
@@ -101,10 +101,15 @@ export class MonthService implements BaseService<MonthDTO> {
   }
 
   async delete(id: MonthDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+    const entity = await this.repo.findOne({ 
+      where: { id },
+      relations: ['incomes', 'expenses', 'categories', 'categories.expenses']
+    })
     if(!entity) throw NotFoundException('Mês não encontrado.')
 
     await this.repo.softRemove(entity)
+    
+    await this.cacheService.reset()
 
     return Month.toDTO(entity)
   }

@@ -125,7 +125,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
 
     await this.repo.softRemove(entity)
     
-    this.cacheService.reset()
+    await this.cacheService.reset()
 
     return Expense.toDTO(entity)
   }
