@@ -16,11 +16,10 @@ export class IpService {
   ) {}
 
   async listByUser(id: UserDTO['id']) {
-    const query = this.repo.createQueryBuilder('Ip')
-      .leftJoinAndSelect('Ip.users', 'User')
-      .where('User.id = :id', { id })
+    const entities = await this.repo.find()
+      .then(ips => ips.filter(({ users }) => users.find(user => user.id == id)))
 
-    return await query.getMany().then(entities => entities.map(row => Ip.toDTO(row)))
+    return entities.map(row => Ip.toDTO(row))
   }
 
   async get(ip: string) {

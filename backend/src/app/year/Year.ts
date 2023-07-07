@@ -12,7 +12,7 @@ import YearDTO from "./Year.dto";
 @Entity({ name: 'years', orderBy: { year: 'DESC' }})
 export class Year extends BaseEntity {
   // COLUMNS
-  @Column()
+  @Column({ unique: true })
   year: number
 
   // RELATIONS

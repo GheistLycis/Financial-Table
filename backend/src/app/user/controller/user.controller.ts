@@ -7,6 +7,7 @@ import { handleException, handleResponse } from 'src/shared/functions/globalHand
 import GlobalException from 'src/shared/interfaces/GlobalException';
 import Session from 'src/shared/interfaces/Session';
 import BypassTokenGuard from 'src/shared/decorators/BypassTokenGuard';
+import BypassIpGuard from 'src/shared/decorators/BypassIpGuard';
 
 @ApiTags('users')
 @Injectable()
@@ -18,6 +19,7 @@ export class UserController extends BaseController {
   
   @Post('login') 
   @BypassTokenGuard()
+  @BypassIpGuard()
   async logIn(@Req() req, @Body() { name }, @Res() res) {
     return await this.service.logIn(name)
       .then((data: Session) => handleResponse(res, { data }))

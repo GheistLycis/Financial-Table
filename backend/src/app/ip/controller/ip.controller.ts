@@ -10,8 +10,8 @@ import { IpService } from '../service/ip.service';
 export class IpController {
   constructor(protected service: IpService) {}
 
-  @Get('list-by-user/:id') async listByUser(@Req() req, @Param('ip') ip, @Res() res) {
-    return await this.service.listByUser(ip)
+  @Get('list-by-user/:id') async listByUser(@Req() req, @Param('id') id, @Res() res) {
+    return await this.service.listByUser(id)
       .then((data: any) => handleResponse(res, { data }))
       .catch((error: GlobalException | Error) => handleException(req, res, error))
   }
