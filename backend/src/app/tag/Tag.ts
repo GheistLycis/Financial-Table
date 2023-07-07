@@ -9,7 +9,7 @@ import { Validate } from "class-validator";
 import TagDTO from "./Tag.dto";
 
 @Service()
-@Entity("tags")
+@Entity({ name: 'tags', orderBy: { createdAt: 'DESC' }})
 export class Tag extends BaseEntity  {
   // COLUMNS
   @Column()

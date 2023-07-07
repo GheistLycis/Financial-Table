@@ -4,7 +4,7 @@ import BaseEntity from "src/shared/classes/BaseEntity";
 import UserDTO from "./User.dto";
 
 @Service()
-@Entity("users")
+@Entity({ name: 'users', orderBy: { name: 'ASC' }})
 export class User extends BaseEntity {
   // COLUMNS
   @Column()

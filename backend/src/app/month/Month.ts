@@ -15,7 +15,7 @@ import { MonthlyExpense } from "../monthly-expense/MonthlyExpense";
 import DecimalTransformer from "src/shared/classes/DecimalTransformer";
 
 @Service()
-@Entity("months")
+@Entity({ name: 'months', orderBy: { month: 'DESC' }})
 export class Month extends BaseEntity {
   // COLUMNS
   @Column()

@@ -7,7 +7,7 @@ import IpDTO from "./Ip.dto";
 import BaseEntity from "src/shared/classes/BaseEntity";
 
 @Service()
-@Entity("ips")
+@Entity({ name: 'ips', orderBy: { createdAt: 'DESC' }})
 export class Ip extends BaseEntity  {
   // COLUMNS
   @Column()

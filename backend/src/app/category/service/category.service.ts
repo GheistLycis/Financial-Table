@@ -25,7 +25,6 @@ export class CategoryService implements BaseService<CategoryDTO> {
     const query = this.repo.createQueryBuilder('Category')
       .leftJoinAndSelect('Category.month', 'Month')
       .leftJoinAndSelect('Month.year', 'Year')
-      .orderBy('Category.createdAt', 'DESC')
 
     if(month) query.where('Month.id = :month', { month })
 

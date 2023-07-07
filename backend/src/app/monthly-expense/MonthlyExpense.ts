@@ -11,7 +11,7 @@ import { Min } from "class-validator";
 import DecimalTransformer from "src/shared/classes/DecimalTransformer";
 
 @Service()
-@Entity("monthly_expenses")
+@Entity({ name: 'monthly_expenses', orderBy: { createdAt: 'DESC' }})
 export class MonthlyExpense extends BaseEntity {
   // COLUMNS
   @Column({ type: 'decimal', scale: 2, transformer: new DecimalTransformer() })

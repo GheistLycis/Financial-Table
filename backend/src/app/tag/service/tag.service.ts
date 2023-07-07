@@ -19,7 +19,6 @@ export class TagService implements BaseService<TagDTO> {
 
   async list() {
     const query = this.repo.createQueryBuilder('Tag')
-      .orderBy('Tag.createdAt', 'DESC')
 
     return await query.getMany().then(entities => entities.map(row => Tag.toDTO(row)))
   }

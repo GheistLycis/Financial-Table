@@ -13,7 +13,7 @@ import IsColor from "src/shared/decorators/class-validator/IsColor";
 import { Expense } from "../expense/Expense";
 
 @Service()
-@Entity("categories")
+@Entity({ name: 'categories', orderBy: { createdAt: 'DESC' }})
 export class Category extends BaseEntity  {
   // COLUMNS
   @Column()

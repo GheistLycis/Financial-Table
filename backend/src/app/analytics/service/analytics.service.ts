@@ -87,7 +87,6 @@ export class AnalyticsService {
       .leftJoin('Month.year', 'Year')
       .where('Year.year = :year', { year: actualMonth.year.year })
       .andWhere('Month.month < :month', { month: actualMonth.month })
-      .orderBy('Month.month')
       .getMany()
       .then(entities => entities.map(row => Month.toDTO(row)))
     

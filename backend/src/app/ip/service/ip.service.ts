@@ -16,9 +16,7 @@ export class IpService implements BaseService<IpDTO> {
   ) {}
 
   async list() {
-    const query = this.repo
-      .createQueryBuilder('Ip')
-      .orderBy('Ip.createdAt', 'DESC')
+    const query = this.repo.createQueryBuilder('Ip')
 
     return await query.getMany().then(entities => entities.map(row => Ip.toDTO(row)))
   }

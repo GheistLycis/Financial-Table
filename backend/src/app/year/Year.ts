@@ -9,7 +9,7 @@ import { Month } from "../month/Month";
 import YearDTO from "./Year.dto";
 
 @Service()
-@Entity("years")
+@Entity({ name: 'years', orderBy: { year: 'DESC' }})
 export class Year extends BaseEntity {
   // COLUMNS
   @Column()

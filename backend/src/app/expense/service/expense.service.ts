@@ -38,7 +38,6 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
       .leftJoinAndSelect('Expense.category', 'Category')
       .leftJoinAndSelect('Category.month', 'Month')
       .leftJoinAndSelect('Month.year', 'Year')
-      .orderBy('Expense.date', 'DESC')
 
     if(year) query.where('Year.id = :year', { year })
     if(month) query.where('Month.id = :month', { month })
