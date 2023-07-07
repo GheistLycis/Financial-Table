@@ -74,7 +74,12 @@ INSERT INTO expenses_tags_tags ("expensesId","tagsId") VALUES
 INSERT INTO users ("createdAt","updatedAt","deletedAt",name,"password") VALUES
 	('2023-06-19 18:23:17.18113','2023-06-19 18:23:17.18113',NULL,'Bruno','');
 	
-INSERT INTO ips ("createdAt","updatedAt","deletedAt",ip,active) VALUES
-	('2023-06-17 09:04:04.526391','2023-06-17 09:04:04.526391',NULL,'::1',true),
-	('2023-06-17 09:44:47.233884','2023-06-17 09:44:47.233884',NULL,'127.0.0.1',true),
-	('2023-06-17 09:44:47.233884','2023-06-17 09:44:47.233884',NULL,'::ffff:127.0.0.1',true);
+INSERT INTO ips (ip,"createdAt","updatedAt",active) VALUES
+	('::1','2023-06-17 09:04:04.526391','2023-06-17 09:04:04.526391',true),
+	('127.0.0.1','2023-06-17 09:44:47.233884','2023-06-17 09:44:47.233884',true),
+	('::ffff:127.0.0.1','2023-06-17 09:44:47.233884','2023-06-17 09:44:47.233884',true);
+	
+INSERT INTO ips_users_users ("ipsIp", "usersId") VALUES
+	('::1',1),
+	('127.0.0.1',1),
+	('::ffff:127.0.0.1',1);

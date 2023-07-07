@@ -12,11 +12,13 @@ export class IpGuard implements CanActivate {
     const req = context.switchToHttp().getRequest<Request>()
     const res = context.switchToHttp().getResponse<Response>()
     const { ip } = req
+    const { id } = req['user']
 
     return await this.ipService.get(ip)
-      .then(({ active }) => {
-          if(active) return true
-          else throw handleException(req, res, ForbiddenException('IP não autorizado.'))
+      .then(({ active, users }) => {
+          if(!users.find(user => user.id == id)) throw handleException(req, res, ForbiddenException('Usuário não autorizado para o IP.'))
+          else if(!active) throw handleException(req, res, ForbiddenException('IP não autorizado.'))
+          else return true
         }, () => {
           throw handleException(req, res, ForbiddenException('IP desconhecido.'))
         })

@@ -1,22 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { validate } from 'class-validator';
-import BaseService from 'src/shared/interfaces/BaseService';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/functions/globalExceptions';
 import { Repository } from 'typeorm';
 import { Ip } from '../Ip';
 import IpDTO from '../Ip.dto';
+import UserDTO from 'src/app/user/User.dto';
 
 type body = { ip: string, active: boolean }
 
 @Injectable()
-export class IpService implements BaseService<IpDTO> {
+export class IpService {
   constructor(
     @Repo(Ip) private repo: Repository<Ip>,
   ) {}
 
-  async list() {
+  async listByUser(id: UserDTO['id']) {
     const query = this.repo.createQueryBuilder('Ip')
+      .leftJoinAndSelect('Ip.users', 'User')
+      .where('User.id = :id', { id })
 
     return await query.getMany().then(entities => entities.map(row => Ip.toDTO(row)))
   }
@@ -34,10 +36,7 @@ export class IpService implements BaseService<IpDTO> {
       .getOne()
     if(repeated) throw DuplicatedException('Este ip já foi cadastrado.')
     
-    const entity = this.repo.create({
-      ip, 
-      active: false,
-    })
+    const entity = this.repo.create({ ip })
 
     const errors = await validate(entity)
     if(errors.length) throw classValidatorError(errors)
@@ -47,8 +46,8 @@ export class IpService implements BaseService<IpDTO> {
     return Ip.toDTO(entity)
   }
 
-  async put(id: IpDTO['id'], { active }: body) {
-    const entity = await this.repo.findOneBy({ id })
+  async put(ip: IpDTO['ip'], { active }: body) {
+    const entity = await this.repo.findOneBy({ ip })
     if(!entity) throw NotFoundException('Ip não encontrado.')
 
     entity.active = active
@@ -57,15 +56,6 @@ export class IpService implements BaseService<IpDTO> {
     if(errors.length) throw classValidatorError(errors)
 
     await this.repo.save(entity)
-
-    return Ip.toDTO(entity)
-  }
-
-  async delete(id: IpDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
-    if(!entity) throw NotFoundException('Ip não encontrado.')
-
-    await this.repo.softRemove(entity)
 
     return Ip.toDTO(entity)
   }
