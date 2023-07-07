@@ -2,11 +2,11 @@
     <div class="header mb-4 d-flex">
         <h2>
             Gastos do mês (
-            <span (click)="dropdown = 'month'">
+            <span (click)="dropdown = dropdown == 'month' ? '' : 'month'">
                 {{ (month$ | async)?.month | monthName }}
             </span>
             de 
-            <span (click)="dropdown = 'year'">
+            <span (click)="dropdown = dropdown == 'year' ? '' : 'year'">
                 {{ (year$ | async)?.year }}
             </span>
             )
