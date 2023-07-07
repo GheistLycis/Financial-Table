@@ -75,13 +75,13 @@ export class AnalyticsComponent implements OnInit {
     ).subscribe()
   }
   
-  // TO-DO: transfer methods' logic to backend analytics service - too complex for frontend to handle
+  // TODO: transfer methods' logic to backend analytics service - too complex for frontend to handle
   calculateAnalytics(): void {
     this.calculateActualBalance(this.month$.getValue())
-    this.calculateRecentExpenses(this.month$.getValue(), this.months$.getValue())
-    this.calculateYearExpenses(this.month$.getValue(), this.months$.getValue())
-    this.getMostExpensiveCategory(this.month$.getValue())
-    this.getMostExpensiveTag(this.month$.getValue())
+    this.calculateRecentExpenses(this.month$.getValue().id)
+    this.calculateYearExpenses(this.month$.getValue(), this.months$.getValue()) // TODO
+    this.getMostExpensiveCategory(this.month$.getValue()) // TODO
+    this.getMostExpensiveTag(this.month$.getValue()) // TODO
     this.listCategoriesRemaining(this.month$.getValue())
   }
   
@@ -92,28 +92,8 @@ export class AnalyticsComponent implements OnInit {
     ).subscribe()
   }
   
-  async calculateRecentExpenses(actualMonth: MonthDTO, monthsList: MonthDTO[]): Promise<void> {
-    let previousMonth: MonthDTO
-    
-    if(actualMonth.month == 1) {
-      const previousYear = this.years$.getValue().find(({ year }) => year == actualMonth.year.year-1)
-      
-      previousMonth = await firstValueFrom(this.monthService.list({ year: previousYear.id })).then(({ data }) => data[0])
-    }
-    else {
-      previousMonth = monthsList.find(({ month, year }) => (month == actualMonth.month-1) && (year.year == actualMonth.year.year))
-    }
-
-    const lastMonthsExpenses$ = forkJoin({
-      actualMonth: this.expenseService.list({ month: actualMonth.id }).pipe(map(res => res.data.reduce((prev, curr) => prev += curr.value, 0))),
-      previousMonth: this.expenseService.list({ month: previousMonth.id }).pipe(map(res => res.data.reduce((prev, curr) => prev += curr.value, 0))),
-    })
-    
-    lastMonthsExpenses$.subscribe(({ actualMonth, previousMonth }) => {
-      this.recentExpenses = actualMonth && previousMonth 
-        ? ((100 * actualMonth / previousMonth) -100)
-        : '--'
-    })
+  calculateRecentExpenses(monthId: MonthDTO['id']): void {
+    this.analyticsService.recentExpenses(monthId).subscribe(({ data }) => this.recentExpenses = data)
   }
   
   calculateYearExpenses(actualMonth: MonthDTO, monthsList: MonthDTO[]): void {

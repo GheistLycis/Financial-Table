@@ -29,6 +29,10 @@ export class AnalyticsService {
     return this.http.get<Res<Omit<MonthHistory, 'balance'>>>(`${environment.apiUrl}/${this.baseRoute}/month-history/${month}`)
   }
   
+  recentExpenses(month: MonthDTO['id']) {
+    return this.http.get<Res<number | '--'>>(`${environment.apiUrl}/${this.baseRoute}/recent-expenses/${month}`)
+  }
+  
   yearHistory(year: YearDTO['id']) {
     return this.http.get<Res<YearHistory>>(`${environment.apiUrl}/${this.baseRoute}/year-history/${year}`)
   }

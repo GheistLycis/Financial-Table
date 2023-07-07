@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { Year } from 'src/app/year/Year';
-import { NotFoundException, ServerException } from 'src/shared/functions/globalExceptions';
+import { BadRequestException, NotFoundException, ServerException } from 'src/shared/functions/globalExceptions';
 import YearHistory from 'src/shared/interfaces/YearHistory';
 import { DataSource, Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
@@ -236,6 +236,56 @@ export class AnalyticsService {
       available,
       expenses
     } 
+  }
+  
+  async recentExpenses(id: MonthDTO['id']): Promise<number | '--'> {
+    const actualMonth = await this.monthRepo.findOne({
+      where: { id },
+      relations: { year: true }
+    })
+    if(!actualMonth) throw BadRequestException('Nenhum mês encontrado.')
+    
+    let previousMonth: Month
+    
+    if(actualMonth.month > 1) {
+      previousMonth = await this.monthRepo.createQueryBuilder('Month')
+        .innerJoin('Month.year', 'Year')
+        .where('Month.month = :month', { month: actualMonth.month -1 })
+        .andWhere('Year.id = :yearId', { yearId: actualMonth.year.id })
+        .getOne()
+    }
+    else {
+      previousMonth = await this.monthRepo.createQueryBuilder('Month')
+        .innerJoin('Month.year', 'Year')
+        .where('Month.month = 12')
+        .andWhere('Year.year = :year', { year: actualMonth.year.year -1 })
+        .getOne()
+    }
+    if(!previousMonth) return '--'
+    
+    const actualMonthExpenses = await this.dataSource
+      .query(`
+        SELECT COALESCE(SUM(e.value), 0) AS total
+        FROM expenses e
+        JOIN categories c ON e."categoryId" = c.id
+        JOIN months m ON c."monthId" = m.id
+        WHERE m.id = ${actualMonth.id}
+      `)
+      .then(rows => Number(rows[0].total), err => { throw ServerException(`${err}`) })
+      
+    const previousMonthExpenses = await this.dataSource
+      .query(`
+        SELECT COALESCE(SUM(e.value), 0) AS total
+        FROM expenses e
+        JOIN categories c ON e."categoryId" = c.id
+        JOIN months m ON c."monthId" = m.id
+        WHERE m.id = ${previousMonth.id}
+      `)
+      .then(rows => Number(rows[0].total), err => { throw ServerException(`${err}`) })
+      
+    return actualMonthExpenses && previousMonthExpenses 
+      ? ((100 * actualMonthExpenses / previousMonthExpenses) -100)
+      : '--'
   }
 
   async yearHistory(id: YearDTO['id']): Promise<YearHistory> {
