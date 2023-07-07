@@ -4,7 +4,7 @@ import YearDTO from 'src/app/shared/DTOs/year';
 import { MonthService } from 'src/app/shared/services/month/month.service';
 import { YearService } from 'src/app/shared/services/year/year.service';
 import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
-import { forkJoin, map, Observable, BehaviorSubject, Subject, skip, tap, switchMap } from 'rxjs';
+import { forkJoin, map, BehaviorSubject, Subject, skip, tap, switchMap } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { TagService } from 'src/app/shared/services/tag/tag.service';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
