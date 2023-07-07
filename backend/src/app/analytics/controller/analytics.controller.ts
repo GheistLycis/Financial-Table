@@ -26,6 +26,12 @@ export class AnalyticsController {
       .catch((error: GlobalException | Error) => handleException(req, res, error))
   }
   
+  @Get('most-expensive-tags/:id') async mostExpensiveTags(@Req() req, @Param('id') id, @Res() res) {
+    return await this.service.mostExpensiveTags(id)
+      .then(data => handleResponse(res, { data }))
+      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  }
+  
   @Get('month-history/:id') async monthHistory(@Req() req, @Param('id') id, @Res() res) {
     return await this.service.monthHistory(id)
       .then(data => handleResponse(res, { data }))

@@ -8,6 +8,7 @@ import MonthHistory from '../../interfaces/MonthHistory';
 import MonthDTO from '../../DTOs/month';
 import YearDTO from '../../DTOs/year';
 import CategoryDTO from '../../DTOs/category';
+import TagDTO from '../../DTOs/tag';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,11 @@ export class AnalyticsService {
   }
   
   mostExpensiveCategory(month: MonthDTO['id']) {
-    return this.http.get<Res<{ name: string, total: number } | '--'>>(`${environment.apiUrl}/${this.baseRoute}/most-expensive-category/${month}`)
+    return this.http.get<Res<{ name: string, total: number }>>(`${environment.apiUrl}/${this.baseRoute}/most-expensive-category/${month}`)
+  }
+  
+  mostExpensiveTags(month: MonthDTO['id']) {
+    return this.http.get<Res<{ name: string, total: number }>>(`${environment.apiUrl}/${this.baseRoute}/most-expensive-tags/${month}`)
   }
   
   monthHistory(month: MonthDTO['id']) {

@@ -27,8 +27,8 @@ export class AnalyticsComponent implements OnInit {
   actualBalance$ = new Subject<number | '--'>()
   recentExpenses$ = new Subject<number | '--'>()
   yearExpenses$ = new Subject<number | '--'>()
-  mostExpensiveCategory$ = new Subject<{ name: string, total: number } | '--'>()
-  mostExpensiveTag$ = new Subject<{ name: string, total: number } | '--'>()
+  mostExpensiveCategory$ = new Subject<{ name: string, total: number }>()
+  mostExpensiveTags$ = new Subject<{ name: string, total: number }>()
   categoriesRemaining: CategoryRemaining[] = []
   
   constructor(
@@ -75,13 +75,12 @@ export class AnalyticsComponent implements OnInit {
     ).subscribe()
   }
   
-  // TODO: transfer methods' logic to backend analytics service - too complex for frontend to handle
   calculateAnalytics(): void {
     this.calculateActualBalance(this.month$.getValue())
     this.calculateRecentExpenses(this.month$.getValue())
     this.calculateYearExpenses(this.month$.getValue())
     this.getMostExpensiveCategory(this.month$.getValue())
-    this.getMostExpensiveTag(this.month$.getValue()) // TODO
+    this.getMostExpensiveTags(this.month$.getValue())
     this.listCategoriesRemaining(this.month$.getValue())
   }
   
@@ -106,36 +105,8 @@ export class AnalyticsComponent implements OnInit {
     this.analyticsService.mostExpensiveCategory(id).subscribe(({ data }) => this.mostExpensiveCategory$.next(data))
   }
   
-  getMostExpensiveTag(actualMonth: MonthDTO): void {
-    this.mostExpensiveTag$.next('--')
-    
-    // const groups$ = this.groupService.list({ month: actualMonth.id }).pipe(map(({ data }) => data))
-    // const forkJoinObj: { [group: string]: Observable<number> } = {}
-    // let allGroupsExpenses$: Observable<{ [group: string]: number }>
-    
-    // groups$.subscribe(groups => {
-    //   if(!groups.length) {
-    //     this.mostExpensiveGroup = '--'
-        
-    //     return
-    //   }
-      
-    //   groups.forEach(({ id, name }) => {
-    //     forkJoinObj[name] = this.expenseService.list({ group: id }).pipe(map(res => res.data.reduce((prev, curr) => prev += curr.value, 0)))
-    //   })
-      
-    //   allGroupsExpenses$ = forkJoin(forkJoinObj)
-      
-    //   allGroupsExpenses$.subscribe(res => {
-    //     let max = { name: '--', total: 0 }
-        
-    //     Object.entries(res).forEach(([ name, total ]) => {
-    //       if(total > max.total) max = { name, total }
-    //     })
-        
-    //     this.mostExpensiveGroup = max
-    //   })
-    // })
+  getMostExpensiveTags({ id }: MonthDTO): void {
+    this.analyticsService.mostExpensiveTags(id).subscribe(({ data }) => this.mostExpensiveTags$.next(data))
   }
   
   listCategoriesRemaining({ id }: MonthDTO): void {

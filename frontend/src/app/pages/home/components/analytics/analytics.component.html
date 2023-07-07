@@ -74,11 +74,11 @@
             <div class="most-expensive">
                 <ng-container *ngTemplateOutlet="
                     mostExpensive; 
-                    context: {title: 'Categoria:', $implicit: mostExpensiveCategory$ | async}"
+                    context: {title: 'Categoria', $implicit: mostExpensiveCategory$ | async}"
                 ></ng-container>
                 <ng-container *ngTemplateOutlet="
                     mostExpensive; 
-                    context: {title: 'Tag:', $implicit: mostExpensiveTag$ | async}"
+                    context: {title: 'Tags', $implicit: mostExpensiveTags$ | async}"
                 ></ng-container>
             </div>
         </div>
@@ -115,12 +115,12 @@
 </ng-template>
 
 <ng-template #mostExpensive let-title="title" let-data>
-    <h5>{{ title }}
-        <span *ngIf="data == '--'">
-            {{ data }}
-        </span>
-        <span *ngIf="data?.name">
+    <h5>{{ title }}:
+        <span *ngIf="data?.name && data.name != '--'">
             {{ data.name }} (R${{ data.total | number:'.2-2':'pt' }})
+        </span>
+        <span *ngIf="data?.name == '--'">
+            {{ data.name }}
         </span>
     </h5>
 </ng-template>

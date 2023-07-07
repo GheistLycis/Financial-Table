@@ -12,6 +12,7 @@ import { Month } from 'src/app/month/Month';
 import MonthDTO from 'src/app/month/Month.dto';
 import CategoryDTO from 'src/app/category/Category.dto';
 import YearDTO from 'src/app/year/Year.dto';
+import { Tag } from 'src/app/tag/Tag';
 
 
 @Injectable()
@@ -135,16 +136,16 @@ export class AnalyticsService {
     }
   }
   
-  async mostExpensiveCategory(id: MonthDTO['id']): Promise<{ name: string, total: number } | '--'> {
+  async mostExpensiveCategory(id: MonthDTO['id']): Promise<{ name: string, total: number }> {
     const actualMonth = await this.monthRepo.findOne({
       where: { id },
       relations: ['categories']
     })
     if(!actualMonth) throw NotFoundException('Nenhum mês encontrado.')
     
-    if(!actualMonth.categories.length) return '--'
+    let max = { name: '--', total: 0 }
     
-    let max = { name: undefined, total: 0 }
+    if(!actualMonth.categories.length) return max
     
     for(const { name, id } of actualMonth.categories) {
       const total = await this.dataSource
@@ -160,6 +161,46 @@ export class AnalyticsService {
     }
 
     return max
+  }
+  
+  async mostExpensiveTags(id: MonthDTO['id']): Promise<{ name: string, total: number }> {
+    const actualMonth = await this.monthRepo.findOne({
+      where: { id },
+      relations: ['categories', 'categories.expenses']
+    })
+    if(!actualMonth) throw NotFoundException('Nenhum mês encontrado.')
+    
+    const totals: { [tagName: string]: number } = {}
+    
+    for(const { expenses } of actualMonth.categories) {
+      for(const { tags, value } of expenses) {
+        for(const { name } of tags) {
+          if(totals[name]) {
+            totals[name] += value
+          }
+          else {
+            totals[name] = value
+          }
+        }
+      }
+    }
+
+    const max: {
+      names: string[]
+      total: number
+    } = { names: ['--'], total: 0 }
+    
+    for(const tagName in totals) {
+      if(totals[tagName] == max.total) {
+        max.names.push(tagName)
+      }
+      else if(totals[tagName] > max.total) {
+        max.names = [tagName]
+        max.total = totals[tagName]
+      } 
+    }
+    
+    return { name: max.names.join('; '), total: max.total }
   }
   
   async monthHistory(id: MonthDTO['id']): Promise<MonthHistory> {
