@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { MonthService } from 'src/app/shared/services/month/month.service';
 import { YearService } from 'src/app/shared/services/year/year.service';
 import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
-import { forkJoin, map, firstValueFrom, Observable, BehaviorSubject, Subject, skip, tap, switchMap } from 'rxjs';
+import { forkJoin, map, Observable, BehaviorSubject, Subject, skip, tap, switchMap } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { TagService } from 'src/app/shared/services/tag/tag.service';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
@@ -24,9 +24,9 @@ export class AnalyticsComponent implements OnInit {
   year$ = new Subject<YearDTO>()
   months$ = new BehaviorSubject<MonthDTO[]>(undefined)
   month$ = new BehaviorSubject<MonthDTO>(undefined)
-  actualBalance: number | '--' = '--'
-  recentExpenses: number | '--' = '--'
-  yearExpenses: number | '--' = '--'
+  actualBalance$ = new Subject<number | '--'>()
+  recentExpenses$ = new Subject<number | '--'>()
+  yearExpenses$ = new Subject<number | '--'>()
   mostExpensiveCategory: { name: string, total: number } | '--' = '--'
   mostExpensiveTag: { name: string, total: number } | '--' = '--'
   categoriesRemaining: CategoryRemaining[] = []
@@ -37,8 +37,7 @@ export class AnalyticsComponent implements OnInit {
     private expenseService: ExpenseService,
     private categoryService: CategoryService,
     private tagService: TagService,
-    private analyticsService: AnalyticsService,
-    private cd: ChangeDetectorRef
+    private analyticsService: AnalyticsService
   ) { }
   
   ngOnInit(): void {
@@ -87,22 +86,19 @@ export class AnalyticsComponent implements OnInit {
   }
   
   calculateActualBalance({ id }: MonthDTO): void {
-    this.analyticsService.monthBalance(id).pipe(
-      map(({ data }) => data.balance),
-      tap(balance => this.actualBalance = balance || '--')
-    ).subscribe()
+    this.analyticsService.monthBalance(id).subscribe(({ data }) => this.actualBalance$.next(data.balance || '--'))
   }
   
   calculateRecentExpenses({ id }: MonthDTO): void {
-    this.analyticsService.recentExpenses(id).subscribe(({ data }) => this.recentExpenses = data)
+    this.analyticsService.recentExpenses(id).subscribe(({ data }) => this.recentExpenses$.next(data))
   }
   
   calculateYearExpenses({ month, id }: MonthDTO): void {
     if(month == 1) {
-      this.yearExpenses == '--'
+      this.yearExpenses$.next('--')
     }
     else {
-      this.analyticsService.yearExpenses(id).subscribe(({ data }) => this.yearExpenses = data)
+      this.analyticsService.yearExpenses(id).subscribe(({ data }) => this.yearExpenses$.next(data))
     }
   }
   
