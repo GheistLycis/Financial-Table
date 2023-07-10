@@ -14,6 +14,7 @@ import { Year } from 'src/app/year/Year';
 import { Month } from 'src/app/month/Month';
 import { Category } from 'src/app/category/Category';
 import TagDTO from 'src/app/tag/Tag.dto';
+import UserDTO from 'src/app/user/User.dto';
 
 type body = { value: number, description: string, date: Date, category: Category['id'], tags: TagDTO[] }
 type queries = { year: Year['id'], month: Month['id'], category: Category['id'], tags: Tag['id'][] }
@@ -27,8 +28,8 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
-  async list({ year, month, category, tags }: queries, req: Request) {
-    const cacheKey = `${req['user'].id}-expenses-${year}_${month}_${category}_${tags}`
+  async list({ year, month, category, tags }: queries, id: UserDTO['id']) {
+    const cacheKey = `${id}-expenses-${year}_${month}_${category}_${tags}`
     
     const cache = await this.cacheService.get<ExpenseDTO[]>(cacheKey)
     if(cache) return cache

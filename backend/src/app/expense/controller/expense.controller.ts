@@ -17,6 +17,6 @@ export class ExpenseController extends BaseController {
       ? query.tags.split(',')
       : []
     
-    return await this.service.list(query, req).then(data => ({ data }))
+    return await this.service.list(query, req['user'].id).then(data => ({ data }))
   }
 }

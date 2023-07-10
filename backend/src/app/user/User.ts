@@ -10,7 +10,7 @@ export class User extends BaseEntity {
   @Column()
   name: string
 
-  @Column({ nullable: true, default: '' })
+  @Column()
   password: string
 
   static toDTO(row: User): UserDTO {
