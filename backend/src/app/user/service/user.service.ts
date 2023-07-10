@@ -4,7 +4,7 @@ import UserDTO from '../User.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { User } from '../User';
-import { DuplicatedException, NotFoundException, classValidatorError } from 'src/shared/functions/globalExceptions';
+import { DuplicatedException, NotFoundException, classValidatorError } from 'src/filters/globalExceptions';
 import { validate } from 'class-validator';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import Session from 'src/shared/interfaces/Session';

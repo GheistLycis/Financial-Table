@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import BaseService from 'src/shared/interfaces/BaseService';
-import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/functions/globalExceptions';
+import { classValidatorError, DuplicatedException, NotFoundException } from 'src/filters/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Expense } from 'src/app/expense/Expense';

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { Year } from 'src/app/year/Year';
-import { NotFoundException, ServerException } from 'src/shared/functions/globalExceptions';
+import { NotFoundException, ServerException } from 'src/filters/globalExceptions';
 import YearHistory from 'src/shared/interfaces/YearHistory';
 import { DataSource, Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';

@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Request } from 'express';
 import { IpService } from 'src/app/ip/service/ip.service';
-import { UnauthorizedException } from 'src/shared/functions/globalExceptions';
+import { UnauthorizedException } from 'src/filters/globalExceptions';
 import { Reflector } from '@nestjs/core';
 
 @Injectable()

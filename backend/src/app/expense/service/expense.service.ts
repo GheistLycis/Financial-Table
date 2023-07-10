@@ -4,7 +4,7 @@ import BaseService from 'src/shared/interfaces/BaseService';
 import ExpenseDTO from '../Expense.dto';
 import { Expense } from '../Expense';
 import { Tag } from '../../tag/Tag';
-import { classValidatorError, DuplicatedException, NotFoundException } from 'src/shared/functions/globalExceptions';
+import { classValidatorError, DuplicatedException, NotFoundException } from 'src/filters/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
