@@ -1,8 +1,9 @@
-import { Body, Controller, Injectable, Param, Post, } from '@nestjs/common';
+import { Body, Controller, Injectable, Param, ParseIntPipe, Post, } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import BaseController from 'src/shared/classes/BaseController';
 import { MonthService } from '../service/month.service';
 import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
+import MonthDTO from '../Month.dto';
 
 @ApiTags('months')
 @Injectable()
@@ -13,7 +14,7 @@ export class MonthController extends BaseController {
   }
   
   @Post('duplicate/:id') 
-  async duplicate(@Param('id') id, @Body() body): Promise<GlobalResponse> {
+  async duplicate(@Param('id', ParseIntPipe) id: MonthDTO['id'], @Body() body): Promise<GlobalResponse> {
     return await this.service.duplicate(id, body).then(data => ({ data }))
   }
 }

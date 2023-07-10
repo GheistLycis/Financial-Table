@@ -1,7 +1,9 @@
-import { Body, Get, Param, Post, Put, Injectable, Controller } from '@nestjs/common';
+import { Body, Get, Param, Post, Put, Injectable, Controller, ParseIntPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { IpService } from '../service/ip.service';
 import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
+import UserDTO from 'src/app/user/User.dto';
+import IpDTO from '../Ip.dto';
 
 @ApiTags('ips')
 @Injectable()
@@ -10,12 +12,12 @@ export class IpController {
   constructor(protected service: IpService) {}
 
   @Get('list-by-user/:id')
-  async listByUser(@Param('id') id): Promise<GlobalResponse> {
+  async listByUser(@Param('id', ParseIntPipe) id: UserDTO['id']): Promise<GlobalResponse> {
     return await this.service.listByUser(id).then(data => ({ data }))
   }
 
   @Get(':ip')
-  async get(@Param('ip') ip): Promise<GlobalResponse> {
+  async get(@Param('ip') ip: IpDTO['ip']): Promise<GlobalResponse> {
     return await this.service.get(ip).then(data => ({ data }))
   }
 
@@ -25,7 +27,7 @@ export class IpController {
   }
 
   @Put(':ip')
-  async put(@Param('ip') ip, @Body() body): Promise<GlobalResponse> {
+  async put(@Param('ip') ip: IpDTO['ip'], @Body() body): Promise<GlobalResponse> {
     return await this.service.put(ip, body).then(data => ({ data }))
   }
 }
