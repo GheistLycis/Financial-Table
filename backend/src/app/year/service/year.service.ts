@@ -31,10 +31,7 @@ export class YearService implements BaseService<YearDTO> {
     return Year.toDTO(entity)
   }
 
-  async post({ year }: body) {
-    // const repeated = await this.repo.findOneBy({ year })
-    // if(repeated) throw DuplicatedException('Este ano já foi cadastrado.')
-    
+  async post({ year }: body) {    
     const entity = this.repo.create({ year })
 
     const errors = await validate(entity)

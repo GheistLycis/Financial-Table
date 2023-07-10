@@ -1,8 +1,7 @@
-import { Req, Body, Get, Param, Post, Put, Res, Injectable, Controller } from '@nestjs/common';
-import { handleException, handleResponse } from 'src/shared/functions/globalHandlers';
-import GlobalException from 'src/shared/interfaces/GlobalException';
+import { Body, Get, Param, Post, Put, Injectable, Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { IpService } from '../service/ip.service';
+import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
 
 @ApiTags('ips')
 @Injectable()
@@ -10,27 +9,23 @@ import { IpService } from '../service/ip.service';
 export class IpController {
   constructor(protected service: IpService) {}
 
-  @Get('list-by-user/:id') async listByUser(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.listByUser(id)
-      .then((data: any) => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  @Get('list-by-user/:id')
+  async listByUser(@Param('id') id): Promise<GlobalResponse> {
+    return await this.service.listByUser(id).then(data => ({ data }))
   }
 
-  @Get(':ip') async get(@Req() req, @Param('ip') ip, @Res() res) {
-    return await this.service.get(ip)
-      .then((data: any) => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  @Get(':ip')
+  async get(@Param('ip') ip): Promise<GlobalResponse> {
+    return await this.service.get(ip).then(data => ({ data }))
   }
 
-  @Post() async post(@Req() req, @Body() body, @Res() res) {
-    return await this.service.post(body)
-      .then((data: any) => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  @Post()
+  async post(@Body() body): Promise<GlobalResponse> {
+    return await this.service.post(body).then(data => ({ data }))
   }
 
-  @Put(':ip') async put(@Req() req, @Param('ip') ip, @Body() body, @Res() res) {
-    return await this.service.put(ip, body)
-      .then((data: any) => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  @Put(':ip')
+  async put(@Param('ip') ip, @Body() body): Promise<GlobalResponse> {
+    return await this.service.put(ip, body).then(data => ({ data }))
   }
 }

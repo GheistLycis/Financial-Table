@@ -3,28 +3,28 @@ import GlobalException from "../interfaces/GlobalException"
 
 // 400
 export function BadRequestException(message): GlobalException {
-  return { message, code: 400 }
+  return { message, status: 400 }
 }
 
 export function UnauthorizedException(message=''): GlobalException {
-  return { message, code: 401 }
+  return { message, status: 401 }
 }
 
 export function ForbiddenException(message=''): GlobalException {
-  return { message, code: 403 }
+  return { message, status: 403 }
 }
 
 export function NotFoundException(message): GlobalException {
-  return { message, code: 404 }
+  return { message, status: 404 }
 }
 
 export function DuplicatedException(message): GlobalException {
-  return { message, code: 406 }
+  return { message, status: 406 }
 }
 
 // 500
 export function ServerException(message): GlobalException {
-  return { message, code: 500 }
+  return { message, status: 500 }
 }
 
 // CLASS-VALIDATOR

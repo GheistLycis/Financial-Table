@@ -1,7 +1,6 @@
 import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { AuthService } from 'src/app/auth/service/auth.service';
-import { handleException } from 'src/shared/functions/globalHandlers';
 import { UnauthorizedException } from 'src/shared/functions/globalExceptions';
 import { Reflector } from '@nestjs/core';
 
@@ -16,11 +15,10 @@ export class TokenGuard implements CanActivate {
     if(this.reflector.get('bypassTokenGuard', context.getHandler())) return true
     
     const req = context.switchToHttp().getRequest<Request>()
-    const res = context.switchToHttp().getResponse<Response>()
     const { authorization='' } = req.headers
     const [ tokenType, token ] = authorization.split(' ')
     
-    if(tokenType != 'Bearer' || !token) throw handleException(req, res, UnauthorizedException('Sem autenticação.')) 
+    if(tokenType != 'Bearer' || !token) throw UnauthorizedException('Sem autenticação.')
     
     return await this.authService.verifyToken(token)
       .then(({ sub }) => {
@@ -28,7 +26,7 @@ export class TokenGuard implements CanActivate {
           
           return true
         }, () => {
-          throw handleException(req, res, UnauthorizedException('Token inválido.'))
+          throw UnauthorizedException('Token inválido.')
         })
   }
 }

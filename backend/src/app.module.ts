@@ -10,7 +10,7 @@ import { CategoryModule } from './app/category/category.module';
 import { ExpenseModule } from './app/expense/expense.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnalyticsModule } from './app/analytics/analytics.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { IpGuard } from './guards/ip/ip.guard';
 import { IpModule } from './app/ip/ip.module';
 import { TokenGuard } from './guards/token/token.guard';
@@ -18,6 +18,7 @@ import { UserModule } from './app/user/user.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { AuthModule } from './app/auth/auth.module';
 import { MonthlyExpenseModule } from './app/monthly-expense/monthly-expense.module';
+import { ResponseHandlerInterceptor } from './interceptors/response-handler/response-handler.interceptor';
 
 const cacheLifeMinutes = 5
 
@@ -63,6 +64,12 @@ const cacheLifeMinutes = 5
   ],
   controllers: [],
   providers: [
+    // INTERCEPTORS
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseHandlerInterceptor,
+    },
+    
     // GUARDS
     {
       provide: APP_GUARD,

@@ -1,5 +1,5 @@
-export default interface GlobalResponse { 
-  data: any
+export default interface GlobalResponse<T=unknown> { 
+  data: T
   message?: string
   status?: number
 }

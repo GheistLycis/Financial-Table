@@ -1,58 +1,49 @@
-import { Controller, Req, Get, Res, Param } from '@nestjs/common';
-import { handleException, handleResponse } from 'src/shared/functions/globalHandlers';
+import { Controller, Get, Param } from '@nestjs/common';
 import { AnalyticsService } from '../service/analytics.service';
-import GlobalException from 'src/shared/interfaces/GlobalException';
+import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
 
 
 @Controller('analytics')
 export class AnalyticsController {
   constructor(private service: AnalyticsService) {}
 
-  @Get('category-remaining/:id') async categoryRemaining(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.categoryRemaining(id)
-      .then(data => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  @Get('category-remaining/:id')
+  async categoryRemaining(@Param('id') id): Promise<GlobalResponse> {
+    return await this.service.categoryRemaining(id).then(data => ({ data }))
   }
   
-  @Get('month-balance/:id') async monthBalance(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.monthBalance(id)
-      .then(data => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  @Get('month-balance/:id')
+  async monthBalance(@Param('id') id): Promise<GlobalResponse> {
+    return await this.service.monthBalance(id).then(data => ({ data }))
   }
   
-  @Get('most-expensive-category/:id') async mostExpensiveCategory(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.mostExpensiveCategory(id)
-      .then(data => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  @Get('most-expensive-category/:id')
+  async mostExpensiveCategory(@Param('id') id): Promise<GlobalResponse> {
+    return await this.service.mostExpensiveCategory(id).then(data => ({ data }))
   }
   
-  @Get('most-expensive-tags/:id') async mostExpensiveTags(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.mostExpensiveTags(id)
-      .then(data => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  @Get('most-expensive-tags/:id')
+  async mostExpensiveTags(@Param('id') id): Promise<GlobalResponse> {
+    return await this.service.mostExpensiveTags(id).then(data => ({ data }))
   }
   
-  @Get('month-history/:id') async monthHistory(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.monthHistory(id)
-      .then(data => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  @Get('month-history/:id')
+  async monthHistory(@Param('id') id): Promise<GlobalResponse> {
+    return await this.service.monthHistory(id).then(data => ({ data }))
   }
   
-  @Get('recent-expenses/:id') async recentExpenses(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.recentExpenses(id)
-      .then(data => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  @Get('recent-expenses/:id')
+  async recentExpenses(@Param('id') id): Promise<GlobalResponse> {
+    return await this.service.recentExpenses(id).then(data => ({ data }))
   }
   
-  @Get('year-expenses/:id') async yearExpenses(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.yearExpenses(id)
-      .then(data => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  @Get('year-expenses/:id')
+  async yearExpenses(@Param('id') id): Promise<GlobalResponse> {
+    return await this.service.yearExpenses(id).then(data => ({ data }))
   }
   
-  @Get('year-history/:id') async yearHistory(@Req() req, @Param('id') id, @Res() res) {
-    return await this.service.yearHistory(id)
-      .then(data => handleResponse(res, { data }))
-      .catch((error: GlobalException | Error) => handleException(req, res, error))
+  @Get('year-history/:id')
+  async yearHistory(@Param('id') id): Promise<GlobalResponse> {
+    return await this.service.yearHistory(id).then(data => ({ data }))
   }
 }
