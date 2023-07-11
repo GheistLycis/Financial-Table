@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from 'src/app/pages/home/home.component';
+import { SavingsComponent } from 'src/app/pages/savings/savings.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+  },
+  {
+    path: 'caixinhas',
+    component: SavingsComponent,
   },
   {
     path: 'gerenciar',

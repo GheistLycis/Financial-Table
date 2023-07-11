@@ -6,10 +6,17 @@ import UserDTO from 'src/app/shared/DTOs/user';
 
 
 type navItem = {
-  type: 'link' | 'menu'
   title: string
-  link?: string
-  children?: { title: string, link: string }[]
+} & (link | menu)
+
+type link = {
+  type: 'link'
+  link: string
+}
+
+type menu = {
+  type: 'menu'
+  children: { title: string, link: string }[]
 }
 
 @Component({
@@ -24,6 +31,11 @@ export class NavbarComponent implements OnInit {
       type: 'link',
       title: 'Home',
       link: ''
+    },
+    {
+      type: 'link',
+      title: 'Minhas Caixinhas',
+      link: 'caixinhas'
     },
     {
       type: 'menu',
