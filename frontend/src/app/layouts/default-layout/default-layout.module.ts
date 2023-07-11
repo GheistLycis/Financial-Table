@@ -8,13 +8,15 @@ import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileComponent } from './components/navbar/components/profile/profile.component';
 
 
 @NgModule({
   declarations: [
     DefaultLayoutComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

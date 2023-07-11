@@ -41,6 +41,8 @@ export class AddEditTagComponent implements OnInit {
     
     this.form.color = this.form.color.toString()
     
+    if(this.formModel.invalid) return
+    
     this.submit()
   }
   

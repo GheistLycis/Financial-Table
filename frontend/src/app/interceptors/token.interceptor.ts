@@ -9,11 +9,10 @@ export class TokenInterceptor implements HttpInterceptor {
     constructor(private sessionService: SessionService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const user = this.sessionService.getUser()
-        const token = user && this.sessionService.getToken()
+        const token = this.sessionService.getSession()?.token || null
         const isApiUrl = request.url.startsWith(environment.apiUrl)
 
-        if(token && isApiUrl) {
+        if(isApiUrl) {
             request = request.clone({
                 setHeaders: {
                     Authorization: `Bearer ${token}`

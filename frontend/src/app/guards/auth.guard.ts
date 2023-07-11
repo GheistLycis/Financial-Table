@@ -9,12 +9,12 @@ import { Router } from '@angular/router';
 })
 export class AuthGuard implements CanActivate {
   constructor(
-    private session: SessionService,
+    private sessionService: SessionService,
     private router: Router,
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.session.getUser()) return true
+    if(this.sessionService.getSession()) return true
 
     else {
       this.router.navigate(['login'])

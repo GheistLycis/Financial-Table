@@ -4,7 +4,7 @@ import Session from 'src/app/shared/DTOs/session';
 import UserDTO from 'src/app/shared/DTOs/user';
 import { Response as Res } from 'src/app/shared/interfaces/Response';
 import { environment } from 'src/environments/environment';
-import AuthPayload from '../../interfaces/AuthPayload';
+import UserForm from '../../classes/UserForm';
 
 @Injectable({
   providedIn: 'root'
@@ -22,19 +22,19 @@ export class UserService {
     return this.http.get<Res<UserDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
-  put(id: number, payload: UserDTO) {
+  put(id: UserDTO['id'], payload: UserForm) {
     return this.http.put<Res<UserDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
 
-  delete(id: number) {
+  delete(id: UserDTO['id']) {
     return this.http.delete<Res<UserDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
   
-  signUp(payload: AuthPayload) {
+  signUp(payload: UserForm) {
     return this.http.post<Res<Session>>(`${environment.apiUrl}/${this.baseRoute}/signup`, payload)
   }
   
-  logIn({ email, password }: AuthPayload) {
+  logIn({ email, password }: UserForm) {
     return this.http.post<Res<Session>>(`${environment.apiUrl}/${this.baseRoute}/login`, { email, password })
   }
   

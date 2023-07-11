@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import Session from '../../DTOs/session';
 
 @Injectable({
   providedIn: 'root'
@@ -6,25 +7,17 @@ import { Injectable } from '@angular/core';
 export class SessionService {
   constructor() { }
 
-  // USER
-  getUser(): string | null {
-    return localStorage.getItem('user')
+  getSession(): Session | null {
+    const session = localStorage.getItem('session')
+    
+    return JSON.parse(session)
   }
 
-  setUser(user: string): void {
-    localStorage.setItem('user', user)
+  setSession(session: Session): void {
+    localStorage.setItem('session', JSON.stringify(session))
   }
   
   logout(): void {
-    localStorage.removeItem('user')
-  }
-  
-  // TOKEN
-  getToken(): string | null {
-    return localStorage.getItem('token')
-  }
-
-  setToken(token: string): void {
-    localStorage.setItem('token', token)
+    localStorage.removeItem('session')
   }
 }
