@@ -13,7 +13,7 @@ export class TokenGuard implements CanActivate {
   
   async canActivate(context: ExecutionContext): Promise<boolean> {
     if(this.reflector.get('bypassTokenGuard', context.getHandler())) return true
-    
+
     const req = context.switchToHttp().getRequest<Request>()
     const { authorization='' } = req.headers
     const [ tokenType, token ] = authorization.split(' ')

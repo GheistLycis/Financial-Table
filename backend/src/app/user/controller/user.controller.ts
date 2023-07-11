@@ -13,12 +13,26 @@ import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
 export class UserController extends BaseController {
   constructor(service: UserService) { 
     super(service) 
+    
+    delete this.post
+  }
+  
+  @Post('signup') 
+  @BypassTokenGuard()
+  @BypassIpGuard()
+  async signUp(@Body() body): Promise<GlobalResponse> {
+    return await this.service.signUp(body).then(data => ({ data }))
   }
   
   @Post('login') 
   @BypassTokenGuard()
   @BypassIpGuard()
-  async logIn(@Body() { name }): Promise<GlobalResponse> {
-    return await this.service.logIn(name).then(data => ({ data }))
+  async logIn(@Body() body): Promise<GlobalResponse> {
+    return await this.service.logIn(body).then(data => ({ data }))
+  }
+  
+  @Post('reset-password') 
+  async resetPassword(@Body() body): Promise<GlobalResponse> {
+    return await this.service.resetPassword(body).then(data => ({ data }))
   }
 }

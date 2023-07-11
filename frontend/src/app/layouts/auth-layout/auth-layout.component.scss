@@ -49,4 +49,15 @@ a, h3 {
 
 input {
     text-align: center;
+    width: 300px;
+}
+
+button {
+    border-radius: 20px;
+    width: 125px;
+    height: 50px;
+}
+
+small {
+    color: $palette-3;
 }

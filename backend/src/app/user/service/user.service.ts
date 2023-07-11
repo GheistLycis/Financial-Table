@@ -4,58 +4,37 @@ import UserDTO from '../User.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { User } from '../User';
-import { DuplicatedException, NotFoundException, classValidatorError } from 'src/filters/globalExceptions';
+import { DuplicatedException, NotFoundException, UnauthorizedException, classValidatorError } from 'src/filters/globalExceptions';
 import { validate } from 'class-validator';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import Session from 'src/shared/interfaces/Session';
+import * as bcrypt from 'bcrypt';
 
-type body = { name: string }
+type body = { name: string, email: string, password: string }
 
 @Injectable()
-export class UserService implements BaseService<UserDTO> {
+export class UserService {
   constructor(
     @Repo(User) private repo: Repository<User>,
     private authService: AuthService,
   ) {}
   
-  async list() {
+  async list(): Promise<UserDTO[]> {
     const query = this.repo.createQueryBuilder('User')
 
     return await query.getMany().then(entities => entities.map(row => User.toDTO(row)))
   }
 
-  async get(id: UserDTO['id']) {
+  async get(id: UserDTO['id']): Promise<UserDTO> {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum usuário encontrado.')
 
     return User.toDTO(entity)
   }
 
-  async post({ name }: body) {
-    const repeated = await this.repo.createQueryBuilder('User')
-      .where('User.name = :name', { name })
-      .getOne()
-    if(repeated) throw DuplicatedException('Este nome de usuário já foi cadastrado.')
-    
-    const entity = this.repo.create({ name })
-      
-    const errors = await validate(entity)
-    if(errors.length) throw classValidatorError(errors)
-  
-    await this.repo.save(entity)
-
-    return User.toDTO(entity)
-  }
-
-  async put(id: UserDTO['id'], { name }: body) {
+  async put(id: UserDTO['id'], { name }: body): Promise<UserDTO> {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Usuário não encontrado.')
-
-    const repeated = await this.repo.createQueryBuilder('User')
-      .where('User.id != :id', { id })
-      .andWhere('User.name = :name', { name })
-      .getOne()
-    if(repeated) throw DuplicatedException('Este nome de usuário já foi cadastrado.')
 
     entity.name = name
 
@@ -67,7 +46,7 @@ export class UserService implements BaseService<UserDTO> {
     return User.toDTO(entity)
   }
 
-  async delete(id: UserDTO['id']) {
+  async delete(id: UserDTO['id']): Promise<UserDTO> {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Usuário não encontrado.')
 
@@ -76,12 +55,36 @@ export class UserService implements BaseService<UserDTO> {
     return User.toDTO(entity)
   }
   
-  async logIn(name: string): Promise<Session> {
-    const entity = await this.repo.findOneBy({ name })
-    if(!entity) throw NotFoundException('Nenhum usuário encontrado.')
+  async signUp({ name, email, password }: body): Promise<Session> {
+    const repeated = await this.repo.findOneBy({ email })
+    if(repeated) throw DuplicatedException('Este email já foi cadastrado.')
+    
+    const hash = await bcrypt.genSalt(+process.env.HASH_SALT_ROUNDS).then(salt => bcrypt.hash(password, salt))
+    
+    const entity = this.repo.create({ 
+      name, 
+      email, 
+      password: hash,
+    })
+      
+    const errors = await validate(entity)
+    if(errors.length) throw classValidatorError(errors)
+  
+    await this.repo.save(entity)
+
+    return await this.logIn({ email, password })
+  }
+  
+  async logIn({ email, password }: Partial<body>): Promise<Session> {
+    const entity = await this.repo.findOneBy({ email })
+    if(!entity || !await bcrypt.compare(password, entity.password)) throw UnauthorizedException('Email ou senha inválidos.')
     
     const token = await this.authService.generateToken(entity.id)
 
     return { user: User.toDTO(entity), token }
+  }
+  
+  async resetPassword({ email }: body): Promise<any> {
+    return null
   }
 }

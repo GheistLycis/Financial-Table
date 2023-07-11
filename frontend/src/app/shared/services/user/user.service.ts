@@ -4,6 +4,7 @@ import Session from 'src/app/shared/DTOs/session';
 import UserDTO from 'src/app/shared/DTOs/user';
 import { Response as Res } from 'src/app/shared/interfaces/Response';
 import { environment } from 'src/environments/environment';
+import AuthPayload from '../../interfaces/AuthPayload';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +22,6 @@ export class UserService {
     return this.http.get<Res<UserDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
 
-  post(payload: UserDTO) {
-    return this.http.post<Res<UserDTO>>(`${environment.apiUrl}/${this.baseRoute}`, payload)
-  }
-
   put(id: number, payload: UserDTO) {
     return this.http.put<Res<UserDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
@@ -33,7 +30,15 @@ export class UserService {
     return this.http.delete<Res<UserDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
   
-  logIn(name: string) {
-    return this.http.post<Res<Session>>(`${environment.apiUrl}/${this.baseRoute}/login`, { name })
+  signUp(payload: AuthPayload) {
+    return this.http.post<Res<Session>>(`${environment.apiUrl}/${this.baseRoute}/signup`, payload)
+  }
+  
+  logIn({ email, password }: AuthPayload) {
+    return this.http.post<Res<Session>>(`${environment.apiUrl}/${this.baseRoute}/login`, { email, password })
+  }
+  
+  resetPassword(email: string) {
+    return this.http.post<Res<any>>(`${environment.apiUrl}/${this.baseRoute}/reset-password`, { email })
   }
 }

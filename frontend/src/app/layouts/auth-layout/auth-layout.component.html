@@ -1,13 +1,18 @@
 <div class="card shadow d-flex align-items-center justify-content-center p-5" id="main-container">
-    <a class="mb-5">Bem vindo!</a>
-    <h3 class="mb-3">Como quer ser chamado?</h3>
-    <input type="text" [(ngModel)]="user" required />
-    <button 
-        #btn
-        (click)="login()" 
-        [disabled]="user == undefined || user == ''"
-        class="mt-2"
-    >
-        Pronto!
-    </button>
+    <a class="mb-5">Bem-vindo!</a>
+    <div class="d-flex flex-column align-items-center">
+        <input *ngIf="action == 'signup'" type="text" [(ngModel)]="user.name" required placeholder="Nome" class="py-2 mb-2">
+        <input type="email" [(ngModel)]="user.email" required placeholder="E-mail" class="py-2 mb-2">
+        <input type="password" [(ngModel)]="user.password" required placeholder="Senha" class="py-2 mb-4">
+        <div class="d-flex gap-20 mt-2 mb-1 w-100 justify-content-center">
+            <button #loginBtn *ngIf="action == 'login'" (click)="enter('login')" [disabled]="!user.email || !user.password" class="px-3 py-2">
+                Entrar
+            </button>
+            <button *ngIf="action == 'signup'" (click)="enter('signup')" [disabled]="!user.name || !user.email || !user.password" class="px-3 py-2">
+                Registrar-se
+            </button>
+        </div>
+        <small *ngIf="action == 'login'" (click)="action = 'signup'" class="pointer align-self-start">Criar conta...</small>
+        <small *ngIf="action == 'signup'" (click)="action = 'login'" class="pointer align-self-start">Logar na minha conta...</small>
+    </div>
 </div>

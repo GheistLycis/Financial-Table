@@ -11,7 +11,6 @@ import { ExpenseModule } from './app/expense/expense.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnalyticsModule } from './app/analytics/analytics.module';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { IpGuard } from './guards/ip/ip.guard';
 import { IpModule } from './app/ip/ip.module';
 import { TokenGuard } from './guards/token/token.guard';
 import { UserModule } from './app/user/user.module';
@@ -34,6 +33,7 @@ const cacheLifeMinutes = 5
         DB_USER: Joi.string().required(),
         DB_PASS: Joi.string().required(),
         DB_NAME: Joi.string().required(),
+        HASH_SALT_ROUNDS: Joi.number().required(),
       })
     }),
     TypeOrmModule.forRoot({
@@ -70,10 +70,10 @@ const cacheLifeMinutes = 5
       provide: APP_GUARD,
       useClass: TokenGuard,
     },
-    {
-      provide: APP_GUARD,
-      useClass: IpGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: IpGuard,
+    // },
         
     // INTERCEPTORS
     {

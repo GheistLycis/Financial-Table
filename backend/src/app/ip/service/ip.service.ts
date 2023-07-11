@@ -29,7 +29,7 @@ export class IpService {
     return Ip.toDTO(entity)
   }
 
-  async post({ ip }: body) {
+  async post({ ip }: Partial<body>) {
     const repeated = await this.repo.createQueryBuilder('Ip')
       .where('Ip.ip = :ip', { ip })
       .getOne()

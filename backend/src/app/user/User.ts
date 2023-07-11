@@ -9,6 +9,9 @@ export class User extends BaseEntity {
   // COLUMNS
   @Column()
   name: string
+  
+  @Column({ unique: true })
+  email: string
 
   @Column()
   password: string
@@ -16,6 +19,7 @@ export class User extends BaseEntity {
   static toDTO(row: User): UserDTO {
     return {
       name: row.name,
+      email: row.email,
       id: row.id,
       createdAt: row.createdAt,
       updatedAt: row.updatedAt,

@@ -3,11 +3,13 @@ import { Request } from 'express';
 import { IpService } from 'src/app/ip/service/ip.service';
 import { UnauthorizedException } from 'src/filters/globalExceptions';
 import { Reflector } from '@nestjs/core';
+import { UserService } from 'src/app/user/service/user.service';
 
 @Injectable()
 export class IpGuard implements CanActivate {
   constructor(
       @Inject(IpService) private ipService: IpService,
+      @Inject(UserService) private userService: UserService,
       private reflector: Reflector,
     ) { }
   

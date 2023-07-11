@@ -22,6 +22,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       BODY: ${JSON.stringify(body)}
     `)
     
-    res.status(status).json({ message: exception.message })
+    res.status(status)
+    
+    return { message: exception.message }
   }
 }
