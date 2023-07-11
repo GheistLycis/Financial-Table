@@ -65,7 +65,7 @@ export class YearsComponent implements OnInit {
     })
   }
   
-  deleteYear({ id, year }: YearDTO) {
+  deleteYear({ id, year }: YearDTO): void {
     const { componentInstance, result } = this.modalService.open(GeneralWarningComponent, { size: 'md' })
     
     componentInstance.title = 'Excluir ano'

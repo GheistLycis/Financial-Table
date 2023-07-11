@@ -28,6 +28,10 @@ export class SavingService {
   put(id: SavingDTO['id'], payload: SavingForm) {
     return this.http.put<Res<SavingDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`, payload)
   }
+  
+  updateStatus(id: SavingDTO['id'], status: SavingDTO['status']) {
+    return this.http.put<Res<SavingDTO>>(`${environment.apiUrl}/${this.baseRoute}/update-status/${id}`, { status })
+  }
 
   delete(id: SavingDTO['id']) {
     return this.http.delete<Res<SavingDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)

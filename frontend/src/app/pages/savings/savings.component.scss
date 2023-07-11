@@ -1,0 +1,14 @@
+@import '../../../styles/variables.scss';
+
+.saving {
+  min-width: 300px;
+  max-width: 800px;
+  
+  .footer {
+    border-top: 1px solid $palette-2;
+  }
+}
+
+.color-palette-primary {
+  color: $palette-4;
+}

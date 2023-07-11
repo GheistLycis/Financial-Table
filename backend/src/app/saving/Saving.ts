@@ -14,7 +14,7 @@ import SavingDTO from "./Saving.dto";
 export type savingStatus = 'active' | 'completed' | 'canceled'
 
 @Service()
-@Entity({ name: 'savings', orderBy: { createdAt: 'DESC' }})
+@Entity({ name: 'savings', orderBy: { status: 'ASC' } })
 export class Saving extends BaseEntity  {
   // COLUMNS
   @Column()

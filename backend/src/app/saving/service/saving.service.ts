@@ -94,6 +94,20 @@ export class SavingService implements BaseService<SavingDTO> {
 
     return Saving.toDTO(entity)
   }
+  
+  async updateStatus(id: SavingDTO['id'], { status }: body) {
+    const entity = await this.repo.findOneBy({ id })
+    if(!entity) throw NotFoundException('Caixinha não encontrada.')
+
+    entity.status = status
+
+    const errors = await validate(entity)
+    if(errors.length) throw classValidatorError(errors)
+
+    await this.repo.save(entity)
+
+    return Saving.toDTO(entity)
+  }
 
   async delete(id: SavingDTO['id']) {
     const entity = await this.repo.findOneBy({ id })

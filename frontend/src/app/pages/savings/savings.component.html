@@ -1,1 +1,79 @@
-<p>savings works!</p>
+<div class="container px-0">
+  <div class="d-flex justify-content-between align-items-center px-0 mb-4">
+    <h2 class="mb-2">Minhas Caixinhas</h2>
+    <img 
+      src="../../../../../assets/icons/plus.svg"
+      (click)="addSaving()"
+      width="50px"
+      class="pointer"
+      ngbTooltip="Adicionar caixinha">
+  </div>
+  
+  <div class="d-flex flex-column gap-20 px-4">
+    <div>
+      <h5>Saldo atual: R${{ actualBalance | number:'.2-2':'pt' }}</h5>
+    </div>
+    
+    <div *ngFor="let saving of savings" class="saving card shadow px-3 py-4 w-75">
+      <div [ngClass]="{
+          'color-palette-primary': saving.status == 'active',
+          'text-success': saving.status == 'completed'
+        }" class="d-flex justify-content-between">
+        <h3>{{ saving.title }} - <span>R${{ saving.amount | number:'.2-2':'pt' }}</span></h3>
+        <h5>Prazo: {{ (saving?.dueDate | date:'dd/MM/YY') || 'Indefinido' }}</h5>
+      </div>
+      
+      <div class="px-4 py-2 mt-2 mb-3">
+        <p>{{ saving.description }}</p>
+      </div>
+      
+      <div>
+        <ngb-progressbar 
+          *ngIf="saving.status == 'active'"
+          [value]="1000 * actualBalance / saving.amount" 
+          type="success" 
+          [striped]="true" 
+          [animated]="true"
+          [max]="1000"
+          [showValue]="true"
+          height="25px"
+          [ngbTooltip]="(1000 * actualBalance / saving.amount) + '%'">
+        </ngb-progressbar>
+        <ngb-progressbar 
+          *ngIf="saving.status == 'completed'"
+          [value]="100" 
+          type="success" 
+          [striped]="true" 
+          height="25px">
+          <i>Completado!</i>
+        </ngb-progressbar>
+        <ngb-progressbar 
+          *ngIf="saving.status == 'canceled'"
+          [value]="100" 
+          type="dark" 
+          [striped]="true" 
+          height="25px">
+          <i>Cancelado</i>
+        </ngb-progressbar>
+      </div>
+      
+      <div class="footer d-flex justify-content-end gap-15 px-4 pt-4 mt-2">
+        <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'completed')" class="btn btn-success">Completar</button>
+        <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'canceled')" class="btn btn-danger">Cancelar</button>
+        <button *ngIf="saving.status != 'active'" (click)="updateStatus(saving.id, 'active')" class="cancel">Reativar</button>
+        <img 
+          src="../../../../../assets/icons/pencil.svg"
+          (click)="editSaving(saving)"
+          width="32px"
+          class="pointer"
+          ngbTooltip="Editar">
+        <img 
+          src="../../../../../assets/icons/trash.svg"
+          (click)="deleteSaving(saving)"
+          width="32px"
+          class="pointer"
+          ngbTooltip="Excluir">
+      </div>
+    </div>
+  </div>
+</div>

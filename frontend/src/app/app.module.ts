@@ -11,6 +11,7 @@ import { ErrorsInterceptor } from './interceptors/errors.interceptor';
 import { HomeModule } from './pages/home/home.module';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskModule } from 'ngx-mask';
+import { SavingsModule } from './pages/savings/savings.module';
 
 registerLocaleData(localePT)
 
@@ -32,6 +33,7 @@ registerLocaleData(localePT)
     }),
     NgxMaskModule.forRoot(),
     HomeModule,
+    SavingsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
