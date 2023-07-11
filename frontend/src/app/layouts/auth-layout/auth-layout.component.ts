@@ -35,7 +35,7 @@ export class AuthLayoutComponent {
       
     service.subscribe(({ data }) => {
       this.sessionService.setSession(data)
-      this.toastr.info('', `Olá, ${data.user.name}!`)
+      this.toastr.success('', `Olá, ${data.user.name}!`)
       this.router.navigate([''])
     })
   }

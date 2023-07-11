@@ -65,26 +65,9 @@ const cacheLifeMinutes = 5
   ],
   controllers: [],
   providers: [
-    // GUARDS
     {
       provide: APP_GUARD,
       useClass: TokenGuard,
-    },
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: IpGuard,
-    // },
-        
-    // INTERCEPTORS
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: ResponseHandlerInterceptor,
-    },
-    
-    // FILTERS
-    {
-      provide: APP_FILTER,
-      useClass: GlobalExceptionFilter,
     },
   ],
 })

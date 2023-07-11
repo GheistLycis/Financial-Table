@@ -42,7 +42,7 @@ export class ProfileComponent {
   
   submit(): void {
     this.userService.put(this.user.id, this.form).subscribe({
-      complete: () => this.activeModal.close(true),
+      next: ({ data }) => this.activeModal.close(data),
       error: () => this.activeModal.close(false)
     })
   }

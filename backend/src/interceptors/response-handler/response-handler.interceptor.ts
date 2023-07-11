@@ -14,7 +14,7 @@ export class ResponseHandlerInterceptor implements NestInterceptor {
       .pipe(
         map(({ data=null, message='', status=200 }: GlobalResponse) => {
           res.status(status)
-          
+        
           return { data, message }
         })
       )

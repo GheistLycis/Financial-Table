@@ -5,7 +5,7 @@ import GlobalException from 'src/shared/classes/GlobalException';
 
 const warnings = [400, 401, 403, 404, 406]
 
-@Catch(GlobalException, Error)
+@Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: GlobalException | Error, host: ArgumentsHost) {
     const { method, originalUrl, body } = host.switchToHttp().getRequest<Request>()
@@ -13,7 +13,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const status = exception instanceof GlobalException ? exception.status : 500
     const errorType = warnings.includes(status) ? 'W' : 'E'
     const time = new Date().toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-  
+    
     console.log(`
       (${errorType}-${status}) 
       ${method} - ${originalUrl}
@@ -22,8 +22,6 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       BODY: ${JSON.stringify(body)}
     `)
     
-    res.status(status)
-    
-    return { message: exception.message }
+    res.status(status).json({ message: exception.message })
   }
 }

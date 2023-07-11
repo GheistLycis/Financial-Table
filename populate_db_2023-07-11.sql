@@ -1,5 +1,5 @@
 TRUNCATE TABLE 
-  ips_users_users, ips, users, expenses_tags_tags, tags, expenses, categories, monthly_expenses, monthly_incomes, months, years
+  users, expenses_tags_tags, tags, expenses, categories, monthly_expenses, monthly_incomes, months, years
   RESTART IDENTITY;
 
 INSERT INTO years ("createdAt","updatedAt","deletedAt","year") VALUES
