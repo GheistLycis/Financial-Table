@@ -47,7 +47,10 @@ export class UserService {
   }
 
   async delete(id: UserDTO['id']): Promise<UserDTO> {
-    const entity = await this.repo.findOneBy({ id })
+    const entity = await this.repo.findOne({ 
+      where: { id },
+      relations: ['savings'], 
+    })
     if(!entity) throw NotFoundException('Usuário não encontrado.')
 
     await this.repo.softRemove(entity)

@@ -19,6 +19,7 @@ import { AuthModule } from './app/auth/auth.module';
 import { MonthlyExpenseModule } from './app/monthly-expense/monthly-expense.module';
 import { ResponseHandlerInterceptor } from './interceptors/response-handler/response-handler.interceptor';
 import { GlobalExceptionFilter } from './filters/global-exception/global-exception.filter';
+import { SavingModule } from './app/saving/saving.module';
 
 const cacheLifeMinutes = 5
 
@@ -62,6 +63,7 @@ const cacheLifeMinutes = 5
     AnalyticsModule,
     IpModule,
     UserModule,
+    SavingModule,
   ],
   controllers: [],
   providers: [

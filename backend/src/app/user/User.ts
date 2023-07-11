@@ -1,7 +1,8 @@
 import { Service } from "typedi";
-import { Entity, Column } from "typeorm";
-import BaseEntity from "src/shared/classes/BaseEntity";
+import { Entity, Column, OneToMany } from "typeorm";
+import BaseEntity, { oneToManyOptions } from "src/shared/classes/BaseEntity";
 import UserDTO from "./User.dto";
+import { Saving } from "../saving/Saving";
 
 @Service()
 @Entity({ name: 'users', orderBy: { name: 'ASC' }})
@@ -15,6 +16,10 @@ export class User extends BaseEntity {
 
   @Column()
   password: string
+  
+  // RELATIONS
+  @OneToMany(() => Saving, saving => saving.user, oneToManyOptions)
+  savings: Saving[]
 
   static toDTO(row: User): UserDTO {
     return {

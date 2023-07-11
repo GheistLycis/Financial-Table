@@ -70,6 +70,11 @@ INSERT INTO expenses_tags_tags ("expensesId","tagsId") VALUES
 	(8,9),
 	(9,8),
 	(10,3);
+	
+-- INSERT INTO savings ("createdAt","updatedAt","deletedAt",title,description,amount,"dueDate",status,"userId") VALUES
+-- 	('2023-07-11 17:16:01.89985','2023-07-11 17:16:19.6303',NULL,'Casa nova',null,500000,null,'active',1),
+-- 	('2023-07-11 17:16:01.89985','2023-07-11 17:16:19.6303',NULL,'Itália!','Quero ir pra Siciliaaaaaaaa!',3000,null,'completed',1),
+-- 	('2023-07-11 17:16:01.89985','2023-07-11 17:16:19.6303',NULL,'Reforma do quarto',null,8499.99,'2023-12-01','canceled',1);
 
 -- INSERT INTO ips (ip,"createdAt","updatedAt",active) VALUES
 -- 	('::1','2023-06-17 09:04:04.526391','2023-06-17 09:04:04.526391',true),
