@@ -30,8 +30,13 @@
             </div>
         </li>
     </ul>
-
-    <div class="user pointer" (click)="accessProfile()">
-        <i>Olá, {{ userName }}!</i>
+    
+    <div class="user-box">
+        <div class="logout" (click)="logout()">
+            <img src="../../../../../assets/icons/leave.svg" width="30px">
+        </div>
+        <div class="user" (click)="accessProfile()">
+            Olá, {{ userName }}!
+        </div>
     </div>
 </nav>

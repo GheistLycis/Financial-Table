@@ -5,10 +5,10 @@
         <input type="email" [(ngModel)]="user.email" required placeholder="E-mail" class="py-2 mb-2">
         <input type="password" [(ngModel)]="user.password" required placeholder="Senha" class="py-2 mb-4">
         <div class="d-flex gap-20 mt-2 mb-1 w-100 justify-content-center">
-            <button #loginBtn *ngIf="action == 'login'" (click)="enter('login')" [disabled]="!user.email || !user.password" class="px-3 py-2">
+            <button #enterBtn *ngIf="action == 'login'" (click)="enter('login')" [disabled]="!user.email || !user.password" class="px-3 py-2">
                 Entrar
             </button>
-            <button *ngIf="action == 'signup'" (click)="enter('signup')" [disabled]="!user.name || !user.email || !user.password" class="px-3 py-2">
+            <button #enterBtn *ngIf="action == 'signup'" (click)="enter('signup')" [disabled]="!user.name || !user.email || !user.password" class="px-3 py-2">
                 Registrar-se
             </button>
         </div>

@@ -24,7 +24,7 @@ import { ProfileComponent } from './components/navbar/components/profile/profile
     PipesModule,
     FormsModule,
     NgSelectModule,
-    NgbDropdownModule,
+    NgbDropdownModule
   ]
 })
 export class DefaultLayoutModule { }

@@ -12,7 +12,7 @@ import { UserService } from 'src/app/shared/services/user/user.service';
   styleUrls: ['./auth-layout.component.scss']
 })
 export class AuthLayoutComponent {
-  @ViewChild('loginBtn') loginButton!: ElementRef<HTMLButtonElement>
+  @ViewChild('enterBtn') enterButton!: ElementRef<HTMLButtonElement>
   action: 'login' | 'signup' = 'login'
   user = new UserForm()
 
@@ -25,7 +25,7 @@ export class AuthLayoutComponent {
   
   @HostListener('document:keypress', ['$event'])
   onKeyPress(e: KeyboardEvent): void {
-    e.key == 'Enter' && this.loginButton.nativeElement.click()
+    e.key == 'Enter' && this.enterButton.nativeElement.click()
   }
 
   enter(action: typeof this.action): void {

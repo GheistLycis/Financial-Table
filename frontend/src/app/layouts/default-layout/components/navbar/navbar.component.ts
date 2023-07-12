@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SessionService } from 'src/app/shared/services/session/session.service';
 import { ProfileComponent } from './components/profile/profile.component';
 import UserDTO from 'src/app/shared/DTOs/user';
+import { Router } from '@angular/router';
 
 
 type navItem = {
@@ -60,10 +61,16 @@ export class NavbarComponent implements OnInit {
   constructor(
     private sessionService: SessionService,
     private modalService: NgbModal,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.userName = this.sessionService.getSession().user.name
+  }
+  
+  logout(): void {
+    this.sessionService.logout()
+    this.router.navigate(['login'])
   }
   
   accessProfile(): void {
