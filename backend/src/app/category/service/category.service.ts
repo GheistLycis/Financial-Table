@@ -21,7 +21,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
     @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
-  async list({ month }: queries) {
+  async list(user, { month }: queries) {
     const query = this.repo.createQueryBuilder('Category')
       .leftJoinAndSelect('Category.month', 'Month')
       .leftJoinAndSelect('Month.year', 'Year')
@@ -38,13 +38,13 @@ export class CategoryService implements BaseService<CategoryDTO> {
     return Category.toDTO(entity)
   }
 
-  async post({ name, color, percentage, month }: body) {
-    const repeated = await this.repo.createQueryBuilder('Category')
+  async post(user, { name, color, percentage, month }: body) {
+    const duplicated = await this.repo.createQueryBuilder('Category')
       .leftJoinAndSelect('Category.month', 'Month')
       .where('Category.name = :name', { name })
       .andWhere('Month.id = :month', { month })
       .getOne()
-    if(repeated) throw DuplicatedException('Esta categoria já foi cadastrada.')
+    if(duplicated) throw DuplicatedException('Esta categoria já existe.')
 
     const monthEntity = await this.monthRepo.findOneBy({ id: month })
     
@@ -67,13 +67,13 @@ export class CategoryService implements BaseService<CategoryDTO> {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Categoria não encontrada.')
 
-    const repeated = await this.repo.createQueryBuilder('Category')
+    const duplicated = await this.repo.createQueryBuilder('Category')
       .leftJoinAndSelect('Category.month', 'Month')
       .where('Category.id != :id', { id })
       .andWhere('Category.name = :name', { name })
       .andWhere('Month.id = :month', { month })
       .getOne()
-    if(repeated) throw DuplicatedException('Esta categoria já foi cadastrada.')
+    if(duplicated) throw DuplicatedException('Esta categoria já existe.')
 
     entity.name = name
     entity.color = color

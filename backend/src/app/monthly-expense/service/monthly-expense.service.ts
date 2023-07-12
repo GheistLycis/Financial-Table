@@ -18,7 +18,7 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
     @Repo(Month) private monthRepo: Repository<Month>,
   ) {}
 
-  async list({ month }: queries) {
+  async list(user, { month }: queries) {
     const query = this.repo
       .createQueryBuilder('Expense')
       .leftJoinAndSelect('Expense.month', 'Month')
@@ -39,14 +39,14 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
     return MonthlyExpense.toDTO(entity)
   }
 
-  async post({ value, description, month }: body) {
-    const repeated = await this.repo.createQueryBuilder('Expense')
+  async post(user, { value, description, month }: body) {
+    const duplicated = await this.repo.createQueryBuilder('Expense')
       .leftJoinAndSelect('Expense.month', 'Month')
       .where('Expense.value = :value', { value })
       .andWhere('Expense.description = :description', { description })
       .andWhere('Month.id = :month', { month })
       .getOne()
-    if(repeated) throw DuplicatedException('Este gasto mensal já foi cadastrado.')
+    if(duplicated) throw DuplicatedException('Este gasto mensal já existe.')
 
     const monthEntity = await this.monthRepo.findOneBy({ id: month })
     
@@ -64,14 +64,14 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Gasto mensal não encontrado.')
 
-    const repeated = await this.repo.createQueryBuilder('Expense')
+    const duplicated = await this.repo.createQueryBuilder('Expense')
       .leftJoinAndSelect('Expense.month', 'Month')
       .where('Expense.id != :id', { id })
       .andWhere('Expense.value = :value', { value })
       .andWhere('Expense.description = :description', { description })
       .andWhere('Month.id = :month', { month })
       .getOne()
-    if(repeated) throw DuplicatedException('Este gasto mensal já foi cadastrado.')
+    if(duplicated) throw DuplicatedException('Este gasto mensal já existe.')
 
     entity.value = value
     entity.description = description

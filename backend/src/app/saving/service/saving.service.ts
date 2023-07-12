@@ -37,14 +37,14 @@ export class SavingService implements BaseService<SavingDTO> {
     return Saving.toDTO(entity)
   }
 
-  async post({ title, description, amount, dueDate }: body, user: User['id']) {
-    const repeated = await this.repo.createQueryBuilder('Saving')
+  async post(userl, { title, description, amount, dueDate }: body, user: User['id']) {
+    const duplicated = await this.repo.createQueryBuilder('Saving')
       .leftJoinAndSelect('Saving.user', 'User')
       .where('User.id = :user', { user })
       .andWhere('Saving.title = :title', { title })
       .andWhere('Saving.dueDate = :dueDate', { dueDate })
       .getOne()
-    if(repeated) throw DuplicatedException('Esta caixinha já foi cadastrada.')
+    if(duplicated) throw DuplicatedException('Esta caixinha já existe.')
 
     const userEntity = await this.userRepo.findOneBy({ id: user })
     
@@ -68,12 +68,12 @@ export class SavingService implements BaseService<SavingDTO> {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Caixinha não encontrada.')
 
-    const repeated = await this.repo.createQueryBuilder('Saving')
+    const duplicated = await this.repo.createQueryBuilder('Saving')
       .where('Saving.id != :id', { id })
       .andWhere('Saving.title = :title', { title })
       .andWhere('Saving.dueDate = :dueDate', { dueDate })
       .getOne()
-    if(repeated) throw DuplicatedException('Esta caixinha já foi cadastrada.')
+    if(duplicated) throw DuplicatedException('Esta caixinha já existe.')
 
     entity.title = title
     entity.description = description

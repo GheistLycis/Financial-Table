@@ -6,6 +6,7 @@ import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import TagDTO from '../Tag.dto';
 import { Tag } from '../Tag';
+import { User } from 'src/app/user/User';
 
 type body = { name: string, color: string }
 
@@ -13,46 +14,68 @@ type body = { name: string, color: string }
 export class TagService implements BaseService<TagDTO> {
   constructor(
     @Repo(Tag) private repo: Repository<Tag>,
+    @Repo(User) private userRepo: Repository<User>,
   ) {}
 
-  async list() {
-    const query = this.repo.createQueryBuilder('Tag')
+  async list(user: User['id']) {
+    const entitites = await this.repo.createQueryBuilder('Tag')
+      .innerJoinAndSelect('Tag.user', 'User')
+      .where('User.id = :user', { user })
+      .getMany()
 
-    return await query.getMany().then(entities => entities.map(row => Tag.toDTO(row)))
+    return entitites.map(row => Tag.toDTO(row))
   }
 
-  async get(id: TagDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+  async get(user: User['id'], id: TagDTO['id']) {
+    const entity = await this.repo.createQueryBuilder('Tag')
+      .innerJoinAndSelect('Tag.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Tag.id = :id', { id })
+      .getOne()
     if(!entity) throw NotFoundException('Nenhuma tag encontrada.')
 
     return Tag.toDTO(entity)
   }
 
-  async post({ name, color }: body) {
-    const repeated = await this.repo.createQueryBuilder('Tag')
-      .where('Tag.name = :name', { name })
+  async post(user: User['id'], { name, color }: body) {
+    const duplicated = await this.repo.createQueryBuilder('Tag')
+      .innerJoin('Tag.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Tag.name = :name', { name })
       .getOne()
-    if(repeated) throw DuplicatedException('Esta tag já foi cadastrada.')
+    if(duplicated) throw DuplicatedException('Esta tag já existe.')
+    
+    const userEntity = await this.userRepo.findOneBy({ id: user })
     
     const entity = this.repo.create({ 
       name, 
       color,
+      user: userEntity,
     })
+    
+    const errors = await validate(entity)
+    if(errors.length) throw classValidatorError(errors)
       
     await this.repo.save(entity)
 
     return Tag.toDTO(entity)
   }
 
-  async put(id: TagDTO['id'], { name, color }: body) {
-    const entity = await this.repo.findOneBy({ id })
-    if(!entity) throw NotFoundException('Grupo não encontrado.')
-
-    const repeated = await this.repo.createQueryBuilder('Tag')
-      .where('Tag.id != :id', { id })
+  async put(user: User['id'], id: TagDTO['id'], { name, color }: body) {
+    const duplicated = await this.repo.createQueryBuilder('Tag')
+      .innerJoin('Tag.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Tag.id != :id', { id })
       .andWhere('Tag.name = :name', { name })
       .getOne()
-    if(repeated) throw DuplicatedException('Esta tag já foi cadastrada.')
+    if(duplicated) throw DuplicatedException('Esta tag já existe.')
+  
+    const entity = await this.repo.createQueryBuilder('Tag')
+      .innerJoin('Tag.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Tag.id = :id', { id })
+      .getOne()
+    if(!entity) throw NotFoundException('Tag não encontrada.')
 
     entity.name = name
     entity.color = color
@@ -65,8 +88,12 @@ export class TagService implements BaseService<TagDTO> {
     return Tag.toDTO(entity)
   }
 
-  async delete(id: TagDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+  async delete(user: User['id'], id: TagDTO['id']) {
+    const entity = await this.repo.createQueryBuilder('Tag')
+      .innerJoin('Tag.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Tag.id = :id', { id })
+      .getOne()
     if(!entity) throw NotFoundException('Tag não encontrada.')
 
     await this.repo.softRemove(entity)

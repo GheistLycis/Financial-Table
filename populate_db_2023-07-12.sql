@@ -1,10 +1,26 @@
-TRUNCATE TABLE 
-  users, expenses_tags_tags, tags, expenses, categories, monthly_expenses, monthly_incomes, months, years
-  RESTART IDENTITY;
+-- TRUNCATE TABLE 
+--   expenses_tags_tags, tags, expenses, categories, monthly_expenses, monthly_incomes, months, years, savings, users
+--   RESTART IDENTITY;
 
-INSERT INTO years ("createdAt","updatedAt","deletedAt","year") VALUES
-	('2023-07-06 16:56:51.594966','2023-07-06 16:56:51.594966',NULL,2022),
-	('2023-07-06 17:05:07.385224','2023-07-06 17:05:07.385224',NULL,2023);
+INSERT INTO savings ("createdAt","updatedAt","deletedAt",title,description,amount,"dueDate",status,"userId") VALUES
+	('2023-07-11 17:16:01.89985','2023-07-11 17:16:19.6303',NULL,'Casa nova',null,500000,null,'active',1),
+	('2023-07-11 17:16:01.89985','2023-07-11 17:16:19.6303',NULL,'Itália!','Quero ir pra Siciliaaaaaaaa!',3000,null,'completed',1),
+	('2023-07-11 17:16:01.89985','2023-07-11 17:16:19.6303',NULL,'Reforma do quarto',null,8499.99,'2023-12-01','canceled',1);
+	
+INSERT INTO tags ("createdAt","updatedAt","deletedAt",name,color,"userId") VALUES
+	('2023-07-06 17:16:01.89985','2023-07-06 17:16:19.6303',NULL,'Jogo','#0000ff',1),
+	('2023-07-06 17:16:46.758859','2023-07-06 17:16:46.758859',NULL,'Livro','#7300ff',1),
+	('2023-07-06 17:17:14.808325','2023-07-06 17:17:14.808325',NULL,'Alimentação','#00ff00',1),
+	('2023-07-06 17:17:29.124998','2023-07-06 17:17:29.124998',NULL,'Curso','#ff00ea',1),
+	('2023-07-06 17:17:45.905886','2023-07-06 17:17:45.905886',NULL,'Restaurante','#00eeff',1),
+	('2023-07-06 17:17:53.711643','2023-07-06 17:18:06.596745',NULL,'Presente','#ffff00',1),
+	('2023-07-06 17:33:21.187567','2023-07-06 17:33:21.187567',NULL,'Cachorro','#ff0000',1),
+	('2023-07-06 17:36:53.812286','2023-07-06 17:36:53.812286',NULL,'Bens','#ff7b00',1),
+	('2023-07-06 17:37:50.812286','2023-07-06 17:37:50.812286',NULL,'Família','#ffc0cb',1);
+
+INSERT INTO years ("createdAt","updatedAt","deletedAt","year","userId") VALUES
+	('2023-07-06 16:56:51.594966','2023-07-06 16:56:51.594966',NULL,2022,1),
+	('2023-07-06 17:05:07.385224','2023-07-06 17:05:07.385224',NULL,2023,1);
 	
 INSERT INTO months ("createdAt","updatedAt","deletedAt","month",available,obs,"yearId") VALUES
 	('2023-07-06 16:57:29.453669','2023-07-06 16:57:29.453669',NULL,12,40,'',1),
@@ -47,17 +63,6 @@ INSERT INTO expenses ("createdAt","updatedAt","deletedAt",value,description,"dat
 	('2023-07-06 17:37:19.678326','2023-07-06 17:37:19.678326',NULL,360,'HyperX Cloud Stinger Core Wireless','2023-02-15',8),
 	('2023-07-06 17:38:58.64249','2023-07-06 17:38:58.64249',NULL,46.8,'','2023-02-15',9);
 	
-INSERT INTO tags ("createdAt","updatedAt","deletedAt",name,color) VALUES
-	('2023-07-06 17:16:01.89985','2023-07-06 17:16:19.6303',NULL,'Jogo','#0000ff'),
-	('2023-07-06 17:16:46.758859','2023-07-06 17:16:46.758859',NULL,'Livro','#7300ff'),
-	('2023-07-06 17:17:14.808325','2023-07-06 17:17:14.808325',NULL,'Alimentação','#00ff00'),
-	('2023-07-06 17:17:29.124998','2023-07-06 17:17:29.124998',NULL,'Curso','#ff00ea'),
-	('2023-07-06 17:17:45.905886','2023-07-06 17:17:45.905886',NULL,'Restaurante','#00eeff'),
-	('2023-07-06 17:17:53.711643','2023-07-06 17:18:06.596745',NULL,'Presente','#ffff00'),
-	('2023-07-06 17:33:21.187567','2023-07-06 17:33:21.187567',NULL,'Cachorro','#ff0000'),
-	('2023-07-06 17:36:53.812286','2023-07-06 17:36:53.812286',NULL,'Bens','#ff7b00'),
-	('2023-07-06 17:37:50.812286','2023-07-06 17:37:50.812286',NULL,'Família','#ffc0cb');
-	
 INSERT INTO expenses_tags_tags ("expensesId","tagsId") VALUES
 	(1,3),
 	(2,4),
@@ -70,11 +75,6 @@ INSERT INTO expenses_tags_tags ("expensesId","tagsId") VALUES
 	(8,9),
 	(9,8),
 	(10,3);
-	
--- INSERT INTO savings ("createdAt","updatedAt","deletedAt",title,description,amount,"dueDate",status,"userId") VALUES
--- 	('2023-07-11 17:16:01.89985','2023-07-11 17:16:19.6303',NULL,'Casa nova',null,500000,null,'active',1),
--- 	('2023-07-11 17:16:01.89985','2023-07-11 17:16:19.6303',NULL,'Itália!','Quero ir pra Siciliaaaaaaaa!',3000,null,'completed',1),
--- 	('2023-07-11 17:16:01.89985','2023-07-11 17:16:19.6303',NULL,'Reforma do quarto',null,8499.99,'2023-12-01','canceled',1);
 
 -- INSERT INTO ips (ip,"createdAt","updatedAt",active) VALUES
 -- 	('::1','2023-06-17 09:04:04.526391','2023-06-17 09:04:04.526391',true),

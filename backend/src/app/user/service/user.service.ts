@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import BaseService from 'src/shared/interfaces/BaseService';
 import UserDTO from '../User.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { User } from '../User';
-import { DuplicatedException, NotFoundException, UnauthorizedException, classValidatorError } from 'src/filters/globalExceptions';
+import { DuplicatedException, ForbiddenException, NotFoundException, UnauthorizedException, classValidatorError } from 'src/filters/globalExceptions';
 import { validate } from 'class-validator';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import Session from 'src/shared/interfaces/Session';
@@ -49,7 +48,13 @@ export class UserService {
   async delete(id: UserDTO['id']): Promise<UserDTO> {
     const entity = await this.repo.findOne({ 
       where: { id },
-      relations: ['savings'], 
+      relations: [
+        'tags', 
+        'savings', 
+        'years', 'years.months', 
+        'months.incomes', 'months.expenses', 'months.categories', 
+        'months.categories.expenses'
+      ], 
     })
     if(!entity) throw NotFoundException('Usuário não encontrado.')
 
@@ -59,8 +64,8 @@ export class UserService {
   }
   
   async signUp({ name, email, password }: body): Promise<Session> {
-    const repeated = await this.repo.findOneBy({ email })
-    if(repeated) throw DuplicatedException('Este email já foi cadastrado.')
+    const duplicated = await this.repo.findOneBy({ email })
+    if(duplicated) throw DuplicatedException('Este email já existe.')
     
     const hash = await bcrypt.genSalt(+process.env.HASH_SALT_ROUNDS).then(salt => bcrypt.hash(password, salt))
     
@@ -80,7 +85,7 @@ export class UserService {
   
   async logIn({ email, password }: Partial<body>): Promise<Session> {
     const entity = await this.repo.findOneBy({ email })
-    if(!entity || !await bcrypt.compare(password, entity.password)) throw UnauthorizedException('Email ou senha inválidos.')
+    if(!entity || !await bcrypt.compare(password, entity.password)) throw ForbiddenException('Email ou senha inválidos.')
     
     const token = await this.authService.generateToken(entity.id)
 

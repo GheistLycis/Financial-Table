@@ -28,7 +28,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
-  async list({ year, month, category, tags }: queries, id: UserDTO['id']) {
+  async list(user, { year, month, category, tags }: queries, id: UserDTO['id']) {
     const cacheKey = `${id}-expenses-${year}_${month}_${category}_${tags}`
     
     const cache = await this.cacheService.get<ExpenseDTO[]>(cacheKey)
@@ -60,13 +60,13 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     return Expense.toDTO(entity)
   }
 
-  async post({ value, description, date, category, tags }: body) {
-    const repeated = await this.repo.createQueryBuilder('Expense')
+  async post(user, { value, description, date, category, tags }: body) {
+    const duplicated = await this.repo.createQueryBuilder('Expense')
       .where('Expense.value = :value', { value })
       .andWhere('Expense.description = :description', { description })
       .andWhere('Expense.date = :date', { date })
       .getOne()
-    if(repeated) throw DuplicatedException('Este registro já foi cadastrado.')
+    if(duplicated) throw DuplicatedException('Este registro já existe.')
 
     const categoryEntity = await this.categoryRepo.findOneBy({ id: category })
     
@@ -92,13 +92,13 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Registro não encontrado.')
 
-    const repeated = await this.repo.createQueryBuilder('Expense')
+    const duplicated = await this.repo.createQueryBuilder('Expense')
       .where('Expense.id != :id', { id })
       .andWhere('Expense.value = :value', { value })
       .andWhere('Expense.description = :description', { description })
       .andWhere('Expense.date = :date', { date })
       .getOne()
-    if(repeated) throw DuplicatedException('Este registro já foi cadastrado.')
+    if(duplicated) throw DuplicatedException('Este registro já existe.')
 
     const tagEntities = await this.tagRepo.findBy({ id: In(tags.map(({ id }) => id)) })
 

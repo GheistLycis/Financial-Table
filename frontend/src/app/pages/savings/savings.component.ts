@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AddEditSavingComponent } from './components/add-edit-saving/add-edit-saving.component';
-import SavingDTO from 'src/app/shared/DTOs/SavingDTO';
+import SavingDTO from 'src/app/shared/DTOs/saving';
 import { SavingService } from 'src/app/shared/services/saving/saving.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';

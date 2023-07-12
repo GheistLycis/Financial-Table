@@ -30,10 +30,10 @@ export class IpService {
   }
 
   async post({ ip }: Partial<body>) {
-    const repeated = await this.repo.createQueryBuilder('Ip')
+    const duplicated = await this.repo.createQueryBuilder('Ip')
       .where('Ip.ip = :ip', { ip })
       .getOne()
-    if(repeated) throw DuplicatedException('Este ip já foi cadastrado.')
+    if(duplicated) throw DuplicatedException('Este ip já existe.')
     
     const entity = this.repo.create({ ip })
 
