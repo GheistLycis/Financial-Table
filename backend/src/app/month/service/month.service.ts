@@ -14,6 +14,8 @@ import { CategoryService } from 'src/app/category/service/category.service';
 import YearDTO from 'src/app/year/Year.dto';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { User } from 'src/app/user/User';
+import GlobalException from 'src/shared/classes/GlobalException';
 
 type body = { month: number, available: number, obs: string, year: Year['id'] }
 type queries = { year: Year['id'] }
@@ -35,35 +37,47 @@ export class MonthService implements BaseService<MonthDTO> {
     @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
-  async list(user, { year }: queries) {
+  async list(user: User['id'], { year }: queries) {
     const query = this.repo.createQueryBuilder('Month')
-      .leftJoinAndSelect('Month.year', 'Year')
-      .orderBy('Year.year', 'DESC')
-      .addOrderBy('Month.month', 'DESC')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
 
-    if(year) query.where('Year.id = :year', { year })
+    if(year) query.andWhere('Year.id = :year', { year })
 
     return await query.getMany().then(entities => entities.map(row => Month.toDTO(row)))
   }
 
-  async get(id: MonthDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+  async get(user: User['id'], id: MonthDTO['id']) {
+    const entity = await this.repo.createQueryBuilder('Month')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id = :id', { id })
+      .getOne()
     if(!entity) throw NotFoundException('Nenhum mês encontrado.')
 
     return Month.toDTO(entity)
   }
 
-  async post(user, { month, available, obs, year }: body) {
+  async post(user: User['id'], { month, available, obs, year }: body) {
     const duplicated = await this.repo.createQueryBuilder('Month')
-      .leftJoinAndSelect('Month.year', 'Year')
-      .where('Month.month = :month', { month })
-      .andWhere('Year.id = :year', { year })
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Year.year = :year', { year })
+      .andWhere('Month.month = :month', { month })
       .getOne()
     if(duplicated) throw DuplicatedException('Este mês já existe.')
 
     const yearEntity = await this.yearRepo.findOneBy({ id: year })
     
-    const entity = this.repo.create({ month, available, obs, year: yearEntity })
+    const entity = this.repo.create({ 
+      month, 
+      available, 
+      obs, 
+      year: yearEntity 
+    })
       
     const errors = await validate(entity)
     if(errors.length) throw classValidatorError(errors)
@@ -73,17 +87,24 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
 
-  async put(id: MonthDTO['id'], { month, available, obs, year }: body) {
-    const entity = await this.repo.findOneBy({ id })
-    if(!entity) throw NotFoundException('Mês não encontrado.')
-
+  async put(user: User['id'], id: MonthDTO['id'], { month, available, obs, year }: body) {
     const duplicated = await this.repo.createQueryBuilder('Month')
-      .leftJoinAndSelect('Month.year', 'Year')
-      .where('Month.id != :id', { id })
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id != :id', { id })
+      .andWhere('Year.year = :year', { year })
       .andWhere('Month.month = :month', { month })
-      .andWhere('Year.id = :year', { year })
       .getOne()
     if(duplicated) throw DuplicatedException('Este mês já existe.')
+  
+    const entity = await this.repo.createQueryBuilder('Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id = :id', { id })
+      .getOne()
+    if(!entity) throw NotFoundException('Mês não encontrado.')
 
     entity.month = month
     entity.available = available
@@ -97,12 +118,23 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
 
-  async delete(id: MonthDTO['id']) {
-    const entity = await this.repo.findOne({ 
-      where: { id },
-      relations: ['incomes', 'expenses', 'categories', 'categories.expenses']
-    })
+  async delete(user: User['id'], id: MonthDTO['id']) {
+    let entity = await this.repo.createQueryBuilder('Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id = :id', { id })
+      .getOne()
     if(!entity) throw NotFoundException('Mês não encontrado.')
+    
+    entity = await this.repo.findOne({ 
+      where: { id },
+      relations: [
+        'incomes', 
+        'expenses', 
+        'categories', 'categories.expenses'
+      ]
+    })
 
     await this.repo.softRemove(entity)
     
@@ -111,54 +143,58 @@ export class MonthService implements BaseService<MonthDTO> {
     return Month.toDTO(entity)
   }
   
-  async duplicate(id: MonthDTO['id'], { 
+  async duplicate(user: User['id'], id: MonthDTO['id'], { 
     duplicateMonthlyExpenses,
     duplicateMonthlyIncomes,
-    duplicateCategories }: duplicationBody): Promise<MonthDTO> {
-    const targetMonth = await this.repo.findOne({ 
-      where: { id }, 
-      relations: { year: true } 
-    }).then(entity => Month.toDTO(entity))
-    if(!targetMonth) throw NotFoundException('Mês não encontrado.')
+    duplicateCategories }: duplicationBody
+  ): Promise<MonthDTO> {
+    const entity = await this.repo.createQueryBuilder('Month')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id = :id', { id })
+      .getOne()
+    if(!entity) throw NotFoundException('Mês não encontrado.')
     
+    const targetMonth = Month.toDTO(entity)
     let newMonthNumber: number
     let yearDTO: YearDTO
     
     if(targetMonth.month < 12) {
       newMonthNumber = targetMonth.month + 1
       
-      yearDTO = await this.yearService.get(null, targetMonth.year.id)
+      yearDTO = await this.yearService.get(user, targetMonth.year.id)
     }
     else {
       newMonthNumber = 1
       
-      yearDTO = await this.yearRepo.findOneBy({ year: targetMonth.year.year + 1 })
-        .then(year =>{
-          if(year) {
-            return this.yearService.get(null, year.id)
-          }
-          else {
-            return this.yearService.post(null, { year: targetMonth.year.year + 1 })
-          }
-        })
-        .then(year => year)
+      yearDTO = await this.yearRepo.createQueryBuilder('Year')
+        .innerJoin('Year.user', 'User')
+        .where('User.id = :user', { user })
+        .andWhere('Year.year = :year', { year: targetMonth.year.year + 1 })
+        .getOne()
+        .then(year => year
+          ? Year.toDTO(year)
+          : this.yearService.post(user, { year: targetMonth.year.year + 1 })
+        )
     }
     
-    const newMonth = await this.post(null, {
+    const newMonth = await this.post(user, {
       month: newMonthNumber,
       available: targetMonth.available, 
       obs: targetMonth.obs, 
       year: yearDTO.id,
-    }).catch(err => {
-      if(err?.code == 406) err.message = 'O mês seguinte já existe.'
+    }).catch((err: GlobalException | Error) => {
+      if(err instanceof GlobalException && err.status == 406) err.message = 'O mês seguinte já existe.'
 
       throw err
     })
     
     if(duplicateMonthlyIncomes) {
-      const monthlyIncomes = await this.monthlyIncomeService.list(null, { month: targetMonth.id })
+      const monthlyIncomes = await this.monthlyIncomeService.list(user, { month: targetMonth.id })
+      
       monthlyIncomes.forEach(({ value, description }) => {
-        this.monthlyIncomeService.post(null, {
+        this.monthlyIncomeService.post(user, {
           value,
           description,
           month: newMonth.id,
@@ -166,9 +202,10 @@ export class MonthService implements BaseService<MonthDTO> {
       })
     }
     if(duplicateMonthlyExpenses) {
-      const monthlyExpenses = await this.monthlyExpenseService.list(null, { month: targetMonth.id })
+      const monthlyExpenses = await this.monthlyExpenseService.list(user, { month: targetMonth.id })
+      
       monthlyExpenses.forEach(({ value, description }) => {
-        this.monthlyExpenseService.post(null, {
+        this.monthlyExpenseService.post(user, {
           value,
           description,
           month: newMonth.id,
@@ -176,9 +213,10 @@ export class MonthService implements BaseService<MonthDTO> {
       })
     }
     if(duplicateCategories) {
-      const categories = await this.categoryService.list(null, { month: targetMonth.id })
+      const categories = await this.categoryService.list(user, { month: targetMonth.id })
+      
       categories.forEach(({ name, color, percentage }) => {
-        this.categoryService.post(null, {
+        this.categoryService.post(user, {
           name,
           color,
           percentage,
