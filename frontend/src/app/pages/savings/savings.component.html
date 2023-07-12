@@ -20,7 +20,7 @@
           'text-success': saving.status == 'completed'
         }" class="d-flex justify-content-between">
         <h3>{{ saving.title }} - <span>R${{ saving.amount | number:'.2-2':'pt' }}</span></h3>
-        <h5>Prazo: {{ (saving?.dueDate | date:'dd/MM/YY') || 'Indefinido' }}</h5>
+        <h5>Prazo: {{ saving?.dueDate ? ( (saving.dueDate | date:'dd/MM/YY') + ' (' + (saving.dueDate | timeLeft) + ')' ) : 'Indefinido' }}</h5>
       </div>
       
       <div class="px-4 py-2 mt-2 mb-3">

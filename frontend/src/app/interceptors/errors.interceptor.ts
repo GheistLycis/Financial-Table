@@ -22,7 +22,7 @@ export class ErrorsInterceptor implements HttpInterceptor {
       .pipe(
         catchError(({ status, error }: HttpErrorResponse) => {
           if(status == 401) {
-            this.toastr.warning('', error.message || '')
+            this.toastr.warning('', error.message || 'Entre novamente')
             this.sessionService.logout()
             location.reload()
           } 

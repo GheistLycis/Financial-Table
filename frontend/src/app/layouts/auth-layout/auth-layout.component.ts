@@ -24,11 +24,11 @@ export class AuthLayoutComponent {
   ) {}
   
   @HostListener('document:keypress', ['$event'])
-  onKeyPress(e: KeyboardEvent) {
+  onKeyPress(e: KeyboardEvent): void {
     e.key == 'Enter' && this.loginButton.nativeElement.click()
   }
 
-  enter(action: typeof this.action) {
+  enter(action: typeof this.action): void {
     const service = action == 'login'
       ? this.userService.logIn(this.user)
       : this.userService.signUp(this.user)
