@@ -13,12 +13,12 @@ export class SavingController extends BaseController {
   }
   
   @Post()
-  async post(@Body() body, @Req() req): Promise<GlobalResponse> {
-    return await this.service.post(body, req['user'].id).then((data: unknown) => ({ data }))
+  async post(@Req() req, @Body() body): Promise<GlobalResponse> {
+    return await this.service.post(req['user'].id, body).then(data => ({ data }))
   }
   
   @Put('update-status/:id') 
-  async updateStatus(@Param('id', ParseIntPipe) id: number, @Body() body): Promise<GlobalResponse> {
-    return await this.service.updateStatus(id, body).then(data => ({ data }))
+  async updateStatus(@Req() req, @Param('id', ParseIntPipe) id: number, @Body() body): Promise<GlobalResponse> {
+    return await this.service.updateStatus(req['user'].id, id, body).then(data => ({ data }))
   }
 }

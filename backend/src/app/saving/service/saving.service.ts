@@ -23,39 +23,45 @@ export class SavingService implements BaseService<SavingDTO> {
     @Repo(User) private userRepo: Repository<User>,
   ) {}
 
-  async list() {
-    const query = this.repo.createQueryBuilder('Saving')
-      .leftJoinAndSelect('Saving.user', 'User')
+  async list(user: User['id']) {
+    const entitites = await this.repo.createQueryBuilder('Saving')
+      .innerJoinAndSelect('Saving.user', 'User')
+      .where('User.id = :user', { user })
+      .getMany()
 
-    return await query.getMany().then(entities => entities.map(row => Saving.toDTO(row)))
+    return entitites.map(row => Saving.toDTO(row))
   }
 
-  async get(id: SavingDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+  async get(user: User['id'], id: SavingDTO['id']) {
+    const entity = await this.repo.createQueryBuilder('Saving')
+      .innerJoinAndSelect('Saving.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Saving.id = :id', { id })
+      .getOne()
     if(!entity) throw NotFoundException('Nenhuma caixinha encontrada.')
 
     return Saving.toDTO(entity)
   }
 
-  async post(userl, { title, description, amount, dueDate }: body, user: User['id']) {
+  async post(user: User['id'], { title, description, amount, dueDate }: body) {
     const duplicated = await this.repo.createQueryBuilder('Saving')
-      .leftJoinAndSelect('Saving.user', 'User')
+      .innerJoin('Saving.user', 'User')
       .where('User.id = :user', { user })
       .andWhere('Saving.title = :title', { title })
       .andWhere('Saving.dueDate = :dueDate', { dueDate })
       .getOne()
     if(duplicated) throw DuplicatedException('Esta caixinha já existe.')
-
+    
     const userEntity = await this.userRepo.findOneBy({ id: user })
     
     const entity = this.repo.create({ 
-      title,
+      title, 
       description,
       amount,
       dueDate,
       user: userEntity,
     })
-
+    
     const errors = await validate(entity)
     if(errors.length) throw classValidatorError(errors)
       
@@ -64,16 +70,22 @@ export class SavingService implements BaseService<SavingDTO> {
     return Saving.toDTO(entity)
   }
 
-  async put(id: SavingDTO['id'], { title, description, amount, dueDate }: body) {
-    const entity = await this.repo.findOneBy({ id })
-    if(!entity) throw NotFoundException('Caixinha não encontrada.')
-
+  async put(user: User['id'], id: SavingDTO['id'], { title, description, amount, dueDate }: body) {
     const duplicated = await this.repo.createQueryBuilder('Saving')
-      .where('Saving.id != :id', { id })
+      .innerJoin('Saving.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Saving.id != :id', { id })
       .andWhere('Saving.title = :title', { title })
       .andWhere('Saving.dueDate = :dueDate', { dueDate })
       .getOne()
     if(duplicated) throw DuplicatedException('Esta caixinha já existe.')
+    
+    const entity = await this.repo.createQueryBuilder('Saving')
+      .innerJoin('Saving.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Saving.id = :id', { id })
+      .getOne()
+    if(!entity) throw NotFoundException('Caixinha não encontrada.')
 
     entity.title = title
     entity.description = description
@@ -88,8 +100,12 @@ export class SavingService implements BaseService<SavingDTO> {
     return Saving.toDTO(entity)
   }
   
-  async updateStatus(id: SavingDTO['id'], { status }: body) {
-    const entity = await this.repo.findOneBy({ id })
+  async updateStatus(user: User['id'], id: SavingDTO['id'], { status }: body) {
+    const entity = await this.repo.createQueryBuilder('Saving')
+      .innerJoin('Saving.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Saving.id = :id', { id })
+      .getOne()
     if(!entity) throw NotFoundException('Caixinha não encontrada.')
 
     entity.status = status
@@ -102,8 +118,12 @@ export class SavingService implements BaseService<SavingDTO> {
     return Saving.toDTO(entity)
   }
 
-  async delete(id: SavingDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+  async delete(user: User['id'], id: SavingDTO['id']) {
+    const entity = await this.repo.createQueryBuilder('Saving')
+      .innerJoin('Saving.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Saving.id = :id', { id })
+      .getOne()
     if(!entity) throw NotFoundException('Caixinha não encontrada.')
 
     await this.repo.softRemove(entity)
