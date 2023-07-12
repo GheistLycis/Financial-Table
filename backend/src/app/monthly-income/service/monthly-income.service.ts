@@ -73,11 +73,8 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
       .getOne()
     if(repeated) throw DuplicatedException('Esta entrada mensal já foi cadastrada.')
 
-    const monthEntity = await this.monthRepo.findOneBy({ id: month })
-
     entity.value = value
     entity.description = description
-    entity.month = monthEntity
 
     const errors = await validate(entity)
     if(errors.length) throw classValidatorError(errors)

@@ -6,7 +6,6 @@ import { classValidatorError, DuplicatedException, NotFoundException } from 'src
 import { Repository } from 'typeorm';
 import { Saving, savingStatus } from '../Saving';
 import SavingDTO from '../Saving.dto';
-import UserDTO from 'src/app/user/User.dto';
 import { User } from 'src/app/user/User';
 
 type body = {
@@ -14,8 +13,7 @@ type body = {
 	description?: string, 
 	amount: number, 
 	dueDate?: Date,
-	status: savingStatus
-  user: UserDTO['id']
+  status?: savingStatus
 }
 
 @Injectable()
@@ -39,7 +37,7 @@ export class SavingService implements BaseService<SavingDTO> {
     return Saving.toDTO(entity)
   }
 
-  async post({ title, description, amount, dueDate, status, user }: body) {
+  async post({ title, description, amount, dueDate }: body, user: User['id']) {
     const repeated = await this.repo.createQueryBuilder('Saving')
       .leftJoinAndSelect('Saving.user', 'User')
       .where('User.id = :user', { user })
@@ -55,7 +53,6 @@ export class SavingService implements BaseService<SavingDTO> {
       description,
       amount,
       dueDate,
-      status,
       user: userEntity,
     })
 
@@ -67,7 +64,7 @@ export class SavingService implements BaseService<SavingDTO> {
     return Saving.toDTO(entity)
   }
 
-  async put(id: SavingDTO['id'], { title, description, amount, dueDate, status, user }: body) {
+  async put(id: SavingDTO['id'], { title, description, amount, dueDate }: body) {
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Caixinha não encontrada.')
 
@@ -78,14 +75,10 @@ export class SavingService implements BaseService<SavingDTO> {
       .getOne()
     if(repeated) throw DuplicatedException('Esta caixinha já foi cadastrada.')
 
-    const userEntity = await this.userRepo.findOneBy({ id: user })
-
     entity.title = title
     entity.description = description
     entity.amount = amount
     entity.dueDate = dueDate
-    entity.status = status
-    entity.user = userEntity
 
     const errors = await validate(entity)
     if(errors.length) throw classValidatorError(errors)

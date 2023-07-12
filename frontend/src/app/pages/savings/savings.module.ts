@@ -4,6 +4,8 @@ import { SavingsComponent } from './savings.component';
 import { AddEditSavingComponent } from './components/add-edit-saving/add-edit-saving.component';
 import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { PipesModule } from 'src/app/shared/pipes/pipes.module';
+import { FormsModule } from '@angular/forms';
+import { NgxMaskModule } from 'ngx-mask';
 
 
 
@@ -14,9 +16,11 @@ import { PipesModule } from 'src/app/shared/pipes/pipes.module';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     NgbTooltipModule,
     NgbProgressbarModule,
     PipesModule,
+    NgxMaskModule,
   ]
 })
 export class SavingsModule { }

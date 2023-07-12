@@ -12,22 +12,22 @@ export default class BaseController {
   }
 
   @Get(':id')
-  async get(@Param('id', ParseIntPipe) id: BaseDTO['id']): Promise<GlobalResponse> {
+  async get(@Param('id', ParseIntPipe) id: BaseDTO['id'], req?: Request): Promise<GlobalResponse> {
     return await this.service.get(id).then((data: unknown) => ({ data }))
   }
 
   @Post()
-  async post(@Body() body: unknown): Promise<GlobalResponse> {
+  async post(@Body() body: unknown, req?: Request): Promise<GlobalResponse> {
     return await this.service.post(body).then((data: unknown) => ({ data }))
   }
 
   @Put(':id')
-  async put(@Param('id', ParseIntPipe) id: BaseDTO['id'], @Body() body: unknown): Promise<GlobalResponse> {
+  async put(@Param('id', ParseIntPipe) id: BaseDTO['id'], @Body() body: unknown, req?: Request): Promise<GlobalResponse> {
     return await this.service.put(id, body).then((data: unknown) => ({ data }))
   }
 
   @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: BaseDTO['id']): Promise<GlobalResponse> {
+  async delete(@Param('id', ParseIntPipe) id: BaseDTO['id'], req?: Request): Promise<GlobalResponse> {
     return await this.service.delete(id).then((data: unknown) => ({ data }))
   }
 }

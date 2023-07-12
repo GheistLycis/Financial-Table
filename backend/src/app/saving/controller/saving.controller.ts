@@ -1,4 +1,4 @@
-import { Body, Controller, Injectable, Put, Param, ParseIntPipe  } from '@nestjs/common';
+import { Body, Controller, Injectable, Put, Param, ParseIntPipe, Post, Req  } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import BaseController from 'src/shared/classes/BaseController';
 import { SavingService } from '../service/saving.service';
@@ -10,6 +10,11 @@ import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
 export class SavingController extends BaseController {
   constructor(service: SavingService) { 
     super(service) 
+  }
+  
+  @Post()
+  async post(@Body() body, @Req() req): Promise<GlobalResponse> {
+    return await this.service.post(body, req['user'].id).then((data: unknown) => ({ data }))
   }
   
   @Put('update-status/:id') 

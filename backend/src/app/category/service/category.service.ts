@@ -75,12 +75,9 @@ export class CategoryService implements BaseService<CategoryDTO> {
       .getOne()
     if(repeated) throw DuplicatedException('Esta categoria já foi cadastrada.')
 
-    const monthEntity = await this.monthRepo.findOneBy({ id: month })
-
     entity.name = name
     entity.color = color
     entity.percentage = percentage
-    entity.month = monthEntity
 
     const errors = await validate(entity)
     if(errors.length) throw classValidatorError(errors)

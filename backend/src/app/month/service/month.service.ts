@@ -85,12 +85,9 @@ export class MonthService implements BaseService<MonthDTO> {
       .getOne()
     if(repeated) throw DuplicatedException('Este mês já foi cadastrado.')
 
-    const yearEntity = await this.yearRepo.findOneBy({ id: year })
-
     entity.month = month
     entity.available = available
     entity.obs = obs
-    entity.year = yearEntity
 
     const errors = await validate(entity)
     if(errors.length) throw classValidatorError(errors)

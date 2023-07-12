@@ -73,11 +73,8 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
       .getOne()
     if(repeated) throw DuplicatedException('Este gasto mensal já foi cadastrado.')
 
-    const monthEntity = await this.monthRepo.findOneBy({ id: month })
-
     entity.value = value
     entity.description = description
-    entity.month = monthEntity
 
     const errors = await validate(entity)
     if(errors.length) throw classValidatorError(errors)

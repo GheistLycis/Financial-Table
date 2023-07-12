@@ -19,8 +19,13 @@
           'color-palette-primary': saving.status == 'active',
           'text-success': saving.status == 'completed'
         }" class="d-flex justify-content-between">
-        <h3>{{ saving.title }} - <span>R${{ saving.amount | number:'.2-2':'pt' }}</span></h3>
-        <h5>Prazo: {{ saving?.dueDate ? ( (saving.dueDate | date:'dd/MM/YY') + ' (' + (saving.dueDate | timeLeft) + ')' ) : 'Indefinido' }}</h5>
+        <div class="italic">
+          <h3 class="mb-0">{{ saving.title }}</h3>
+          <h3>R${{ saving.amount | number:'.2-2':'pt' }}</h3>
+        </div>
+        <h5 *ngIf="saving.status == 'active'">
+          Prazo: {{ saving?.dueDate ? ( (saving.dueDate | date:'dd/MM/YY') + ' (' + (saving.dueDate | timeLeft) + ')' ) : 'Indefinido' }}
+        </h5>
       </div>
       
       <div class="px-4 py-2 mt-2 mb-3">
@@ -53,13 +58,13 @@
           type="dark" 
           [striped]="true" 
           height="25px">
-          <i>Cancelado</i>
+          <i>Suspenso</i>
         </ngb-progressbar>
       </div>
       
       <div class="footer d-flex justify-content-end gap-15 px-4 pt-4 mt-2">
         <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'completed')" class="btn btn-success">Completar</button>
-        <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'canceled')" class="btn btn-danger">Cancelar</button>
+        <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'canceled')" class="btn btn-danger">Suspender</button>
         <button *ngIf="saving.status != 'active'" (click)="updateStatus(saving.id, 'active')" class="cancel">Reativar</button>
         <img 
           src="../../../../../assets/icons/pencil.svg"

@@ -1,9 +1,7 @@
-import { Request } from "express"
-
 export default interface BaseService<EntityDTO> {
-  list(...query: any): Promise<EntityDTO[]>
-  get(id: number): Promise<EntityDTO>
-  post(body: any): Promise<EntityDTO>
-  put(id: number, body: any): Promise<EntityDTO>
-  delete(id: number): Promise<EntityDTO>
+  list(...args: unknown[]): Promise<EntityDTO[]>
+  get(...args: unknown[]): Promise<EntityDTO>
+  post(...args: unknown[]): Promise<EntityDTO>
+  put(...args: unknown[]): Promise<EntityDTO>
+  delete(...args: unknown[]): Promise<EntityDTO>
 }

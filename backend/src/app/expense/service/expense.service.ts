@@ -100,13 +100,11 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
       .getOne()
     if(repeated) throw DuplicatedException('Este registro já foi cadastrado.')
 
-    const categoryEntity = await this.categoryRepo.findOneBy({ id: category })
     const tagEntities = await this.tagRepo.findBy({ id: In(tags.map(({ id }) => id)) })
 
     entity.value = value
     entity.description = description
     entity.date = date
-    entity.category = categoryEntity
     entity.tags = tagEntities
 
     const errors = await validate(entity)
