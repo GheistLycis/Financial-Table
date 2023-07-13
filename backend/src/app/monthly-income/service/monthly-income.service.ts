@@ -7,6 +7,7 @@ import { MonthlyIncome } from '../MonthlyIncome';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/filters/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { User } from 'src/app/user/User';
 
 type queries = { month: Month['id'] }
 
@@ -18,39 +19,53 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     @Repo(Month) private monthRepo: Repository<Month>,
   ) {}
 
-  async list(user, { month }: queries) {
-    const query = this.repo
-      .createQueryBuilder('Income')
-      .leftJoinAndSelect('Income.month', 'Month')
-      .leftJoinAndSelect('Month.year', 'Year')
+  async list(user: User['id'], { month }: queries) {
+    const query = this.repo.createQueryBuilder('Income')
+      .innerJoinAndSelect('Income.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
       .orderBy('Year.year', 'DESC')
       .addOrderBy('Month.month', 'DESC')
       .addOrderBy('Income.createdAt', 'DESC')
 
-    if(month) query.where('Month.id = :month', { month })
+    if(month) query.andWhere('Month.id = :month', { month })
 
     return await query.getMany().then(entities => entities.map(row => MonthlyIncome.toDTO(row)))
   }
 
-  async get(id: MonthlyIncomeDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+  async get(user: User['id'], id: MonthlyIncomeDTO['id']) {
+    const entity = await this.repo.createQueryBuilder('Income')
+      .innerJoinAndSelect('Income.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Income.id = :id', { id })
+      .getOne()
     if(!entity) throw NotFoundException('Nenhuma entrada mensal encontrada.')
 
     return MonthlyIncome.toDTO(entity)
   }
 
-  async post(user, { value, description, month }: body) {
+  async post(user: User['id'], { value, description, month }: body) {
     const duplicated = await this.repo.createQueryBuilder('Income')
-      .leftJoinAndSelect('Income.month', 'Month')
-      .where('Income.value = :value', { value })
-      .andWhere('Income.description = :description', { description })
+      .innerJoin('Income.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
       .andWhere('Month.id = :month', { month })
+      .andWhere('Income.value = :value', { value })
+      .andWhere('Income.description = :description', { description })
       .getOne()
     if(duplicated) throw DuplicatedException('Esta entrada mensal já existe.')
 
     const monthEntity = await this.monthRepo.findOneBy({ id: month })
     
-    const entity = this.repo.create({ value, description, month: monthEntity })
+    const entity = this.repo.create({ 
+      value,
+      description,
+      month: monthEntity 
+    })
       
     const errors = await validate(entity)
     if(errors.length) throw classValidatorError(errors)
@@ -60,19 +75,28 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     return MonthlyIncome.toDTO(entity)
   }
 
-  async put(id: MonthlyIncomeDTO['id'], { value, description, month }: body) {
-    const entity = await this.repo.findOneBy({ id })
-    if(!entity) throw NotFoundException('Entrada mensal não encontrada.')
-
+  async put(user: User['id'], id: MonthlyIncomeDTO['id'], { value, description, month }: body) {
     const duplicated = await this.repo.createQueryBuilder('Income')
-      .leftJoinAndSelect('Income.month', 'Month')
-      .where('Income.id != :id', { id })
+      .innerJoin('Income.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Income.id != :id', { id })
+      .andWhere('Month.id = :month', { month })
       .andWhere('Income.value = :value', { value })
       .andWhere('Income.description = :description', { description })
-      .andWhere('Month.id = :month', { month })
       .getOne()
     if(duplicated) throw DuplicatedException('Esta entrada mensal já existe.')
-
+  
+    const entity = await this.repo.createQueryBuilder('Income')
+      .innerJoin('Income.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Income.id = :id', { id })
+      .getOne()
+    if(!entity) throw NotFoundException('Entrada mensal não encontrada.')
+    
     entity.value = value
     entity.description = description
 
@@ -84,8 +108,13 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     return MonthlyIncome.toDTO(entity)
   }
 
-  async delete(id: MonthlyIncomeDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+  async delete(user: User['id'], id: MonthlyIncomeDTO['id']) {
+    const entity = await this.repo.createQueryBuilder('Income')
+      .innerJoin('Income.month', 'Month')
+      .innerJoin('Month.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Income.id = :id', { id })
+      .getOne()
     if(!entity) throw NotFoundException('Entrada mensal não encontrada.')
 
     await this.repo.softRemove(entity)
