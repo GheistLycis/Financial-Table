@@ -14,7 +14,7 @@ import { User } from "../user/User";
 @Entity({ name: 'years', orderBy: { year: 'DESC' }})
 export class Year extends BaseEntity {
   // COLUMNS
-  @Column({ unique: true })
+  @Column()
   year: number
 
   // RELATIONS
