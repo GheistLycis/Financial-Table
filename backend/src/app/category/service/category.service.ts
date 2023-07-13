@@ -9,6 +9,7 @@ import { Category } from '../Category';
 import CategoryDTO from '../Category.dto';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { User } from 'src/app/user/User';
 
 type body = { name: string, color: string, percentage: number, month: Month['id'] }
 type queries = { month: Month['id'] }
@@ -21,27 +22,38 @@ export class CategoryService implements BaseService<CategoryDTO> {
     @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
-  async list(user, { month }: queries) {
+  async list(user: User['id'], { month }: queries) {
     const query = this.repo.createQueryBuilder('Category')
-      .leftJoinAndSelect('Category.month', 'Month')
-      .leftJoinAndSelect('Month.year', 'Year')
+      .innerJoinAndSelect('Category.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
 
-    if(month) query.where('Month.id = :month', { month })
+    if(month) query.andWhere('Month.id = :month', { month })
 
     return await query.getMany().then(entities => entities.map(row => Category.toDTO(row)))
   }
 
-  async get(id: CategoryDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+  async get(user: User['id'], id: CategoryDTO['id']) {
+    const entity = await this.repo.createQueryBuilder('Category')
+      .innerJoinAndSelect('Category.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Category.id = :id', { id })
+      .getOne()
     if(!entity) throw NotFoundException('Nenhuma categoria encontrada.')
 
     return Category.toDTO(entity)
   }
 
-  async post(user, { name, color, percentage, month }: body) {
+  async post(user: User['id'], { name, color, percentage, month }: body) {
     const duplicated = await this.repo.createQueryBuilder('Category')
-      .leftJoinAndSelect('Category.month', 'Month')
-      .where('Category.name = :name', { name })
+      .innerJoin('Category.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Category.name = :name', { name })
       .andWhere('Month.id = :month', { month })
       .getOne()
     if(duplicated) throw DuplicatedException('Esta categoria já existe.')
@@ -63,17 +75,26 @@ export class CategoryService implements BaseService<CategoryDTO> {
     return Category.toDTO(entity)
   }
 
-  async put(id: CategoryDTO['id'], { name, color, percentage, month }: body) {
-    const entity = await this.repo.findOneBy({ id })
-    if(!entity) throw NotFoundException('Categoria não encontrada.')
-
+  async put(user: User['id'], id: CategoryDTO['id'], { name, color, percentage, month }: body) {
     const duplicated = await this.repo.createQueryBuilder('Category')
-      .leftJoinAndSelect('Category.month', 'Month')
-      .where('Category.id != :id', { id })
+      .innerJoin('Category.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Category.id != :id', { id })
       .andWhere('Category.name = :name', { name })
       .andWhere('Month.id = :month', { month })
       .getOne()
     if(duplicated) throw DuplicatedException('Esta categoria já existe.')
+    
+    const entity = await this.repo.createQueryBuilder('Category')
+      .innerJoin('Category.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Category.id = :id', { id })
+      .getOne()
+    if(!entity) throw NotFoundException('Categoria não encontrada.')
 
     entity.name = name
     entity.color = color
@@ -87,12 +108,20 @@ export class CategoryService implements BaseService<CategoryDTO> {
     return Category.toDTO(entity)
   }
 
-  async delete(id: CategoryDTO['id']) {
-    const entity = await this.repo.findOne({ 
+  async delete(user: User['id'], id: CategoryDTO['id']) {
+    let entity = await this.repo.createQueryBuilder('Category')
+      .innerJoin('Category.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Category.id = :id', { id })
+      .getOne()
+    if(!entity) throw NotFoundException('Categoria não encontrada.')
+    
+    entity = await this.repo.findOne({ 
       where: { id },
       relations: ['expenses']
     })
-    if(!entity) throw NotFoundException('Categoria não encontrada.')
 
     await this.repo.softRemove(entity)
     
