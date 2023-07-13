@@ -11,12 +11,12 @@ export class ExpenseController extends BaseController {
     super(service) 
   }
   
-  @Get() 
-  async list(@Query() query, @Req() req) {
+  @Get()
+  async list(@Req() req, @Query() query) {
     query.tags = query.tags?.length
       ? query.tags.split(',')
       : []
     
-    return await this.service.list(query, req['user'].id).then(data => ({ data }))
+    return await this.service.list(req['user'].id, query).then(data => ({ data }))
   }
 }

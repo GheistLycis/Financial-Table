@@ -22,8 +22,8 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
   async list(user: User['id'], { month }: queries) {
     const query = this.repo.createQueryBuilder('Income')
       .innerJoinAndSelect('Income.month', 'Month')
-      .innerJoin('Month.year', 'Year')
-      .innerJoin('Year.user', 'User')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoinAndSelect('Year.user', 'User')
       .where('User.id = :user', { user })
       .orderBy('Year.year', 'DESC')
       .addOrderBy('Month.month', 'DESC')
@@ -37,8 +37,8 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
   async get(user: User['id'], id: MonthlyIncomeDTO['id']) {
     const entity = await this.repo.createQueryBuilder('Income')
       .innerJoinAndSelect('Income.month', 'Month')
-      .innerJoin('Month.year', 'Year')
-      .innerJoin('Year.user', 'User')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoinAndSelect('Year.user', 'User')
       .where('User.id = :user', { user })
       .andWhere('Income.id = :id', { id })
       .getOne()

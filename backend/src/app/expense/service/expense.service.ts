@@ -9,12 +9,11 @@ import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { Request } from 'express';
 import { Year } from 'src/app/year/Year';
 import { Month } from 'src/app/month/Month';
 import { Category } from 'src/app/category/Category';
 import TagDTO from 'src/app/tag/Tag.dto';
-import UserDTO from 'src/app/user/User.dto';
+import { User } from 'src/app/user/User';
 
 type body = { value: number, description: string, date: Date, category: Category['id'], tags: TagDTO[] }
 type queries = { year: Year['id'], month: Month['id'], category: Category['id'], tags: Tag['id'][] }
@@ -28,22 +27,24 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
-  async list(user, { year, month, category, tags }: queries, id: UserDTO['id']) {
-    const cacheKey = `${id}-expenses-${year}_${month}_${category}_${tags}`
+  async list(user: User['id'], { year, month, category, tags }: queries) {
+    const cacheKey = `${user}-expenses-${year}_${month}_${category}_${tags}`
     
     const cache = await this.cacheService.get<ExpenseDTO[]>(cacheKey)
     if(cache) return cache
     
     const query = this.repo.createQueryBuilder('Expense')
-      .leftJoinAndSelect('Expense.tags', 'Tag')
-      .leftJoinAndSelect('Expense.category', 'Category')
-      .leftJoinAndSelect('Category.month', 'Month')
-      .leftJoinAndSelect('Month.year', 'Year')
+      .innerJoinAndSelect('Expense.category', 'Category')
+      .innerJoinAndSelect('Category.month', 'Month')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoinAndSelect('Year.user', 'User')
+      .innerJoin('Expense.tags', 'Tag')
+      .where('User.id = :user', { user })
 
-    if(year) query.where('Year.id = :year', { year })
-    if(month) query.where('Month.id = :month', { month })
-    if(category) query.where('Category.id = :category', { category })
-    if(tags.length) query.where('Tag.id IN (:...tags)', { tags })
+    if(year) query.andWhere('Year.id = :year', { year })
+    if(month) query.andWhere('Month.id = :month', { month })
+    if(category) query.andWhere('Category.id = :category', { category })
+    if(tags.length) query.andWhere('Tag.id IN (:...tags)', { tags })
 
     return await query.getMany().then(entities => {
       const result = entities.map(row => Expense.toDTO(row))
@@ -53,16 +54,28 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     })
   }
 
-  async get(id: ExpenseDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+  async get(user: User['id'], id: ExpenseDTO['id']) {
+    const entity = await this.repo.createQueryBuilder('Expense')
+      .innerJoinAndSelect('Expense.category', 'Category')
+      .innerJoinAndSelect('Category.month', 'Month')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoinAndSelect('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Expense.id = :id', { id })
+      .getOne()
     if(!entity) throw NotFoundException('Nenhum registro encontrado.')
 
     return Expense.toDTO(entity)
   }
 
-  async post(user, { value, description, date, category, tags }: body) {
+  async post(user: User['id'], { value, description, date, category, tags }: body) {
     const duplicated = await this.repo.createQueryBuilder('Expense')
-      .where('Expense.value = :value', { value })
+      .innerJoin('Expense.category', 'Category')
+      .innerJoin('Category.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Expense.value = :value', { value })
       .andWhere('Expense.description = :description', { description })
       .andWhere('Expense.date = :date', { date })
       .getOne()
@@ -88,18 +101,31 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     return Expense.toDTO(entity)
   }
 
-  async put(id: ExpenseDTO['id'], { value, description, date, category, tags }: body) {
-    const entity = await this.repo.findOneBy({ id })
-    if(!entity) throw NotFoundException('Registro não encontrado.')
-
+  async put(user: User['id'], id: ExpenseDTO['id'], { value, description, date, tags }: body) {
     const duplicated = await this.repo.createQueryBuilder('Expense')
-      .where('Expense.id != :id', { id })
+      .innerJoin('Expense.category', 'Category')
+      .innerJoin('Category.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Expense.id != :id', { id })
       .andWhere('Expense.value = :value', { value })
       .andWhere('Expense.description = :description', { description })
       .andWhere('Expense.date = :date', { date })
       .getOne()
     if(duplicated) throw DuplicatedException('Este registro já existe.')
+    
+    const entity = await this.repo.createQueryBuilder('Expense')
+      .innerJoin('Expense.category', 'Category')
+      .innerJoin('Category.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Expense.id = :id', { id })
+      .getOne()
+    if(!entity) throw NotFoundException('Registro não encontrado.')
 
+    // TODO: check if user owns every tag requested else throw 403
     const tagEntities = await this.tagRepo.findBy({ id: In(tags.map(({ id }) => id)) })
 
     entity.value = value
@@ -117,8 +143,15 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     return Expense.toDTO(entity)
   }
 
-  async delete(id: ExpenseDTO['id']) {
-    const entity = await this.repo.findOneBy({ id })
+  async delete(user: User['id'], id: ExpenseDTO['id']) {
+    const entity = await this.repo.createQueryBuilder('Expense')
+      .innerJoin('Expense.category', 'Category')
+      .innerJoin('Category.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Expense.id = :id', { id })
+      .getOne()
     if(!entity) throw NotFoundException('Registro não encontrado.')
 
     await this.repo.softRemove(entity)

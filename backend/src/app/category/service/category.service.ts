@@ -25,8 +25,8 @@ export class CategoryService implements BaseService<CategoryDTO> {
   async list(user: User['id'], { month }: queries) {
     const query = this.repo.createQueryBuilder('Category')
       .innerJoinAndSelect('Category.month', 'Month')
-      .innerJoin('Month.year', 'Year')
-      .innerJoin('Year.user', 'User')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoinAndSelect('Year.user', 'User')
       .where('User.id = :user', { user })
 
     if(month) query.andWhere('Month.id = :month', { month })
@@ -37,8 +37,8 @@ export class CategoryService implements BaseService<CategoryDTO> {
   async get(user: User['id'], id: CategoryDTO['id']) {
     const entity = await this.repo.createQueryBuilder('Category')
       .innerJoinAndSelect('Category.month', 'Month')
-      .innerJoin('Month.year', 'Year')
-      .innerJoin('Year.user', 'User')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoinAndSelect('Year.user', 'User')
       .where('User.id = :user', { user })
       .andWhere('Category.id = :id', { id })
       .getOne()
