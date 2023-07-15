@@ -12,7 +12,7 @@ import { Month } from 'src/app/month/Month';
 import MonthDTO from 'src/app/month/Month.dto';
 import CategoryDTO from 'src/app/category/Category.dto';
 import YearDTO from 'src/app/year/Year.dto';
-import { Tag } from 'src/app/tag/Tag';
+import { User } from 'src/app/user/User';
 
 
 @Injectable()
@@ -24,8 +24,14 @@ export class AnalyticsService {
     @Repo(Year) private yearRepo: Repository<Year>,
   ) {}
   
-  async categoryRemaining(id: CategoryDTO['id']): Promise<CategoryRemaining> {
-    const category = await this.categoryRepo.findOneBy({ id })
+  async categoryRemaining(user: User['id'], id: CategoryDTO['id']): Promise<CategoryRemaining> {
+    const category = await this.categoryRepo.createQueryBuilder('Category')
+      .innerJoinAndSelect('Category.month', 'Month')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoinAndSelect('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Category.id = :id', { id })
+      .getOne()
       .then(entity => {
         if(!entity) throw NotFoundException('Nenhuma categoria encontrada.')
         
@@ -39,20 +45,24 @@ export class AnalyticsService {
           (c.percentage::DECIMAL / 100)
         ) AS originalavailable
         FROM categories c
-        JOIN months m ON c."monthId" = m.id,
+        JOIN months m ON c."monthId" = m.id
+        JOIN years y ON m."yearId" = y.id
+        JOIN users u ON y."userId" = u.id,
         (
           SELECT COALESCE(SUM(mi.value), 0) AS sum
           FROM categories c
           JOIN monthly_incomes mi ON mi."monthId" = c."monthId"
-          WHERE c.id = ${id}
+          WHERE c.id = ${category.id}
         ) total_monthly_incomes,
         (
           SELECT COALESCE(SUM(me.value), 0) AS sum
           FROM categories c
           JOIN monthly_expenses me ON me."monthId" = c."monthId"
-          WHERE c.id = ${id}
+          WHERE c.id = ${category.id}
         ) total_monthly_expenses
-        WHERE c.id = ${id}
+        WHERE 
+          c.id = ${category.id}
+          AND u.id = ${user}
       `)
       .then(rows => Number(rows[0].originalavailable), err => { throw ServerException(`${err}`) })
       
@@ -61,7 +71,12 @@ export class AnalyticsService {
         SELECT COALESCE(SUM(e.value), 0) AS totalexpenses
         FROM expenses e
         JOIN categories c ON e."categoryId" = c.id
-        WHERE c.id = ${id}
+        JOIN months m ON c."monthId" = m.id
+        JOIN years y ON m."yearId" = y.id
+        JOIN users u ON y."userId" = u.id
+        WHERE 
+          c.id = ${category.id}
+          AND u.id = ${user}
       `)
       .then(rows => originalAvailable - rows[0].totalexpenses, err => { throw ServerException(`${err}`) })
     
@@ -72,10 +87,12 @@ export class AnalyticsService {
     }
   }
   
-  async monthBalance(id: MonthDTO['id']): Promise<{ month: MonthDTO, balance: number }> {
+  async monthBalance(user: User['id'], id: MonthDTO['id']): Promise<{ month: MonthDTO, balance: number }> {
     const actualMonth = await this.monthRepo.createQueryBuilder('Month')
-      .leftJoinAndSelect('Month.year', 'Year')
-      .where('Month.id = :id', { id })
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id = :id', { id })
       .getOne()
       .then(entity => {
         if(!entity) throw NotFoundException('Nenhum mês encontrado.')
@@ -84,8 +101,10 @@ export class AnalyticsService {
       })
     
     const previousMonths = await this.monthRepo.createQueryBuilder('Month')
-      .leftJoin('Month.year', 'Year')
-      .where('Year.year = :year', { year: actualMonth.year.year })
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Year.year = :year', { year: actualMonth.year.year })
       .andWhere('Month.month < :month', { month: actualMonth.month })
       .getMany()
       .then(entities => entities.map(row => Month.toDTO(row)))
@@ -135,11 +154,14 @@ export class AnalyticsService {
     }
   }
   
-  async mostExpensiveCategory(id: MonthDTO['id']): Promise<{ name: string, total: number }> {
-    const actualMonth = await this.monthRepo.findOne({
-      where: { id },
-      relations: ['categories']
-    })
+  async mostExpensiveCategory(user: User['id'], id: MonthDTO['id']): Promise<{ name: string, total: number }> {
+    const actualMonth =  await this.monthRepo.createQueryBuilder('Month')
+      .leftJoinAndSelect('Month.categories', 'Category')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id = :id', { id })
+      .getOne()
     if(!actualMonth) throw NotFoundException('Nenhum mês encontrado.')
     
     let max = { name: '--', total: 0 }
@@ -150,8 +172,9 @@ export class AnalyticsService {
       const total = await this.dataSource
         .query(`
           SELECT COALESCE(SUM(e.value), 0) AS total
-          FROM expenses e
-          JOIN categories c ON e."categoryId" = c.id
+          FROM 
+            expenses e
+            JOIN categories c ON e."categoryId" = c.id
           WHERE c.id = ${id}
         `)
         .then(rows => Number(rows[0].total), err => { throw ServerException(`${err}`) })
@@ -162,11 +185,16 @@ export class AnalyticsService {
     return max
   }
   
-  async mostExpensiveTags(id: MonthDTO['id']): Promise<{ name: string, total: number }> {
-    const actualMonth = await this.monthRepo.findOne({
-      where: { id },
-      relations: ['categories', 'categories.expenses']
-    })
+  async mostExpensiveTags(user: User['id'], id: MonthDTO['id']): Promise<{ name: string, total: number }> {
+    const actualMonth =  await this.monthRepo.createQueryBuilder('Month')
+      .leftJoinAndSelect('Month.categories', 'Category')
+      .leftJoinAndSelect('Category.expenses', 'Expense')
+      .leftJoinAndSelect('Expense.tags', 'Tag')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id = :id', { id })
+      .getOne()
     if(!actualMonth) throw NotFoundException('Nenhum mês encontrado.')
     
     const totals: { [tagName: string]: number } = {}
@@ -202,12 +230,13 @@ export class AnalyticsService {
     return { name: max.names.join('; '), total: max.total }
   }
   
-  async monthHistory(id: MonthDTO['id']): Promise<MonthHistory> {
-    const month = await this.monthRepo
-      .findOne({ 
-        where: { id }, 
-        relations: ['year'] 
-      })
+  async monthHistory(user: User['id'], id: MonthDTO['id']): Promise<MonthHistory> {
+    const month = await this.monthRepo.createQueryBuilder('Month')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoinAndSelect('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id = :id', { id })
+      .getOne()
       .then(entity => {
         if(!entity) throw NotFoundException('Nenhum mês encontrado.')
         
@@ -234,22 +263,22 @@ export class AnalyticsService {
             SELECT COALESCE(SUM(mi.value), 0) AS sum
             FROM monthly_incomes mi
             JOIN months m ON mi."monthId" = m.id
-            WHERE m.id = ${id}
+            WHERE m.id = ${month.id}
           ) total_incomes,
           (
             SELECT COALESCE(SUM(me.value), 0) AS sum
             FROM monthly_expenses me
             JOIN months m ON me."monthId" = m.id
-            WHERE m.id = ${id}
+            WHERE m.id = ${month.id}
           ) total_monthly_expenses,
           (
             SELECT COALESCE(SUM(e.value), 0) AS sum
             FROM expenses e
             JOIN categories c ON e."categoryId" = c.id
             JOIN months m ON c."monthId" = m.id
-            WHERE m.id = ${id}
+            WHERE m.id = ${month.id}
           ) total_expenses
-        WHERE m.id = ${id}
+        WHERE m.id = ${month.id}
       `)
       .then(([ row ]) => {
         return { 
@@ -269,11 +298,13 @@ export class AnalyticsService {
     } 
   }
   
-  async recentExpenses(id: MonthDTO['id']): Promise<number | '--'> {
-    const actualMonth = await this.monthRepo.findOne({
-      where: { id },
-      relations: ['year']
-    })
+  async recentExpenses(user: User['id'], id: MonthDTO['id']): Promise<number | '--'> {
+    const actualMonth = await this.monthRepo.createQueryBuilder('Month')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id = :id', { id })
+      .getOne()
     if(!actualMonth) throw NotFoundException('Nenhum mês encontrado.')
     
     let previousMonth: Month
@@ -281,17 +312,21 @@ export class AnalyticsService {
     if(actualMonth.month > 1) {
       previousMonth = await this.monthRepo.createQueryBuilder('Month')
         .innerJoin('Month.year', 'Year')
-        .where('Month.month = :month', { month: actualMonth.month -1 })
+        .innerJoin('Year.user', 'User')
+        .where('User.id = :user', { user })
+        .andWhere('Month.month = :month', { month: actualMonth.month -1 })
         .andWhere('Year.id = :yearId', { yearId: actualMonth.year.id })
         .getOne()
     }
     else {
       previousMonth = await this.monthRepo.createQueryBuilder('Month')
-        .innerJoin('Month.year', 'Year')
-        .where('Month.month = 12')
+        .innerJoin('Year.user', 'User')
+        .where('User.id = :user', { user })
+        .andWhere('Month.month = 12')
         .andWhere('Year.year = :year', { year: actualMonth.year.year -1 })
         .getOne()
     }
+    
     if(!previousMonth) return '--'
     
     const actualMonthExpenses = await this.dataSource
@@ -319,11 +354,13 @@ export class AnalyticsService {
       : '--'
   }
   
-  async yearExpenses(id: MonthDTO['id']): Promise<number | '--'> {
-    const actualMonth = await this.monthRepo.findOne({
-      where: { id },
-      relations: ['year']
-    })
+  async yearExpenses(user: User['id'], id: MonthDTO['id']): Promise<number | '--'> {
+    const actualMonth = await this.monthRepo.createQueryBuilder('Month')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id = :id', { id })
+      .getOne()
     if(!actualMonth) throw NotFoundException('Nenhum mês encontrado.')
     
     const actualMonthExpenses = await this.dataSource
@@ -354,8 +391,12 @@ export class AnalyticsService {
       : '--'
   }
 
-  async yearHistory(id: YearDTO['id']): Promise<YearHistory> {
-    const year = await this.yearRepo.findOneBy({ id })
+  async yearHistory(user: User['id'], id: YearDTO['id']): Promise<YearHistory> {
+    const year = await this.yearRepo.createQueryBuilder('Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Year.id = :id', { id })
+      .getOne()
       .then(entity => {
         if(!entity) throw NotFoundException('Nenhum ano encontrado.')
         
@@ -372,16 +413,16 @@ export class AnalyticsService {
             FROM monthly_incomes mi
             JOIN months m ON mi."monthId" = m.id
             JOIN years y ON m."yearId" = y.id
-            WHERE y.id = ${id}
+            WHERE y.id = ${year.id}
           ) total_incomes,
           (
             SELECT COALESCE(SUM(me.value), 0) AS sum
             FROM monthly_expenses me
             JOIN months m ON me."monthId" = m.id
             JOIN years y ON m."yearId" = y.id
-            WHERE y.id = ${id}
+            WHERE y.id = ${year.id}
           ) total_monthly_expenses
-        WHERE y.id = ${id}
+        WHERE y.id = ${year.id}
       `)
       .then(rows => Number(rows[0].available), err => { throw ServerException(`${err}`) })
       
@@ -392,7 +433,7 @@ export class AnalyticsService {
           monthly_incomes mi
           JOIN months m ON mi."monthId" = m.id
           JOIN years y ON m."yearId" = y.id
-        WHERE y.id = ${id}
+        WHERE y.id = ${year.id}
       `)
       .then(rows => Number(rows[0].monthlyincomes), err => { throw ServerException(`${err}`) })
       
@@ -403,7 +444,7 @@ export class AnalyticsService {
           monthly_expenses me
           JOIN months m ON me."monthId" = m.id
           JOIN years y ON m."yearId" = y.id
-        WHERE y.id = ${id}
+        WHERE y.id = ${year.id}
       `)
       .then(rows => Number(rows[0].monthlyexpenses), err => { throw ServerException(`${err}`) })
       
@@ -415,7 +456,7 @@ export class AnalyticsService {
           JOIN categories c ON e."categoryId" = c.id
           JOIN months m ON c."monthId" = m.id
           JOIN years y ON m."yearId" = y.id
-        WHERE y.id = ${id}
+        WHERE y.id = ${year.id}
       `)
       .then(rows => Number(rows[0].expenses), err => { throw ServerException(`${err}`) })
 
