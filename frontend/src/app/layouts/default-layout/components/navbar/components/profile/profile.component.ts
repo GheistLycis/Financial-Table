@@ -1,7 +1,8 @@
 import { Component, ViewChild, Output, EventEmitter, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import UserDTO from 'src/app/shared/DTOs/user';
-import ProfileForm from 'src/app/shared/classes/UserForm';
+import UserForm from 'src/app/shared/classes/UserForm';
 import { SessionService } from 'src/app/shared/services/session/session.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
 
@@ -15,12 +16,15 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   @ViewChild('nameInput') nameInput!: ElementRef<HTMLInputElement>
   @Output() profileUpdated = new EventEmitter<UserDTO>()
   user!: UserDTO
-  form = new ProfileForm()
+  form = new UserForm()
   submitted = false
+  submittedPassword = false
+  resetPassword = false
   
   constructor(
     private userService: UserService,
     private sessionService: SessionService,
+    private toastr: ToastrService,
   ) { }
   
   ngOnInit(): void {
@@ -36,16 +40,33 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     this.nameInput.nativeElement.addEventListener('keyup', e => e.key == 'Enter' && this.nameInput.nativeElement.blur())
   }
   
-  validateForm(): void {
-    this.submitted = true
+  validateForm(update: 'name' | 'password'): void {
+    if(update == 'name') {
+      this.submitted = true
+      
+      if(this.f['name'].invalid) return
+    }
+    else {
+      this.submittedPassword = true
+      
+      if(this.f['password'].invalid || this.f['newPassword'].invalid) return
+    }
     
-    if(this.formModel.invalid) return
-    
-    this.submit()
+    this.submit(update)
   }
   
-  submit(): void {
-    this.userService.put(this.user.id, this.form).subscribe(({ data }) => this.profileUpdated.emit(data))
+  submit(update: 'name' | 'password'): void {
+    if(update == 'password') {
+      this.userService.resetPassword(this.user.id, { 
+        password: this.form.password, 
+        newPassword: this.form.newPassword 
+      }).subscribe(({ message }) => this.toastr.success(message))
+    }
+    else {
+      this.userService.put(this.user.id, { 
+        name: this.form.name 
+      }).subscribe(({ data }) => this.profileUpdated.emit(data))
+    }
   }
   
   get f(): FormGroup['controls'] {

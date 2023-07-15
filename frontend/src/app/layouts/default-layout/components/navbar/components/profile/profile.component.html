@@ -1,4 +1,4 @@
-<div class="modal-container pt-0 px-2">  
+<div class="modal-container py-0 px-2">  
   <div class="modal-body">    
     <form #formModel="ngForm">      
       <div class="col">        
@@ -11,7 +11,7 @@
             type="text"
             required
             [(ngModel)]="form.name"
-            (blur)="validateForm()"
+            (blur)="validateForm('name')"
             class="form-control"
             [ngClass]="{'is-invalid': submitted && f['name'].errors}">
           <div *ngIf="submitted && f['name'].errors && f['name'].errors['required']" class="invalid-feedback">
@@ -28,6 +28,45 @@
             disabled
             [(ngModel)]="form.email"
             class="form-control">
+        </div>
+        <hr>
+        <div class="d-flex flex-column align-items-center mb-4">
+          <button *ngIf="!resetPassword" (click)="resetPassword = true" class="btn cancel ju">
+            Trocar senha
+          </button>
+          <ng-container *ngIf="resetPassword">
+            <div class="row mb-2">
+              <label for="password" class="mb-1 required">Senha atual</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                [(ngModel)]="form.password"
+                class="form-control"
+                [ngClass]="{'is-invalid': submittedPassword && f['password'].errors}">
+                <div *ngIf="submittedPassword && f['password'].errors && f['password'].errors['required']" class="invalid-feedback">
+                  * Insira sua senha
+                </div>
+            </div>
+            <div class="row mb-2">
+              <label for="newPassword" class="mb-1 required">Nova senha</label>
+              <input
+                id="newPassword"
+                name="newPassword"
+                type="password"
+                required
+                [(ngModel)]="form.newPassword"
+                class="form-control"
+                [ngClass]="{'is-invalid': submittedPassword && f['newPassword'].errors}">
+              <div *ngIf="submittedPassword && f['newPassword'].errors && f['newPassword'].errors['required']" class="invalid-feedback">
+                * Sua nova senha não pode ser vazia
+              </div>
+            </div>
+            <button (click)="validateForm('password')" class="btn cancel ju">
+              Trocar
+            </button>
+          </ng-container>
         </div>
       </div>
     </form>

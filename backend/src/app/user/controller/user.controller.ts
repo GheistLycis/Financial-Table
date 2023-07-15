@@ -1,4 +1,4 @@
-import { Controller, Injectable, Req, } from '@nestjs/common';
+import { Controller, Injectable, Param, ParseIntPipe, Req, } from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import BaseController from 'src/shared/classes/BaseController';
 import { ApiTags } from '@nestjs/swagger';
@@ -31,8 +31,12 @@ export class UserController extends BaseController {
     return await this.service.logIn(body).then(data => ({ data }))
   }
   
-  @Post('reset-password') 
-  async resetPassword(@Req() req, @Body() body): Promise<GlobalResponse> {
-    return await this.service.resetPassword(req['user'].id, body).then(data => ({ data }))
+  @Post('reset-password/:id') 
+  async resetPassword(
+    @Req() req, 
+    @Param('id', ParseIntPipe) id: number, 
+    @Body() body
+  ): Promise<GlobalResponse> {
+    return await this.service.resetPassword(req['user'].id, id, body).then(data => ({ data, message: 'Senha atualizada com sucesso!' }))
   }
 }

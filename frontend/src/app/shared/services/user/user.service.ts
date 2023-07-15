@@ -38,7 +38,7 @@ export class UserService {
     return this.http.post<Res<Session>>(`${environment.apiUrl}/${this.baseRoute}/login`, { email, password })
   }
   
-  resetPassword(email: string) {
-    return this.http.post<Res<any>>(`${environment.apiUrl}/${this.baseRoute}/reset-password`, { email })
+  resetPassword(id: UserDTO['id'], payload: UserForm) {
+    return this.http.post<Res<any>>(`${environment.apiUrl}/${this.baseRoute}/reset-password/${id}`, payload)
   }
 }

@@ -1,5 +1,6 @@
 export default class UserForm {
   name?: string
-  email: string
+  email?: string
   password?: string 
+  newPassword?: string 
 }

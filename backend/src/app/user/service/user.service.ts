@@ -9,7 +9,12 @@ import { AuthService } from 'src/app/auth/service/auth.service';
 import Session from 'src/shared/interfaces/Session';
 import * as bcrypt from 'bcrypt';
 
-type body = { name: string, email: string, password: string }
+type body = { 
+  name?: string
+  email?: string
+  password?: string 
+  newPassword?: string 
+ }
 
 @Injectable()
 export class UserService {
@@ -96,7 +101,20 @@ export class UserService {
     return { user: User.toDTO(entity), token }
   }
   
-  async resetPassword(user: User['id'], { email }: body): Promise<any> {
-    return null
+  async resetPassword(user: User['id'], id: UserDTO['id'], { password, newPassword }: body): Promise<UserDTO> {
+    if(user != id) throw ForbiddenException('Sem permissão.')
+    
+    const entity = await this.repo.findOneBy({ id })
+    if(!entity) throw NotFoundException('Usuário não encontrado.')
+    
+    if(!await bcrypt.compare(password, entity.password)) throw ForbiddenException('Senha incorreta.')
+    
+    const hash = await bcrypt.genSalt(+process.env.HASH_SALT_ROUNDS).then(salt => bcrypt.hash(newPassword, salt))
+    
+    entity.password = hash
+    
+    await this.repo.save(entity)
+    
+    return User.toDTO(entity)
   }
 }
