@@ -1,20 +1,17 @@
-<div class="modal-container">
-  <div class="modal-header">
-    <h3>Meu Perfil</h3>
-    <span (click)="activeModal.close(false)">&times;</span>
-  </div>
-  
+<div class="modal-container pt-0 px-2">  
   <div class="modal-body">    
     <form #formModel="ngForm">      
       <div class="col">        
         <div class="row mb-4">
           <label for="name" class="mb-1 required">Nome</label>
-          <input 
+          <input
+            #nameInput
             id="name"
             name="name"
             type="text"
             required
             [(ngModel)]="form.name"
+            (blur)="validateForm()"
             class="form-control"
             [ngClass]="{'is-invalid': submitted && f['name'].errors}">
           <div *ngIf="submitted && f['name'].errors && f['name'].errors['required']" class="invalid-feedback">
@@ -34,15 +31,11 @@
         </div>
       </div>
     </form>
-    <div class="d-flex flex-column gap-10 mb-0">
-      <small>Ativo desde: {{ user.createdAt | date:'dd/MM/YYYY':'pt' }}</small>
-      <small>Última atualização em: {{ user.updatedAt | date:'dd/MM/YYYY, HH:mm':'pt' }}</small>
+    <div class="d-flex flex-column gap-0 mb-0 italic">
+      <small>Ativo desde</small>
+      <small class="mb-2">{{ user.createdAt | date:'dd/MM/YYYY':'pt' }}</small>
+      <small>Última atualização</small>
+      <small>{{ user.updatedAt | date:'dd/MM/YYYY, HH:mm':'pt' }}</small>
     </div>
-  </div>
-  
-  <div class="modal-footer justify-content-end">
-    <button (click)="validateForm()">
-      Editar perfil
-    </button>
   </div>
 </div>

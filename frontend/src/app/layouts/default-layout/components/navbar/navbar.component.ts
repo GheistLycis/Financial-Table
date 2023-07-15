@@ -73,17 +73,11 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['login'])
   }
   
-  accessProfile(): void {
-    const { result } = this.modalService.open(ProfileComponent, { size: 'md' })
+  updateLocalUser(user: UserDTO): void {
+    const session = this.sessionService.getSession()
     
-    result.then((res: false | UserDTO) => {
-      if(res) {
-        const session = this.sessionService.getSession()
-        
-        session.user = res
-        this.sessionService.setSession(session)
-        this.userName = res.name
-      }
-    })
+    session.user = user
+    this.sessionService.setSession(session)
+    this.userName = user.name
   }
 }

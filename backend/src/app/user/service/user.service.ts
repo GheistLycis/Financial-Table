@@ -3,7 +3,7 @@ import UserDTO from '../User.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { User } from '../User';
-import { DuplicatedException, ForbiddenException, NotFoundException, UnauthorizedException, classValidatorError } from 'src/filters/globalExceptions';
+import { DuplicatedException, ForbiddenException, NotFoundException, classValidatorError } from 'src/filters/globalExceptions';
 import { validate } from 'class-validator';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import Session from 'src/shared/interfaces/Session';
@@ -18,20 +18,22 @@ export class UserService {
     private authService: AuthService,
   ) {}
   
-  async list(): Promise<UserDTO[]> {
-    const query = this.repo.createQueryBuilder('User')
-
-    return await query.getMany().then(entities => entities.map(row => User.toDTO(row)))
+  async list(user: User['id']): Promise<UserDTO[]> {
+    return await this.get(user, user).then(user => [user])
   }
 
-  async get(id: UserDTO['id']): Promise<UserDTO> {
+  async get(user: User['id'], id: UserDTO['id']): Promise<UserDTO> {
+    if(user != id) throw ForbiddenException('Sem permissão.')
+    
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Nenhum usuário encontrado.')
 
     return User.toDTO(entity)
   }
 
-  async put(id: UserDTO['id'], { name }: body): Promise<UserDTO> {
+  async put(user: User['id'], id: UserDTO['id'], { name }: body): Promise<UserDTO> {
+    if(user != id) throw ForbiddenException('Sem permissão.')
+    
     const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Usuário não encontrado.')
 
@@ -45,7 +47,9 @@ export class UserService {
     return User.toDTO(entity)
   }
 
-  async delete(id: UserDTO['id']): Promise<UserDTO> {
+  async delete(user: User['id'], id: UserDTO['id']): Promise<UserDTO> {
+    if(user != id) throw ForbiddenException('Sem permissão.')
+    
     const entity = await this.repo.findOne({ 
       where: { id },
       relations: [
@@ -92,7 +96,7 @@ export class UserService {
     return { user: User.toDTO(entity), token }
   }
   
-  async resetPassword({ email }: body): Promise<any> {
+  async resetPassword(user: User['id'], { email }: body): Promise<any> {
     return null
   }
 }

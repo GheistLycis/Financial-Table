@@ -35,8 +35,13 @@
         <div class="logout" (click)="logout()">
             <img src="../../../../../assets/icons/leave.svg" width="30px">
         </div>
-        <div class="user" (click)="accessProfile()">
-            Olá, {{ userName }}!
+        <div ngbDropdown class="profile d-flex">
+            <button ngbDropdownToggle id="user-profile-dropdown" class="btn w-100 h-100">
+                Olá, {{ userName }}!
+            </button>
+            <div ngbDropdownMenu>
+                <app-profile (profileUpdated)="updateLocalUser($event)"></app-profile>
+            </div>
         </div>
     </div>
 </nav>

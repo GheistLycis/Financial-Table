@@ -5,6 +5,7 @@ nav {
     background-color: white;
     height: 80px;
     text-transform: uppercase;
+    z-index: 1000;
 }
 
 .logo,
@@ -75,7 +76,7 @@ ul {
     width: 250px;
     
     .logout,
-    .user {
+    .profile {
         height: 100%;
         display: flex;
         flex-wrap: wrap;
@@ -104,16 +105,25 @@ ul {
         }
     }
     
-    .user {
+    .profile {
         width: 80%;
-        background-color: $palette-4;
-        color: white;
         font-size: 20px;
         font-weight: 400;
-        
+        font-size: 20px;
+        background-color: $palette-4;
+
         &:hover {
-            background-color: white;
-            color: $palette-4;
+            background-color: transparent;
+            
+            button {
+                color: $palette-4;
+            }
+        }
+        
+        button {
+            border: none;
+            background-color: transparent;
+            color: white;
         }
     }
 }
