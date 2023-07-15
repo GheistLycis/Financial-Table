@@ -3,12 +3,11 @@ import MonthDTO from 'src/app/shared/DTOs/month';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { MonthService } from 'src/app/shared/services/month/month.service';
 import { YearService } from 'src/app/shared/services/year/year.service';
-import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
-import { forkJoin, map, BehaviorSubject, Subject, skip, tap, switchMap } from 'rxjs';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
-import { TagService } from 'src/app/shared/services/tag/tag.service';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
 import CategoryRemaining from 'src/app/shared/interfaces/CategoryRemaining';
+import { forkJoin, map, BehaviorSubject, Subject, skip, tap, switchMap } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-analytics',
@@ -34,9 +33,7 @@ export class AnalyticsComponent implements OnInit {
   constructor(
     private yearService: YearService,
     private monthService: MonthService,
-    private expenseService: ExpenseService,
     private categoryService: CategoryService,
-    private tagService: TagService,
     private analyticsService: AnalyticsService
   ) { }
   
@@ -52,6 +49,7 @@ export class AnalyticsComponent implements OnInit {
   handleYears(): void {
     this.years$.pipe(
       skip(1), 
+      filter(data => data.length != 0),
       tap(years => this.year$.next(years[0]))
     ).subscribe()
     

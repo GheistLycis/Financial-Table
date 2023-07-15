@@ -7,7 +7,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
 import { MonthService } from 'src/app/shared/services/month/month.service';
-import { switchMap, tap } from 'rxjs';
+import { switchMap, tap, map } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-savings',
@@ -16,7 +17,7 @@ import { switchMap, tap } from 'rxjs';
 })
 export class SavingsComponent implements OnInit {
   savings: SavingDTO[] = []
-  actualBalance: number = 1
+  actualBalance: number = 0.001
   
   constructor(
     private savingService: SavingService,
@@ -28,7 +29,9 @@ export class SavingsComponent implements OnInit {
   
   ngOnInit(): void {
     this.monthService.list({}).pipe(
-      switchMap(({ data }) => this.analyticsService.monthBalance(data[0].id)),
+      map(({ data }) => data),
+      filter(data => data.length != 0),
+      switchMap(data => this.analyticsService.monthBalance(data[0].id)),
       tap(({ data }) => this.actualBalance = data.balance),
     ).subscribe()
     

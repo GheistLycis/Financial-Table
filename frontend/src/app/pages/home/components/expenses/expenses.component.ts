@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { map, tap, forkJoin } from 'rxjs';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { YearService } from 'src/app/shared/services/year/year.service';
 import Filters from 'src/app/shared/interfaces/Filters';
@@ -11,6 +10,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { ToastrService } from 'ngx-toastr';
 import { AddEditExpenseComponent } from 'src/app/pages/home/components/expenses/components/add-edit-expense/add-edit-expense.component';
+import { map, tap, forkJoin } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-expenses',
@@ -35,6 +36,7 @@ export class ExpensesComponent implements OnInit {
   ngOnInit(): void {
     this.yearService.list().pipe(
       map(({ data }) => data),
+      filter(data => data.length != 0),
       tap(years => {
         this.years = years
         

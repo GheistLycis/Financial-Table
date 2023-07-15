@@ -9,7 +9,7 @@
                 Entrar
             </button>
             <button #enterBtn *ngIf="action == 'signup'" (click)="enter('signup')" [disabled]="!user.name || !user.email || !user.password" class="px-3 py-2">
-                Registrar-se
+                Registrar
             </button>
         </div>
         <small *ngIf="action == 'login'" (click)="action = 'signup'" class="pointer align-self-start">Criar conta...</small>

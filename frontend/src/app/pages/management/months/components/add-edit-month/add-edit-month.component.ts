@@ -5,8 +5,9 @@ import MonthDTO from 'src/app/shared/DTOs/month';
 import MonthForm from 'src/app/shared/classes/MonthForm';
 import { MonthService } from 'src/app/shared/services/month/month.service';
 import { YearService } from 'src/app/shared/services/year/year.service';
-import { Observable, map, tap } from 'rxjs';
 import YearDTO from 'src/app/shared/DTOs/year';
+import { Observable, map, tap } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-edit-month',
@@ -28,6 +29,7 @@ export class AddEditMonthComponent {
   ) { 
     this.years$ = this.yearService.list().pipe(
         map(({ data }) => data),
+        filter(data => data.length != 0),
         tap(years => this.form.year = years[0].id)
       )
   }

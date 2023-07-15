@@ -50,7 +50,7 @@ export class MonthsComponent {
     this.yearService.list().pipe(
       tap(({ data }) => {
         this.years = data
-        this.activeYear$.next(this.years[0].id)
+        if(this.years.length) this.activeYear$.next(this.years[0].id)
       })
     ).subscribe()
   }
