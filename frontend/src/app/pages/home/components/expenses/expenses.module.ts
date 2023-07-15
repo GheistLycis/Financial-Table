@@ -25,6 +25,7 @@ import { ExpensesComponent } from './expenses.component';
     ComponentsModule,
     NgxMaskModule,
     NgbTooltipModule,
+    ComponentsModule,
   ],
   exports: [
     ExpensesComponent,

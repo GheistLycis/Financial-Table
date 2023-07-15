@@ -60,8 +60,16 @@
           </textarea>
         </div>
         
-        <div class="row">
-          <label for="date" class="mb-1 required">Data</label>
+        <div class="row mb-4">
+          <label for="date" class="mb-1 required">
+            Data
+            <app-tooltip 
+              icon="info"
+              content="
+                <p>Usada apenas para fim de registro. Não é levada em conta pelo sistema.</p>
+              ">
+            </app-tooltip>
+          </label>
           <input 
             id="date"
             type="date" 
@@ -76,7 +84,7 @@
         </div>
         
         <div class="row">
-          <label for="tags" class="mb-1 required">Tags</label>
+          <label for="tags" class="mb-1">Tags</label>
           <ng-select
             id="tags"
             name="tags"
@@ -86,7 +94,6 @@
             [hideSelected]="true"
             bindLabel="name"
             notFoundText="Nenhum registro disponível."
-            class="form-control"
           ></ng-select>
         </div>
       </div>

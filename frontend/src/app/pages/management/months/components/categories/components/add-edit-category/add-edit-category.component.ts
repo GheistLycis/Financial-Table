@@ -39,6 +39,7 @@ export class AddEditCategoryComponent implements OnInit {
     }
     else if(this.month) {
       this.form.month = this.month.id
+      this.form.color = '#000'
     }
   }
   

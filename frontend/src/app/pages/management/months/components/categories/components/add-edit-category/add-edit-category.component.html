@@ -23,7 +23,15 @@
         </div>
         
         <div class="row mb-4">
-          <label for="percentage" class="mb-1 required">Porcentagem reservada</label>
+          <label for="percentage" class="mb-1 required">
+            Porcentagem reservada
+            <app-tooltip 
+              icon="help" 
+              content="
+                <p>Porcentagem do Disponível do mês que será reservada para ser gasta nesta categoria.</p>
+              ">
+            </app-tooltip>
+          </label>
           <input 
             id="percentage"
             name="percentage"

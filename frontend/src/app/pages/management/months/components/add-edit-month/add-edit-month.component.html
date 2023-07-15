@@ -46,13 +46,24 @@
         </div>
         
         <div class="row mb-4">
-          <label for="available" class="mb-1 required">Porcentagem reservada</label>
+          <label for="available" class="mb-1 required">
+            Porcentagem para gastos
+            <app-tooltip 
+              icon="help" 
+              content="
+                <p>Porcentagem das Entradas que será reservada para ser gasta durante o mês.</p>
+                <p><small>(Entradas * Porcentagem_Reservada) - Gastos_Fixos = Disponível</small></p>
+              ">
+            </app-tooltip>
+          </label>
           <input 
             id="available"
             name="available"
-            type="number"
+            type="text"
             required
             [(ngModel)]="form.available"
+            mask="0||00"
+            suffix=" %"
             class="form-control"
             [ngClass]="{'is-invalid': submitted && f['available'].errors}">
           <div *ngIf="submitted && f['available'].errors && f['available'].errors['required']" class="invalid-feedback">

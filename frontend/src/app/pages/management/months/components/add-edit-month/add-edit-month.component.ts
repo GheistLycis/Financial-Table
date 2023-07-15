@@ -45,6 +45,9 @@ export class AddEditMonthComponent {
         year: year.id
       }
     }
+    else {
+      this.form.month = new Date().getMonth() + 1
+    }
   }
   
   validateForm(): void {    

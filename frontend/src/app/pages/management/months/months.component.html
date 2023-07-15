@@ -28,24 +28,40 @@
             <thead>
               <th>Mês</th>
               <th>Entradas</th>
-              <th>Gastos fixos</th>
+              <th>
+                Gastos fixos
+                <app-tooltip 
+                  icon="help" 
+                  content="
+                    <p>As mensalidades que você já deixa registradas como gastos previstos. São descontadas das entradas antes de calcular o total Disponível para o mês.</p>
+                  ">
+                </app-tooltip>
+              </th>
               <th>
                 Disponível
                 <app-tooltip 
                   icon="help" 
                   content="
-                    <p>Disponível para gastos variáveis. Considera a porcentagem reservada do mês e as mensalidades.</p>
+                    <p>Disponível para os seus Gastos Variáveis durante o mês. Considera a porcentagem reservada para o mês e os Gastos Fixos.</p>
                     <p><small>(Entradas * Porcentagem_Reservada) - Gastos_Fixos</small></p>
                   ">
                 </app-tooltip>
               </th>
-              <th>Gastos variáveis</th>
+              <th>
+                Gastos variáveis
+                <app-tooltip 
+                  icon="help" 
+                  content="
+                    <p>Todos seus gastos registrados na tabela de gastos até o momento.</p>
+                  ">
+                </app-tooltip>
+              </th>
               <th>
                 Saldo
                 <app-tooltip 
                   icon="help" 
                   content="
-                    <p>O balanço geral carregado através dos meses que herda os saldos positivos e negativos dos meses anteriores.</p>
+                    <p>O balanço geral carregado através dos meses, herdando os saldos positivos e negativos dos meses anteriores. Reinicia todo ano.</p>
                     <p><small>(Disponível - Gastos_Variáveis) + Saldo_Do_Mês_Anterior</small></p>
                   ">
                 </app-tooltip>

@@ -38,7 +38,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
       .innerJoinAndSelect('Category.month', 'Month')
       .innerJoinAndSelect('Month.year', 'Year')
       .innerJoinAndSelect('Year.user', 'User')
-      .innerJoin('Expense.tags', 'Tag')
+      .leftJoin('Expense.tags', 'Tag')
       .where('User.id = :user', { user })
 
     if(year) query.andWhere('Year.id = :year', { year })
