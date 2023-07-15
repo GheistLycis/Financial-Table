@@ -74,7 +74,7 @@ export class NavbarComponent implements OnInit {
   }
   
   accessProfile(): void {
-    const { result } = this.modalService.open(ProfileComponent, { size: 'lg' })
+    const { result } = this.modalService.open(ProfileComponent, { size: 'md' })
     
     result.then((res: false | UserDTO) => {
       if(res) {

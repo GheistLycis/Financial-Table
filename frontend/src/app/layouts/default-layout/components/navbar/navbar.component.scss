@@ -4,6 +4,7 @@ nav {
     position: fixed;
     background-color: white;
     height: 80px;
+    text-transform: uppercase;
 }
 
 .logo,
@@ -54,6 +55,18 @@ ul {
             transition-duration: .3s;
         }
     }
+    
+    button {
+        color: black;
+        transition-duration: .3s;
+        border: none;
+        font-size: 20px;
+        text-transform: uppercase;
+
+        &:hover {
+            color: $palette-4;
+        }
+    }
 }
 
 .user-box {
@@ -61,7 +74,8 @@ ul {
     height: 100%;
     width: 250px;
     
-    > div {
+    .logout,
+    .user {
         height: 100%;
         display: flex;
         flex-wrap: wrap;
@@ -77,8 +91,16 @@ ul {
         background-color: transparent;
         border-left: 2px solid $palette-4;
         
+        > img {
+            filter: invert(59%) sepia(9%) saturate(2399%) hue-rotate(129deg) brightness(89%) contrast(80%);
+        }
+        
         &:hover {
             background-color: $palette-4;
+            
+            > img {
+                filter: invert(1);
+            }
         }
     }
     
