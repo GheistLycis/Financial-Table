@@ -1,6 +1,6 @@
--- TRUNCATE TABLE 
---   expenses_tags_tags, tags, expenses, categories, monthly_expenses, monthly_incomes, months, years, savings, users
---   RESTART IDENTITY;
+TRUNCATE TABLE
+  expenses_tags_tags, tags, expenses, savings, categories, monthly_expenses, monthly_incomes, months, years
+  RESTART IDENTITY;
 
 INSERT INTO savings ("createdAt","updatedAt","deletedAt",title,description,amount,"dueDate",status,"userId") VALUES
 	('2023-07-11 17:16:01.89985','2023-07-11 17:16:19.6303',NULL,'Casa nova',null,500000,null,'active',1),

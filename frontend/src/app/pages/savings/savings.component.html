@@ -50,7 +50,7 @@
           type="success" 
           [striped]="true" 
           height="25px">
-          <i>Completado!</i>
+          <i>Completo!</i>
         </ngb-progressbar>
         <ngb-progressbar 
           *ngIf="saving.status == 'canceled'"
@@ -69,13 +69,13 @@
         <img 
           src="../../../../../assets/icons/pencil.svg"
           (click)="editSaving(saving)"
-          width="32px"
+          width="34px"
           class="pointer"
           ngbTooltip="Editar">
         <img 
           src="../../../../../assets/icons/trash.svg"
           (click)="deleteSaving(saving)"
-          width="32px"
+          width="34px"
           class="pointer"
           ngbTooltip="Excluir">
       </div>

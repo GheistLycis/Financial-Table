@@ -29,4 +29,4 @@ npm run hot  # to run on Webpack's hot reload mode
 
 -> Backend's default port is 8000 and Frontend's default port is 4200.
 
--> DB tables will be automatically created upon Backend's first init. To populate your DB with kickstarter sample data simply signup to the site and run the uncommented queries in ```populate_db``` sql file.
+-> DB tables will be automatically created upon Backend's first init. New users will have kickstarter data created automatically upon signup. To populate your DB with more kickstater data simply run the queries in ```populate_db``` SQL file.

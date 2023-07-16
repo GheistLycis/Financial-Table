@@ -175,12 +175,13 @@ export class UserService {
     const monthsProps = { availables: [60, 45, 50] }
     for(let i = 1; i < 4; i++) {
       const month = this.monthRepo.create({ 
-        month: now.getMonth() + 1 - i,
+        month: now.getMonth() + 2 - i,
         available: monthsProps.availables[i-1],
         obs: 'Eu sou um mês. Em mim, você pode cadastrar seus ganhos, mensalidades, categorias e registrar seus gastos!',
         year
       })
       await this.monthRepo.save(month)
+      now.setMonth(now.getMonth() + 1 - i)
       
       // CREATING 1 MONTHLY INCOME
       const monthlyIncome = this.monthlyIncomeRepo.create({ 
@@ -213,17 +214,20 @@ export class UserService {
         })
         await this.categoryRepo.save(category)
         
-        // CREATING 1 EXPENSE
-        const expenseTags = tags.filter(() => Math.random() > 0.5)
-        const expense = this.expenseRepo.create({ 
-          value: 25 * j,
-          description: 'Eu sou um registro de gasto!',
-          date: now,
-          category,
-          tags: expenseTags
-        })
-        this.expenseRepo.save(expense)
-        now.setDate(now.getDate() - 1)
+        // CREATING EXPENSES RANDOMLY
+        if(Math.random() >= 0.6) {
+          // LINKING TAGS TO EXPENSE RANDOMLY
+          const expenseTags = tags.filter(() => Math.random() > 0.5)
+          const expense = this.expenseRepo.create({ 
+            value: 22.50 * j * Math.random(),
+            description: 'Eu sou um registro de gasto!',
+            date: now,
+            category,
+            tags: expenseTags
+          })
+          this.expenseRepo.save(expense)
+          now.setDate(now.getDate() - 1)
+        }
       }
     }
     
