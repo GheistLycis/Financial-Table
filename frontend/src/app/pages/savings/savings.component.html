@@ -35,14 +35,14 @@
       <div>
         <ngb-progressbar 
           *ngIf="saving.status == 'active'"
-          [value]="1000 * actualBalance / saving.amount" 
+          [value]="100 * actualBalance / saving.amount" 
           type="success" 
           [striped]="true" 
           [animated]="true"
-          [max]="1000"
+          [max]="100"
           [showValue]="true"
           height="25px"
-          [ngbTooltip]="(1000 * actualBalance / saving.amount) + '%'">
+          [ngbTooltip]="((100 * actualBalance / saving.amount) | round:2) + '%'">
         </ngb-progressbar>
         <ngb-progressbar 
           *ngIf="saving.status == 'completed'"

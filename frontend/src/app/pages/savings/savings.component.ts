@@ -91,4 +91,8 @@ export class SavingsComponent implements OnInit {
       this.listSavings()
     })
   }
+  
+  floor(n: number): number {
+    return Math.floor(n)
+  }
 }

@@ -148,7 +148,7 @@ export class UserService {
     const saving = this.savingRepo.create({
       title: 'Viagem!',
       description: 'Eu sou uma caixinha de economia! Comigo você pode organizar seus projetos e acompanhar em tempo real o seu progresso.',
-      amount: 2500,
+      amount: 3200,
       dueDate: new Date(`${now.getFullYear() + 1}-01-01`),
       user
     })
