@@ -30,11 +30,11 @@ export class MonthService implements BaseService<MonthDTO> {
   constructor(
     @Repo(Year) private yearRepo: Repository<Year>,
     @Repo(Month) private repo: Repository<Month>,
-    @Inject(YearService) private yearService: YearService,
-    @Inject(MonthlyIncomeService) private monthlyIncomeService: MonthlyIncomeService,
-    @Inject(MonthlyExpenseService) private monthlyExpenseService: MonthlyExpenseService,
-    @Inject(CategoryService) private categoryService: CategoryService,
     @Inject(CACHE_MANAGER) private cacheService: Cache,
+    private yearService: YearService,
+    private monthlyIncomeService: MonthlyIncomeService,
+    private monthlyExpenseService: MonthlyExpenseService,
+    private categoryService: CategoryService,
   ) {}
 
   async list(user: User['id'], { year }: queries) {

@@ -29,7 +29,7 @@
               <th>Mês</th>
               <th>Entradas</th>
               <th>
-                Gastos fixos
+                Mensalidades
                 <app-tooltip 
                   icon="help" 
                   content="
@@ -42,7 +42,7 @@
                 <app-tooltip 
                   icon="help" 
                   content="
-                    <p>Disponível para os seus Gastos Variáveis durante o mês. Considera a porcentagem reservada para o mês e os Gastos Fixos.</p>
+                    <p>Disponível para os seus Gastos Variáveis durante o mês. Considera a porcentagem reservada para o mês e as Mensalidades.</p>
                     <p><small>(Entradas * Porcentagem_Reservada) - Gastos_Fixos</small></p>
                   ">
                 </app-tooltip>
@@ -114,7 +114,7 @@
                       (click)="listMonthlyExpenses(history.month)"
                       width="30px"
                       class="pointer"
-                      ngbTooltip="Listar gastos fixos">
+                      ngbTooltip="Listar mensalidades">
                     <img 
                       src="../../../../../assets/icons/category.svg"
                       (click)="listCategories(history.month)"

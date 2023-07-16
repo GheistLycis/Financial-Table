@@ -65,7 +65,7 @@ export class MonthlyExpensesComponent implements OnInit {
   deleteExpense({ month, value, description, id }: MonthlyExpenseDTO): void {
     const { componentInstance, result } = this.modalService.open(GeneralWarningComponent, { size: 'md' })
     
-    componentInstance.title = 'Excluir gasto fixo'
+    componentInstance.title = 'Excluir mensalidade'
     componentInstance.text = `
       Deseja realmente excluir esta mensalidade de ${this.monthNamePipe.transform(month.month)}? <br><br> <b>R$${value.toString()} - ${description}</b>`
     
