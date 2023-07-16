@@ -42,7 +42,7 @@
     
     <div class="cards d-flex mb-2 gap-20">
         <div class="card shadow p-3">
-            <h4>Saldo atual:</h4>
+            <h5>Saldo atual:</h5>
             <ng-container *ngIf="actualBalance$ | async as balance">
                 <h4 *ngIf="balance == '--'">
                     {{ balance }}
@@ -63,15 +63,15 @@
         <div class="card shadow p-3">
             <ng-container *ngTemplateOutlet="
                 expenses; 
-                context: {title: 'Em relação à média dos meses anteriores do mesmo ano', $implicit: yearExpenses$ | async}"
+                context: {title: 'Em relação à média do ano', $implicit: yearExpenses$ | async}"
             ></ng-container>
         </div>
         
         <div class="card shadow p-3">
             <div>
-                <h4>Maior concentração de gastos:</h4>
+                <h5>Maiores gastos:</h5>
             </div>
-            <div class="most-expensive">
+            <div class="most-expensive d-flex flex-column gap-10">
                 <ng-container *ngTemplateOutlet="
                     mostExpensive; 
                     context: {title: 'Categoria', $implicit: mostExpensiveCategory$ | async}"
@@ -85,14 +85,16 @@
     </div>
     
     <div class="cards d-flex gap-10">
-        <div *ngFor="let remaining of categoriesRemaining" class="card shadow p-3">
+        <div *ngFor="let remaining of categoriesRemaining" class="category card shadow p-3">
             <h4>{{ remaining.category.name }} ({{ remaining.category.percentage | number:'.0-2' }}%)</h4>
-            <h5>
-                Disponível: R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
-            </h5>
-            <h5 [ngClass]="{'text-danger': remaining.remaining <= 0}">
-                <b>Restante: R${{ remaining.remaining | number:'.2-2':'pt' }}</b>
-            </h5>
+            <div>
+                <h5>
+                    Disponível: R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
+                </h5>
+                <h5 [ngClass]="{'text-danger': remaining.remaining <= 0}">
+                    <b>Restante: R${{ remaining.remaining | number:'.2-2':'pt' }}</b>
+                </h5>
+            </div>
         </div>
     </div>
 </div>
@@ -115,12 +117,12 @@
 </ng-template>
 
 <ng-template #mostExpensive let-title="title" let-data>
-    <h5>{{ title }}:
+    <h6>{{ title }}:
         <span *ngIf="data?.name && data.name != '--'">
             {{ data.name }} (R${{ data.total | number:'.2-2':'pt' }})
         </span>
         <span *ngIf="data?.name == '--'">
             {{ data.name }}
         </span>
-    </h5>
+    </h6>
 </ng-template>

@@ -16,7 +16,7 @@ export class MonthService {
 
   constructor(private http: HttpClient) {}
 
-  list(query: { year?: YearDTO['id'] }) {
+  list(query?: { year?: YearDTO['id'] }) {
     return this.http.get<Res<MonthDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 

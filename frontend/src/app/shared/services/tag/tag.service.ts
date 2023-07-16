@@ -4,6 +4,8 @@ import { environment } from 'src/environments/environment';
 import { Response as Res } from 'src/app/shared/interfaces/Response';
 import TagDTO from 'src/app/shared/DTOs/tag';
 import TagForm from '../../classes/TagForm';
+import ExpenseDTO from '../../DTOs/expense';
+import { queryMaker } from '../queryMaker';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,8 @@ export class TagService {
 
   constructor(private http: HttpClient) {}
 
-  list() {
-    return this.http.get<Res<TagDTO[]>>(`${environment.apiUrl}/${this.baseRoute}`)
+  list(query?: { expense?: ExpenseDTO['id'] }) {
+    return this.http.get<Res<TagDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 
   get(id: TagDTO['id']) {

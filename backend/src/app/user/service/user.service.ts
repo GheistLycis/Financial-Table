@@ -156,7 +156,7 @@ export class UserService {
     
     // CREATING 3 TAGS
     const tagsProps = { 
-      names: ['Educação', 'Livros', 'Alimentação'], 
+      names: ['Viagem', 'Curso', 'Alimentação'], 
       colors: ['#00FF50', '#BD4B13', '#284B7A'] 
     }
     const tags: Tag[] = []
@@ -171,9 +171,9 @@ export class UserService {
       tags.push(tag)
     }
     
-    // CREATING 2 MONTHS
-    const monthsProps = { availables: [60, 45] }
-    for(let i = 1; i < 3; i++) {
+    // CREATING 3 MONTHS
+    const monthsProps = { availables: [60, 45, 50] }
+    for(let i = 1; i < 4; i++) {
       const month = this.monthRepo.create({ 
         month: now.getMonth() + 1 - i,
         available: monthsProps.availables[i-1],
@@ -198,13 +198,13 @@ export class UserService {
       })
       this.monthlyExpenseRepo.save(monthlyExpense)
       
-      // CREATING 2 CATEGORIES
+      // CREATING 3 CATEGORIES
       const categoriesProps = { 
-        names: ['Livres', 'Essenciais'], 
-        colors: ['#FF0000', '#00FF00'],
-        percentages: [40, 60]
+        names: ['Livres', 'Essenciais', 'Educação'], 
+        colors: ['#F00', '#0F0', '#00F'],
+        percentages: [40, 50, 10]
       }
-      for(let j = 1; j < 3; j++) {
+      for(let j = 1; j < 4; j++) {
         const category = this.categoryRepo.create({ 
           name: categoriesProps.names[j-1],
           color: categoriesProps.colors[j-1],
@@ -213,23 +213,14 @@ export class UserService {
         })
         await this.categoryRepo.save(category)
         
-        // CREATING 2 EXPENSES
-        let expense = this.expenseRepo.create({ 
+        // CREATING 1 EXPENSE
+        const expenseTags = tags.filter(() => Math.random() > 0.5)
+        const expense = this.expenseRepo.create({ 
           value: 25 * j,
           description: 'Eu sou um registro de gasto!',
           date: now,
           category,
-          tags: [tags[0]]
-        })
-        this.expenseRepo.save(expense)
-        now.setDate(now.getDate() - 1)
-        
-        expense = this.expenseRepo.create({ 
-          value: 99 * 0.5 * j,
-          description: 'Eu sou um registro de gasto!',
-          date: now,
-          category,
-          tags: [tags[1], tags[2]]
+          tags: expenseTags
         })
         this.expenseRepo.save(expense)
         now.setDate(now.getDate() - 1)

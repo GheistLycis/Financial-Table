@@ -28,7 +28,7 @@ export class SavingsComponent implements OnInit {
   ) { }
   
   ngOnInit(): void {
-    this.monthService.list({}).pipe(
+    this.monthService.list().pipe(
       map(({ data }) => data),
       filter(data => data.length != 0),
       switchMap(data => this.analyticsService.monthBalance(data[0].id)),

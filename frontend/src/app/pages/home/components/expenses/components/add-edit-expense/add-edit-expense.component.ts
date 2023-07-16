@@ -33,15 +33,17 @@ export class AddEditExpenseComponent implements OnInit {
       this.action = 'editar'
       this.year = this.expense.category.month.year.id
       
-      const { value, date, description, category, tags } = this.expense
+      const { id, value, date, description, category } = this.expense
       
-      this.form = {
-        value,
-        date,
-        description,
-        category: category.id,
-        tags
-      }
+      this.tagService.list({ expense: id }).subscribe(({ data }) => {
+        this.form = {
+          value,
+          date,
+          description,
+          category: category.id,
+          tags: data
+        }
+      })
     }
   }
   

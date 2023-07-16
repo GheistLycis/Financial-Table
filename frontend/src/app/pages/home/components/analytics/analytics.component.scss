@@ -44,8 +44,16 @@
   }
 
   .most-expensive {
+    text-align: left;
+    
     span {
       color: red;
+    }
+  }
+  
+  .category {
+    > div {
+      text-align: left;
     }
   }
 }
