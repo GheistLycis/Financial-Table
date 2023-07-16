@@ -52,13 +52,17 @@ export class AnalyticsService {
           SELECT COALESCE(SUM(mi.value), 0) AS sum
           FROM categories c
           JOIN monthly_incomes mi ON mi."monthId" = c."monthId"
-          WHERE c.id = ${category.id}
+          WHERE 
+            c.id = ${category.id}
+            AND mi."deletedAt" IS NULL
         ) total_monthly_incomes,
         (
           SELECT COALESCE(SUM(me.value), 0) AS sum
           FROM categories c
           JOIN monthly_expenses me ON me."monthId" = c."monthId"
-          WHERE c.id = ${category.id}
+          WHERE 
+            c.id = ${category.id}
+            AND me."deletedAt" IS NULL
         ) total_monthly_expenses
         WHERE 
           c.id = ${category.id}
@@ -77,6 +81,7 @@ export class AnalyticsService {
         WHERE 
           c.id = ${category.id}
           AND u.id = ${user}
+          AND e."deletedAt" IS NULL
       `)
       .then(rows => originalAvailable - rows[0].totalexpenses, err => { throw ServerException(`${err}`) })
     
@@ -128,20 +133,26 @@ export class AnalyticsService {
               SELECT COALESCE(SUM(mi.value), 0) AS sum
               FROM monthly_incomes mi
               JOIN months m ON mi."monthId" = m.id
-              WHERE m.id = ${id}
+              WHERE 
+                m.id = ${id}
+                AND mi."deletedAt" IS NULL
             ) total_incomes,
             (
               SELECT COALESCE(SUM(me.value), 0) AS sum
               FROM monthly_expenses me
               JOIN months m ON me."monthId" = m.id
-              WHERE m.id = ${id}
+              WHERE 
+                m.id = ${id}
+                AND me."deletedAt" IS NULL
             ) total_monthly_expenses,
             (
               SELECT COALESCE(SUM(e.value), 0) AS sum
               FROM expenses e
               JOIN categories c ON e."categoryId" = c.id
               JOIN months m ON c."monthId" = m.id
-              WHERE m.id = ${id}
+              WHERE 
+                m.id = ${id}
+                AND e."deletedAt" IS NULL
             ) total_expenses
           WHERE m.id = ${id}
         `)
@@ -172,10 +183,11 @@ export class AnalyticsService {
       const total = await this.dataSource
         .query(`
           SELECT COALESCE(SUM(e.value), 0) AS total
-          FROM 
-            expenses e
-            JOIN categories c ON e."categoryId" = c.id
-          WHERE c.id = ${id}
+          FROM expenses e
+          JOIN categories c ON e."categoryId" = c.id
+          WHERE 
+            c.id = ${id}
+            AND e."deletedAt" IS NULL
         `)
         .then(rows => Number(rows[0].total), err => { throw ServerException(`${err}`) })
 
@@ -263,20 +275,26 @@ export class AnalyticsService {
             SELECT COALESCE(SUM(mi.value), 0) AS sum
             FROM monthly_incomes mi
             JOIN months m ON mi."monthId" = m.id
-            WHERE m.id = ${month.id}
+            WHERE 
+              m.id = ${month.id}
+              AND mi."deletedAt" IS NULL
           ) total_incomes,
           (
             SELECT COALESCE(SUM(me.value), 0) AS sum
             FROM monthly_expenses me
             JOIN months m ON me."monthId" = m.id
-            WHERE m.id = ${month.id}
+            WHERE 
+              m.id = ${month.id}
+              AND me."deletedAt" IS NULL
           ) total_monthly_expenses,
           (
             SELECT COALESCE(SUM(e.value), 0) AS sum
             FROM expenses e
             JOIN categories c ON e."categoryId" = c.id
             JOIN months m ON c."monthId" = m.id
-            WHERE m.id = ${month.id}
+            WHERE 
+              m.id = ${month.id}
+              AND e."deletedAt" IS NULL
           ) total_expenses
         WHERE m.id = ${month.id}
       `)
@@ -335,7 +353,9 @@ export class AnalyticsService {
         FROM expenses e
         JOIN categories c ON e."categoryId" = c.id
         JOIN months m ON c."monthId" = m.id
-        WHERE m.id = ${actualMonth.id}
+        WHERE 
+          m.id = ${actualMonth.id}
+          AND e."deletedAt" IS NULL
       `)
       .then(rows => Number(rows[0].average), err => { throw ServerException(`${err}`) })
       
@@ -345,7 +365,9 @@ export class AnalyticsService {
         FROM expenses e
         JOIN categories c ON e."categoryId" = c.id
         JOIN months m ON c."monthId" = m.id
-        WHERE m.id = ${previousMonth.id}
+        WHERE 
+          m.id = ${previousMonth.id}
+          AND e."deletedAt" IS NULL
       `)
       .then(rows => Number(rows[0].average), err => { throw ServerException(`${err}`) })
       
@@ -369,7 +391,9 @@ export class AnalyticsService {
         FROM expenses e
         JOIN categories c ON e."categoryId" = c.id
         JOIN months m ON c."monthId" = m.id
-        WHERE m.id = ${actualMonth.id}
+        WHERE 
+          m.id = ${actualMonth.id}
+          AND e."deletedAt" IS NULL
       `)
       .then(rows => Number(rows[0].average), err => { throw ServerException(`${err}`) })
       
@@ -383,6 +407,7 @@ export class AnalyticsService {
         WHERE
           m.month < ${actualMonth.month}
           AND y.id = ${actualMonth.year.id}
+          AND e."deletedAt" IS NULL
       `)
       .then(rows => Number(rows[0].average), err => { throw ServerException(`${err}`) })
       
@@ -413,14 +438,18 @@ export class AnalyticsService {
             FROM monthly_incomes mi
             JOIN months m ON mi."monthId" = m.id
             JOIN years y ON m."yearId" = y.id
-            WHERE y.id = ${year.id}
+            WHERE 
+              y.id = ${year.id}
+              AND mi."deletedAt" IS NULL
           ) total_incomes,
           (
             SELECT COALESCE(SUM(me.value), 0) AS sum
             FROM monthly_expenses me
             JOIN months m ON me."monthId" = m.id
             JOIN years y ON m."yearId" = y.id
-            WHERE y.id = ${year.id}
+            WHERE 
+              y.id = ${year.id}
+              AND me."deletedAt" IS NULL
           ) total_monthly_expenses
         WHERE y.id = ${year.id}
       `)
@@ -429,34 +458,37 @@ export class AnalyticsService {
     const monthlyIncomes = await this.dataSource
       .query(`
         SELECT COALESCE(SUM(mi.value), 0) AS monthlyincomes
-        FROM
-          monthly_incomes mi
-          JOIN months m ON mi."monthId" = m.id
-          JOIN years y ON m."yearId" = y.id
-        WHERE y.id = ${year.id}
+        FROM monthly_incomes mi
+        JOIN months m ON mi."monthId" = m.id
+        JOIN years y ON m."yearId" = y.id
+        WHERE 
+          y.id = ${year.id}
+          AND mi."deletedAt" IS NULL
       `)
       .then(rows => Number(rows[0].monthlyincomes), err => { throw ServerException(`${err}`) })
       
     const monthlyExpenses = await this.dataSource
       .query(`
         SELECT COALESCE(SUM(me.value), 0) AS monthlyexpenses
-        FROM
-          monthly_expenses me
-          JOIN months m ON me."monthId" = m.id
-          JOIN years y ON m."yearId" = y.id
-        WHERE y.id = ${year.id}
+        FROM monthly_expenses me
+        JOIN months m ON me."monthId" = m.id
+        JOIN years y ON m."yearId" = y.id
+        WHERE 
+          y.id = ${year.id}
+          AND me."deletedAt" IS NULL
       `)
       .then(rows => Number(rows[0].monthlyexpenses), err => { throw ServerException(`${err}`) })
       
     const expenses = await this.dataSource
       .query(`
         SELECT COALESCE(SUM(e.value), 0) AS expenses
-        FROM
-          expenses e
-          JOIN categories c ON e."categoryId" = c.id
-          JOIN months m ON c."monthId" = m.id
-          JOIN years y ON m."yearId" = y.id
-        WHERE y.id = ${year.id}
+        FROM expenses e
+        JOIN categories c ON e."categoryId" = c.id
+        JOIN months m ON c."monthId" = m.id
+        JOIN years y ON m."yearId" = y.id
+        WHERE 
+          y.id = ${year.id}
+          AND e."deletedAt" IS NULL
       `)
       .then(rows => Number(rows[0].expenses), err => { throw ServerException(`${err}`) })
 
