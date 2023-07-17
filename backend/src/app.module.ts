@@ -25,12 +25,12 @@ const cacheLifeMinutes = 5
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         SERVER_PORT: Joi.number().default(8000),
-        JWT: Joi.string().required(),
         DB_HOST: Joi.string().default('localhost'),
         DB_PORT: Joi.number().default(5432),
-        DB_USER: Joi.string().required(),
-        DB_PASS: Joi.string().required(),
-        DB_NAME: Joi.string().required(),
+        DB_USER: Joi.string().default('postgres'),
+        DB_PASS: Joi.string().default('postgres'),
+        DB_NAME: Joi.string().default('financial_table'),
+        JWT: Joi.string().required(),
         HASH_SALT_ROUNDS: Joi.number().required(),
       })
     }),
