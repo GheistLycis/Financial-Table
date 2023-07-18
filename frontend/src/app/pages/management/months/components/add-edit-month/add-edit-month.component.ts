@@ -21,6 +21,7 @@ export class AddEditMonthComponent {
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
   years$!: Observable<YearDTO[]> 
+  loading = false
   
   constructor(
     protected activeModal: NgbActiveModal,
@@ -64,6 +65,8 @@ export class AddEditMonthComponent {
     const service = this.action == 'adicionar'
       ? (obj: MonthForm) => this.monthService.post(obj)
       : (obj: MonthForm) => this.monthService.put(this.month.id, obj)
+    
+    this.loading = true
     
     service(this.form).subscribe({
       complete: () => this.activeModal.close(true),

@@ -38,6 +38,9 @@
   </div>
   
   <div class="modal-footer justify-content-end">
-    <button (click)="submit()">Duplicar</button>
+    <button (click)="submit()" [disabled]="loading">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+      Duplicar
+    </button>
   </div>
 </div>

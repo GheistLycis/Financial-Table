@@ -43,6 +43,8 @@ export class DuplicateMonthComponent {
     
     result.then((res: boolean) => {
       if(res) {
+        this.loading = true
+        
         this.monthService.duplicate(this.month.id, this.form).subscribe({
           complete: () => this.activeModal.close(true),
           error: () => this.activeModal.close(false)

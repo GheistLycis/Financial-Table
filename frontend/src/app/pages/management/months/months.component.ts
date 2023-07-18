@@ -47,8 +47,10 @@ export class MonthsComponent {
   }
   
   listYears(): void {
+    this.loading = true
     this.yearService.list().pipe(
       tap(({ data }) => {
+        this.loading = false
         this.years = data
         if(this.years.length) this.activeYear$.next(this.years[0].id)
       })
@@ -71,17 +73,20 @@ export class MonthsComponent {
                 map(({ data }) => data)
               ))
               
-            forkJoin(balances$).subscribe(balances => {
-              const histories: MonthHistory[] = balances.map((balance, i) => {
-                const partialHistory: any = partialHistories[i]
+            forkJoin(balances$).subscribe({
+              next: balances => {
+                const histories: MonthHistory[] = balances.map((balance, i) => {
+                  const partialHistory: any = partialHistories[i]
+                  
+                  partialHistory.balance = balance.balance
+                  
+                  return partialHistory
+                })
                 
-                partialHistory.balance = balance.balance
-                
-                return partialHistory
-              })
-              
-              this.monthsHistories = histories
-              this.loading = false
+                this.monthsHistories = histories
+                this.loading = false
+              },
+              error: () => this.loading = false
             })
           },
           error: () => this.loading = false
