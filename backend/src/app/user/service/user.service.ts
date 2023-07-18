@@ -235,8 +235,8 @@ export class UserService {
       
       now.setMonth(now.getMonth() - 1)
       
-      // CHECKING IF CURRENT MONTH WAS JANUARY AND NOW IS DECEMBER
-      if(now.getMonth() == 11) {
+      // CHECKING IF CHANGING BETWEEN YEARS
+      if(i < 2 && now.getMonth() == 11) {
         year = this.yearRepo.create({ 
           year: now.getFullYear(),
           user

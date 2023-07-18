@@ -338,6 +338,7 @@ export class AnalyticsService {
     }
     else {
       previousMonth = await this.monthRepo.createQueryBuilder('Month')
+        .innerJoin('Month.year', 'Year')
         .innerJoin('Year.user', 'User')
         .where('User.id = :user', { user })
         .andWhere('Month.month = 12')
