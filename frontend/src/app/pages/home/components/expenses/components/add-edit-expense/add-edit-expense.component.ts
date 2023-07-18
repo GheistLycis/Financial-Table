@@ -21,6 +21,7 @@ export class AddEditExpenseComponent implements OnInit {
   form = new ExpenseForm()
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
+  loading = false
   
   constructor(
     protected activeModal: NgbActiveModal,
@@ -59,6 +60,8 @@ export class AddEditExpenseComponent implements OnInit {
     const service = this.action == 'adicionar'
       ? (obj: ExpenseForm) => this.expenseService.post(obj)
       : (obj: ExpenseForm) => this.expenseService.put(this.expense.id, obj)
+    
+    this.loading = true
     
     service(this.form).subscribe({
       complete: () => this.activeModal.close(true),

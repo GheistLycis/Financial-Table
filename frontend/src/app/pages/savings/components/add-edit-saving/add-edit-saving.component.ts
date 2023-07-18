@@ -16,6 +16,7 @@ export class AddEditSavingComponent {
   form = new SavingForm()
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
+  loading = false
   
   constructor(
     protected activeModal: NgbActiveModal,
@@ -50,6 +51,8 @@ export class AddEditSavingComponent {
       ? (obj: SavingForm) => this.savingService.post(obj)
       : (obj: SavingForm) => this.savingService.put(this.saving.id, obj)
     
+    this.loading = true
+      
     service(this.form).subscribe({
       complete: () => this.activeModal.close(true),
       error: () => this.activeModal.close(false)

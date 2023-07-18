@@ -13,6 +13,7 @@ import TagDTO from 'src/app/shared/DTOs/tag';
 })
 export class TagsComponent implements OnInit {
   tags: TagDTO[] = []
+  loading = false
   
   constructor(
     private tagService: TagService,
@@ -25,7 +26,11 @@ export class TagsComponent implements OnInit {
   }
   
   listTags(): void {
-    this.tagService.list().subscribe(({ data }) => this.tags = data)
+    this.loading = true
+    this.tagService.list().subscribe(({ data }) => {
+      this.tags = data
+      this.loading = false
+    })
   }
   
   addTag(): void {

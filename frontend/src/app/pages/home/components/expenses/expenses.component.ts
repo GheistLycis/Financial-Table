@@ -19,12 +19,12 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./expenses.component.scss']
 })
 export class ExpensesComponent implements OnInit {
-  loading = false
   @Output() expensesUpdated = new EventEmitter<void>()
   activeYear!: YearDTO['id']
   years: YearDTO[] = []
   expenses: ExpenseDTO[] = []
   filters!: Filters
+  loading = false
   
   constructor(
     private yearService: YearService,

@@ -16,6 +16,7 @@ export class AddEditYearComponent implements OnInit {
   form = new YearForm()
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
+  loading = false
   
   constructor(
     protected activeModal: NgbActiveModal,
@@ -46,6 +47,9 @@ export class AddEditYearComponent implements OnInit {
     const service = this.action == 'adicionar'
       ? (obj: YearForm) => this.yearService.post(obj)
       : (obj: YearForm) => this.yearService.put(this.year.id, obj)
+    
+    
+    this.loading = true
     
     service(this.form).subscribe({
       complete: () => this.activeModal.close(true),

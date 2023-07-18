@@ -17,6 +17,7 @@ import { GeneralWarningComponent } from 'src/app/shared/components/modals/genera
 })
 export class YearsComponent implements OnInit {
   yearsHistories: YearHistory[] = []
+  loading = false
   
   constructor(
     private yearService: YearService,
@@ -30,12 +31,17 @@ export class YearsComponent implements OnInit {
   }
   
   listHistories(): void {
+    this.loading = true
+    
     this.yearService.list().subscribe(({ data }) => {
       const histories$ = data.map(({ id }) => this.analyticsService.yearHistory(id).pipe(
           map(({ data }) => data)
         ))
       
-      forkJoin(histories$).subscribe(histories => this.yearsHistories = histories)
+      forkJoin(histories$).subscribe(histories => {
+        this.yearsHistories = histories
+        this.loading = false
+      })
     })
   }
   

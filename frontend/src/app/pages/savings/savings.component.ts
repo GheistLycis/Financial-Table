@@ -18,6 +18,7 @@ import { filter } from 'rxjs/operators';
 export class SavingsComponent implements OnInit {
   savings: SavingDTO[] = []
   actualBalance: number = 0.001
+  loading = false
   
   constructor(
     private savingService: SavingService,
@@ -28,18 +29,27 @@ export class SavingsComponent implements OnInit {
   ) { }
   
   ngOnInit(): void {
+    this.loading = true
+    
     this.monthService.list().pipe(
       map(({ data }) => data),
       filter(data => data.length != 0),
       switchMap(data => this.analyticsService.monthBalance(data[0].id)),
-      tap(({ data }) => this.actualBalance = data.balance),
+      tap(({ data }) => {
+        this.actualBalance = data.balance
+        this.loading = false
+      }),
     ).subscribe()
     
     this.listSavings()
   }
   
   listSavings(): void {
-    this.savingService.list().subscribe(({ data }) => this.savings = data)
+    this.loading = true
+    this.savingService.list().subscribe(({ data }) => {
+      this.savings = data
+      this.loading = false
+    })
   }
   
   addSaving(): void {

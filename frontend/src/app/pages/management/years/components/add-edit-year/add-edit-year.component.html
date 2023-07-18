@@ -26,8 +26,8 @@
   </div>
   
   <div class="modal-footer justify-content-end">
-    <button (click)="validateForm()">
-      {{ action | titlecase }}
+    <button (click)="validateForm()" [disabled]="loading">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
     </button>
   </div>
 </div>

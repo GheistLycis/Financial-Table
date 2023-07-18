@@ -17,6 +17,7 @@ export class AddEditTagComponent implements OnInit {
   form = new GroupForm()
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
+  loading = false
   
   constructor(
     protected activeModal: NgbActiveModal,
@@ -51,6 +52,8 @@ export class AddEditTagComponent implements OnInit {
       ? (obj: TagForm) => this.groupService.post(obj)
       : (obj: TagForm) => this.groupService.put(this.tag.id, obj)
     
+    this.loading = true
+      
     service(this.form).subscribe({
       complete: () => this.activeModal.close(true),
       error: () => this.activeModal.close(false)

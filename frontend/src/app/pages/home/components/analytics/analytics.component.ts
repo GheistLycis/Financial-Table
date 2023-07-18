@@ -15,7 +15,6 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./analytics.component.scss']
 })
 export class AnalyticsComponent implements OnInit {
-  loading = false
   @Input() set update(signal: number) {
     if(signal) this.calculateAnalytics()
   }
@@ -30,6 +29,7 @@ export class AnalyticsComponent implements OnInit {
   mostExpensiveCategory$ = new Subject<{ name: string, total: number }>()
   mostExpensiveTags$ = new Subject<{ name: string, total: number }>()
   categoriesRemaining: CategoryRemaining[] = []
+  loading = false
   
   constructor(
     private yearService: YearService,

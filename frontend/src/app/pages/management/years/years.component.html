@@ -1,6 +1,9 @@
 <div>  
   <div class="d-flex justify-content-between align-items-center">
-    <h2 class="mb-2">Histórico dos anos</h2>
+    <div class="d-flex gap-15 mb-2">
+      <h2>Histórico dos anos</h2>
+      <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+    </div>
     <img 
       src="../../../../../assets/icons/plus.svg"
       (click)="addYear()"
@@ -19,6 +22,11 @@
         <th>Gastos variáveis </th>
         <th></th>
       </thead>
+      <tbody *ngIf="!yearsHistories.length">
+        <tr>
+          <td colspan="6">Nenhum registro.</td>
+        </tr>
+      </tbody>
       <tbody>
         <tr *ngFor="let history of yearsHistories" class="table-active">
           <td>{{ history.year.year }}</td>
