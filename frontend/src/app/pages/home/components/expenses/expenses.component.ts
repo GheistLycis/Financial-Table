@@ -19,12 +19,12 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./expenses.component.scss']
 })
 export class ExpensesComponent implements OnInit {
+  loading = false
   @Output() expensesUpdated = new EventEmitter<void>()
   activeYear!: YearDTO['id']
   years: YearDTO[] = []
   expenses: ExpenseDTO[] = []
   filters!: Filters
-  loading = false
   
   constructor(
     private yearService: YearService,
@@ -61,6 +61,8 @@ export class ExpensesComponent implements OnInit {
       key = 'month'
     }
     
+    this.loading = true
+    
     if(key) {
       const forkJoinArr = filters.map(({ id }) => this.expensesService.list({ [key]: id, tags: tags.map(({ id }) => id) }).pipe(
         map(({ data }) => data)
@@ -70,6 +72,7 @@ export class ExpensesComponent implements OnInit {
         map(filtersExpenses => filtersExpenses.flat()),
         tap(expenses => this.expenses = expenses)
       ).subscribe({ 
+        next: () => this.loading = false, 
         error: () => this.loading = false, 
         complete: () => this.loading = false 
       })
@@ -79,6 +82,7 @@ export class ExpensesComponent implements OnInit {
         map(({ data }) => data),
         tap(expenses => this.expenses = expenses)
       ).subscribe({ 
+        next: () => this.loading = false, 
         error: () => this.loading = false, 
         complete: () => this.loading = false 
       })

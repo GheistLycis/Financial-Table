@@ -15,6 +15,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./analytics.component.scss']
 })
 export class AnalyticsComponent implements OnInit {
+  loading = false
   @Input() set update(signal: number) {
     if(signal) this.calculateAnalytics()
   }
@@ -50,7 +51,11 @@ export class AnalyticsComponent implements OnInit {
     this.years$.pipe(
       skip(1), 
       filter(data => data.length != 0),
-      tap(years => this.year$.next(years[0]))
+      tap(years => {
+        this.year$.next(years[0])
+        
+        this.loading = true
+      }),
     ).subscribe()
     
     this.year$.pipe(
@@ -69,7 +74,11 @@ export class AnalyticsComponent implements OnInit {
     
     this.month$.pipe(
       skip(1),
-      tap(() => this.calculateAnalytics())
+      tap(() => {
+        this.loading = false
+        
+        this.calculateAnalytics()
+      }),
     ).subscribe()
   }
   
@@ -83,11 +92,17 @@ export class AnalyticsComponent implements OnInit {
   }
   
   calculateActualBalance({ id }: MonthDTO): void {
-    this.analyticsService.monthBalance(id).subscribe(({ data }) => this.actualBalance$.next(data.balance || '--'))
+    this.loading = true
+    this.analyticsService.monthBalance(id).pipe(
+      tap(() => this.loading = false),
+    ).subscribe(({ data }) => this.actualBalance$.next(data.balance || '--'))
   }
   
   calculateRecentExpenses({ id }: MonthDTO): void {
-    this.analyticsService.recentExpenses(id).subscribe(({ data }) => this.recentExpenses$.next(data))
+    this.loading = true
+    this.analyticsService.recentExpenses(id).pipe(
+      tap(() => this.loading = false),
+    ).subscribe(({ data }) => this.recentExpenses$.next(data))
   }
   
   calculateYearExpenses({ month, id }: MonthDTO): void {
@@ -95,27 +110,42 @@ export class AnalyticsComponent implements OnInit {
       this.yearExpenses$.next('--')
     }
     else {
-      this.analyticsService.yearExpenses(id).subscribe(({ data }) => this.yearExpenses$.next(data))
+      this.loading = true
+      this.analyticsService.yearExpenses(id).pipe(
+        tap(() => this.loading = false),
+      ).subscribe(({ data }) => this.yearExpenses$.next(data))
     }
   }
   
   getMostExpensiveCategory({ id }: MonthDTO): void {
-    this.analyticsService.mostExpensiveCategory(id).subscribe(({ data }) => this.mostExpensiveCategory$.next(data))
+    this.loading = true
+    this.analyticsService.mostExpensiveCategory(id).pipe(
+      tap(() => this.loading = false),
+    ).subscribe(({ data }) => this.mostExpensiveCategory$.next(data))
   }
   
   getMostExpensiveTags({ id }: MonthDTO): void {
-    this.analyticsService.mostExpensiveTags(id).subscribe(({ data }) => this.mostExpensiveTags$.next(data))
+    this.loading = true
+    this.analyticsService.mostExpensiveTags(id).pipe(
+      tap(() => this.loading = false),
+    ).subscribe(({ data }) => this.mostExpensiveTags$.next(data))
   }
   
   listCategoriesRemaining({ id }: MonthDTO): void {
+    this.loading = true
     this.categoryService.list({ month: id }).subscribe(({ data }) => {
-      if(!data.length) this.categoriesRemaining = []
+      if(!data.length) {
+        this.categoriesRemaining = []
+        this.loading = false
+      }
       else {
         const categoriesRemaining$ = data.map(({ id }) => this.analyticsService.categoryRemaining(id).pipe(
             map(({ data }) => data)
           ))
           
-        forkJoin(categoriesRemaining$).subscribe(categoriesRemainings => this.categoriesRemaining = categoriesRemainings)
+        forkJoin(categoriesRemaining$).pipe(
+          tap(() => this.loading = false),
+        ).subscribe(categoriesRemainings => this.categoriesRemaining = categoriesRemainings)
       }
     })
   }

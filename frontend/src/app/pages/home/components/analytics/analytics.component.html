@@ -11,6 +11,7 @@
             </span>
             )
         </h2>
+        <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
         <div [ngClass]="{'d-none': dropdown != 'year'}">
             <ng-select
                 [items]="years$ | async" 

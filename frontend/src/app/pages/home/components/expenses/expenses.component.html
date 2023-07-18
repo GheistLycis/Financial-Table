@@ -1,6 +1,9 @@
 <div>  
   <div class="d-flex justify-content-between align-items-center">
-    <h2 class="mb-2">Histórico de gastos</h2>
+    <div class="d-flex gap-15 mb-2">
+      <h2>Histórico de gastos</h2>
+      <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+    </div>
     <img 
       src="../../../../../assets/icons/plus.svg"
       (click)="addExpense()"
@@ -16,7 +19,7 @@
       ngbNav 
       #nav="ngbNav" 
       [activeId]="activeYear"
-      (navChange)="activeYear = $event.nextId; loading = true"
+      (navChange)="activeYear = $event.nextId"
       class="nav-tabs"
     >
       <li 
@@ -34,7 +37,12 @@
               <th>Categoria</th>
               <th></th>
             </thead>
-            <tbody *ngIf="!loading else loadingSpinner">
+            <tbody *ngIf="!expenses.length">
+              <tr>
+                <td colspan="5">Nenhum registro.</td>
+              </tr>
+            </tbody>
+            <tbody>
               <tr *ngFor="let expense of expenses">
                 <td><small>{{ expense.date | date:'fullDate':'':'pt' }}</small></td>
                 <td>{{ expense.value | number:'.2-2':'pt' }}</td>
@@ -58,9 +66,6 @@
                 </td>
               </tr>
             </tbody>
-            <ng-template #loadingSpinner>
-              <span class="spinner-border spinner-border-sm"></span>
-            </ng-template> 
           </table>
         </ng-template>
       </li>
