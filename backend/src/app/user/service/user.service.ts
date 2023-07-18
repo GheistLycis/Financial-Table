@@ -135,10 +135,11 @@ export class UserService {
   }
   
   protected async populateNewUser(user: User): Promise<void> {
+    const randInt = (min=1, max=1) => Math.ceil(Math.random() * (max - min) + min)
     const now = new Date()
     
     // CREATING 1 YEAR
-    const year = this.yearRepo.create({ 
+    let year = this.yearRepo.create({ 
       year: now.getFullYear(),
       user
     })
@@ -149,7 +150,7 @@ export class UserService {
       title: 'Viagem!',
       description: 'Eu sou uma caixinha de economia! Comigo você pode organizar seus projetos e acompanhar em tempo real o seu progresso.',
       amount: 3200,
-      dueDate: new Date(`${now.getFullYear() + 1}-01-01`),
+      dueDate: new Date(now.getFullYear() + 1, now.getMonth()),
       user
     })
     this.savingRepo.save(saving)
@@ -173,19 +174,20 @@ export class UserService {
     
     // CREATING 3 MONTHS
     const monthsProps = { availables: [60, 45, 50] }
-    for(let i = 1; i < 4; i++) {
+    for(let i = 0; i < 3; i++) {
+      now.setDate(randInt(10, 28))
+      
       const month = this.monthRepo.create({ 
-        month: now.getMonth() + 2 - i,
-        available: monthsProps.availables[i-1],
+        month: now.getMonth() + 1,
+        available: monthsProps.availables[i],
         obs: 'Eu sou um mês. Em mim, você pode cadastrar seus ganhos, mensalidades, categorias e registrar seus gastos!',
         year
       })
       await this.monthRepo.save(month)
-      now.setMonth(now.getMonth() + 1 - i)
       
       // CREATING 1 MONTHLY INCOME
       const monthlyIncome = this.monthlyIncomeRepo.create({ 
-        value: 2000 * 0.5 * i,
+        value: 1000 * randInt(1, i+1),
         description: 'Eu sou uma entrada mensal. Componho o valor total ganho para ser gasto no mês',
         month
       })
@@ -193,7 +195,7 @@ export class UserService {
       
       // CREATING 1 MONTHLY EXPENSE
       const monthlyExpense = this.monthlyExpenseRepo.create({ 
-        value: 100 * 0.75 * i,
+        value: 100 * randInt(1, i+1),
         description: 'Eu sou uma mensalidade. Sou automaticamente descontada de seus ganhos.',
         month
       })
@@ -205,29 +207,41 @@ export class UserService {
         colors: ['#F00', '#0F0', '#00F'],
         percentages: [40, 50, 10]
       }
-      for(let j = 1; j < 4; j++) {
+      for(let j = 0; j < 3; j++) {
         const category = this.categoryRepo.create({ 
-          name: categoriesProps.names[j-1],
-          color: categoriesProps.colors[j-1],
-          percentage: categoriesProps.percentages[j-1],
+          name: categoriesProps.names[j],
+          color: categoriesProps.colors[j],
+          percentage: categoriesProps.percentages[j],
           month
         })
         await this.categoryRepo.save(category)
         
-        // CREATING EXPENSES RANDOMLY
+        // CREATING 0-1 EXPENSE PER CATEGORY
         if(Math.random() >= 0.6) {
           // LINKING TAGS TO EXPENSE RANDOMLY
           const expenseTags = tags.filter(() => Math.random() > 0.5)
           const expense = this.expenseRepo.create({ 
-            value: 22.50 * j * Math.random(),
+            value: 22.50 * randInt(1, j+1),
             description: 'Eu sou um registro de gasto!',
             date: now,
             category,
             tags: expenseTags
           })
-          this.expenseRepo.save(expense)
-          now.setDate(now.getDate() - 1)
+          await this.expenseRepo.save(expense)
+          
+          now.setDate(now.getDate() - randInt(1, 2))
         }
+      }
+      
+      now.setMonth(now.getMonth() - 1)
+      
+      // CHECKING IF CURRENT MONTH WAS JANUARY AND NOW IS DECEMBER
+      if(now.getMonth() == 11) {
+        year = this.yearRepo.create({ 
+          year: now.getFullYear(),
+          user
+        })
+        await this.yearRepo.save(year)
       }
     }
     
