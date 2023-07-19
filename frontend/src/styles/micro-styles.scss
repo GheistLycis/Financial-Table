@@ -1,0 +1,43 @@
+// GENERAL
+.pointer {
+  cursor: pointer;
+}
+
+// FLEX-BOX
+.gap-0 { 
+  gap: 0;
+}
+
+.gap-5 { 
+  gap: 5px !important; // Bootstrap already has a gap-5 class
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+.gap-15 {
+  gap: 15px;
+}
+
+.gap-20 {
+  gap: 20px;
+}
+
+// TEXT
+.italic {
+  font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.text-end {
+  text-align: end;
+}
+
+// TEXTAREA
+.resize-none {
+  resize: none;
+}

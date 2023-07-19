@@ -1,5 +1,11 @@
+$carousel-height: 380px;
+
 ngb-carousel {
-  min-height: 380px;
+  min-height: $carousel-height;
+  
+  .picsum-img-wrapper {
+    height: $carousel-height !important;
+  }
   
   .carousel-control-prev {
     transform: translateX(-50%);

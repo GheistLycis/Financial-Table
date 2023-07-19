@@ -27,11 +27,11 @@ export class TimeLeftPipe implements PipeTransform {
           months = Math.floor((years - Math.floor(years)) * 12)
           years = Math.floor(years)
           
-          return (
-            `${years} ${years > 1 ? 'anos' : 'ano'}` +
-            `, ${months} ${months > 1 ? 'meses' : 'mês'}` +
-            ` e ${days} ${days > 1 ? 'dias' : 'dia'}`
-          )
+          const yearsStr = `${years} ${years > 1 ? 'anos' : 'ano'}`
+          const monthsStr = months ? (`, ${months} ${months > 1 ? 'meses' : 'mês'}`) : ''
+          const daysStr = days ? (` e ${days} ${days > 1 ? 'dias' : 'dia'}`) : ''
+          
+          return yearsStr + monthsStr + daysStr
         }
         else {
           months = Math.floor(months)
