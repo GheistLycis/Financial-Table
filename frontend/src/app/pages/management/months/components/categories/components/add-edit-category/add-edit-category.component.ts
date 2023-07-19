@@ -18,6 +18,7 @@ export class AddEditCategoryComponent implements OnInit {
   form = new CategoryForm()
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
+  loading = false
   
   constructor(
     protected activeModal: NgbActiveModal,
@@ -55,6 +56,8 @@ export class AddEditCategoryComponent implements OnInit {
     const service = this.action == 'adicionar'
       ? (obj: CategoryForm) => this.categoryService.post(obj)
       : (obj: CategoryForm) => this.categoryService.put(this.category.id, obj)
+    
+    this.loading = true
     
     service(this.form).subscribe({
       complete: () => this.activeModal.close(true),

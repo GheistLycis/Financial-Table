@@ -17,6 +17,7 @@ import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 export class CategoriesComponent implements OnInit {
   @Input() month!: MonthDTO
   categories: CategoryDTO[] = []
+  loading = false
   
   constructor(
     private categoryService: CategoryService,
@@ -31,7 +32,11 @@ export class CategoriesComponent implements OnInit {
   }
   
   listCategories(): void {
-    this.categoryService.list({ month: this.month.id }).subscribe(({ data }) => this.categories = data)
+    this.loading = true
+    this.categoryService.list({ month: this.month.id }).subscribe(({ data }) => {
+      this.loading = false
+      this.categories = data
+    })
   }
   
   addCategory(): void {
