@@ -6,6 +6,8 @@ import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { ExpensesModule } from './components/expenses/expenses.module';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -13,6 +15,7 @@ import { ExpensesModule } from './components/expenses/expenses.module';
   declarations: [
     HomeComponent,
     AnalyticsComponent,
+    CalendarComponent,
   ],
   imports: [
     CommonModule,
@@ -20,6 +23,7 @@ import { ExpensesModule } from './components/expenses/expenses.module';
     ExpensesModule,
     NgSelectModule,
     FormsModule,
+    NgbCarouselModule,
   ]
 })
 export class HomeModule { }

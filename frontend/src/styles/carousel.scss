@@ -1,0 +1,18 @@
+ngb-carousel {
+  min-height: 380px;
+  
+  .carousel-control-prev {
+    transform: translateX(-50%);
+    justify-content: start;
+  }
+  
+  .carousel-control-next {
+    transform: translateX(50%);
+    justify-content: end;
+  }
+  
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    filter: invert(51%) sepia(53%) saturate(397%) hue-rotate(129deg) brightness(93%) contrast(87%);
+  }
+}
