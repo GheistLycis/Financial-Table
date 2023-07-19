@@ -13,6 +13,6 @@ ngb-carousel {
   
   .carousel-control-prev-icon,
   .carousel-control-next-icon {
-    filter: invert(51%) sepia(53%) saturate(397%) hue-rotate(129deg) brightness(93%) contrast(87%);
+    filter: $filter-palette-4;
   }
 }

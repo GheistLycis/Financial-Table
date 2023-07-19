@@ -35,11 +35,11 @@
     justify-content: center;
 
     .svg-arrow-up {
-      filter: invert(14%) sepia(93%) saturate(7485%) hue-rotate(0deg) brightness(100%) contrast(110%);
+      filter: $filter-green;
     }
 
     .svg-arrow-down {
-      filter: invert(25%) sepia(76%) saturate(6344%) hue-rotate(115deg) brightness(94%) contrast(104%); 
+      filter: $filter-red;
     }
   }
 

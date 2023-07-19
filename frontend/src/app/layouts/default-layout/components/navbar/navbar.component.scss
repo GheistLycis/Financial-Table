@@ -93,7 +93,7 @@ nav {
             border-left: 2px solid $palette-4;
             
             > img {
-                filter: invert(59%) sepia(9%) saturate(2399%) hue-rotate(129deg) brightness(89%) contrast(80%);
+                filter: $filter-palette-4;
             }
             
             &:hover {
