@@ -17,6 +17,7 @@ import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 export class MonthlyExpensesComponent implements OnInit {
   @Input() month!: MonthDTO
   expenses: MonthlyExpenseDTO[] = []
+  loading = false
   
   constructor(
     private monthlyExpenseService: MonthlyExpenseService,
@@ -31,7 +32,11 @@ export class MonthlyExpensesComponent implements OnInit {
   }
   
   listExpenses(): void {
-    this.monthlyExpenseService.list({ month: this.month.id }).subscribe(({ data }) => this.expenses = data)
+    this.loading = true
+    this.monthlyExpenseService.list({ month: this.month.id }).subscribe(({ data }) => {
+      this.loading = false
+      this.expenses = data
+    })
   }
   
   addExpense(): void {

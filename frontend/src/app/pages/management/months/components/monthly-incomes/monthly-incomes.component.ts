@@ -6,7 +6,6 @@ import { MonthlyIncomeService } from 'src/app/shared/services/monthly-income/mon
 import { AddEditMonthlyIncomeComponent } from './components/add-edit-monthly-income/add-edit-monthly-income.component';
 import MonthlyIncomeDTO from 'src/app/shared/DTOs/monthlyIncome';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
-import { monthNames } from 'src/app/shared/enums/monthNames';
 import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 
 @Component({
@@ -18,6 +17,7 @@ import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 export class MonthlyIncomesComponent implements OnInit {
   @Input() month!: MonthDTO
   incomes: MonthlyIncomeDTO[] = []
+  loading = false
   
   constructor(
     private monthlyIncomeService: MonthlyIncomeService,
@@ -32,7 +32,11 @@ export class MonthlyIncomesComponent implements OnInit {
   }
   
   listIncomes(): void {
-    this.monthlyIncomeService.list({ month: this.month.id }).subscribe(({ data }) => this.incomes = data)
+    this.loading = true
+    this.monthlyIncomeService.list({ month: this.month.id }).subscribe(({ data }) => {
+      this.loading = false
+      this.incomes = data
+    })
   }
   
   addIncome(): void {

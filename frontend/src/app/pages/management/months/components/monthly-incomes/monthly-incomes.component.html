@@ -1,7 +1,10 @@
 <div class="modal-container">
   <div class="modal-header">
-    <div class="d-flex align-items-center gap-15">
-      <h2 class="mb-2">Entradas de {{ month.month | monthName }}</h2>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex gap-15 mb-2">
+        <h2 class="mb-2">Entradas de {{ month.month | monthName }}</h2>
+        <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+      </div>
       <img 
         src="../../../../../assets/icons/plus.svg"
         (click)="addIncome()"
@@ -19,6 +22,11 @@
         <th>Descrição</th>
         <th></th>
       </thead>
+      <tbody *ngIf="!incomes.length">
+        <tr>
+          <td colspan="3">Nenhum registro.</td>
+        </tr>
+      </tbody>
       <tbody>
         <tr *ngFor="let income of incomes" class="table-active">
           <td>{{ income.value | number:'.2-2':'pt' }}</td>

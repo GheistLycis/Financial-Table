@@ -18,6 +18,7 @@ export class AddEditMonthlyIncomeComponent {
   form = new MonthlyIncomeForm()
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
+  loading = false
   
   constructor(
     protected activeModal: NgbActiveModal,
@@ -53,6 +54,8 @@ export class AddEditMonthlyIncomeComponent {
     const service = this.action == 'adicionar'
       ? (obj: MonthlyIncomeForm) => this.monthlyIncomeService.post(obj)
       : (obj: MonthlyIncomeForm) => this.monthlyIncomeService.put(this.income.id, obj)
+    
+    this.loading = true
     
     service(this.form).subscribe({
       complete: () => this.activeModal.close(true),

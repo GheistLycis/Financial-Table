@@ -18,6 +18,7 @@ export class AddEditMonthlyExpenseComponent {
   form = new MonthlyExpenseForm()
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
+  loading = false
   
   constructor(
     protected activeModal: NgbActiveModal,
@@ -54,6 +55,9 @@ export class AddEditMonthlyExpenseComponent {
       ? (obj: MonthlyExpenseForm) => this.monthlyExpenseService.post(obj)
       : (obj: MonthlyExpenseForm) => this.monthlyExpenseService.put(this.expense.id, obj)
     
+      
+     this.loading = true
+      
     service(this.form).subscribe({
       complete: () => this.activeModal.close(true),
       error: () => this.activeModal.close(false)
