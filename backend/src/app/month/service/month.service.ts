@@ -193,9 +193,12 @@ export class MonthService implements BaseService<MonthDTO> {
     if(duplicateMonthlyIncomes) {
       const monthlyIncomes = await this.monthlyIncomeService.list(user, { month: targetMonth.id })
       
-      monthlyIncomes.forEach(({ value, description }) => {
+      monthlyIncomes.forEach(({ value, date, description }) => {
+        if(date) date = new Date(yearDTO.year, newMonth.month-1, new Date(date).getDate()+1)
+        
         this.monthlyIncomeService.post(user, {
           value,
+          date,
           description,
           month: newMonth.id,
         })
@@ -204,9 +207,12 @@ export class MonthService implements BaseService<MonthDTO> {
     if(duplicateMonthlyExpenses) {
       const monthlyExpenses = await this.monthlyExpenseService.list(user, { month: targetMonth.id })
       
-      monthlyExpenses.forEach(({ value, description }) => {
+      monthlyExpenses.forEach(({ value, date, description }) => {
+        if(date) date = new Date(yearDTO.year, newMonth.month-1, new Date(date).getDate()+1)
+        
         this.monthlyExpenseService.post(user, {
           value,
+          date,
           description,
           month: newMonth.id,
         })

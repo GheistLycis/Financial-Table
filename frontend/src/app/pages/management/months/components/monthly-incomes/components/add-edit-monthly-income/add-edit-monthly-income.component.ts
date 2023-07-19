@@ -48,6 +48,8 @@ export class AddEditMonthlyIncomeComponent {
     
     if(this.formModel.invalid) return
     
+    if(`${this.form.date}` == '') this.form.date = null
+    
     this.submit()
   }
   
