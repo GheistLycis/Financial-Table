@@ -29,44 +29,46 @@
       >
         <button ngbNavLink>{{ year.year }}</button>
         <ng-template ngbNavContent>
-          <table class="table table-striped table-hover">
-            <thead>
-              <th>Data</th>
-              <th>R$</th>
-              <th>Descrição</th>
-              <th>Categoria</th>
-              <th></th>
-            </thead>
-            <tbody *ngIf="!expenses.length">
-              <tr>
-                <td colspan="5">Nenhum registro.</td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr *ngFor="let expense of expenses">
-                <td><small>{{ expense.date | date:'fullDate':'':'pt' }}</small></td>
-                <td>{{ expense.value | number:'.2-2':'pt' }}</td>
-                <td><small>{{ expense.description }}</small></td>
-                <td>{{ expense.category.name }}</td>
-                <td>
-                  <div class="d-flex justify-content-evenly">
-                    <img 
-                      src="../../../../../assets/icons/pencil.svg"
-                      (click)="editExpense(expense)"
-                      width="25px"
-                      class="pointer"
-                      ngbTooltip="Editar">
-                    <img 
-                      src="../../../../../assets/icons/trash.svg"
-                      (click)="deleteExpense(expense)"
-                      width="25px"
-                      class="pointer"
-                      ngbTooltip="Excluir">
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="expenses boxed-table">
+            <table class="table table-striped table-hover">
+              <thead>
+                <th>Data</th>
+                <th>R$</th>
+                <th>Descrição</th>
+                <th>Categoria</th>
+                <th></th>
+              </thead>
+              <tbody *ngIf="!expenses.length">
+                <tr>
+                  <td colspan="5">Nenhum registro.</td>
+                </tr>
+              </tbody>
+              <tbody>
+                <tr *ngFor="let expense of expenses">
+                  <td><small>{{ expense.date | date:'fullDate':'':'pt' }}</small></td>
+                  <td>{{ expense.value | number:'.2-2':'pt' }}</td>
+                  <td><small>{{ expense.description }}</small></td>
+                  <td>{{ expense.category.name }}</td>
+                  <td>
+                    <div class="d-flex justify-content-evenly">
+                      <img 
+                        src="../../../../../assets/icons/pencil.svg"
+                        (click)="editExpense(expense)"
+                        width="25px"
+                        class="pointer"
+                        ngbTooltip="Editar">
+                      <img 
+                        src="../../../../../assets/icons/trash.svg"
+                        (click)="deleteExpense(expense)"
+                        width="25px"
+                        class="pointer"
+                        ngbTooltip="Excluir">
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </ng-template>
       </li>
     </ul>
