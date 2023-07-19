@@ -7,6 +7,16 @@ ngb-carousel {
     height: $carousel-height !important;
   }
   
+  .carousel-control-prev,
+  .carousel-control-next {
+    opacity: .7;
+    transition-duration: .2s;
+    
+    &:hover {
+      opacity: 1;
+    }
+  }
+  
   .carousel-control-prev {
     transform: translateX(-50%);
     justify-content: start;

@@ -11,7 +11,11 @@ export class TimeLeftPipe implements PipeTransform {
     const timeLeft = targetDate.getTime() - today.getTime()
     
     if(outputFormat == 'days') {
-      return `${Math.ceil(timeLeft / 1000 / 60 / 60 / 24)} dias`
+      const days = Math.ceil(timeLeft / 1000 / 60 / 60 / 24)
+      
+      if(!days) return 'hoje'
+      if(days == 1) return 'amanhã'
+      else return days + ' dias'
     }
     else {
       let days = 0, months = 0, years = 0
@@ -45,7 +49,9 @@ export class TimeLeftPipe implements PipeTransform {
       else {
         days = Math.ceil(days)
         
-        return `${days} ${days > 1 ? 'dias' : 'dia'}`
+        if(!days) return 'hoje'
+        if(days == 1) return 'amanhã'
+        else return days + ' dias'
       }
     }
   }

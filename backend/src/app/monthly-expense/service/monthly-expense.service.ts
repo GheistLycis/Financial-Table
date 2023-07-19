@@ -33,6 +33,19 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
 
     return await query.getMany().then(entities => entities.map(row => MonthlyExpense.toDTO(row)))
   }
+  
+  async upNext(user: User['id']): Promise<MonthlyExpenseDTO[]> {
+    const entities = await this.repo.createQueryBuilder('Expense')
+      .innerJoin('Expense.month', 'Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Expense.date >= CURRENT_DATE')
+      .orderBy('Expense.date')
+      .getMany()
+
+    return entities.map(row => MonthlyExpense.toDTO(row))
+  }
 
   async get(user: User['id'], id: MonthlyExpenseDTO['id']) {
     const entity = await this.repo.createQueryBuilder('Expense')

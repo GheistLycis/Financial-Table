@@ -15,8 +15,12 @@ export class MonthlyIncomeService {
 
   constructor(private http: HttpClient) {}
 
-  list(query: { month?: MonthDTO['id'] }) {
+  list(query?: { month?: MonthDTO['id'] }) {
     return this.http.get<Res<MonthlyIncomeDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
+  }
+  
+  upNext() {
+    return this.http.get<Res<MonthlyIncomeDTO[]>>(`${environment.apiUrl}/${this.baseRoute}/up-next`)
   }
 
   get(id: MonthlyIncomeDTO['id']) {

@@ -27,18 +27,18 @@ INSERT INTO months ("createdAt","updatedAt","deletedAt","month",available,obs,"y
 	('2023-07-06 17:02:10.161002','2023-07-06 17:02:10.161002',NULL,1,40,'',2),
 	('2023-07-06 17:06:01.244051','2023-07-06 17:06:14.764767',NULL,2,45,'',2);
 	
-INSERT INTO monthly_incomes ("createdAt","updatedAt","deletedAt",value,description,"monthId") VALUES
-	('2023-07-06 16:58:33.065522','2023-07-06 16:58:41.479122',NULL,3600,'Salário',1),
-	('2023-07-06 17:02:10.185681','2023-07-06 17:02:10.185681',NULL,3600,'Salário',2),
-	('2023-07-06 17:02:29.103047','2023-07-06 17:02:29.103047',NULL,3600,'Salário',3);
+INSERT INTO monthly_incomes ("createdAt","updatedAt","deletedAt",value,"date",description,"monthId") VALUES
+	('2023-07-06 16:58:33.065522','2023-07-06 16:58:41.479122',NULL,3600,NULL,'Salário',1),
+	('2023-07-06 17:02:10.185681','2023-07-06 17:02:10.185681',NULL,3600,NULL,'Salário',2),
+	('2023-07-06 17:02:29.103047','2023-07-06 17:02:29.103047',NULL,3600,NULL,'Salário',3);
 	
-INSERT INTO monthly_expenses ("createdAt","updatedAt","deletedAt",value,description,"monthId") VALUES
-	('2023-07-06 16:58:55.679117','2023-07-06 16:58:55.679117',NULL,110,'Academia',1),
-	('2023-07-06 16:59:04.376456','2023-07-06 16:59:04.376456',NULL,223,'Faculdade',1),
-	('2023-07-06 17:02:10.294542','2023-07-06 17:02:10.294542',NULL,223,'Faculdade',2),
-	('2023-07-06 17:02:10.295484','2023-07-06 17:02:10.295484',NULL,110,'Academia',2),
-	('2023-07-06 17:02:29.119181','2023-07-06 17:02:29.119181',NULL,223,'Faculdade',3),
-	('2023-07-06 17:02:29.324598','2023-07-06 17:02:29.324598',NULL,110,'Academia',3);
+INSERT INTO monthly_expenses ("createdAt","updatedAt","deletedAt",value,"date",description,"monthId") VALUES
+	('2023-07-06 16:58:55.679117','2023-07-06 16:58:55.679117',NULL,110,NULL,'Academia',1),
+	('2023-07-06 16:59:04.376456','2023-07-06 16:59:04.376456',NULL,223,NULL,'Faculdade',1),
+	('2023-07-06 17:02:10.294542','2023-07-06 17:02:10.294542',NULL,223,NULL,'Faculdade',2),
+	('2023-07-06 17:02:10.295484','2023-07-06 17:02:10.295484',NULL,110,NULL,'Academia',2),
+	('2023-07-06 17:02:29.119181','2023-07-06 17:02:29.119181',NULL,223,NULL,'Faculdade',3),
+	('2023-07-06 17:02:29.324598','2023-07-06 17:02:29.324598',NULL,110,NULL,'Academia',3);
 	
 INSERT INTO categories ("createdAt","updatedAt","deletedAt",name,color,percentage,"monthId") VALUES
 	('2023-07-06 16:59:38.986167','2023-07-06 16:59:38.986167',NULL,'Essenciais','#00ff00',50,1),

@@ -12,7 +12,7 @@ export class HomeComponent {
   
   constructor(config: NgbCarouselConfig) {
     config.animation = true
-    config.interval = 0
+    config.interval = 10000
     config.showNavigationIndicators = false
   }
 }
