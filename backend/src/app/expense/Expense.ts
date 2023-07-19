@@ -24,7 +24,7 @@ export class Expense extends BaseEntity  {
   @Column({ nullable: true, default: '' })
   description: string
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', default: () => 'CURRENT_TIMESTAMP' })
   date: Date
 
   // RELATIONS

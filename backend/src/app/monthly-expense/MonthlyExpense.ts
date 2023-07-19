@@ -18,7 +18,10 @@ export class MonthlyExpense extends BaseEntity {
   @Min(1)
   value: number
 
-  @Column({ nullable: true, default: '' })
+  @Column({ type: 'date', nullable: true })
+  date: Date
+  
+  @Column({ default: '' })
   description: string
 
   // RELATIONS
@@ -29,6 +32,7 @@ export class MonthlyExpense extends BaseEntity {
     return {
       value: row.value,
       description: row.description,
+      date: row.date,
       month: row.month ? Month.toDTO(row.month) : null,
       id: row.id,
       createdAt: row.createdAt,

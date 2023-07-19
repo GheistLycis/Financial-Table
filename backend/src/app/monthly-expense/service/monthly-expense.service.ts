@@ -9,7 +9,7 @@ import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'src/app/user/User';
 
-type body = { value: number, description: string, month: Month['id'] }
+type body = { value: number, date?: Date, description?: string, month: Month['id'] }
 type queries = { month: Month['id'] }
 
 @Injectable()
@@ -47,7 +47,7 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
     return MonthlyExpense.toDTO(entity)
   }
 
-  async post(user: User['id'], { value, description, month }: body) {
+  async post(user: User['id'], { value, date, description, month }: body) {
     const duplicated = await this.repo.createQueryBuilder('Expense')
       .innerJoin('Expense.month', 'Month')
       .innerJoin('Month.year', 'Year')
@@ -55,6 +55,7 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
       .where('User.id = :user', { user })
       .andWhere('Month.id = :month', { month })
       .andWhere('Expense.value = :value', { value })
+      .andWhere('Expense.date = :date', { date })
       .andWhere('Expense.description = :description', { description })
       .getOne()
     if(duplicated) throw DuplicatedException('Este gasto fixo já existe.')
@@ -63,6 +64,7 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
     
     const entity = this.repo.create({ 
       value,
+      date,
       description,
       month: monthEntity 
     })
@@ -75,7 +77,7 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
     return MonthlyExpense.toDTO(entity)
   }
 
-  async put(user: User['id'], id: MonthlyExpenseDTO['id'], { value, description, month }: body) {
+  async put(user: User['id'], id: MonthlyExpenseDTO['id'], { value, date, description, month }: body) {
     const duplicated = await this.repo.createQueryBuilder('Expense')
       .innerJoin('Expense.month', 'Month')
       .innerJoin('Month.year', 'Year')
@@ -84,6 +86,7 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
       .andWhere('Expense.id != :id', { id })
       .andWhere('Month.id = :month', { month })
       .andWhere('Expense.value = :value', { value })
+      .andWhere('Expense.date = :date', { date })
       .andWhere('Expense.description = :description', { description })
       .getOne()
     if(duplicated) throw DuplicatedException('Este gasto fixo já existe.')
@@ -98,6 +101,7 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
     if(!entity) throw NotFoundException('Gasto fixo não encontrado.')
     
     entity.value = value
+    entity.date = date
     entity.description = description
 
     const errors = await validate(entity)

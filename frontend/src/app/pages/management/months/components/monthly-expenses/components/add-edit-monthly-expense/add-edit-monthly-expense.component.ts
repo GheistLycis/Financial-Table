@@ -29,10 +29,11 @@ export class AddEditMonthlyExpenseComponent {
     if(this.expense) {
       this.action = 'editar'
       
-      const { value, description, month } = this.expense
+      const { value, date, description, month } = this.expense
       
       this.form = {
         value,
+        date,
         description,
         month: month.id
       }
@@ -55,8 +56,7 @@ export class AddEditMonthlyExpenseComponent {
       ? (obj: MonthlyExpenseForm) => this.monthlyExpenseService.post(obj)
       : (obj: MonthlyExpenseForm) => this.monthlyExpenseService.put(this.expense.id, obj)
     
-      
-     this.loading = true
+    this.loading = true
       
     service(this.form).subscribe({
       complete: () => this.activeModal.close(true),

@@ -24,7 +24,7 @@
           hidden
           class="form-control"
           [ngClass]="{'is-invalid': submitted && f['category'].errors}">
-        <div *ngIf="submitted && f['category'].errors && f['category'].errors['required']" class="invalid-feedback">
+        <div *ngIf="submitted && f['category'].errors && f['category'].errors['required']" class="invalid-feedback text-end">
           * Selecione uma categoria
         </div>
       </div>

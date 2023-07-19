@@ -26,6 +26,18 @@
         </div>
         
         <div class="row mb-4">
+          <label for="date" class="mb-1">
+            Data
+          </label>
+          <input 
+            id="date"
+            type="date" 
+            [(ngModel)]="form.date"
+            name="date"
+            class="form-control">
+        </div>
+        
+        <div class="row mb-4">
           <label for="description" class="mb-1">Descrição</label>
           <textarea
             id="description"

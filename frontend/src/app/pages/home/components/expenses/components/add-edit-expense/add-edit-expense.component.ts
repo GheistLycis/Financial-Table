@@ -22,6 +22,7 @@ export class AddEditExpenseComponent implements OnInit {
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
   loading = false
+  value
   
   constructor(
     protected activeModal: NgbActiveModal,
@@ -45,6 +46,9 @@ export class AddEditExpenseComponent implements OnInit {
           tags: data
         }
       })
+    }
+    else {
+      this.form.date = new Date().toISOString().split('T')[0]
     }
   }
   
