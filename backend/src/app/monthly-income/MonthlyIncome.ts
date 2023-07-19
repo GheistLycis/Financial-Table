@@ -17,6 +17,9 @@ export class MonthlyIncome extends BaseEntity {
   @Column({ type: 'decimal', scale: 2, transformer: new DecimalTransformer() })
   @Min(1)
   value: number
+  
+  @Column({ type: 'date', nullable: true })
+  date: Date
 
   @Column({ nullable: true, default: '' })
   description: string
@@ -28,6 +31,7 @@ export class MonthlyIncome extends BaseEntity {
   static toDTO(row: MonthlyIncome): MonthlyIncomeDTO {
     return {
       value: row.value,
+      date: row.date,
       description: row.description,
       month: row.month ? Month.toDTO(row.month) : null,
       id: row.id,

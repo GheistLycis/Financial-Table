@@ -29,10 +29,11 @@ export class AddEditMonthlyIncomeComponent {
     if(this.income) {
       this.action = 'editar'
       
-      const { value, description, month } = this.income
+      const { value, date, description, month } = this.income
       
       this.form = {
-        value,
+        value, 
+        date,
         description,
         month: month.id
       }

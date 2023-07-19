@@ -19,17 +19,19 @@
     <table class="table table-hover">
       <thead>
         <th>Valor</th>
+        <th>Data</th>
         <th>Descrição</th>
         <th></th>
       </thead>
       <tbody *ngIf="!incomes.length">
         <tr>
-          <td colspan="3">Nenhum registro.</td>
+          <td colspan="4">Nenhum registro.</td>
         </tr>
       </tbody>
       <tbody>
         <tr *ngFor="let income of incomes" class="table-active">
           <td>{{ income.value | number:'.2-2':'pt' }}</td>
+          <td>{{ income.date | date:'dd/MM/YY' }}</td>
           <td>{{ income.description }}</td>
           <td>
             <div class="d-flex justify-content-evenly">

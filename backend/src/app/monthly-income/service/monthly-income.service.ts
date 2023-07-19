@@ -11,7 +11,7 @@ import { User } from 'src/app/user/User';
 
 type queries = { month: Month['id'] }
 
-type body = { value: number, description: string, month: Month['id'] }
+type body = { value: number, date?: Date, description: string, month: Month['id'] }
 @Injectable()
 export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
   constructor(
@@ -47,7 +47,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     return MonthlyIncome.toDTO(entity)
   }
 
-  async post(user: User['id'], { value, description, month }: body) {
+  async post(user: User['id'], { value, date, description, month }: body) {
     const duplicated = await this.repo.createQueryBuilder('Income')
       .innerJoin('Income.month', 'Month')
       .innerJoin('Month.year', 'Year')
@@ -55,6 +55,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
       .where('User.id = :user', { user })
       .andWhere('Month.id = :month', { month })
       .andWhere('Income.value = :value', { value })
+      .andWhere('Income.date = :date', { date })
       .andWhere('Income.description = :description', { description })
       .getOne()
     if(duplicated) throw DuplicatedException('Esta entrada mensal já existe.')
@@ -63,6 +64,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     
     const entity = this.repo.create({ 
       value,
+      date,
       description,
       month: monthEntity 
     })
@@ -75,7 +77,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     return MonthlyIncome.toDTO(entity)
   }
 
-  async put(user: User['id'], id: MonthlyIncomeDTO['id'], { value, description, month }: body) {
+  async put(user: User['id'], id: MonthlyIncomeDTO['id'], { value, date, description, month }: body) {
     const duplicated = await this.repo.createQueryBuilder('Income')
       .innerJoin('Income.month', 'Month')
       .innerJoin('Month.year', 'Year')
@@ -84,6 +86,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
       .andWhere('Income.id != :id', { id })
       .andWhere('Month.id = :month', { month })
       .andWhere('Income.value = :value', { value })
+      .andWhere('Income.date = :date', { date })
       .andWhere('Income.description = :description', { description })
       .getOne()
     if(duplicated) throw DuplicatedException('Esta entrada mensal já existe.')
@@ -98,6 +101,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
     if(!entity) throw NotFoundException('Entrada mensal não encontrada.')
     
     entity.value = value
+    entity.date = date
     entity.description = description
 
     const errors = await validate(entity)
