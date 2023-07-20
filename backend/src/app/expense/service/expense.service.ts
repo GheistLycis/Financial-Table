@@ -18,8 +18,8 @@ const paginationSize = 30
 type body = { value: number, description: string, date: Date, category: Category['id'], tags: TagDTO[] }
 type queries = {
   year?: Year['id'], 
-  month?: Month['id'], 
-  category?: Category['id'], 
+  months?: Month['id'][], 
+  categories?: Category['id'][], 
   tags: Tag['id'][],
   page?: string,
 }
@@ -33,8 +33,8 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     // @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
-  async list(user: User['id'], { year, month, category, tags, page }: queries) {
-    // const cacheKey = `${user}-expenses-${year}_${month}_${category}_${tags}`
+  async list(user: User['id'], { year, months, categories, tags, page }: queries) {
+    // const cacheKey = `${user}-expenses-${year}_${months}_${categories}_${tags}`
     
     // const cache = await this.cacheService.get<ExpenseDTO[]>(cacheKey)
     // if(cache) {
@@ -54,8 +54,8 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
       .where('User.id = :user', { user })
 
     if(year) query.andWhere('Year.id = :year', { year })
-    if(month) query.andWhere('Month.id = :month', { month })
-    if(category) query.andWhere('Category.id = :category', { category })
+    if(months.length) query.andWhere('Month.id IN (:...months)', { months })
+    if(categories.length) query.andWhere('Category.id IN (:...categories)', { categories })
     if(tags.length) query.andWhere('Tag.id IN (:...tags)', { tags })
     
     if(page) query

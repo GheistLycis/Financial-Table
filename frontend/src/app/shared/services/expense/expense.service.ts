@@ -18,7 +18,7 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) {}
 
-  list(query: { year?: YearDTO['id'], month?: MonthDTO['id'], category?: CategoryDTO['id'], tags?: TagDTO['id'][], page?: number }) {
+  list(query: { year?: YearDTO['id'], months?: MonthDTO['id'][], categories?: CategoryDTO['id'][], tags?: TagDTO['id'][], page?: number }) {
     return this.http.get<Res<ExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 

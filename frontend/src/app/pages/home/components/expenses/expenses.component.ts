@@ -69,40 +69,25 @@ export class ExpensesComponent implements OnInit {
   
   listExpenses(): Observable<ExpenseDTO[]> {    
     const { months, categories, tags } = this.filters.value
-    let reqFilters: MonthDTO[] | CategoryDTO[]
-    let key: 'month' | 'category'
+    let reqFilter: number | number[] = this.activeYear
+    let reqQuery: 'year' | 'months' | 'categories' = 'year'
     
     if(categories.length) {
-      reqFilters = categories
-      key = 'category'
+      reqFilter = categories.map(({ id }) => id)
+      reqQuery = 'categories'
     }
     else if(months.length) {
-      reqFilters = months
-      key = 'month'
+      reqFilter = months.map(({ id }) => id)
+      reqQuery = 'months'
     }
     
     this.loading = true
 
-    if(key) {
-      const forkJoinArr = reqFilters.map(({ id }) => this.expensesService.list({ [key]: id, tags: tags.map(({ id }) => id), page: this.page }).pipe(
-        map(({ data }) => data)
-      ))
-      
-      return forkJoin(forkJoinArr).pipe(
-        map(filtersExpenses => filtersExpenses.flat()),
-        tap(expenses => {
-          this.loading = false
-
-          if(expenses.length) {
-            this.expenses = this.expenses.concat(expenses)
-            this.page++
-          }
-          else this.keepListing = false
-        })
-      )
-    }
-    else {
-      return this.expensesService.list({ year: this.activeYear, page: this.page }).pipe(
+    return this.expensesService.list({ 
+      [reqQuery]: reqFilter, 
+      page: this.page,
+      tags: tags.map(({ id }) => id)
+    }).pipe(
         map(({ data }) => data),
         tap(expenses => {
           this.loading = false
@@ -114,7 +99,6 @@ export class ExpensesComponent implements OnInit {
           else this.keepListing = false
         })
       )
-    }
   }
   
   addExpense(): void {

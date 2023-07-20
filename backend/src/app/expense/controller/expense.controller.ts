@@ -13,6 +13,14 @@ export class ExpenseController extends BaseController {
   
   @Get()
   async list(@Req() req, @Query() query) {
+    query.categories = query.categories?.length
+      ? query.categories.split(',')
+      : []
+
+    query.months = query.months?.length
+      ? query.months.split(',')
+      : []
+
     query.tags = query.tags?.length
       ? query.tags.split(',')
       : []
