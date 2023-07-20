@@ -1,16 +1,14 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { YearService } from 'src/app/shared/services/year/year.service';
 import Filters from 'src/app/shared/interfaces/Filters';
 import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
-import MonthDTO from 'src/app/shared/DTOs/month';
-import CategoryDTO from 'src/app/shared/DTOs/category';
 import ExpenseDTO from 'src/app/shared/DTOs/expense';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { ToastrService } from 'ngx-toastr';
 import { AddEditExpenseComponent } from 'src/app/pages/home/components/expenses/components/add-edit-expense/add-edit-expense.component';
-import { map, tap, forkJoin, BehaviorSubject, Subject, of, Observable } from 'rxjs';
+import { map, tap, BehaviorSubject, Subject, of, Observable } from 'rxjs';
 import { concatMap, debounceTime, filter, skip, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -84,10 +82,10 @@ export class ExpensesComponent implements OnInit {
     this.loading = true
 
     return this.expensesService.list({ 
-      [reqQuery]: reqFilter, 
-      page: this.page,
-      tags: tags.map(({ id }) => id)
-    }).pipe(
+        [reqQuery]: reqFilter, 
+        page: this.page,
+        tags: tags.map(({ id }) => id)
+      }).pipe(
         map(({ data }) => data),
         tap(expenses => {
           this.loading = false

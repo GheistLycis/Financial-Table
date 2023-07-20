@@ -10,6 +10,16 @@ import MonthDTO from '../../DTOs/month';
 import CategoryDTO from '../../DTOs/category';
 import TagDTO from '../../DTOs/tag';
 
+type listQueries = { 
+  year?: YearDTO['id']
+  months?: MonthDTO['id'][]
+  categories?: CategoryDTO['id'][]
+  tags?: TagDTO['id'][]
+  orderBy?: ['date' | 'value', 'ASC' | 'DESC']
+  page?: number 
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +28,7 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) {}
 
-  list(query: { year?: YearDTO['id'], months?: MonthDTO['id'][], categories?: CategoryDTO['id'][], tags?: TagDTO['id'][], page?: number }) {
+  list(query: listQueries) {
     return this.http.get<Res<ExpenseDTO[]>>(`${environment.apiUrl}/${this.baseRoute}?${queryMaker(query)}`)
   }
 

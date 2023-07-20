@@ -24,6 +24,10 @@ export class ExpenseController extends BaseController {
     query.tags = query.tags?.length
       ? query.tags.split(',')
       : []
+
+    query.orderBy = query.orderBy?.length
+      ? query.orderBy.split(',')
+      : []
     
     return await this.service.list(req['user'].id, query).then(data => ({ data }))
   }
