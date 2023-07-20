@@ -18,7 +18,7 @@ import { AuthModule } from './app/auth/auth.module';
 import { MonthlyExpenseModule } from './app/monthly-expense/monthly-expense.module';
 import { SavingModule } from './app/saving/saving.module';
 
-const cacheLifeMinutes = 5
+const cacheLifeMinutes = 60 // same as token expiration
 
 @Module({
   imports: [

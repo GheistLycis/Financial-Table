@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import BaseService from 'src/shared/interfaces/BaseService';
 import ExpenseDTO from '../Expense.dto';
@@ -7,8 +7,6 @@ import { Tag } from '../../tag/Tag';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/filters/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
 import { Year } from 'src/app/year/Year';
 import { Month } from 'src/app/month/Month';
 import { Category } from 'src/app/category/Category';
@@ -18,7 +16,7 @@ import { User } from 'src/app/user/User';
 const paginationSize = 10
 
 type body = { value: number, description: string, date: Date, category: Category['id'], tags: TagDTO[] }
-type queries = { 
+type queries = {
   year?: Year['id'], 
   month?: Month['id'], 
   category?: Category['id'], 
@@ -32,20 +30,20 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     @Repo(Expense) private repo: Repository<Expense>,
     @Repo(Category) private categoryRepo: Repository<Category>,
     @Repo(Tag) private tagRepo: Repository<Tag>,
-    @Inject(CACHE_MANAGER) private cacheService: Cache,
+    // @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
   async list(user: User['id'], { year, month, category, tags, page }: queries) {
-    const cacheKey = `${user}-expenses-${year}_${month}_${category}_${tags}`
+    // const cacheKey = `${user}-expenses-${year}_${month}_${category}_${tags}`
     
-    const cache = await this.cacheService.get<ExpenseDTO[]>(cacheKey)
-    if(cache) {
-      if(!page) return cache
+    // const cache = await this.cacheService.get<ExpenseDTO[]>(cacheKey)
+    // if(cache) {
+    //   if(!page) return cache
       
-      const offset = paginationSize * +page
+    //   const offset = paginationSize * +page
       
-      return cache.slice(offset, offset + paginationSize)
-    }
+    //   return cache.slice(offset, offset + paginationSize)
+    // }
     
     const query = this.repo.createQueryBuilder('Expense')
       .innerJoinAndSelect('Expense.category', 'Category')
@@ -67,7 +65,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     return await query.getMany().then(entities => {
       const result = entities.map(row => Expense.toDTO(row))
       
-      this.cacheService.set(cacheKey, result)
+      // this.cacheService.set(cacheKey, result)
       return result
     })
   }
@@ -114,7 +112,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
       
     await this.repo.save(entity)
     
-    this.cacheService.reset()
+    // this.cacheService.reset()
 
     return Expense.toDTO(entity)
   }
@@ -156,7 +154,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
 
     await this.repo.save(entity)
     
-    this.cacheService.reset()
+    // this.cacheService.reset()
 
     return Expense.toDTO(entity)
   }
@@ -174,7 +172,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
 
     await this.repo.softRemove(entity)
     
-    await this.cacheService.reset()
+    // await this.cacheService.reset()
 
     return Expense.toDTO(entity)
   }
