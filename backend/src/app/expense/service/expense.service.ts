@@ -13,7 +13,7 @@ import { Category } from 'src/app/category/Category';
 import TagDTO from 'src/app/tag/Tag.dto';
 import { User } from 'src/app/user/User';
 
-const paginationSize = 10
+const paginationSize = 30
 
 type body = { value: number, description: string, date: Date, category: Category['id'], tags: TagDTO[] }
 type queries = {
@@ -60,7 +60,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     
     if(page) query
       .offset(paginationSize * +page)
-      .limit(paginationSize)
+      .limit(paginationSize + 1)
 
     return await query.getMany().then(entities => {
       const result = entities.map(row => Expense.toDTO(row))

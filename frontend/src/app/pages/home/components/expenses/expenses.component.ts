@@ -10,8 +10,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { ToastrService } from 'ngx-toastr';
 import { AddEditExpenseComponent } from 'src/app/pages/home/components/expenses/components/add-edit-expense/add-edit-expense.component';
-import { map, tap, forkJoin } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { map, tap, forkJoin, BehaviorSubject, Subject, of, Observable } from 'rxjs';
+import { concatMap, debounceTime, filter, skip, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-expenses',
@@ -19,13 +19,14 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./expenses.component.scss']
 })
 export class ExpensesComponent implements OnInit {
-  @Output() expensesUpdated = new EventEmitter<void>()
+  @Output() expensesUpdated = new Subject<void>()
   activeYear!: YearDTO['id']
   years: YearDTO[] = []
   expenses: ExpenseDTO[] = []
-  filters!: Filters
+  filters = new BehaviorSubject<Filters>(undefined)
   page = 0
-  loadMore = true
+  scrolled = new Subject<void>()
+  keepListing = true
   loading = false
   
   constructor(
@@ -33,7 +34,27 @@ export class ExpensesComponent implements OnInit {
     private expensesService: ExpenseService,
     private modalService: NgbModal,
     private toastr: ToastrService,
-  ) { }
+  ) {
+    this.filters.pipe(
+      skip(1),
+      tap(() => {
+        this.keepListing = true
+        this.page = 0
+        this.expenses = []
+      }),
+      switchMap(() => this.listExpenses())
+    ).subscribe()
+
+    this.scrolled.pipe(
+      debounceTime(100),
+      filter(() => this.keepListing),
+      concatMap(() => this.listExpenses()),
+    ).subscribe()
+
+    this.expensesUpdated.pipe(
+      switchMap(() => this.listExpenses())
+    ).subscribe()
+  }
   
   ngOnInit(): void {
     this.yearService.list().pipe(
@@ -41,22 +62,13 @@ export class ExpensesComponent implements OnInit {
       filter(data => data.length != 0),
       tap(years => {
         this.years = years
-        
         this.activeYear = years[0].id
       })
     ).subscribe()
   }
   
-  listExpenses(newFilter?: Filters): void {
-    if(newFilter) {
-      this.loadMore = true
-      this.page = 0
-      this.filters = newFilter
-      this.expenses = []
-    }
-    else if(!this.loadMore) return
-    
-    const { months, categories, tags } = this.filters
+  listExpenses(): Observable<ExpenseDTO[]> {    
+    const { months, categories, tags } = this.filters.value
     let reqFilters: MonthDTO[] | CategoryDTO[]
     let key: 'month' | 'category'
     
@@ -70,34 +82,38 @@ export class ExpensesComponent implements OnInit {
     }
     
     this.loading = true
-    console.log('oi')
+
     if(key) {
       const forkJoinArr = reqFilters.map(({ id }) => this.expensesService.list({ [key]: id, tags: tags.map(({ id }) => id), page: this.page }).pipe(
         map(({ data }) => data)
       ))
       
-      forkJoin(forkJoinArr).pipe(
+      return forkJoin(forkJoinArr).pipe(
         map(filtersExpenses => filtersExpenses.flat()),
         tap(expenses => {
+          this.loading = false
+
           if(expenses.length) {
             this.expenses = this.expenses.concat(expenses)
             this.page++
           }
-          else this.loadMore = false
-        }),
-      ).subscribe(() => this.loading = false)
+          else this.keepListing = false
+        })
+      )
     }
     else {
-      this.expensesService.list({ year: this.activeYear, page: this.page }).pipe(
+      return this.expensesService.list({ year: this.activeYear, page: this.page }).pipe(
         map(({ data }) => data),
         tap(expenses => {
+          this.loading = false
+
           if(expenses.length) {
             this.expenses = this.expenses.concat(expenses)
             this.page++
           }
-          else this.loadMore = false
-        }),
-      ).subscribe(() => this.loading = false)
+          else this.keepListing = false
+        })
+      )
     }
   }
   
@@ -110,9 +126,7 @@ export class ExpensesComponent implements OnInit {
       if(res) {
         this.toastr.success('Criado com sucesso!')
         
-        this.expensesUpdated.emit()
-        
-        this.listExpenses(this.filters)
+        this.expensesUpdated.next()
       }
     })
   }
@@ -126,9 +140,7 @@ export class ExpensesComponent implements OnInit {
       if(res) {
         this.toastr.success('Editado com sucesso!')
         
-        this.expensesUpdated.emit()
-        
-        this.listExpenses(this.filters)
+        this.expensesUpdated.next()
       }
     })
   }
@@ -143,9 +155,7 @@ export class ExpensesComponent implements OnInit {
       this.expensesService.delete(id).subscribe(() => {
         this.toastr.success('Excluído com sucesso!')
         
-        this.expensesUpdated.emit()
-        
-        this.listExpenses(this.filters)
+        this.expensesUpdated.next()
       })
     )
   }
