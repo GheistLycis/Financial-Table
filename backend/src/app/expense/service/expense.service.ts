@@ -15,8 +15,16 @@ import { Category } from 'src/app/category/Category';
 import TagDTO from 'src/app/tag/Tag.dto';
 import { User } from 'src/app/user/User';
 
+const paginationSize = 10
+
 type body = { value: number, description: string, date: Date, category: Category['id'], tags: TagDTO[] }
-type queries = { year: Year['id'], month: Month['id'], category: Category['id'], tags: Tag['id'][] }
+type queries = { 
+  year?: Year['id'], 
+  month?: Month['id'], 
+  category?: Category['id'], 
+  tags: Tag['id'][],
+  page?: string,
+}
 
 @Injectable()
 export class ExpenseService implements BaseService<ExpenseDTO> {
@@ -27,11 +35,17 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
-  async list(user: User['id'], { year, month, category, tags }: queries) {
+  async list(user: User['id'], { year, month, category, tags, page }: queries) {
     const cacheKey = `${user}-expenses-${year}_${month}_${category}_${tags}`
     
     const cache = await this.cacheService.get<ExpenseDTO[]>(cacheKey)
-    if(cache) return cache
+    if(cache) {
+      if(!page) return cache
+      
+      const offset = paginationSize * +page
+      
+      return cache.slice(offset, offset + paginationSize)
+    }
     
     const query = this.repo.createQueryBuilder('Expense')
       .innerJoinAndSelect('Expense.category', 'Category')
@@ -45,6 +59,10 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     if(month) query.andWhere('Month.id = :month', { month })
     if(category) query.andWhere('Category.id = :category', { category })
     if(tags.length) query.andWhere('Tag.id IN (:...tags)', { tags })
+    
+    if(page) query
+      .offset(paginationSize * +page)
+      .limit(paginationSize)
 
     return await query.getMany().then(entities => {
       const result = entities.map(row => Expense.toDTO(row))

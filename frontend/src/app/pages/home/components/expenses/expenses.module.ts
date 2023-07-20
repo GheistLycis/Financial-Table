@@ -8,6 +8,7 @@ import { NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { ExpensesComponent } from './expenses.component';
+import { DirectivesModule } from 'src/app/shared/directives/directives.module';
 
 
 
@@ -26,6 +27,7 @@ import { ExpensesComponent } from './expenses.component';
     NgxMaskModule,
     NgbTooltipModule,
     ComponentsModule,
+    DirectivesModule,
   ],
   exports: [
     ExpensesComponent,

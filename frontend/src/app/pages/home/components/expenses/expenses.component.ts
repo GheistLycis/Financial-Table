@@ -24,6 +24,8 @@ export class ExpensesComponent implements OnInit {
   years: YearDTO[] = []
   expenses: ExpenseDTO[] = []
   filters!: Filters
+  page = 0
+  loadMore = true
   loading = false
   
   constructor(
@@ -45,47 +47,57 @@ export class ExpensesComponent implements OnInit {
     ).subscribe()
   }
   
-  listExpenses(filter: Filters): void {
-    const { months, categories, tags } = filter
-    let filters: MonthDTO[] | CategoryDTO[]
+  listExpenses(newFilter?: Filters): void {
+    if(newFilter) {
+      this.loadMore = true
+      this.page = 0
+      this.filters = newFilter
+      this.expenses = []
+    }
+    else if(!this.loadMore) return
+    
+    const { months, categories, tags } = this.filters
+    let reqFilters: MonthDTO[] | CategoryDTO[]
     let key: 'month' | 'category'
     
-    this.filters = filter
-    
     if(categories.length) {
-      filters = categories
+      reqFilters = categories
       key = 'category'
     }
     else if(months.length) {
-      filters = months
+      reqFilters = months
       key = 'month'
     }
     
     this.loading = true
-    
+    console.log('oi')
     if(key) {
-      const forkJoinArr = filters.map(({ id }) => this.expensesService.list({ [key]: id, tags: tags.map(({ id }) => id) }).pipe(
+      const forkJoinArr = reqFilters.map(({ id }) => this.expensesService.list({ [key]: id, tags: tags.map(({ id }) => id), page: this.page }).pipe(
         map(({ data }) => data)
       ))
       
       forkJoin(forkJoinArr).pipe(
         map(filtersExpenses => filtersExpenses.flat()),
-        tap(expenses => this.expenses = expenses)
-      ).subscribe({ 
-        next: () => this.loading = false, 
-        error: () => this.loading = false, 
-        complete: () => this.loading = false 
-      })
+        tap(expenses => {
+          if(expenses.length) {
+            this.expenses = this.expenses.concat(expenses)
+            this.page++
+          }
+          else this.loadMore = false
+        }),
+      ).subscribe(() => this.loading = false)
     }
     else {
-      this.expensesService.list({ year: this.activeYear }).pipe(
+      this.expensesService.list({ year: this.activeYear, page: this.page }).pipe(
         map(({ data }) => data),
-        tap(expenses => this.expenses = expenses)
-      ).subscribe({ 
-        next: () => this.loading = false, 
-        error: () => this.loading = false, 
-        complete: () => this.loading = false 
-      })
+        tap(expenses => {
+          if(expenses.length) {
+            this.expenses = this.expenses.concat(expenses)
+            this.page++
+          }
+          else this.loadMore = false
+        }),
+      ).subscribe(() => this.loading = false)
     }
   }
   

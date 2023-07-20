@@ -4,6 +4,7 @@ export function queryMaker(query?: Object): string {
   return Object.entries(query)
     .filter(([ key, val ]) => {
       if(Array.isArray(val)) return val.length
+      if(val == 0) return true
       else return val
     })
     .map(([ key, val ]) => key + '=' + val)
