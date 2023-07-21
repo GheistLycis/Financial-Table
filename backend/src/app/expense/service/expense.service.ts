@@ -45,6 +45,8 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
       
     //   return cache.slice(offset, offset + paginationSize)
     // }
+
+    console.log(orderBy)
     
     const query = this.repo.createQueryBuilder('Expense')
       .innerJoinAndSelect('Expense.category', 'Category')
@@ -58,7 +60,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     if(months?.length) query.andWhere('Month.id IN (:...months)', { months })
     if(categories?.length) query.andWhere('Category.id IN (:...categories)', { categories })
     if(tags?.length) query.andWhere('Tag.id IN (:...tags)', { tags })
-    if(orderBy?.length) query.orderBy(`Expense.${orderBy[0]}`, orderBy[1])
+    if(orderBy?.length) query.orderBy('Expense.' + orderBy[0], orderBy[1])
     if(page) query
       .offset(paginationSize * +page)
       .limit(paginationSize + 1)

@@ -14,7 +14,7 @@ import { Tag } from "../tag/Tag";
 import { Category } from "../category/Category";
 
 @Service()
-@Entity({ name: 'expenses', orderBy: { date: 'DESC' }})
+@Entity({ name: 'expenses' })
 export class Expense extends BaseEntity  {
   // COLUMNS
   @Column({ type: 'decimal', scale: 2, transformer: new DecimalTransformer() })

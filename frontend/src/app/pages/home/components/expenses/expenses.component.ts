@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, Output } from '@angular/core';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { YearService } from 'src/app/shared/services/year/year.service';
-import Filters from 'src/app/shared/interfaces/Filters';
+import ExpensesFilters from 'src/app/shared/interfaces/ExpensesFilters';
 import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
 import ExpenseDTO from 'src/app/shared/DTOs/expense';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -22,12 +22,13 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   activeYear!: YearDTO['id']
   years: YearDTO[] = []
   expenses: ExpenseDTO[] = []
-  filters = new BehaviorSubject<Filters>(undefined)
-  page = 0
-  scrolled = new Subject<void>()
-  keepListing = true
   loading = false
   initSortDirective = false
+  filters = new BehaviorSubject<ExpensesFilters>(undefined)
+  orderBy = new BehaviorSubject<['date' | 'value', 'ASC' | 'DESC'] | []>([])
+  scrolled = new Subject<void>()
+  page = 0
+  keepListing = true
   
   constructor(
     private yearService: YearService,
@@ -36,6 +37,16 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     private toastr: ToastrService,
   ) {
     this.filters.pipe(
+      skip(1),
+      tap(() => {
+        this.keepListing = true
+        this.page = 0
+        this.expenses = []
+      }),
+      switchMap(() => this.listExpenses())
+    ).subscribe()
+
+    this.orderBy.pipe(
       skip(1),
       tap(() => {
         this.keepListing = true
@@ -70,6 +81,11 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.initSortDirective = true
   }
+
+  sortTable({ column, order }: SortEvent<'date' | 'value'>): void {
+    if(order) this.orderBy.next([column, order])
+    else this.orderBy.next([])
+  }
   
   listExpenses(): Observable<ExpenseDTO[]> {    
     const { months, categories, tags } = this.filters.value
@@ -91,6 +107,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
         [queryKey]: queryValue, 
         tags: tags.map(({ id }) => id),
         page: this.page,
+        orderBy: this.orderBy.value,
       }).pipe(
         map(({ data }) => data),
         tap(expenses => {
@@ -103,10 +120,6 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
           else this.keepListing = false
         })
       )
-  }
-
-  sortTable(event: SortEvent): void {
-    console.log(event)
   }
   
   addExpense(): void {

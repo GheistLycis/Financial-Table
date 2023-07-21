@@ -4,7 +4,7 @@ import MonthDTO from 'src/app/shared/DTOs/month';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { MonthService } from 'src/app/shared/services/month/month.service';
 import { BehaviorSubject, Subject, forkJoin, skip, map, tap, switchMap, combineLatest, debounceTime } from 'rxjs';
-import Filters from 'src/app/shared/interfaces/Filters';
+import Filters from 'src/app/shared/interfaces/ExpensesFilters';
 import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 import YearDTO from '../../DTOs/year';
 import { TagService } from '../../services/tag/tag.service';
