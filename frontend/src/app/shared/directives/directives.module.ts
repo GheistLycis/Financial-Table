@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollDetectionDirective } from './scroll-detection/scroll-detection.directive';
-import { SortableHeaderDirective } from './sortable-header/sortable-header.directive';
+import { SortableTableDirective } from './sortable-table/sortable-table.directive';
 
 
 
 @NgModule({
   declarations: [
     ScrollDetectionDirective,
-    SortableHeaderDirective
+    SortableTableDirective
   ],
   imports: [
     CommonModule
   ],
   exports: [
     ScrollDetectionDirective,
-    SortableHeaderDirective,
+    SortableTableDirective,
   ]
 })
 export class DirectivesModule { }

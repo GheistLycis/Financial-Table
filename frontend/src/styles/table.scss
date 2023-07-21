@@ -2,6 +2,18 @@ table {
   th {
     padding: 10px;
     background-color: rgba(255, 255, 255, 0.6);
+
+    &[order="ASC"]::after {
+      content: url('../assets/icons/uncollapse.svg');
+      width: 25px;
+      margin-left: 10px;
+    }
+
+    &[order="DESC"]::after {
+      content: url('../assets/icons/collapse.svg');
+      width: 15px;
+      margin-left: 10px;
+    }
   }
   
   .color-label {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Output } from '@angular/core';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { YearService } from 'src/app/shared/services/year/year.service';
 import Filters from 'src/app/shared/interfaces/Filters';
@@ -8,15 +8,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { ToastrService } from 'ngx-toastr';
 import { AddEditExpenseComponent } from 'src/app/pages/home/components/expenses/components/add-edit-expense/add-edit-expense.component';
-import { map, tap, BehaviorSubject, Subject, of, Observable } from 'rxjs';
+import { map, tap, BehaviorSubject, Subject, Observable } from 'rxjs';
 import { concatMap, debounceTime, filter, skip, switchMap } from 'rxjs/operators';
+import { SortEvent } from 'src/app/shared/interfaces/SortEvent';
 
 @Component({
   selector: 'app-expenses',
   templateUrl: './expenses.component.html',
   styleUrls: ['./expenses.component.scss']
 })
-export class ExpensesComponent implements OnInit {
+export class ExpensesComponent implements OnInit, AfterViewInit {
   @Output() expensesUpdated = new Subject<void>()
   activeYear!: YearDTO['id']
   years: YearDTO[] = []
@@ -26,6 +27,7 @@ export class ExpensesComponent implements OnInit {
   scrolled = new Subject<void>()
   keepListing = true
   loading = false
+  initSortDirective = false
   
   constructor(
     private yearService: YearService,
@@ -64,27 +66,31 @@ export class ExpensesComponent implements OnInit {
       })
     ).subscribe()
   }
+
+  ngAfterViewInit(): void {
+    this.initSortDirective = true
+  }
   
   listExpenses(): Observable<ExpenseDTO[]> {    
     const { months, categories, tags } = this.filters.value
-    let reqFilter: number | number[] = this.activeYear
-    let reqQuery: 'year' | 'months' | 'categories' = 'year'
+    let queryValue: number | number[] = this.activeYear
+    let queryKey: 'year' | 'months' | 'categories' = 'year'
     
     if(categories.length) {
-      reqFilter = categories.map(({ id }) => id)
-      reqQuery = 'categories'
+      queryValue = categories.map(({ id }) => id)
+      queryKey = 'categories'
     }
     else if(months.length) {
-      reqFilter = months.map(({ id }) => id)
-      reqQuery = 'months'
+      queryValue = months.map(({ id }) => id)
+      queryKey = 'months'
     }
     
     this.loading = true
 
     return this.expensesService.list({ 
-        [reqQuery]: reqFilter, 
+        [queryKey]: queryValue, 
+        tags: tags.map(({ id }) => id),
         page: this.page,
-        tags: tags.map(({ id }) => id)
       }).pipe(
         map(({ data }) => data),
         tap(expenses => {
@@ -97,6 +103,10 @@ export class ExpensesComponent implements OnInit {
           else this.keepListing = false
         })
       )
+  }
+
+  sortTable(event: SortEvent): void {
+    console.log(event)
   }
   
   addExpense(): void {
