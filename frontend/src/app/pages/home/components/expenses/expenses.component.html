@@ -12,6 +12,12 @@
       ngbTooltip="Adicionar registro">
   </div>
 
+  <input 
+    #searchBox
+    type="text"
+    placeholder="Pesquisar pela descrição (mínimo 3 caracteres)"
+    (keyup)="search.next(searchBox.value)">
+
   <app-filters [year]="activeYear" (filters)="filters.next($event)"></app-filters>
   
   <div class="mt-3">

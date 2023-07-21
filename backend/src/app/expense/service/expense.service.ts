@@ -21,6 +21,7 @@ type queries = {
   months?: Month['id'][] 
   categories?: Category['id'][]
   tags?: Tag['id'][]
+  description?: string
   orderBy?: ['date' | 'value', 'ASC' | 'DESC']
   page?: string
 }
@@ -34,7 +35,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     // @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
-  async list(user: User['id'], { year, months, categories, tags, orderBy, page }: queries) {
+  async list(user: User['id'], { year, months, categories, tags, description, orderBy, page }: queries) {
     // const cacheKey = `${user}-expenses-${year}_${months}_${categories}_${tags}`
     
     // const cache = await this.cacheService.get<ExpenseDTO[]>(cacheKey)
@@ -45,8 +46,6 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
       
     //   return cache.slice(offset, offset + paginationSize)
     // }
-
-    console.log(orderBy)
     
     const query = this.repo.createQueryBuilder('Expense')
       .innerJoinAndSelect('Expense.category', 'Category')
@@ -60,6 +59,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     if(months?.length) query.andWhere('Month.id IN (:...months)', { months })
     if(categories?.length) query.andWhere('Category.id IN (:...categories)', { categories })
     if(tags?.length) query.andWhere('Tag.id IN (:...tags)', { tags })
+    if(description) query.andWhere("Expense.description LIKE '%:description%'", { description })
     if(orderBy?.length) query.orderBy('Expense.' + orderBy[0], orderBy[1])
     if(page) query
       .offset(paginationSize * +page)

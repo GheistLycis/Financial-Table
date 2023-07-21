@@ -9,7 +9,7 @@ import { GeneralWarningComponent } from 'src/app/shared/components/modals/genera
 import { ToastrService } from 'ngx-toastr';
 import { AddEditExpenseComponent } from 'src/app/pages/home/components/expenses/components/add-edit-expense/add-edit-expense.component';
 import { map, tap, BehaviorSubject, Subject, Observable } from 'rxjs';
-import { concatMap, debounceTime, filter, skip, switchMap } from 'rxjs/operators';
+import { concatMap, debounceTime, distinctUntilChanged, filter, skip, switchMap } from 'rxjs/operators';
 import { SortEvent } from 'src/app/shared/interfaces/SortEvent';
 
 @Component({
@@ -25,6 +25,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   loading = false
   initSortDirective = false
   filters = new BehaviorSubject<ExpensesFilters>(undefined)
+  search = new BehaviorSubject<ExpenseDTO['description']>('')
   orderBy = new BehaviorSubject<['date' | 'value', 'ASC' | 'DESC'] | []>([])
   scrolled = new Subject<void>()
   page = 0
@@ -48,6 +49,19 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
 
     this.orderBy.pipe(
       skip(1),
+      tap(() => {
+        this.keepListing = true
+        this.page = 0
+        this.expenses = []
+      }),
+      switchMap(() => this.listExpenses())
+    ).subscribe()
+
+    this.search.pipe(
+      skip(1),
+      filter(text => text.length >= 3),
+      debounceTime(1000),
+      distinctUntilChanged(),
       tap(() => {
         this.keepListing = true
         this.page = 0
@@ -106,8 +120,9 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     return this.expensesService.list({ 
         [queryKey]: queryValue, 
         tags: tags.map(({ id }) => id),
-        page: this.page,
+        description: this.search.value,
         orderBy: this.orderBy.value,
+        page: this.page,
       }).pipe(
         map(({ data }) => data),
         tap(expenses => {

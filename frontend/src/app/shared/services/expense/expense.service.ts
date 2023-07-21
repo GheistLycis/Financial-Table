@@ -15,6 +15,7 @@ type listQueries = {
   months?: MonthDTO['id'][]
   categories?: CategoryDTO['id'][]
   tags?: TagDTO['id'][]
+  description?: string
   orderBy?: ['date' | 'value', 'ASC' | 'DESC'] | []
   page?: number 
 }
