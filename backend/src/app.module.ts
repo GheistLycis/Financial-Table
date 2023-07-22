@@ -17,6 +17,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { AuthModule } from './app/auth/auth.module';
 import { MonthlyExpenseModule } from './app/monthly-expense/monthly-expense.module';
 import { SavingModule } from './app/saving/saving.module';
+import { AppController } from './app.controller';
 
 const cacheLifeMinutes = 60 // same as token expiration
 
@@ -61,7 +62,9 @@ const cacheLifeMinutes = 60 // same as token expiration
     UserModule,
     SavingModule,
   ],
-  controllers: [],
+  controllers: [
+    AppController,
+  ],
   providers: [
     {
       provide: APP_GUARD,
