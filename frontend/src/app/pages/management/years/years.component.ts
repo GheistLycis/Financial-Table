@@ -34,14 +34,20 @@ export class YearsComponent implements OnInit {
     this.loading = true
     
     this.yearService.list().subscribe(({ data }) => {
-      const histories$ = data.map(({ id }) => this.analyticsService.yearHistory(id).pipe(
-          map(({ data }) => data)
-        ))
-      
-      forkJoin(histories$).subscribe(histories => {
-        this.yearsHistories = histories
+      if(!data.length) {
+        this.yearsHistories = []
         this.loading = false
-      })
+      }
+      else {
+        const histories$ = data.map(({ id }) => this.analyticsService.yearHistory(id).pipe(
+            map(({ data }) => data)
+          ))
+        
+        forkJoin(histories$).subscribe(histories => {
+          this.yearsHistories = histories
+          this.loading = false
+        })
+      }
     })
   }
   

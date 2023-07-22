@@ -61,7 +61,10 @@ export class MonthsComponent {
     this.loading = true
     
     this.monthService.list({ year: this.activeYear$.value }).subscribe(({ data }) => {
-      if(!data.length) this.monthsHistories = []
+      if(!data.length) {
+        this.monthsHistories = []
+        this.loading = false
+      }
       else {
         const histories$ = data.map(({ id }) => this.analyticsService.monthHistory(id).pipe(
             map(({ data }) => data)

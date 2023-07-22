@@ -19,9 +19,9 @@ export class AnalyticsComponent implements OnInit {
     if(signal) this.calculateAnalytics()
   }
   dropdown: '' | 'year' | 'month' = ''
-  years$ = new BehaviorSubject<YearDTO[]>(undefined)
+  years$ = new BehaviorSubject<YearDTO[]>([])
   year$ = new Subject<YearDTO>()
-  months$ = new BehaviorSubject<MonthDTO[]>(undefined)
+  months$ = new BehaviorSubject<MonthDTO[]>([])
   month$ = new BehaviorSubject<MonthDTO>(undefined)
   actualBalance$ = new Subject<number | '--'>()
   recentExpenses$ = new Subject<number | '--'>()
@@ -43,48 +43,36 @@ export class AnalyticsComponent implements OnInit {
     this.handleMonths()
     
     this.yearService.list().pipe(
-      map(({ data }) => data)
+      map(({ data }) => data),
     ).subscribe(this.years$)
   }
   
   handleYears(): void {
     this.years$.pipe(
-      skip(1), 
       filter(data => data.length != 0),
-      tap(years => {
-        this.year$.next(years[0])
-        
-        this.loading = true
-      }),
+      tap(years => this.year$.next(years[0])),
     ).subscribe()
     
     this.year$.pipe(
-      switchMap(({ id }) => this.monthService.list({ year: id }).pipe(
-          map(({ data }) => data)
-        )
-      )
+      switchMap(({ id }) => this.monthService.list({ year: id })),
+      map(({ data }) => data)
     ).subscribe(this.months$)
   }
   
   handleMonths(): void {
     this.months$.pipe(
-      skip(1), 
-      map(months => months[0])
+      map(months => months?.[0])
     ).subscribe(this.month$)
     
     this.month$.pipe(
       skip(1),
-      tap(() => {
-        this.loading = false
-        
-        this.calculateAnalytics()
-      }),
+      tap(() => this.calculateAnalytics()),
     ).subscribe()
   }
   
   calculateAnalytics(): void {
     const { value } = this.month$
-    
+
     this.calculateActualBalance(value)
     this.calculateRecentExpenses(value)
     this.calculateYearExpenses(value)
@@ -93,22 +81,47 @@ export class AnalyticsComponent implements OnInit {
     this.listCategoriesRemaining(value)
   }
   
-  calculateActualBalance({ id }: MonthDTO): void {
+  calculateActualBalance(month?: MonthDTO): void {
+    if(!month) {
+      this.actualBalance$.next('--')
+      return
+    }
+
+    const { id } = month
+
     this.loading = true
+
     this.analyticsService.monthBalance(id).pipe(
       tap(() => this.loading = false),
     ).subscribe(({ data }) => this.actualBalance$.next(data.balance || '--'))
   }
   
-  calculateRecentExpenses({ id }: MonthDTO): void {
+  calculateRecentExpenses(month?: MonthDTO): void {
+    if(!month) {
+      this.recentExpenses$.next('--')
+      return
+    }
+
+    const { id } = month
+
     this.loading = true
+
     this.analyticsService.recentExpenses(id).pipe(
       tap(() => this.loading = false),
     ).subscribe(({ data }) => this.recentExpenses$.next(data))
   }
   
-  calculateYearExpenses({ month, id }: MonthDTO): void {
-    if(month == 1) {
+  calculateYearExpenses(month?: MonthDTO): void {
+    if(!month) {
+      this.yearExpenses$.next('--')
+      return
+    }
+
+    const { id } = month
+
+    this.loading = true
+    
+    if(month.month == 1) {
       this.yearExpenses$.next('--')
     }
     else {
@@ -119,22 +132,46 @@ export class AnalyticsComponent implements OnInit {
     }
   }
   
-  getMostExpensiveCategory({ id }: MonthDTO): void {
+  getMostExpensiveCategory(month?: MonthDTO): void {
+    if(!month) {
+      this.mostExpensiveCategory$.next({ name: '--', total: 0 })
+      return
+    }
+
+    const { id } = month
+
     this.loading = true
+
     this.analyticsService.mostExpensiveCategory(id).pipe(
       tap(() => this.loading = false),
     ).subscribe(({ data }) => this.mostExpensiveCategory$.next(data))
   }
   
-  getMostExpensiveTags({ id }: MonthDTO): void {
+  getMostExpensiveTags(month?: MonthDTO): void {
+    if(!month) {
+      this.mostExpensiveTags$.next({ name: '--', total: 0 })
+      return
+    }
+
+    const { id } = month
+
     this.loading = true
+
     this.analyticsService.mostExpensiveTags(id).pipe(
       tap(() => this.loading = false),
     ).subscribe(({ data }) => this.mostExpensiveTags$.next(data))
   }
   
-  listCategoriesRemaining({ id }: MonthDTO): void {
+  listCategoriesRemaining(month?: MonthDTO): void {
+    if(!month) {
+      this.categoriesRemaining = []
+      return
+    }
+
+    const { id } = month
+
     this.loading = true
+
     this.categoryService.list({ month: id }).subscribe(({ data }) => {
       if(!data.length) {
         this.categoriesRemaining = []

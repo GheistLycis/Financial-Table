@@ -3,7 +3,7 @@ import CategoryDTO from 'src/app/shared/DTOs/category';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { MonthService } from 'src/app/shared/services/month/month.service';
-import { BehaviorSubject, Subject, forkJoin, skip, map, tap, switchMap, combineLatest, debounceTime } from 'rxjs';
+import { BehaviorSubject, Subject, forkJoin, skip, map, tap, switchMap, combineLatest, debounceTime, of } from 'rxjs';
 import Filters from 'src/app/shared/interfaces/ExpensesFilters';
 import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 import YearDTO from '../../DTOs/year';
@@ -59,14 +59,27 @@ export class FiltersComponent implements OnInit {
   
   handleMonths(): void {
     this.months$.pipe(
-      tap(months => this.selectedMonths$.next([months[0]])),
+      tap(months => {
+        const val = []
+
+        if(months?.[0]) val.push(months[0])
+
+        this.selectedMonths$.next(val)
+      }),
     ).subscribe()
     
     this.selectedMonths$.pipe(
       skip(1),
-      switchMap(months => forkJoin(months.map(({ id }) => this.categoryService.list({ month: id }).pipe(
-        map(({ data }) => data)))
-      )),
+      switchMap(months => {
+        if(months.length) {
+          return forkJoin(months.map(({ id }) => this.categoryService.list({ month: id }).pipe(
+            map(({ data }) => data)))
+          )
+        }
+        else {
+          return of([])
+        }
+      }),
       map(monthsCategories => monthsCategories
         .flat()
         .map(category => {

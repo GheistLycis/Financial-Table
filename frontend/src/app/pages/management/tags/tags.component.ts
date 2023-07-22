@@ -34,7 +34,7 @@ export class TagsComponent implements OnInit {
   }
   
   addTag(): void {
-    const { result } = this.modalService.open(AddEditTagComponent, { size: 'lg' })
+    const { result } = this.modalService.open(AddEditTagComponent, { size: 'md' })
     
     result.then((res: boolean) => {
       if(res) {
@@ -46,7 +46,7 @@ export class TagsComponent implements OnInit {
   }
   
   editTag(tag: TagDTO): void {
-    const { componentInstance, result } = this.modalService.open(AddEditTagComponent, { size: 'lg' })
+    const { componentInstance, result } = this.modalService.open(AddEditTagComponent, { size: 'md' })
     
     componentInstance.tag = tag
     

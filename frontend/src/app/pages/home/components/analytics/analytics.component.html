@@ -20,6 +20,7 @@
                 (change)="dropdown = ''"
                 [clearable]="false"
                 bindLabel="year"
+                notFoundText="Cadastre um ano!"
             ></ng-select>
         </div>
         <div [ngClass]="{'d-none': dropdown != 'month'}">
@@ -30,6 +31,7 @@
                 (change)="dropdown = ''"
                 [clearable]="false"
                 bindLabel="month" 
+                notFoundText="Cadastre um mês!"
             >
                 <ng-template ng-label-tmp let-item="item">
                     {{ item.month | monthName }}
