@@ -4,6 +4,7 @@ import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
 import CategoryDTO from 'src/app/category/Category.dto';
 import MonthDTO from 'src/app/month/Month.dto';
 import YearDTO from 'src/app/year/Year.dto';
+import { Request } from 'express';
 
 
 @Controller('analytics')
