@@ -6,8 +6,8 @@
   
   <div class="modal-body">    
     <form #formModel="ngForm">      
-      <div class="col">
-        <div class="row mb-4">
+      <div class="row mb-4">
+        <div class="col">
           <label for="title" class="mb-1 required">Título</label>
           <input
             id="title"
@@ -21,19 +21,7 @@
             * Defina um titulo
           </div>
         </div>
-        
-        <div class="row mb-4">
-          <label for="description" class="mb-1">Descrição</label>
-          <textarea
-            id="description"
-            name="description"
-            rows="2"
-            [(ngModel)]="form.description"
-            class="form-control resize-none">
-          </textarea>
-        </div>
-        
-        <div class="row mb-4">
+        <div class="col">
           <label for="amount" class="mb-1 required">Quantia necessária</label>
           <input 
             id="amount"
@@ -50,8 +38,7 @@
             * Defina uma quantia
           </div>
         </div>
-        
-        <div class="row mb-4">
+        <div class="col">
           <label for="dueDate" class="mb-1">Prazo</label>
           <input 
             id="dueDate"
@@ -60,6 +47,17 @@
             [(ngModel)]="form.dueDate"
             class="form-control">
         </div>
+      </div>
+      
+      <div class="row">
+        <label for="description" class="mb-1">Descrição</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="2"
+          [(ngModel)]="form.description"
+          class="form-control resize-none">
+        </textarea>
       </div>
     </form>
   </div>

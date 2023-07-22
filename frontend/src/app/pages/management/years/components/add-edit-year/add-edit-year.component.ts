@@ -33,6 +33,9 @@ export class AddEditYearComponent implements OnInit {
         year
       }
     }
+    else {
+      this.form.year = new Date().getFullYear() + 1
+    }
   }
   
   validateForm(): void {    

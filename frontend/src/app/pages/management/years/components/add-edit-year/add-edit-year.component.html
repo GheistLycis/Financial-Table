@@ -6,8 +6,8 @@
   
   <div class="modal-body">
     <form #formModel="ngForm">      
-      <div class="col mt-4">
-        <div class="row mb-4">
+      <div class="row">
+        <div class="col">
           <label for="year" class="mb-1 required">Ano</label>
           <input
             id="year"
@@ -28,6 +28,7 @@
   <div class="modal-footer justify-content-end">
     <button (click)="validateForm()" [disabled]="loading">
       <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+      {{ action | titlecase }}
     </button>
   </div>
 </div>
