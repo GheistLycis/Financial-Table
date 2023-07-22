@@ -37,43 +37,28 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     private modalService: NgbModal,
     private toastr: ToastrService,
   ) {
+    this.search.pipe(
+      skip(1),
+      debounceTime(800),
+      filter(text => !text.length || text.length >= 3),
+      distinctUntilChanged(),
+      switchMap(() => this.listExpenses())
+    ).subscribe()
+
     this.filters.pipe(
       skip(1),
-      tap(() => {
-        this.keepListing = true
-        this.page = 0
-        this.expenses = []
-      }),
       switchMap(() => this.listExpenses())
     ).subscribe()
 
     this.orderBy.pipe(
       skip(1),
-      tap(() => {
-        this.keepListing = true
-        this.page = 0
-        this.expenses = []
-      }),
-      switchMap(() => this.listExpenses())
-    ).subscribe()
-
-    this.search.pipe(
-      skip(1),
-      filter(text => !text.length || text.length >= 3),
-      debounceTime(1000),
-      distinctUntilChanged(),
-      tap(() => {
-        this.keepListing = true
-        this.page = 0
-        this.expenses = []
-      }),
       switchMap(() => this.listExpenses())
     ).subscribe()
 
     this.scrolled.pipe(
       debounceTime(100),
       filter(() => this.keepListing),
-      concatMap(() => this.listExpenses()),
+      concatMap(() => this.listExpenses(true)),
     ).subscribe()
 
     this.expensesUpdated.pipe(
@@ -101,7 +86,13 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     else this.orderBy.next([])
   }
   
-  listExpenses(): Observable<ExpenseDTO[]> {    
+  listExpenses(scrolled = false): Observable<ExpenseDTO[]> {
+    if(!scrolled) {
+      this.keepListing = true
+      this.page = 0 
+      this.expenses = [] 
+    }
+
     const { months, categories, tags } = this.filters.value
     let queryValue: number | number[] = this.activeYear
     let queryKey: 'year' | 'months' | 'categories' = 'year'

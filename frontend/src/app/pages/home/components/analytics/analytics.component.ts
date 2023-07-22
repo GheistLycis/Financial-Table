@@ -83,12 +83,14 @@ export class AnalyticsComponent implements OnInit {
   }
   
   calculateAnalytics(): void {
-    this.calculateActualBalance(this.month$.getValue())
-    this.calculateRecentExpenses(this.month$.getValue())
-    this.calculateYearExpenses(this.month$.getValue())
-    this.getMostExpensiveCategory(this.month$.getValue())
-    this.getMostExpensiveTags(this.month$.getValue())
-    this.listCategoriesRemaining(this.month$.getValue())
+    const { value } = this.month$
+    
+    this.calculateActualBalance(value)
+    this.calculateRecentExpenses(value)
+    this.calculateYearExpenses(value)
+    this.getMostExpensiveCategory(value)
+    this.getMostExpensiveTags(value)
+    this.listCategoriesRemaining(value)
   }
   
   calculateActualBalance({ id }: MonthDTO): void {

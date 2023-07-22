@@ -2,19 +2,22 @@ table {
   th {
     padding: 10px;
     background-color: rgba(255, 255, 255, 0.6);
+    position: relative;
 
     &[order="ASC"]::after {
-      content: url('../assets/icons/uncollapse.svg');
+      content: url('../assets/icons/collapse.svg');
       display: inline-block;
-      transform: scale(0.5) translateY(60px);
+      position: absolute;
+      transform: scale(0.5);
       height: 0;
       width: 0;
     }
 
     &[order="DESC"]::after {
-      content: url('../assets/icons/collapse.svg');
+      content: url('../assets/icons/uncollapse.svg');
       display: inline-block;
-      transform: scale(0.5) translateY(60px);
+      position: absolute;
+      transform: scale(0.5);
       height: 0;
       width: 0;
     }

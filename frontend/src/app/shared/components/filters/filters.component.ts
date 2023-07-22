@@ -93,9 +93,9 @@ export class FiltersComponent implements OnInit {
       debounceTime(500),
       tap(() => {
         this.filters.emit({
-          months: this.selectedMonths$.getValue(),
-          categories: this.selectedCategories$.getValue(),
-          tags: this.selectedTags$.getValue(),
+          months: this.selectedMonths$.value,
+          categories: this.selectedCategories$.value,
+          tags: this.selectedTags$.value,
         })
       })
     ).subscribe()
