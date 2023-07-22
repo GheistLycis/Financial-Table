@@ -1,0 +1,22 @@
+ul {
+    &.nav-tabs.nav {
+        .nav-link {
+            width: 100px;
+            border: 1px solid $palette-4;
+            border-radius: 15px 15px 0 0;
+            color: $palette-3;
+            transition-duration: .4s;
+
+            &:hover {
+                color: $palette-4;
+                border-width: 2px;
+            }
+
+            &.active {
+                color: $palette-4;
+                border-width: 2px;
+                font-weight: 600;
+            }
+        }
+    }
+}
