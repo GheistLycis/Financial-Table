@@ -108,7 +108,7 @@ export class MonthsComponent {
   }
   
   duplicateMonth(month: MonthDTO): void {
-    const { componentInstance, result } = this.modalService.open(DuplicateMonthComponent, { size: 'md' })
+    const { componentInstance, result } = this.modalService.open(DuplicateMonthComponent, { size: 'sm' })
     
     componentInstance.month = month
     

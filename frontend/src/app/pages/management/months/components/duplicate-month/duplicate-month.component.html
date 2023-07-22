@@ -7,31 +7,32 @@
   <div class="modal-body">    
     <form #formModel="ngForm">      
       <div class="col">
-        <div class="row mb-4">
+        <div class="row mb-3 form-check form-switch">
           <input 
-            id="duplicateMonthlyIncomes"
-            name="duplicateMonthlyIncomes"
-            type="checkbox"
-            [(ngModel)]="form.duplicateMonthlyIncomes">
-          <label for="duplicateMonthlyIncomes" class="form-label">Entradas</label>
+          id="duplicateMonthlyIncomes"
+          name="duplicateMonthlyIncomes"
+          type="checkbox"
+          [(ngModel)]="form.duplicateMonthlyIncomes"
+          class="form-check-input">
+          <label for="duplicateMonthlyIncomes" class="form-check-label">Entradas</label>
         </div>
-        
-        <div class="row mb-4">
+        <div class="row mb-3 form-check form-switch">
           <input 
-            id="duplicateMonthlyExpenses"
-            name="duplicateMonthlyExpenses"
-            type="checkbox"
-            [(ngModel)]="form.duplicateMonthlyExpenses">
-          <label for="duplicateMonthlyExpenses" class="form-label">Mensalidades</label>
+          id="duplicateMonthlyExpenses"
+          name="duplicateMonthlyExpenses"
+          type="checkbox"
+          [(ngModel)]="form.duplicateMonthlyExpenses"
+          class="form-check-input">
+          <label for="duplicateMonthlyExpenses" class="form-check-label">Mensalidades</label>
         </div>
-        
-        <div class="row mb-4">
+        <div class="row form-check form-switch">
           <input 
-            id="duplicateCategories"
-            name="duplicateCategories"
-            type="checkbox"
-            [(ngModel)]="form.duplicateCategories">
-          <label for="duplicateCategories" class="form-label">Categorias</label>
+          id="duplicateCategories"
+          name="duplicateCategories"
+          type="checkbox"
+          [(ngModel)]="form.duplicateCategories"
+          class="form-check-input">
+          <label for="duplicateCategories" class="form-check-label">Categorias</label>
         </div>
       </div>
     </form>
