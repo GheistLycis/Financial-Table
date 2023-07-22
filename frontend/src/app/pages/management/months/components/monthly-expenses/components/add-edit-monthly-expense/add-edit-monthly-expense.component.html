@@ -6,8 +6,8 @@
   
   <div class="modal-body">    
     <form #formModel="ngForm">      
-      <div class="col">        
-        <div class="row mb-4">
+      <div class="row mb-4">
+        <div class="col">
           <label for="value" class="mb-1 required">Valor</label>
           <input 
             id="value"
@@ -24,8 +24,7 @@
             * Insira o valor
           </div>
         </div>
-        
-        <div class="row mb-4">
+        <div class="col">
           <label for="date" class="mb-1">
             Data
           </label>
@@ -36,18 +35,18 @@
             name="date"
             class="form-control">
         </div>
+      </div>
         
-        <div class="row mb-4">
-          <label for="description" class="mb-1">Descrição</label>
-          <textarea
-            id="description"
-            name="description"
-            type="text"
-            rows="2"
-            [(ngModel)]="form.description"
-            class="form-control resize-none">
-          </textarea>
-        </div>
+      <div class="row">
+        <label for="description" class="mb-1">Descrição</label>
+        <textarea
+          id="description"
+          name="description"
+          type="text"
+          rows="2"
+          [(ngModel)]="form.description"
+          class="form-control resize-none">
+        </textarea>
       </div>
     </form>
   </div>

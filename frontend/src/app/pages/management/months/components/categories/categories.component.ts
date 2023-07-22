@@ -40,7 +40,7 @@ export class CategoriesComponent implements OnInit {
   }
   
   addCategory(): void {
-    const { componentInstance, result } = this.modalService.open(AddEditCategoryComponent, { size: 'md' })
+    const { componentInstance, result } = this.modalService.open(AddEditCategoryComponent, { size: 'lg' })
     
     componentInstance.month = this.month
     
