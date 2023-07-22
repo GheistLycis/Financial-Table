@@ -16,21 +16,23 @@
     </div>
     
     <form #formModel="ngForm">
-      <div>
-        <input 
-         [(ngModel)]="form.category"
-          name="category"
-          required
-          hidden
-          class="form-control"
-          [ngClass]="{'is-invalid': submitted && f['category'].errors}">
-        <div *ngIf="submitted && f['category'].errors && f['category'].errors['required']" class="invalid-feedback text-end">
-          * Selecione uma categoria
+      <div class="row mb-4">
+        <div class="col">
+          <input 
+           [(ngModel)]="form.category"
+            name="category"
+            required
+            hidden
+            class="form-control"
+            [ngClass]="{'is-invalid': submitted && f['category'].errors}">
+          <div *ngIf="submitted && f['category'].errors && f['category'].errors['required']" class="invalid-feedback text-end">
+            * Selecione uma categoria
+          </div>
         </div>
       </div>
       
-      <div class="col mt-4">
-        <div class="row mb-4">
+      <div class="row mb-4">
+        <div class="col">
           <label for="value" class="mb-1 required">Valor</label>
           <input
             id="value"
@@ -47,20 +49,7 @@
             * Valor é obrigatório
           </div>
         </div>
-        
-        <div class="row mb-4">
-          <label for="description" class="mb-1">Descrição</label>
-          <textarea 
-            id="description"
-            type="text" 
-            [(ngModel)]="form.description"
-            name="description"
-            rows="2"
-            class="form-control resize-none">
-          </textarea>
-        </div>
-        
-        <div class="row mb-4">
+        <div class="col">
           <label for="date" class="mb-1 required">
             Data
             <app-tooltip 
@@ -78,24 +67,36 @@
             required
             class="form-control"
             [ngClass]="{'is-invalid': submitted && f['date'].errors}">
-            <div *ngIf="submitted && f['date'].errors && f['date'].errors['required']" class="invalid-feedback">
-              * Data é obrigatória
-            </div>
+          <div *ngIf="submitted && f['date'].errors && f['date'].errors['required']" class="invalid-feedback">
+            * Data é obrigatória
+          </div>
         </div>
+      </div>
         
-        <div class="row">
-          <label for="tags" class="mb-1">Tags</label>
-          <ng-select
-            id="tags"
-            name="tags"
-            [items]="tags$ | async"
-            [(ngModel)]="form.tags"
-            [multiple]="true"
-            [hideSelected]="true"
-            bindLabel="name"
-            notFoundText="Nenhum registro disponível."
-          ></ng-select>
-        </div>
+      <div class="row mb-4">
+        <label for="description" class="mb-1">Descrição</label>
+        <textarea 
+          id="description"
+          type="text" 
+          [(ngModel)]="form.description"
+          name="description"
+          rows="2"
+          class="form-control resize-none">
+        </textarea>
+      </div>
+        
+      <div class="row">
+        <label for="tags" class="mb-1">Tags</label>
+        <ng-select
+          id="tags"
+          name="tags"
+          [items]="tags$ | async"
+          [(ngModel)]="form.tags"
+          [multiple]="true"
+          [hideSelected]="true"
+          bindLabel="name"
+          notFoundText="Nenhum registro disponível."
+        ></ng-select>
       </div>
     </form>
   </div>
