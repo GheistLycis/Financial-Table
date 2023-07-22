@@ -61,7 +61,7 @@
     </div>
     
     <div class="cards d-flex mb-2 gap-20">
-        <div class="card shadow p-3">
+        <div class="card card-shadow shadow p-3">
             <h5>Saldo atual:</h5>
             <ng-container *ngIf="actualBalance$ | async as balance">
                 <h4 *ngIf="balance == '--'">
@@ -73,21 +73,21 @@
             </ng-container>
         </div>
         
-        <div class="card shadow p-3">
+        <div class="card card-shadow shadow p-3">
             <ng-container *ngTemplateOutlet="
                 expenses; 
                 context: {title: 'Em relação ao mês anterior', $implicit: recentExpenses$ | async}"
             ></ng-container>
         </div>
         
-        <div class="card shadow p-3">
+        <div class="card card-shadow shadow p-3">
             <ng-container *ngTemplateOutlet="
                 expenses; 
                 context: {title: 'Em relação à média do ano', $implicit: yearExpenses$ | async}"
             ></ng-container>
         </div>
         
-        <div class="card shadow p-3">
+        <div class="card card-shadow shadow p-3">
             <div>
                 <h5>Maiores gastos:</h5>
             </div>
@@ -105,7 +105,7 @@
     </div>
     
     <div class="cards d-flex gap-10">
-        <div *ngFor="let remaining of categoriesRemaining" class="category card shadow p-3">
+        <div *ngFor="let remaining of categoriesRemaining" class="category card card-shadow shadow p-3">
             <h4>{{ remaining.category.name }} ({{ remaining.category.percentage | number:'.0-2' }}%)</h4>
             <div>
                 <h5>
