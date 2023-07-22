@@ -1,18 +1,44 @@
 .ng-select {
   .ng-select-container {
-      min-height: 43px;
-      min-width: 100px;
-      padding: 5px 10px;
-      background: white;
-      border: 1px solid black;
-      border-radius: 15px;
+    min-height: 35px;
+    min-width: 100px;
+    padding: 5px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    
+    .ng-value-container {
+      color: grey;
+      padding-left: 8px;
+      gap: 8px;
+
+      .ng-value {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+
+      .ng-placeholder {
+        color: grey;
+      }
+    }
   }
 
   .ng-option {
-      padding: 3px 5px;
-      background: white;
-      border-left: 1px solid black;
-      border-right: 1px solid black;
-      border-bottom: 1px solid black;
+    padding: 3px 5px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    background: white;
+    color: grey;
+
+    &.ng-option-marked {
+      color: white;
+      background: $palette-4;
+    }
+  }
+
+  .ng-clear-wrapper {
+    transform: translateY(7px);
   }
 }
