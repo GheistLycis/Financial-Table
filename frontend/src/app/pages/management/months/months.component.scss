@@ -2,3 +2,7 @@ table {
   border-collapse: separate; 
   border-spacing: 0 20px;
 }
+
+button[ngbNavLink] {
+  transform: translateY(20px);
+}

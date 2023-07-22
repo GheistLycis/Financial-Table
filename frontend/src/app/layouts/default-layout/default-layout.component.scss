@@ -1,4 +1,6 @@
+@import './components/footer/footer.component.scss';
+
 #container {
     padding-top: 110px;
-    padding-bottom: 80px;
+    padding-bottom: $footer-height + 50px;
 }

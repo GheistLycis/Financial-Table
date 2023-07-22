@@ -1,9 +1,13 @@
 @import '../../../../../styles/variables.scss';
 
+$footer-height: 80px;
+
 footer {
-    position: relative;
+    position: absolute;
     background-color: white;
     color: $palette-4;
+    bottom: 0;
+    height: $footer-height;
 
     &::after {
         content: '';
