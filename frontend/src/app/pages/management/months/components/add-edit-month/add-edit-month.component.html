@@ -19,7 +19,16 @@
             bindLabel="year"
             bindValue="id"
             notFoundText="Cadastre um ano!"
-          ></ng-select>
+          >
+            <ng-template ng-footer-tmp>
+              <ng-container *ngIf="!(years$ | async)?.length">
+                  <div (click)="router.navigate(['gerenciar/anos'])" class="ng-footer-tmp">
+                      Cadastrar
+                      <img src="../../../../../../assets/icons/plus.svg" width="20px">
+                  </div>
+              </ng-container>
+            </ng-template>  
+          </ng-select>
         </div>
         <div class="col">
           <label for="month" class="mb-1 required">Mês</label>

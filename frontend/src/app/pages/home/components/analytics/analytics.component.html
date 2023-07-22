@@ -21,7 +21,16 @@
                 [clearable]="false"
                 bindLabel="year"
                 notFoundText="Cadastre um ano!"
-            ></ng-select>
+            >
+                <ng-template ng-footer-tmp>
+                    <ng-container *ngIf="!(years$ | async)?.length">
+                        <div (click)="router.navigate(['gerenciar/anos'])" class="ng-footer-tmp">
+                            Cadastrar
+                            <img src="../../../../../assets/icons/plus.svg" width="20px">
+                        </div>
+                    </ng-container>
+                </ng-template>  
+            </ng-select>
         </div>
         <div [ngClass]="{'d-none': dropdown != 'month'}">
             <ng-select
@@ -38,6 +47,14 @@
                 </ng-template>  
                 <ng-template ng-option-tmp let-item="item">
                     {{ item.month | monthName }}
+                </ng-template>  
+                <ng-template ng-footer-tmp>
+                    <ng-container *ngIf="!(months$ | async)?.length">
+                        <div (click)="router.navigate(['gerenciar/meses'])" class="ng-footer-tmp">
+                            Cadastrar
+                            <img src="../../../../../assets/icons/plus.svg" width="20px">
+                        </div>
+                    </ng-container>
                 </ng-template>  
             </ng-select>
         </div>

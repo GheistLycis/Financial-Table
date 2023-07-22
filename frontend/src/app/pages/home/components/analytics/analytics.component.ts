@@ -8,6 +8,7 @@ import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.se
 import CategoryRemaining from 'src/app/shared/interfaces/CategoryRemaining';
 import { forkJoin, map, BehaviorSubject, Subject, skip, tap, switchMap } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-analytics',
@@ -35,7 +36,8 @@ export class AnalyticsComponent implements OnInit {
     private yearService: YearService,
     private monthService: MonthService,
     private categoryService: CategoryService,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    public router: Router,
   ) { }
   
   ngOnInit(): void {

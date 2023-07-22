@@ -41,4 +41,23 @@
   .ng-clear-wrapper {
     transform: translateY(7px);
   }
+
+  .ng-footer-tmp {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    width: 100%;
+    padding: 3px 5px;
+    background-color: white;
+    border: 1px solid $palette-4;
+    color: $palette-4;
+    border-color: $palette-4;
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    img {
+      filter: $filter-palette-4;
+    }
+  }
 }

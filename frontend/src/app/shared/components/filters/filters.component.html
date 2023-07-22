@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<ng-template #filter let-condition="condition" let-items let-title="title" let-model="model" let-label="label">
+<ng-template #filter let-condition="condition" let-items let-title="title" let-model="model" let-label="label" let-route="route">
     <div *ngIf="condition">
         <label class="form-label">{{ title }}</label>
         <ng-select

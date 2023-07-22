@@ -8,6 +8,7 @@ import { YearService } from 'src/app/shared/services/year/year.service';
 import YearDTO from 'src/app/shared/DTOs/year';
 import { Observable, map, tap } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-edit-month',
@@ -27,6 +28,7 @@ export class AddEditMonthComponent {
     protected activeModal: NgbActiveModal,
     private yearService: YearService,
     private monthService: MonthService,
+    public router: Router,
   ) { 
     this.years$ = this.yearService.list().pipe(
         map(({ data }) => data),

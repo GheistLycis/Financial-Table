@@ -96,7 +96,16 @@
           [hideSelected]="true"
           bindLabel="name"
           notFoundText="Cadastre uma tag!"
-        ></ng-select>
+        >
+          <ng-template ng-footer-tmp>
+            <ng-container *ngIf="!(tags$ | async)?.length">
+              <div (click)="router.navigate(['gerenciar/tags'])" class="ng-footer-tmp">
+                  Cadastrar
+                  <img src="../../../../../../../assets/icons/plus.svg" width="20px">
+              </div>
+            </ng-container>
+          </ng-template>  
+        </ng-select>
       </div>
     </form>
   </div>

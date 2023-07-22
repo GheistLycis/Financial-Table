@@ -9,6 +9,7 @@ import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 import YearDTO from '../../DTOs/year';
 import { TagService } from '../../services/tag/tag.service';
 import TagDTO from 'src/app/shared/DTOs/tag';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -49,6 +50,7 @@ export class FiltersComponent implements OnInit {
     private categoryService: CategoryService,
     private tagService: TagService,
     private monthNamePipe: MonthNamePipe,
+    public router: Router,
   ) { }
   
   ngOnInit(): void {

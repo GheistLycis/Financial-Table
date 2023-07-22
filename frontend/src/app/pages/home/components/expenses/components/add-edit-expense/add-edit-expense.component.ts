@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs';
 import ExpenseDTO from 'src/app/shared/DTOs/expense';
@@ -28,6 +29,7 @@ export class AddEditExpenseComponent implements OnInit {
     protected activeModal: NgbActiveModal,
     private expenseService: ExpenseService,
     private tagService: TagService,
+    public router: Router,
   ) { }
   
   ngOnInit(): void {
