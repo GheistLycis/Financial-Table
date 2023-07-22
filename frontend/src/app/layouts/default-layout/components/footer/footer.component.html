@@ -1,5 +1,14 @@
-<footer class="w-100 px-5 py-4 d-flex align-center justify-content-center mt-4">
-    <div>
-        FOOTER
+<footer class="w-100 px-5 py-4 d-flex flex-column align-items-center justify-content-center mt-4">
+    <div class="mb-2">
+        Desenvolvido por <span (click)="showEasterEgg()">Bruno Capitelli</span> &copy;
+        <span>{{ easterEgg }}</span>
+    </div>
+    <div class="d-flex justify-content-between gap-20">
+        <a href="https://github.com/GheistLycis" target="_blank">
+            <img src="../../../../../assets/icons/github.svg" width="30px">
+        </a>
+        <a href="https://www.linkedin.com/in/brunocapitelli/" target="_blank">
+            <img src="../../../../../assets/icons/linkedin.svg" width="30px">
+        </a>
     </div>
 </footer>

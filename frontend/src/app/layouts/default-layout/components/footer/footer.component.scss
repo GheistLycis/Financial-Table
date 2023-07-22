@@ -1,13 +1,19 @@
+@import '../../../../../styles/variables.scss';
+
 footer {
     position: relative;
-    background-color: transparent;
-    color: grey;
+    background-color: white;
+    color: $palette-4;
 
     &::after {
         content: '';
         position: absolute;
         bottom: 100%;
-        border-top: 2px solid grey;
+        border-top: 2px solid $palette-4;
         width: 80%;
+    }
+
+    span {
+        cursor: zoom-in;
     }
 }
