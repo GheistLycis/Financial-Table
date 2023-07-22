@@ -8,8 +8,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { ToastrService } from 'ngx-toastr';
 import { AddEditExpenseComponent } from 'src/app/pages/home/components/expenses/components/add-edit-expense/add-edit-expense.component';
-import { map, tap, BehaviorSubject, Subject, Observable } from 'rxjs';
-import { concatMap, debounceTime, distinctUntilChanged, filter, skip, switchMap } from 'rxjs/operators';
+import { map, tap, BehaviorSubject, Subject, Observable, of } from 'rxjs';
+import { catchError, concatMap, debounceTime, distinctUntilChanged, filter, skip, switchMap } from 'rxjs/operators';
 import { SortEvent } from 'src/app/shared/interfaces/SortEvent';
 
 @Component({
@@ -59,7 +59,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
 
     this.search.pipe(
       skip(1),
-      filter(text => text.length >= 3),
+      filter(text => !text.length || text.length >= 3),
       debounceTime(1000),
       distinctUntilChanged(),
       tap(() => {
@@ -124,6 +124,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
         orderBy: this.orderBy.value,
         page: this.page,
       }).pipe(
+        catchError(() => of({ data: [] })),
         map(({ data }) => data),
         tap(expenses => {
           this.loading = false

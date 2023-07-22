@@ -14,9 +14,9 @@
 
   <input 
     #searchBox
-    type="text"
+    (keyup)="search.next(searchBox.value.trim())"
     placeholder="Pesquisar pela descrição (mínimo 3 caracteres)"
-    (keyup)="search.next(searchBox.value)">
+    class="search-box p-3 mb-3">
 
   <app-filters [year]="activeYear" (filters)="filters.next($event)"></app-filters>
   

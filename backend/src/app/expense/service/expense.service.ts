@@ -59,7 +59,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     if(months?.length) query.andWhere('Month.id IN (:...months)', { months })
     if(categories?.length) query.andWhere('Category.id IN (:...categories)', { categories })
     if(tags?.length) query.andWhere('Tag.id IN (:...tags)', { tags })
-    if(description) query.andWhere("Expense.description LIKE '%:description%'", { description })
+    if(description) query.andWhere("LOWER(Expense.description) LIKE LOWER(:description)", { description: `%${description}%` })
     if(orderBy?.length) query.orderBy('Expense.' + orderBy[0], orderBy[1])
     if(page) query
       .offset(paginationSize * +page)
