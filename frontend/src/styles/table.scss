@@ -5,14 +5,18 @@ table {
 
     &[order="ASC"]::after {
       content: url('../assets/icons/uncollapse.svg');
-      width: 25px;
-      margin-left: 10px;
+      display: inline-block;
+      transform: scale(0.5) translateY(60px);
+      height: 0;
+      width: 0;
     }
 
     &[order="DESC"]::after {
       content: url('../assets/icons/collapse.svg');
-      width: 15px;
-      margin-left: 10px;
+      display: inline-block;
+      transform: scale(0.5) translateY(60px);
+      height: 0;
+      width: 0;
     }
   }
   
