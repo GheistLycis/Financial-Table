@@ -6,8 +6,8 @@
   
   <div class="modal-body">    
     <form #formModel="ngForm">      
-      <div class="col">
-        <div class="row mb-4" *ngIf="action == 'adicionar'">
+      <div class="row mb-4">
+        <div *ngIf="action == 'adicionar'" class="col">
           <label for="year" class="form-label required">Ano</label>
           <ng-select
             id="year"
@@ -21,8 +21,7 @@
             notFoundText="Nenhum registro disponível."
           ></ng-select>
         </div>
-        
-        <div class="row mb-4">
+        <div class="col">
           <label for="month" class="mb-1 required">Mês</label>
           <select
             id="month"
@@ -44,15 +43,14 @@
             <option [ngValue]="12">Dezembro</option>
           </select>
         </div>
-        
-        <div class="row mb-4">
+        <div class="col">
           <label for="available" class="mb-1 required">
-            Porcentagem para gastos
+            Porcentagem
             <app-tooltip 
               icon="help" 
               content="
                 <p>Porcentagem das Entradas que será reservada para ser gasta durante o mês.</p>
-                <p><small>(Entradas * Porcentagem_Reservada) - Gastos_Fixos = Disponível</small></p>
+                <p><b>(Entradas * Porcentagem_Reservada) - Gastos_Fixos = Disponível</b></p>
               ">
             </app-tooltip>
           </label>
@@ -70,18 +68,18 @@
             * Defina uma porcentagem
           </div>
         </div>
-        
-        <div class="row mb-4">
-          <label for="obs" class="mb-1">Observação</label>
-          <textarea
-            id="obs"
-            name="obs"
-            type="text"
-            rows="2"
-            [(ngModel)]="form.obs"
-            class="form-control resize-none">
-          </textarea>
-        </div>
+      </div>
+      
+      <div class="row">
+        <label for="obs" class="mb-1">Observação</label>
+        <textarea
+          id="obs"
+          name="obs"
+          type="text"
+          rows="2"
+          [(ngModel)]="form.obs"
+          class="form-control resize-none">
+        </textarea>
       </div>
     </form>
   </div>
