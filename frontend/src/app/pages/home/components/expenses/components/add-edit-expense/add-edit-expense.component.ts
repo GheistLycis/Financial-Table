@@ -23,7 +23,7 @@ export class AddEditExpenseComponent implements OnInit {
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
   loading = false
-  value
+  today = new Date().toISOString().split('T')[0]
   
   constructor(
     protected activeModal: NgbActiveModal,
@@ -50,7 +50,7 @@ export class AddEditExpenseComponent implements OnInit {
       })
     }
     else {
-      this.form.date = new Date().toISOString().split('T')[0]
+      this.form.date = this.today
     }
   }
   

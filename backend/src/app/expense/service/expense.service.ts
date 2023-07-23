@@ -4,7 +4,7 @@ import BaseService from 'src/shared/interfaces/BaseService';
 import ExpenseDTO from '../Expense.dto';
 import { Expense } from '../Expense';
 import { Tag } from '../../tag/Tag';
-import { classValidatorError, DuplicatedException, NotFoundException } from 'src/filters/globalExceptions';
+import { BadRequestException, classValidatorError, DuplicatedException, NotFoundException } from 'src/filters/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { Year } from 'src/app/year/Year';
@@ -15,7 +15,7 @@ import { User } from 'src/app/user/User';
 
 const paginationSize = 30
 
-type body = { value: number, description: string, date: Date, category: Category['id'], tags: TagDTO[] }
+type body = { value: number, description: string, date: string | Date, category: Category['id'], tags: TagDTO[] }
 type queries = {
   year?: Year['id']
   months?: Month['id'][] 
@@ -88,6 +88,8 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
   }
 
   async post(user: User['id'], { value, description, date, category, tags }: body) {
+    if(date > new Date().toISOString().split('T')[0]) throw BadRequestException('A data de um registro não pode ser futura.')
+
     const duplicated = await this.repo.createQueryBuilder('Expense')
       .innerJoin('Expense.category', 'Category')
       .innerJoin('Category.month', 'Month')
@@ -121,6 +123,8 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
   }
 
   async put(user: User['id'], id: ExpenseDTO['id'], { value, description, date, tags }: body) {
+    if(date > new Date().toISOString().split('T')[0]) throw BadRequestException('A data de um registro não pode ser futura.')
+
     const duplicated = await this.repo.createQueryBuilder('Expense')
       .innerJoin('Expense.category', 'Category')
       .innerJoin('Category.month', 'Month')
@@ -149,7 +153,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
 
     entity.value = value
     entity.description = description
-    entity.date = date
+    entity.date = date as Date
     entity.tags = tagEntities
 
     const errors = await validate(entity)

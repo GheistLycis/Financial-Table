@@ -55,6 +55,7 @@ export class AnalyticsService {
           WHERE 
             c.id = ${category.id}
             AND mi."deletedAt" IS NULL
+            AND (mi."date" IS NULL OR mi."date" <= CURRENT_DATE)
         ) total_monthly_incomes,
         (
           SELECT COALESCE(SUM(me.value), 0) AS sum
@@ -63,6 +64,7 @@ export class AnalyticsService {
           WHERE 
             c.id = ${category.id}
             AND me."deletedAt" IS NULL
+            AND (me."date" IS NULL OR me."date" <= CURRENT_DATE)
         ) total_monthly_expenses
         WHERE 
           c.id = ${category.id}
@@ -136,6 +138,7 @@ export class AnalyticsService {
               WHERE 
                 m.id = ${id}
                 AND mi."deletedAt" IS NULL
+                AND (mi."date" IS NULL OR mi."date" <= CURRENT_DATE)
             ) total_incomes,
             (
               SELECT COALESCE(SUM(me.value), 0) AS sum
@@ -144,6 +147,7 @@ export class AnalyticsService {
               WHERE 
                 m.id = ${id}
                 AND me."deletedAt" IS NULL
+                AND (me."date" IS NULL OR me."date" <= CURRENT_DATE)
             ) total_monthly_expenses,
             (
               SELECT COALESCE(SUM(e.value), 0) AS sum
@@ -278,6 +282,7 @@ export class AnalyticsService {
             WHERE 
               m.id = ${month.id}
               AND mi."deletedAt" IS NULL
+              AND (mi."date" IS NULL OR mi."date" <= CURRENT_DATE)
           ) total_incomes,
           (
             SELECT COALESCE(SUM(me.value), 0) AS sum
@@ -286,6 +291,7 @@ export class AnalyticsService {
             WHERE 
               m.id = ${month.id}
               AND me."deletedAt" IS NULL
+              AND (me."date" IS NULL OR me."date" <= CURRENT_DATE)
           ) total_monthly_expenses,
           (
             SELECT COALESCE(SUM(e.value), 0) AS sum
@@ -442,6 +448,7 @@ export class AnalyticsService {
             WHERE 
               y.id = ${year.id}
               AND mi."deletedAt" IS NULL
+              AND (mi."date" IS NULL OR mi."date" <= CURRENT_DATE)
           ) total_incomes,
           (
             SELECT COALESCE(SUM(me.value), 0) AS sum
@@ -451,6 +458,7 @@ export class AnalyticsService {
             WHERE 
               y.id = ${year.id}
               AND me."deletedAt" IS NULL
+              AND (me."date" IS NULL OR me."date" <= CURRENT_DATE)
           ) total_monthly_expenses
         WHERE y.id = ${year.id}
       `)
@@ -465,6 +473,7 @@ export class AnalyticsService {
         WHERE 
           y.id = ${year.id}
           AND mi."deletedAt" IS NULL
+          AND (mi."date" IS NULL OR mi."date" <= CURRENT_DATE)
       `)
       .then(rows => Number(rows[0].monthlyincomes), err => { throw ServerException(`${err}`) })
       
@@ -477,6 +486,7 @@ export class AnalyticsService {
         WHERE 
           y.id = ${year.id}
           AND me."deletedAt" IS NULL
+          AND (me."date" IS NULL OR me."date" <= CURRENT_DATE)
       `)
       .then(rows => Number(rows[0].monthlyexpenses), err => { throw ServerException(`${err}`) })
       

@@ -65,6 +65,7 @@
             [(ngModel)]="form.date"
             name="date"
             required
+            [max]="today"
             class="form-control"
             [ngClass]="{'is-invalid': submitted && f['date'].errors}">
           <div *ngIf="submitted && f['date'].errors && f['date'].errors['required']" class="invalid-feedback">
