@@ -1,3 +1,7 @@
+.card {
+    border-radius: 0;
+}
+
 .card-shadow {
     position: relative;
     transition-duration: .2s;
@@ -7,7 +11,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        transform: scaleY(0.75);
+        transform: scaleY(0.7);
         transform-origin: bottom;
         background: linear-gradient(transparent, rgba(black, 0.04), rgba(black, 0.06));
         transition: transform 0.5s;

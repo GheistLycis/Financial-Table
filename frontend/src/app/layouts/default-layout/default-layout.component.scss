@@ -4,3 +4,9 @@
     padding-top: 110px;
     padding-bottom: $footer-height + 50px;
 }
+
+svg {
+    position: absolute;
+    z-index: -100;
+    bottom: $footer-height;
+}

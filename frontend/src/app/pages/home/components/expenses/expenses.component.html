@@ -7,7 +7,7 @@
     <img 
       src="../../../../../assets/icons/plus.svg"
       (click)="addExpense()"
-      width="30px"
+      width="50px"
       class="pointer"
       ngbTooltip="Adicionar registro">
   </div>
@@ -26,7 +26,6 @@
       #nav="ngbNav" 
       [activeId]="activeYear"
       (navChange)="activeYear = $event.nextId"
-      class="nav-tabs"
     >
       <li 
         *ngFor="let year of years"

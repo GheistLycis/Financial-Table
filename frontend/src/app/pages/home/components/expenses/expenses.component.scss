@@ -2,16 +2,14 @@
 
 .search-box {
   outline: none;
-  width: 500px;
+  width: 450px;
   height: 40px;
-  border-radius: 0;
-  border-color: black;
   transition-duration: .4s;
 
-  &:focus,
   &:not(:placeholder-shown) {
-    border-radius: 0 15px 15px 0;
     border-color: $palette-4;
+    border-radius: 15px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba($palette-4, 0.7);
   }
 }
 

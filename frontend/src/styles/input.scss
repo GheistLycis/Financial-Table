@@ -1,13 +1,13 @@
 input {
   height: 35px;
   padding: auto 20px;
-  font-style: italic;
   color: grey;
-  border: 1px solid black;
-  border-radius: 20px;
+  border: 1px solid grey;
+  border-radius: 0;
 
-  &.form-control:focus {
-    border-color: $palette-4;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba($palette-4, 0.6);
+  &.form-control {
+    color: grey !important;
+    border: 1px solid grey !important;
+    border-radius: 0 !important;
   }
 }
