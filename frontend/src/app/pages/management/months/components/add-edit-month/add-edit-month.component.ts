@@ -59,6 +59,8 @@ export class AddEditMonthComponent {
     this.submitted = true
     
     if(this.formModel.invalid) return
+
+    this.form.available = +this.form.available
     
     this.submit()
   }

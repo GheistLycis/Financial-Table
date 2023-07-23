@@ -37,7 +37,7 @@
             type="text"
             required
             [(ngModel)]="form.percentage"
-            mask="0||00"
+            mask="0||00||000"
             suffix=" %"
             class="form-control"
             [ngClass]="{'is-invalid': submitted && f['percentage'].errors}">
