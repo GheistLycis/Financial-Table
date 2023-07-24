@@ -6,6 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./tooltip.component.scss']
 })
 export class TooltipComponent {
-  @Input() icon!: 'help' | 'warning' | 'info' | 'security'
-  @Input() content!: string
+  @Input() icon: 'help' | 'warning' | 'info' | 'security' = 'help'
 }
