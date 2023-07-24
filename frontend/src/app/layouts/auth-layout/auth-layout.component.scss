@@ -1,63 +1,79 @@
 @import '../../../styles/variables.scss';
 
-#main-container,
-#main-container * {
-    animation: appear .8s cubic-bezier(0.39, 0.79, 0.08, 0.96) backwards;
-}
+.main-container {
+    height: 450px;
 
-@keyframes appear {
-    0% {
-        transform: translateY(100px);
-        background-color: transparent;
+    > div {
+        max-width: 900px;
+    }
+
+    a {
+        height: 65px;
+        font-style: italic;
+        font-size: 40px;
+        color: $palette-4;
+        position: relative;
+        text-decoration: none;
+        text-transform: uppercase;
+    
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0.1em;
+            background-color: $palette-4;
+            transform: scale(0);
+            transform-origin: center;
+            animation: underline .8s cubic-bezier(0.18, 0.93, 0, 0.92) forwards 1s;
+        }
+    }
+
+    img {
+        filter: $filter-palette-4;
+    }
+
+    .form-control {
+        border: none;
+    }
+    
+    input {
+        text-align: center;
+        width: 300px;
+    }
+    
+    button {
+        border-radius: 20px;
+        width: 300px;
+        height: 50px;
+    }
+    
+    small {
+        color: $palette-3;
     }
 }
 
-a {
-    font-size: 3em;
-    color: $palette-4;
-    position: relative;
-    padding: 0;
-    text-decoration: none;
-
-    &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 0.1em;
-        background-color: $palette-4;
-        transform: scale(0);
-        transform-origin: center;
-        animation: underline .8s cubic-bezier(0.18, 0.93, 0, 0.92) forwards 1s;
-    }
+svg {
+    position: absolute;
+    bottom: 0;
+    z-index: -100;
 }
+
+// .main-container,
+// .main-container * {
+//     animation: appear .8s cubic-bezier(0.39, 0.79, 0.08, 0.96) backwards;
+// }
+
+// @keyframes appear {
+//     0% {
+//         transform: translateY(100px);
+//         background-color: transparent;
+//     }
+// }
 
 @keyframes underline {
     100% {
         transform: scale(1);
     }
-}
-
-h3 {
-    font-weight: 400;
-}
-
-a, h3 {
-    font-style: italic;
-}
-
-input {
-    text-align: center;
-    width: 300px;
-}
-
-button {
-    border-radius: 20px;
-    width: 125px;
-    height: 50px;
-}
-
-small {
-    color: $palette-3;
 }

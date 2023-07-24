@@ -1,18 +1,43 @@
-<div class="card shadow d-flex align-items-center justify-content-center p-5" id="main-container">
-    <a class="mb-5">Bem-vindo!</a>
-    <div class="d-flex flex-column align-items-center">
-        <input *ngIf="action == 'signup'" type="text" [(ngModel)]="user.name" required placeholder="Nome" class="py-2 mb-2">
-        <input type="email" [(ngModel)]="user.email" required placeholder="E-mail" class="py-2 mb-2">
-        <input type="password" [(ngModel)]="user.password" required placeholder="Senha" class="py-2 mb-4">
-        <div class="d-flex gap-20 mt-2 mb-1 w-100 justify-content-center">
-            <button #enterBtn *ngIf="action == 'login'" (click)="enter('login')" [disabled]="!user.email || !user.password" class="px-3 py-2">
-                Entrar
-            </button>
-            <button #enterBtn *ngIf="action == 'signup'" (click)="enter('signup')" [disabled]="!user.name || !user.email || !user.password" class="px-3 py-2">
-                Registrar
-            </button>
+<div class="main-container card shadow d-flex align-items-center justify-content-center w-100">
+    <div class="d-flex align-items-center justify-content-between w-75 py-4">
+        <div class="d-flex flex-column justify-content-between align-items-center">
+            <a>Tab€la Financ€ira</a>
+            <img src="../../../assets/icons/graph.svg" width="90px" class="mt-3">
         </div>
-        <small *ngIf="action == 'login'" (click)="action = 'signup'" class="pointer align-self-start">Criar conta...</small>
-        <small *ngIf="action == 'signup'" (click)="action = 'login'" class="pointer align-self-start">Logar na minha conta...</small>
+
+        <div class="d-flex flex-column align-items-center">
+            <div *ngIf="action == 'signup'" class="form-control mb-2">
+                <label class="form-label">Nome</label>
+                <input type="text" [(ngModel)]="user.name" required placeholder="Nome" class="form-control py-2">
+            </div>
+            <div class="form-control mb-2">
+                <label class="form-label">E-mail</label>
+                <input type="email" [(ngModel)]="user.email" required placeholder="E-mail" class="form-control py-2">
+            </div>
+            <div class="form-control mb-4">
+                <label class="form-label">Senha</label>
+                <input type="password" [(ngModel)]="user.password" required placeholder="Senha" class="form-control py-2">
+            </div>
+
+            <div class="mb-3">
+                <button #enterBtn *ngIf="action == 'login'" (click)="enter('login')" [disabled]="!user.email || !user.password" class="px-3 py-2">
+                    Entrar
+                </button>
+                <button #enterBtn *ngIf="action == 'signup'" (click)="enter('signup')" [disabled]="!user.name || !user.email || !user.password" class="px-3 py-2">
+                    Registrar
+                </button>
+            </div>
+
+            <small *ngIf="action == 'login'" (click)="action = 'signup'" class="pointer align-self-start">
+                Ainda não possui uma conta? <b>Criar conta...</b>
+            </small>
+            <small *ngIf="action == 'signup'" (click)="action = 'login'" class="pointer align-self-start">
+                Já possuo uma conta. <b>Entrar na minha conta...</b>
+            </small>
+        </div>
     </div>
 </div>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+    <path fill="#62B6B7" fill-opacity="1" d="M0,0L48,42.7C96,85,192,171,288,202.7C384,235,480,213,576,197.3C672,181,768,171,864,165.3C960,160,1056,160,1152,149.3C1248,139,1344,117,1392,106.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+</svg>
