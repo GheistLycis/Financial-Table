@@ -12,11 +12,14 @@
       ngbTooltip="Adicionar registro">
   </div>
 
-  <input 
-    #searchBox
-    (keyup)="search.next(searchBox.value.trim())"
-    placeholder="Pesquisar pela descrição (mínimo 3 caracteres)"
-    class="search-box p-3 mb-3">
+  <div class="search-box mb-3">
+    <input 
+      #searchInput
+      (keyup)="search.next(searchInput.value.trim())"
+      placeholder="Pesquisar pela descrição (mínimo 3 caracteres)"
+      class="search-box w-100 h-100 p-3">
+    <img src="../../../../../assets/icons/search.svg" width="30px">
+  </div>
 
   <app-filters [year]="activeYear" (filters)="filters.next($event)"></app-filters>
   

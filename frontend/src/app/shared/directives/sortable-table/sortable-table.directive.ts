@@ -10,7 +10,7 @@ export class SortableTableDirective {
   @Input() set init(signal: boolean) {
     this._init()
   }
-  @Output() sort = new EventEmitter<SortEvent | any>()
+  @Output() sort = new EventEmitter<SortEvent>()
   table!: HTMLTableElement
   headers!: NodeListOf<HTMLTableCellElement>
 
@@ -38,6 +38,6 @@ export class SortableTableDirective {
       if(i != index) header.setAttribute('order', '')
     })
 
-    this.sort.emit({ column, order: header.getAttribute('order') })
+    this.sort.emit({ column, order: header.getAttribute('order') as keyof typeof SortOrder })
   }
 }
