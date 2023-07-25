@@ -48,4 +48,8 @@ export class ExpenseService {
   delete(id: ExpenseDTO['id']) {
     return this.http.delete<Res<ExpenseDTO>>(`${environment.apiUrl}/${this.baseRoute}/${id}`)
   }
+
+  getCSV() {
+    return this.http.get<Res<string>>(`${environment.apiUrl}/${this.baseRoute}/get-csv`)
+  }
 }

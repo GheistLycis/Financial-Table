@@ -86,10 +86,11 @@
                 <h4 class="italic">Categorias</h4>
                 <div class="cards d-flex gap-10">
                     <div *ngFor="let remaining of categoriesRemaining" class="category card shadow glass p-3">
-                        <h4>{{ remaining.category.name }} ({{ remaining.category.percentage | number:'.0-2' }}%)</h4>
+                        <h4>{{ remaining.category.name }}</h4>
                         <div>
                             <h5>
                                 Reservado: R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
+                                ({{ remaining.category.percentage | number:'.0-2' }}%)
                             </h5>
                             <h5 [ngClass]="remaining.remaining > 0 ? 'text-success' : 'text-danger'">
                                 <b>Restante: R${{ remaining.remaining | number:'.2-2':'pt' }}</b>

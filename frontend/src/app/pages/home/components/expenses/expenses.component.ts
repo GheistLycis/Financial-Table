@@ -8,8 +8,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { ToastrService } from 'ngx-toastr';
 import { AddEditExpenseComponent } from 'src/app/pages/home/components/expenses/components/add-edit-expense/add-edit-expense.component';
-import { map, tap, BehaviorSubject, Subject, Observable, of } from 'rxjs';
-import { catchError, concatMap, debounceTime, distinctUntilChanged, filter, skip, switchMap } from 'rxjs/operators';
+import { map, tap, BehaviorSubject, Subject, Observable, of, throwError } from 'rxjs';
+import { catchError, concatMap, debounceTime, distinctUntilChanged, filter, skip, switchMap, throttle } from 'rxjs/operators';
 import { SortEvent } from 'src/app/shared/interfaces/SortEvent';
 
 @Component({
@@ -23,7 +23,9 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   years: YearDTO[] = []
   expenses: ExpenseDTO[] = []
   loading = false
+  loadingCSV = false
   initSortDirective = false
+  downloadCSV$ = new Subject<void>()
   filters = new BehaviorSubject<ExpensesFilters>(undefined)
   search = new BehaviorSubject<ExpenseDTO['description']>('')
   orderBy = new BehaviorSubject<['date' | 'value', 'ASC' | 'DESC'] | []>([])
@@ -37,6 +39,24 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     private modalService: NgbModal,
     private toastr: ToastrService,
   ) {
+    this.downloadCSV$.pipe(
+      filter(() => !this.loadingCSV),
+      tap(() => this.loadingCSV = true),
+      switchMap(() => this.expensesService.getCSV()),
+      map(({ data }) => data),
+      tap(csv => {
+        const blob = new Blob([csv], { type: 'text/csv' })
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+
+        a.download = 'Registros ' + new Date().toISOString().split('T')[0] + '.csv'
+        a.href = url
+        a.click();       
+      }),
+      catchError(() => of()),
+      tap(() => this.loadingCSV = false),
+    ).subscribe()
+
     this.search.pipe(
       skip(1),
       debounceTime(800),

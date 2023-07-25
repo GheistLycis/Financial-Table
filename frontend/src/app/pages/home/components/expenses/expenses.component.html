@@ -4,12 +4,23 @@
       <h2>Histórico de gastos</h2>
       <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
     </div>
-    <img 
-      src="../../../../../assets/icons/plus.svg"
-      (click)="addExpense()"
-      width="50px"
-      class="pointer"
-      ngbTooltip="Adicionar registro">
+    <div class="d-flex gap-20">
+      <div>
+        <span *ngIf="loadingCSV" class="spinner-border spinner-border-sm"></span>
+        <img 
+          src="../../../../../assets/icons/download.svg"
+          (click)="downloadCSV$.next()"
+          width="50px"
+          class="pointer"
+          ngbTooltip="Exportar dados como CSV. Isto lhe permitirá ter um backup de todos seus registros em um formato que pode ser lido por programas como o Excel.">
+      </div>
+      <img 
+        src="../../../../../assets/icons/plus.svg"
+        (click)="addExpense()"
+        width="50px"
+        class="pointer"
+        ngbTooltip="Adicionar registro">
+    </div>
   </div>
 
   <div class="search-box mb-3">

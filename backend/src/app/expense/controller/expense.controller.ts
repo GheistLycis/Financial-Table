@@ -31,4 +31,9 @@ export class ExpenseController extends BaseController {
     
     return await this.service.list(req['user'].id, query).then(data => ({ data }))
   }
+
+  @Get('get-csv')
+  async getCSV(@Req() req) {
+    return await this.service.getCSV(req['user'].id).then(data => ({ data }))
+  }
 }
