@@ -5,7 +5,6 @@
 @import './styles/toastr.scss';
 @import './styles/button.scss';
 @import './styles/input.scss';
-@import './styles/ng-select.scss';
 @import './styles/modal.scss';
 @import './styles/table.scss';
 @import './styles/tooltip.scss';
@@ -29,6 +28,7 @@ body {
     font-family: 'Poppins', sans-serif;
     background: $palette-1;
     background: linear-gradient(190deg, rgba($palette-1, 1) 30%, rgba($palette-4, 0.5) 90%);
+    caret-color: $palette-4;
 }
 
 html,
@@ -52,7 +52,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-track {
-    background: white;
+    background: $white;
 }
 
 ::-webkit-scrollbar-thumb {

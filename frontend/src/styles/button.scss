@@ -6,6 +6,8 @@ button {
   padding: 5px 10px;
   transition-duration: .3s;
   transition-timing-function: ease-out;
+  text-transform: uppercase;
+  font-weight: 500;
 
   &:hover {
       border-color: $palette-4;

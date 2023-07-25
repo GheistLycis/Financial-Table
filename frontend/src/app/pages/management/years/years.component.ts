@@ -52,7 +52,7 @@ export class YearsComponent implements OnInit {
   }
   
   addYear(): void {
-    const { result } = this.modalService.open(AddEditYearComponent, { size: 'md' })
+    const { result } = this.modalService.open(AddEditYearComponent, { size: 'sm' })
     
     result.then((res: boolean) => {
       if(res) {
@@ -64,7 +64,7 @@ export class YearsComponent implements OnInit {
   }
   
   editYear(year: YearDTO): void {
-    const { componentInstance, result } = this.modalService.open(AddEditYearComponent, { size: 'md' })
+    const { componentInstance, result } = this.modalService.open(AddEditYearComponent, { size: 'sm' })
     
     componentInstance.year = year
     

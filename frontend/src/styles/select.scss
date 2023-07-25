@@ -2,8 +2,76 @@ select {
     color: grey !important;
     border: 1px solid $palette-4 !important;
     border-radius: 10px !important;
+    background-color: $white !important;
+    height: $field-height !important;
   
     &:focus {
       box-shadow: inset 0 1px 1px rgba(black, 0.075), 0 0 8px rgba($palette-4, 0.7);
     }
+}
+
+ng-select {
+  .ng-select-container {
+    height: $field-height !important;
+    min-width: 100px;
+    padding: 5px;
+    background: $white;
+    border: 1px solid $palette-4;
+    border-radius: 10px;
+    
+    .ng-value-container {
+      color: grey;
+      padding-left: 8px;
+      gap: 8px;
+      height: 30px;
+
+      .ng-value {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+
+      .ng-placeholder {
+        color: grey;
+      }
+    }
+  }
+
+  .ng-option {
+    padding: 3px 5px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    background: $white;
+    color: grey;
+
+    &.ng-option-marked {
+      color: white;
+      background: $palette-4;
+    }
+  }
+
+  .ng-clear-wrapper {
+    transform: translateY(7px);
+    color: $palette-4;
+  }
+
+  .ng-footer-tmp {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    width: 100%;
+    padding: 3px 5px;
+    background-color: $white;
+    border: 1px solid $palette-4;
+    color: $palette-4;
+    border-color: $palette-4;
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    img {
+      filter: $filter-palette-4;
+    }
+  }
 }

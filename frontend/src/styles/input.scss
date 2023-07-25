@@ -1,14 +1,20 @@
 input {
-  height: 35px;
+  background-color: $white;
   padding: auto 20px;
   color: grey;
   border: 1px solid $palette-4;
   border-radius: 10px;
   outline: none;
 
+  &:not(.switch) {
+    height: $field-height;
+  }
+
   &.form-control {
+    background-color: $white !important;
     color: grey !important;
     border: 1px solid $palette-4 !important;
     border-radius: 10px !important;
+    height: $field-height !important;
   }
 }

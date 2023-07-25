@@ -1,5 +1,9 @@
 @import '../../../styles/variables.scss';
 
+.card:hover {
+    transform: none;
+}
+
 .main-container {
     height: 450px;
 
