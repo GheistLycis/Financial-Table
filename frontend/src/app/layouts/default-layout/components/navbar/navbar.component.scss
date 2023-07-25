@@ -11,15 +11,13 @@ nav {
         min-width: 48px;
         margin-left: 20px !important;
         
-        &, img {
+        img {
             transition-duration: .3s;
         }
         
         &:hover {
-            background-color: black;
-
             img {
-                filter: invert(1);
+                filter: $filter-palette-4;
             }
         }
     }

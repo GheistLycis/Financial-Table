@@ -27,11 +27,19 @@ button {
     background-color: transparent;
     border-color: $palette-4;
     color: $palette-4;
+
+    img {
+      filter: $filter-palette-4;
+    }
     
     &:hover {
         background-color: $palette-4;
         border-color: transparent;
         color: white;
+
+        img {
+          filter: $filter-white;
+        }
     }
   }
 }

@@ -37,7 +37,7 @@ export class DuplicateMonthComponent {
     componentInstance.text = `
       <p>Isto criará um mês seguinte copiando todos os parâmetros selecionados:</p>
       <ul>
-        ${duplications.map(el => '<li>' + el + '</li>').join('')}
+        ${duplications.map(el => '<li><b>' + el + '</b></li>').join('')}
       </ul>
     `
     

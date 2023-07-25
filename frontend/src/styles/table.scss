@@ -4,17 +4,21 @@ table {
     background-color: rgba(white, 0.6);
     position: relative;
 
+    &[sortable]::after {
+      content: url('../assets/icons/sort.svg');
+    }
+
     &[order="ASC"]::after {
       content: url('../assets/icons/collapse.svg');
-      display: inline-block;
-      position: absolute;
-      transform: scale(0.5);
-      height: 0;
-      width: 0;
     }
 
     &[order="DESC"]::after {
       content: url('../assets/icons/uncollapse.svg');
+    }
+
+    &[sortable]::after,
+    &[order="ASC"]::after, 
+    &[order="DESC"]::after {
       display: inline-block;
       position: absolute;
       transform: scale(0.5);

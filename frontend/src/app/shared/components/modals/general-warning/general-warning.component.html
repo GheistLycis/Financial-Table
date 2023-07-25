@@ -1,6 +1,9 @@
 <div class="modal-container">
   <div *ngIf="title" class="modal-header">
-    <h3>{{ title }}</h3>
+    <div class="d-flex align-items-center gap-20">
+      <h3>{{ title }}</h3>
+      <img src="../../../../../assets/icons/warning.svg" width="30px">
+    </div>
     <span (click)="activeModal.close(false)">&times;</span>
   </div>
   

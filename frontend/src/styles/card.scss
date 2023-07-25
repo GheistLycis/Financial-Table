@@ -1,27 +1,9 @@
 .card {
     border-radius: 0;
-}
-
-.card-shadow {
-    position: relative;
     transition-duration: .2s;
     transition-timing-function: ease-in-out;
 
-    &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        transform: scaleY(0.7);
-        transform-origin: bottom;
-        background: linear-gradient(transparent, rgba(black, 0.04), rgba(black, 0.06));
-        transition: transform 0.5s;
-    }
-
     &:hover {
         transform: translate(3px, -5px);
-
-        &::before {
-            transform: scale(1);
-        }
     }
 }

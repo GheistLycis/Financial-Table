@@ -72,19 +72,28 @@
       </div>
       
       <div class="footer d-flex justify-content-end gap-15 px-4 pt-4 mt-2">
-        <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'completed')" class="btn btn-success">Completar</button>
-        <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'canceled')" class="btn btn-danger">Suspender</button>
-        <button *ngIf="saving.status != 'active'" (click)="updateStatus(saving.id, 'active')" class="cancel">Reativar</button>
+        <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'completed')" class="btn btn-success">
+          <img src="../../../../../assets/icons/accomplish.svg" width="30px">
+          Completar
+        </button>
+        <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'canceled')" class="btn btn-danger">
+          <img src="../../../../../assets/icons/suspend.svg" width="30px">
+          Suspender
+        </button>
+        <button *ngIf="saving.status != 'active'" (click)="updateStatus(saving.id, 'active')" class="cancel">
+          <img src="../../../../../assets/icons/power.svg" width="30px">
+          Reativar
+        </button>
         <img 
           src="../../../../../assets/icons/pencil.svg"
           (click)="editSaving(saving)"
-          width="34px"
+          width="36px"
           class="pointer"
           ngbTooltip="Editar">
         <img 
           src="../../../../../assets/icons/trash.svg"
           (click)="deleteSaving(saving)"
-          width="34px"
+          width="36px"
           class="pointer"
           ngbTooltip="Excluir">
       </div>
