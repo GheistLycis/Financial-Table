@@ -64,13 +64,16 @@
             </div>
         </div>
 
-        <div class="card shadow glass actual-balance d-flex flex-row align-items-baseline gap-10 p-3">
-            <h5>Saldo:</h5>
+        <div 
+            (click)="router.navigate(['gerenciar/meses'])"
+            ngbTooltip="Suas economias até o momento."
+            class="card shadow glass actual-balance d-flex flex-row align-items-baseline gap-10 p-3 pointer">
+            <h5>SALDO:</h5>
             <ng-container *ngIf="actualBalance$ | async as balance">
                 <h4 *ngIf="balance == '--'">
                     {{ balance }}
                 </h4>
-                <h4 *ngIf="balance != '--'" [ngClass]="{'text-danger': balance <= 0}">
+                <h4 *ngIf="balance != '--'" [ngClass]="balance > 0 ? 'text-success' : 'text-danger'">
                     <b>R${{ balance | number:'.2-2':'pt' }}</b>
                 </h4>
             </ng-container>
@@ -80,6 +83,26 @@
     <ngb-carousel>
         <ng-template ngbSlide>
             <div class="picsum-img-wrapper">
+                <h4 class="italic">Categorias</h4>
+                <div class="cards d-flex gap-10">
+                    <div *ngFor="let remaining of categoriesRemaining" class="category card shadow glass p-3">
+                        <h4>{{ remaining.category.name }} ({{ remaining.category.percentage | number:'.0-2' }}%)</h4>
+                        <div>
+                            <h5>
+                                Reservado: R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
+                            </h5>
+                            <h5 [ngClass]="remaining.remaining > 0 ? 'text-success' : 'text-danger'">
+                                <b>Restante: R${{ remaining.remaining | number:'.2-2':'pt' }}</b>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template ngbSlide>
+            <div class="picsum-img-wrapper">
+                <h4 class="italic">Gastos</h4>
                 <div class="cards d-flex mb-2 gap-20">                    
                     <div class="card shadow glass p-3">
                         <ng-container *ngTemplateOutlet="
@@ -97,7 +120,7 @@
                     
                     <div class="card shadow glass p-3">
                         <div>
-                            <h5>Maiores gastos:</h5>
+                            <h5>Mais caros</h5>
                         </div>
                         <div class="most-expensive d-flex flex-column gap-10">
                             <ng-container *ngTemplateOutlet="
@@ -108,24 +131,6 @@
                                 mostExpensive; 
                                 context: {title: 'Tag(s)', $implicit: mostExpensiveTags$ | async}"
                             ></ng-container>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </ng-template>
-
-        <ng-template ngbSlide>
-            <div class="picsum-img-wrapper">
-                <div class="cards d-flex gap-10">
-                    <div *ngFor="let remaining of categoriesRemaining" class="category card shadow glass p-3">
-                        <h4>{{ remaining.category.name }} ({{ remaining.category.percentage | number:'.0-2' }}%)</h4>
-                        <div>
-                            <h5>
-                                Disponível: R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
-                            </h5>
-                            <h5 [ngClass]="{'text-danger': remaining.remaining <= 0}">
-                                <b>Restante: R${{ remaining.remaining | number:'.2-2':'pt' }}</b>
-                            </h5>
                         </div>
                     </div>
                 </div>

@@ -7,7 +7,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { ExpensesModule } from './components/expenses/expenses.module';
 import { CalendarComponent } from './components/calendar/calendar.component';
-import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -24,6 +24,7 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
     NgSelectModule,
     FormsModule,
     NgbCarouselModule,
+    NgbTooltip,
   ]
 })
 export class HomeModule { }
