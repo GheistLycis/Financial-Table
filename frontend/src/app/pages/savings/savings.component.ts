@@ -7,8 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
 import { MonthService } from 'src/app/shared/services/month/month.service';
-import { switchMap, tap, map } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { switchMap, tap, map, of } from 'rxjs';
+import { catchError, filter } from 'rxjs/operators';
+import { YearService } from 'src/app/shared/services/year/year.service';
 
 @Component({
   selector: 'app-savings',
@@ -23,6 +24,7 @@ export class SavingsComponent implements OnInit {
   constructor(
     private savingService: SavingService,
     private monthService: MonthService,
+    private yearService: YearService,
     private analyticsService: AnalyticsService,
     private modalService: NgbModal,
     private toastr: ToastrService,
@@ -30,20 +32,26 @@ export class SavingsComponent implements OnInit {
   
   ngOnInit(): void {
     this.loading = true
+
+    this.listSavings()
     
-    this.monthService.list().pipe(
-      map(({ data }) => data),
-      filter(data => data.length != 0),
-      switchMap(data => this.analyticsService.monthBalance(data[0].id)),
-      tap(({ data }) => {
-        this.actualBalance = data.balance
+    this.yearService.list().pipe(
+      map(({ data }) => data[0]),
+      switchMap(({ id }) => this.monthService.list({ year: id }).pipe(
+          map(({ data }) => data[0]),
+          switchMap(({ id }) => this.analyticsService.monthBalance(id).pipe(
+            map(({ data }) => data)
+          )),
+        )
+      ),
+      catchError(() => of(null)),
+      tap(data => {
         this.loading = false
+        if(data) this.actualBalance = data.balance
       }),
     ).subscribe()
-    
-    this.listSavings()
   }
-  
+
   listSavings(): void {
     this.loading = true
     this.savingService.list().subscribe(({ data }) => {
