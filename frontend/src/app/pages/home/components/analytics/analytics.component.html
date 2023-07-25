@@ -1,68 +1,71 @@
 <div class="main-container">
-    <div class="header mb-4 pt-3 d-flex">
-        <h2>
-            Gastos do mês (
-            <span (click)="dropdown = dropdown == 'month' ? '' : 'month'">
-                {{ (month$ | async)?.month | monthName }}
-            </span>
-            de 
-            <span (click)="dropdown = dropdown == 'year' ? '' : 'year'">
-                {{ (year$ | async)?.year }}
-            </span>
-            )
-        </h2>
-        <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
-        <div [ngClass]="{'d-none': dropdown != 'year'}">
-            <ng-select
-                [items]="years$ | async" 
-                [ngModel]="year$ | async"
-                (ngModelChange)="year$.next($event)"
-                (change)="dropdown = ''"
-                [clearable]="false"
-                bindLabel="year"
-                notFoundText="Cadastre um ano!"
-            >
-                <ng-template ng-footer-tmp>
-                    <ng-container *ngIf="!(years$ | async)?.length">
-                        <div (click)="router.navigate(['gerenciar/anos'])" class="ng-footer-tmp">
-                            Cadastrar
-                            <img src="../../../../../assets/icons/plus.svg" width="20px">
-                        </div>
-                    </ng-container>
-                </ng-template>  
-            </ng-select>
-        </div>
-        <div [ngClass]="{'d-none': dropdown != 'month'}">
-            <ng-select
-                [items]="months$ | async" 
-                [ngModel]="month$ | async"
-                (ngModelChange)="month$.next($event)"
-                (change)="dropdown = ''"
-                [clearable]="false"
-                bindLabel="month" 
-                notFoundText="Cadastre um mês!"
-            >
-                <ng-template ng-label-tmp let-item="item">
-                    {{ item.month | monthName }}
-                </ng-template>  
-                <ng-template ng-option-tmp let-item="item">
-                    {{ item.month | monthName }}
-                </ng-template>  
-                <ng-template ng-footer-tmp>
-                    <ng-container *ngIf="!(months$ | async)?.length">
-                        <div (click)="router.navigate(['gerenciar/meses'])" class="ng-footer-tmp">
-                            Cadastrar
-                            <img src="../../../../../assets/icons/plus.svg" width="20px">
-                        </div>
-                    </ng-container>
-                </ng-template>  
-            </ng-select>
-        </div>
-    </div>
+    <div class="header mb-4 pt-3 d-flex justify-content-between align-items-center">
+        <div class="d-flex gap-20">
+            <h2>
+                Análise do mês (
+                <span (click)="dropdown = dropdown == 'month' ? '' : 'month'">
+                    {{ (month$ | async)?.month | monthName }}
+                </span>
+                de 
+                <span (click)="dropdown = dropdown == 'year' ? '' : 'year'">
+                    {{ (year$ | async)?.year }}
+                </span>
+                )
+            </h2>
+
+            <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
     
-    <div class="cards d-flex mb-2 gap-20">
-        <div class="card shadow p-3">
-            <h5>Saldo atual:</h5>
+            <div [ngClass]="{'d-none': dropdown != 'year'}">
+                <ng-select
+                    [items]="years$ | async" 
+                    [ngModel]="year$ | async"
+                    (ngModelChange)="year$.next($event)"
+                    (change)="dropdown = ''"
+                    [clearable]="false"
+                    bindLabel="year"
+                    notFoundText="Cadastre um ano!"
+                >
+                    <ng-template ng-footer-tmp>
+                        <ng-container *ngIf="!(years$ | async)?.length">
+                            <div (click)="router.navigate(['gerenciar/anos'])" class="ng-footer-tmp">
+                                Cadastrar
+                                <img src="../../../../../assets/icons/plus.svg" width="20px">
+                            </div>
+                        </ng-container>
+                    </ng-template>  
+                </ng-select>
+            </div>
+    
+            <div [ngClass]="{'d-none': dropdown != 'month'}">
+                <ng-select
+                    [items]="months$ | async" 
+                    [ngModel]="month$ | async"
+                    (ngModelChange)="month$.next($event)"
+                    (change)="dropdown = ''"
+                    [clearable]="false"
+                    bindLabel="month" 
+                    notFoundText="Cadastre um mês!"
+                >
+                    <ng-template ng-label-tmp let-item="item">
+                        {{ item.month | monthName }}
+                    </ng-template>  
+                    <ng-template ng-option-tmp let-item="item">
+                        {{ item.month | monthName }}
+                    </ng-template>  
+                    <ng-template ng-footer-tmp>
+                        <ng-container *ngIf="!(months$ | async)?.length">
+                            <div (click)="router.navigate(['gerenciar/meses'])" class="ng-footer-tmp">
+                                Cadastrar
+                                <img src="../../../../../assets/icons/plus.svg" width="20px">
+                            </div>
+                        </ng-container>
+                    </ng-template>  
+                </ng-select>
+            </div>
+        </div>
+
+        <div class="card shadow glass actual-balance d-flex flex-row align-items-baseline gap-10 p-3">
+            <h5>Saldo:</h5>
             <ng-container *ngIf="actualBalance$ | async as balance">
                 <h4 *ngIf="balance == '--'">
                     {{ balance }}
@@ -72,51 +75,63 @@
                 </h4>
             </ng-container>
         </div>
-        
-        <div class="card shadow p-3">
-            <ng-container *ngTemplateOutlet="
-                expenses; 
-                context: {title: 'Em relação ao mês anterior', $implicit: recentExpenses$ | async}"
-            ></ng-container>
-        </div>
-        
-        <div class="card shadow p-3">
-            <ng-container *ngTemplateOutlet="
-                expenses; 
-                context: {title: 'Em relação à média do ano', $implicit: yearExpenses$ | async}"
-            ></ng-container>
-        </div>
-        
-        <div class="card shadow p-3">
-            <div>
-                <h5>Maiores gastos:</h5>
-            </div>
-            <div class="most-expensive d-flex flex-column gap-10">
-                <ng-container *ngTemplateOutlet="
-                    mostExpensive; 
-                    context: {title: 'Categoria', $implicit: mostExpensiveCategory$ | async}"
-                ></ng-container>
-                <ng-container *ngTemplateOutlet="
-                    mostExpensive; 
-                    context: {title: 'Tag(s)', $implicit: mostExpensiveTags$ | async}"
-                ></ng-container>
-            </div>
-        </div>
     </div>
     
-    <div class="cards d-flex gap-10">
-        <div *ngFor="let remaining of categoriesRemaining" class="category card shadow p-3">
-            <h4>{{ remaining.category.name }} ({{ remaining.category.percentage | number:'.0-2' }}%)</h4>
-            <div>
-                <h5>
-                    Disponível: R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
-                </h5>
-                <h5 [ngClass]="{'text-danger': remaining.remaining <= 0}">
-                    <b>Restante: R${{ remaining.remaining | number:'.2-2':'pt' }}</b>
-                </h5>
+    <ngb-carousel>
+        <ng-template ngbSlide>
+            <div class="picsum-img-wrapper">
+                <div class="cards d-flex mb-2 gap-20">                    
+                    <div class="card shadow glass p-3">
+                        <ng-container *ngTemplateOutlet="
+                            expenses; 
+                            context: {title: 'Em relação ao mês anterior', $implicit: recentExpenses$ | async}"
+                        ></ng-container>
+                    </div>
+                    
+                    <div class="card shadow glass p-3">
+                        <ng-container *ngTemplateOutlet="
+                            expenses; 
+                            context: {title: 'Em relação à média do ano', $implicit: yearExpenses$ | async}"
+                        ></ng-container>
+                    </div>
+                    
+                    <div class="card shadow glass p-3">
+                        <div>
+                            <h5>Maiores gastos:</h5>
+                        </div>
+                        <div class="most-expensive d-flex flex-column gap-10">
+                            <ng-container *ngTemplateOutlet="
+                                mostExpensive; 
+                                context: {title: 'Categoria', $implicit: mostExpensiveCategory$ | async}"
+                            ></ng-container>
+                            <ng-container *ngTemplateOutlet="
+                                mostExpensive; 
+                                context: {title: 'Tag(s)', $implicit: mostExpensiveTags$ | async}"
+                            ></ng-container>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        </ng-template>
+
+        <ng-template ngbSlide>
+            <div class="picsum-img-wrapper">
+                <div class="cards d-flex gap-10">
+                    <div *ngFor="let remaining of categoriesRemaining" class="category card shadow glass p-3">
+                        <h4>{{ remaining.category.name }} ({{ remaining.category.percentage | number:'.0-2' }}%)</h4>
+                        <div>
+                            <h5>
+                                Disponível: R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
+                            </h5>
+                            <h5 [ngClass]="{'text-danger': remaining.remaining <= 0}">
+                                <b>Restante: R${{ remaining.remaining | number:'.2-2':'pt' }}</b>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-carousel>
 </div>
 
 <ng-template #expenses let-title="title" let-expenses>

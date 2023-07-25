@@ -20,6 +20,11 @@
     ng-select {
       width: 180px;
     }
+
+    .actual-balance {
+      width: 300px;
+      height: 60px;
+    }
   }
 }
 
@@ -61,4 +66,10 @@
       text-align: left;
     }
   }
+}
+
+.glass {
+  background: rgba(white, 0.2) !important;
+  border: 1px solid rgba($palette-2, 1) !important;
+  border-radius: 15px;
 }

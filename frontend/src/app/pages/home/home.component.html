@@ -1,20 +1,13 @@
 <div class="container">
-    <section class="w-100 mb-5">
-        <ngb-carousel>
-            <ng-template ngbSlide>
-                <div class="picsum-img-wrapper">
-                    <app-analytics [update]="update"></app-analytics>
-                </div>
-            </ng-template>
-            <ng-template ngbSlide>
-                <div class="picsum-img-wrapper">
-                    <app-calendar></app-calendar>
-                </div>
-            </ng-template>
-        </ngb-carousel>
+    <section>
+        <app-analytics [update]="update"></app-analytics>
     </section>
-    <hr>
-    <section class="w-100">
+    
+    <section>
+        <app-calendar></app-calendar>
+    </section>
+    
+    <section>
         <app-expenses (expensesUpdated)="update = update + 1"></app-expenses>
     </section>
 </div>

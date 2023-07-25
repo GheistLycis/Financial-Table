@@ -1,11 +1,11 @@
-$carousel-height: 400px;
+$carousel-height: 200px;
 
 ngb-carousel {
   height: $carousel-height;
   
   .picsum-img-wrapper {
     height: 100% !important;
-    padding: 10px 20px 20px;
+    padding: 0 20px 20px;
   }
   
   .carousel-control-prev,

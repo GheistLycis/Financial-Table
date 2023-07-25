@@ -128,7 +128,8 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
   async delete(user: User['id'], id: MonthlyExpenseDTO['id']) {
     const entity = await this.repo.createQueryBuilder('Expense')
       .innerJoin('Expense.month', 'Month')
-      .innerJoin('Month.user', 'User')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
       .where('User.id = :user', { user })
       .andWhere('Expense.id = :id', { id })
       .getOne()
