@@ -67,7 +67,7 @@
         <div 
             (click)="router.navigate(['gerenciar/meses'])"
             ngbTooltip="Suas economias até o momento."
-            class="card shadow glass actual-balance d-flex flex-row align-items-baseline gap-10 p-3 pointer">
+            class="card shadow actual-balance d-flex flex-row align-items-baseline gap-10 p-3 pointer">
             <h5>SALDO:</h5>
             <ng-container *ngIf="actualBalance$ | async as balance">
                 <h4 *ngIf="balance == '--'">
@@ -85,7 +85,7 @@
             <div class="picsum-img-wrapper">
                 <h4 class="italic">Categorias</h4>
                 <div class="cards d-flex gap-10">
-                    <div *ngFor="let remaining of categoriesRemaining" class="category card shadow glass p-3">
+                    <div *ngFor="let remaining of categoriesRemaining" class="category card shadow p-3">
                         <h4>{{ remaining.category.name }}</h4>
                         <div>
                             <h5>
@@ -105,21 +105,21 @@
             <div class="picsum-img-wrapper">
                 <h4 class="italic">Gastos</h4>
                 <div class="cards d-flex mb-2 gap-20">                    
-                    <div class="card shadow glass p-3">
+                    <div class="card shadow p-3">
                         <ng-container *ngTemplateOutlet="
                             expenses; 
                             context: {title: 'Em relação ao mês anterior', $implicit: recentExpenses$ | async}"
                         ></ng-container>
                     </div>
                     
-                    <div class="card shadow glass p-3">
+                    <div class="card shadow p-3">
                         <ng-container *ngTemplateOutlet="
                             expenses; 
                             context: {title: 'Em relação à média do ano', $implicit: yearExpenses$ | async}"
                         ></ng-container>
                     </div>
                     
-                    <div class="card shadow glass p-3">
+                    <div class="card shadow p-3">
                         <div>
                             <h5>Mais caros</h5>
                         </div>
