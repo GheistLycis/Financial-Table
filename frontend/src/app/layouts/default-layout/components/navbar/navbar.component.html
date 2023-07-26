@@ -13,12 +13,15 @@
             <div *ngIf="item.type == 'menu'" ngbDropdown class="d-inline-block">
                 <button 
                     ngbDropdownToggle
-                    [id]="'dropdown' + item.title"
-                    type="button" 
+                    (mouseenter)="dd.open()"
+                    (mouseleave)="dd.close()"
                     class="btn">
                     {{ item.title }}
                 </button>
-                <div ngbDropdownMenu>
+                <div 
+                    ngbDropdownMenu 
+                    (mouseenter)="dd.open()" 
+                    (mouseleave)="dd.close()">
                     <a 
                         ngbDropdownItem 
                         *ngFor="let child of item.children" 

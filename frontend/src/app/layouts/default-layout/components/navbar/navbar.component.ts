@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SessionService } from 'src/app/shared/services/session/session.service';
-import { ProfileComponent } from './components/profile/profile.component';
 import UserDTO from 'src/app/shared/DTOs/user';
 import { Router } from '@angular/router';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 
 type navItem = {
@@ -20,12 +19,14 @@ type menu = {
   children: { title: string, link: string }[]
 }
 
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  @ViewChild(NgbDropdown) dd!: NgbDropdown
   userName!: string
   navItems: navItem[] = [
     {
@@ -60,14 +61,13 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private sessionService: SessionService,
-    private modalService: NgbModal,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.userName = this.sessionService.getSession().user.name
   }
-  
+
   logout(): void {
     this.sessionService.logout()
     this.router.navigate(['login'])
