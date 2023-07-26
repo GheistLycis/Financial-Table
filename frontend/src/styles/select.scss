@@ -46,7 +46,7 @@ ng-select {
     color: grey;
 
     &.ng-option-marked {
-      color: white;
+      color: $white;
       background: $palette-4;
     }
   }
