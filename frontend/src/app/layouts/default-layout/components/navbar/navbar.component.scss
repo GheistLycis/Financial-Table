@@ -1,9 +1,11 @@
 @import '../../../../../styles/variables.scss';
 
+$navbar-height: 70px;
+
 nav {
     position: fixed;
     background-color: $white;
-    height: 70px;
+    height: $navbar-height;
     text-transform: uppercase;
     z-index: 1000;
 

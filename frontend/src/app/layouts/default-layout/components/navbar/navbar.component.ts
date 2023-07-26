@@ -29,8 +29,8 @@ export class NavbarComponent implements OnInit {
   navItems: navItem[] = [
     {
       type: 'link',
-      title: 'Home',
-      link: ''
+      title: 'Dashboard',
+      link: 'dashboard'
     },
     {
       type: 'link',

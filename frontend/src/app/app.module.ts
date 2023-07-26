@@ -12,6 +12,7 @@ import { HomeModule } from './pages/home/home.module';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskModule } from 'ngx-mask';
 import { SavingsModule } from './pages/savings/savings.module';
+import { NgChartsModule } from 'ng2-charts';
 
 registerLocaleData(localePT)
 
@@ -32,6 +33,7 @@ registerLocaleData(localePT)
       countDuplicates: true
     }),
     NgxMaskModule.forRoot(),
+    NgChartsModule.forRoot(),
     HomeModule,
     SavingsModule,
   ],

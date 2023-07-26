@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-default-layout',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./default-layout.component.scss']
 })
 export class DefaultLayoutComponent {
-
+  constructor(public router: Router) {}
 }

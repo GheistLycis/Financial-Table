@@ -26,6 +26,8 @@
     "@ng-select/ng-select": "^10.0.1",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
+    "chart.js": "^4.3.2",
+    "ng2-charts": "^4.1.1",
     "ngx-mask": "^14.2.4",
     "ngx-toastr": "^16.2.0",
     "rxjs": "~7.5.0",

@@ -1,3 +1,4 @@
+@import '../../layouts/default-layout/components/navbar/navbar.component.scss';
 @import './components/footer/footer.component.scss';
 
 #container {
@@ -5,7 +6,13 @@
     padding-bottom: $footer-height + 50px;
 }
 
-svg {
+.top-svg {
+    position: absolute;
+    z-index: -100;
+    top: $navbar-height + 240px;
+}
+
+.bottom-svg {
     position: absolute;
     z-index: -100;
     bottom: $footer-height;

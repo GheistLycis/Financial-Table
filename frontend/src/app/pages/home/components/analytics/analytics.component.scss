@@ -7,13 +7,14 @@
     gap: 20px;
 
     span:not(.spinner-border) {
-      color: auto;
+      color: $palette-4;
       font-style: italic;
       transition-duration: .3s;
       cursor: pointer;
       
       &:hover {
-        color: $palette-4;
+        color: $white;
+        animation-play-state: paused;
       }
     }
 
