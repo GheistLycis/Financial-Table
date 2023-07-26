@@ -3,7 +3,7 @@
 nav {
     position: fixed;
     background-color: $white;
-    height: 80px;
+    height: 70px;
     text-transform: uppercase;
     z-index: 1000;
 
@@ -26,7 +26,7 @@ nav {
         width: 100%;
         padding: 0 20%;
         list-style: none;
-        font-size: 20px;
+        font-size: 16px;
 
         a {
             text-decoration: none;
@@ -59,7 +59,7 @@ nav {
             color: black;
             transition-duration: .3s;
             border: none;
-            font-size: 20px;
+            font-size: 16px;
             text-transform: uppercase;
 
             &:hover {
@@ -107,7 +107,6 @@ nav {
             width: 80%;
             font-size: 20px;
             font-weight: 400;
-            font-size: 20px;
             background-color: $palette-4;
 
             &:hover {

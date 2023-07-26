@@ -8,6 +8,7 @@ footer {
     color: $palette-4;
     bottom: 0;
     height: $footer-height;
+    font-size: 14px;
 
     &::after {
         content: '';

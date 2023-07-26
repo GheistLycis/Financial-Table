@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SessionService } from 'src/app/shared/services/session/session.service';
 import UserDTO from 'src/app/shared/DTOs/user';
 import { Router } from '@angular/router';
-import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 
 type navItem = {
@@ -26,7 +25,6 @@ type menu = {
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  @ViewChild(NgbDropdown) dd!: NgbDropdown
   userName!: string
   navItems: navItem[] = [
     {
