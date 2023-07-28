@@ -14,8 +14,11 @@ export class CategoriesChartComponent {
   options: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
-      legend: {
+      title: {
         display: true,
+        text: 'Gastos por Categoria',
+      },
+      legend: {
         position: 'top',
       },
       datalabels: {
@@ -23,7 +26,7 @@ export class CategoriesChartComponent {
       },
     },
   }
-  data: ChartData<'pie', number[], string> = {
+  data: ChartData<'pie'> = {
     labels: ['Download Sales', 'In Store Sales', 'Mail Sales'],
     datasets: [
       {
@@ -32,12 +35,4 @@ export class CategoriesChartComponent {
     ],
   }
   plugins = [DatalabelsPlugin]
-  
-  onClick({ event, active }: { event?: ChartEvent, active?: object[] }): void {
-    console.log(event, active)
-  }
-
-  onHover({ event, active }: { event: ChartEvent, active: object[] }): void {
-    console.log(event, active)
-  }
 }
