@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration, ChartData, ChartEvent } from 'chart.js';
+import { ChartConfiguration, ChartData, ChartDataset } from 'chart.js';
 import DatalabelsPlugin from 'chartjs-plugin-datalabels';
 
 
@@ -22,16 +22,22 @@ export class CategoriesChartComponent {
         position: 'top',
       },
       datalabels: {
-        formatter: (value, { chart, dataIndex }) => chart.data?.labels[dataIndex]
+        formatter: (value, ctx): string => {
+          const dataset = ctx.dataset as ChartDataset<'doughnut', number[]> 
+          const percent = (100 * value / dataset.data.reduce((acc, val) => acc += val, 0))
+
+          return percent.toPrecision(2) + '%'
+        },
+        color: 'black',
       },
     },
   }
-  data: ChartData<'pie'> = {
-    labels: ['Download Sales', 'In Store Sales', 'Mail Sales'],
+  data: ChartData<'doughnut', number[], string> = {
+    labels: ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'],
     datasets: [
-      {
-        data: [300, 500, 100],
-      },
+      { data: [350, 450, 100] },
+      { data: [50, 150, 120] },
+      { data: [250, 130, 70] },
     ],
   }
   plugins = [DatalabelsPlugin]
