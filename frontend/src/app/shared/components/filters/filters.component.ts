@@ -55,7 +55,7 @@ export class FiltersComponent implements OnInit {
   
   ngOnInit(): void {
     this.handleMonths()
-    this.handleCategories()
+    if(this.showCategories) this.handleCategories()
     this.handleFilters()
   }
   

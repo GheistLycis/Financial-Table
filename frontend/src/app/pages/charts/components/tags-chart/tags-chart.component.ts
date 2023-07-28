@@ -1,7 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
+import MonthDTO from 'src/app/shared/DTOs/month';
 
 @Component({
   selector: 'app-tags-chart',
@@ -9,6 +10,9 @@ import DataLabelsPlugin from 'chartjs-plugin-datalabels';
   styleUrls: ['./tags-chart.component.scss']
 })
 export class TagsChartComponent {
+  @Input() set months(months: MonthDTO[]) {
+    this.getData(months)
+  }
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective
   options: ChartConfiguration['options'] = {
     indexAxis: 'y',
@@ -19,7 +23,6 @@ export class TagsChartComponent {
         text: 'Ranking de Tags',
       },
       datalabels: {
-        formatter: (value, { chart, dataIndex }) => chart.data?.labels[dataIndex],
         anchor: 'end',
         align: 'end',
       },
@@ -35,4 +38,8 @@ export class TagsChartComponent {
     ],
   }
   plugins = [DataLabelsPlugin]
+
+  getData(months: MonthDTO[]): void {
+
+  }
 }

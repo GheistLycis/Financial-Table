@@ -1,7 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
+import MonthDTO from 'src/app/shared/DTOs/month';
 
 @Component({
   selector: 'app-expenses-chart',
@@ -9,6 +10,9 @@ import DataLabelsPlugin from 'chartjs-plugin-datalabels';
   styleUrls: ['./expenses-chart.component.scss']
 })
 export class ExpensesChartComponent {
+  @Input() set months(months: MonthDTO[]) {
+    this.getData(months)
+  }
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective
   options: ChartConfiguration['options'] = {
     responsive: true,
@@ -44,4 +48,8 @@ export class ExpensesChartComponent {
     ],
   }
   plugins = [DataLabelsPlugin]
+
+  getData(months: MonthDTO[]): void {
+
+  }
 }
