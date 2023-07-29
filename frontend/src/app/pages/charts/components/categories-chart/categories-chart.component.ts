@@ -3,30 +3,32 @@ import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartDataset } from 'chart.js';
 import DatalabelsPlugin from 'chartjs-plugin-datalabels';
 import MonthDTO from 'src/app/shared/DTOs/month';
+import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
+import { Subject, map } from 'rxjs';
 
 
 const SAMPLE_DATA: ChartData<'doughnut', number[], string> = {
-  labels: ['Categoria 1', 'Categoria 2', 'Categoria 3'],
+  labels: ['Categoria 1', 'Categoria 2', 'Categoria 3', 'Categoria 4'],
   datasets: [
     { 
-      data: [350, 450, 100],
+      data: [350, 450, 0, 100],
       label: 'Abril',
-      backgroundColor: ['red', 'green', 'blue']
+      backgroundColor: ['red', 'green', 'yellow', 'blue']
     },
     { 
-      data: [50, 150, 120],
+      data: [50, 150, 110, 120],
       label: 'Março',
-      backgroundColor: ['red', 'green', 'blue']
+      backgroundColor: ['red', 'green', 'yellow', 'blue']
     },
     {
-      data: [250, 130, 70],
+      data: [250, 130, 0, 70],
       label: 'Fevereiro',
-      backgroundColor: ['red', 'green', 'blue']
+      backgroundColor: ['red', 'green', 'yellow', 'blue']
     },
     {
-      data: [250, 130, 70],
+      data: [250, 130, 0, 70],
       label: 'Janeiro',
-      backgroundColor: ['red', 'green', 'blue']
+      backgroundColor: ['red', 'green', 'yellow', 'blue']
     },
   ],
 }
@@ -39,7 +41,7 @@ const SAMPLE_DATA: ChartData<'doughnut', number[], string> = {
 })
 export class CategoriesChartComponent {
   @Input() set months(months: MonthDTO[]) {
-    this.getData(months)
+    this.getData(months.map(({ id }) => id))
   }
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective
   options: ChartConfiguration['options'] = {
@@ -64,10 +66,16 @@ export class CategoriesChartComponent {
       }
     },
   }
-  data: ChartData<'doughnut', number[], string> = SAMPLE_DATA
+  data$ = new Subject<ChartData<'doughnut', number[], string>>()
   plugins = [DatalabelsPlugin]
 
-  getData(months: MonthDTO[]): void {
+  constructor(
+    private analyticsService: AnalyticsService,
+  ) {}
 
+  getData(months: MonthDTO['id'][]): void {
+    this.analyticsService.categoryChart(months).pipe(
+      map(({ data }) => data)
+    ).subscribe(data => this.data$.next(data))
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, Req } from '@nestjs/common';
 import { AnalyticsService } from '../service/analytics.service';
 import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
 import CategoryDTO from 'src/app/category/Category.dto';
@@ -17,6 +17,14 @@ export class AnalyticsController {
     @Param('id', ParseIntPipe) id: CategoryDTO['id']
   ): Promise<GlobalResponse> {
     return await this.service.categoryRemaining(req['user'].id, id).then(data => ({ data }))
+  }
+
+  @Post('category-chart')
+  async categoryChart(
+    @Req() req: Request,
+    @Body() body: MonthDTO['id'][]
+  ): Promise<GlobalResponse> {
+    return await this.service.categoryChart(req['user'].id, body).then(data => ({ data }))
   }
   
   @Get('month-balance/:id')

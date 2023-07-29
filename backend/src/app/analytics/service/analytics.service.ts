@@ -13,6 +13,7 @@ import MonthDTO from 'src/app/month/Month.dto';
 import CategoryDTO from 'src/app/category/Category.dto';
 import YearDTO from 'src/app/year/Year.dto';
 import { User } from 'src/app/user/User';
+import CategoryChartData from 'src/shared/interfaces/CategoryChartData';
 
 
 @Injectable()
@@ -92,6 +93,10 @@ export class AnalyticsService {
       originalAvailable,
       remaining,
     }
+  }
+
+  async categoryChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<CategoryChartData | any> {
+
   }
   
   async monthBalance(user: User['id'], id: MonthDTO['id']): Promise<{ month: MonthDTO, balance: number }> {

@@ -2,7 +2,7 @@
     baseChart
     type="doughnut"
     [options]="options"
-    [data]="data"
+    [data]="data$ | async"
     [plugins]="plugins"
 >
 </canvas>

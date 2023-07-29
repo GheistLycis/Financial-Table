@@ -8,7 +8,8 @@ import MonthHistory from '../../interfaces/MonthHistory';
 import MonthDTO from '../../DTOs/month';
 import YearDTO from '../../DTOs/year';
 import CategoryDTO from '../../DTOs/category';
-import TagDTO from '../../DTOs/tag';
+import CategoryChartData from '../../interfaces/CategoryChartData';
+import { queryMaker } from '../queryMaker';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class AnalyticsService {
 
   categoryRemaining(category: CategoryDTO['id']) {
     return this.http.get<Res<CategoryRemaining>>(`${environment.apiUrl}/${this.baseRoute}/category-remaining/${category}`)
+  }
+
+  categoryChart(months: MonthDTO['id'][]) {
+    return this.http.post<Res<CategoryChartData>>(`${environment.apiUrl}/${this.baseRoute}/category-chart`, months)
   }
   
   monthBalance(month: MonthDTO['id']) {
