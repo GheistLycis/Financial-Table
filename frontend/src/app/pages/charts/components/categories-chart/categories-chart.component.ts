@@ -1,11 +1,12 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration, ChartData, ChartDataset } from 'chart.js';
+import { ChartConfiguration, ChartDataset } from 'chart.js';
 import DatalabelsPlugin from 'chartjs-plugin-datalabels';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
 import { Subject, map } from 'rxjs';
 import { RoundPipe } from 'src/app/shared/pipes/round/round.pipe';
+import CategoryChartData from 'src/app/shared/interfaces/CategoryChartData';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class CategoriesChartComponent {
       },
     },
   }
-  data$ = new Subject<ChartData<'doughnut', number[], string>>()
+  data$ = new Subject<CategoryChartData>()
   plugins = [DatalabelsPlugin]
 
   constructor(
