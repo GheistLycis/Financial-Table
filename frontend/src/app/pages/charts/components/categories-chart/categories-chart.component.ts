@@ -5,43 +5,18 @@ import DatalabelsPlugin from 'chartjs-plugin-datalabels';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
 import { Subject, map } from 'rxjs';
-
-
-const SAMPLE_DATA: ChartData<'doughnut', number[], string> = {
-  labels: ['Categoria 1', 'Categoria 2', 'Categoria 3', 'Categoria 4'],
-  datasets: [
-    { 
-      data: [350, 450, 0, 100],
-      label: 'Abril',
-      backgroundColor: ['red', 'green', 'yellow', 'blue']
-    },
-    { 
-      data: [50, 150, 110, 120],
-      label: 'Março',
-      backgroundColor: ['red', 'green', 'yellow', 'blue']
-    },
-    {
-      data: [250, 130, 0, 70],
-      label: 'Fevereiro',
-      backgroundColor: ['red', 'green', 'yellow', 'blue']
-    },
-    {
-      data: [250, 130, 0, 70],
-      label: 'Janeiro',
-      backgroundColor: ['red', 'green', 'yellow', 'blue']
-    },
-  ],
-}
+import { RoundPipe } from 'src/app/shared/pipes/round/round.pipe';
 
 
 @Component({
   selector: 'app-categories-chart',
   templateUrl: './categories-chart.component.html',
-  styleUrls: ['./categories-chart.component.scss']
+  styleUrls: ['./categories-chart.component.scss'],
+  providers: [RoundPipe]
 })
 export class CategoriesChartComponent {
-  @Input() set months(months: MonthDTO[]) {
-    this.getData(months.map(({ id }) => id))
+  @Input() set months(months: MonthDTO[] | null) {
+    if(months?.length) this.getData(months.map(({ id }) => id))
   }
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective
   options: ChartConfiguration['options'] = {
@@ -57,13 +32,19 @@ export class CategoriesChartComponent {
       },
       datalabels: {
         color: 'black',
+        font: {
+          size: 16,
+          weight: 700,
+        },
         formatter: (value, ctx): string => {
+          if(!value) return null
+
           const dataset = ctx.dataset as ChartDataset<'doughnut', number[]> 
           const percent = (100 * value / dataset.data.reduce((acc, val) => acc += val, 0))
 
-          return percent.toPrecision(2) + '%'
+          return this.roundPipe.transform(percent, 'floor') + '%'
         },
-      }
+      },
     },
   }
   data$ = new Subject<ChartData<'doughnut', number[], string>>()
@@ -71,6 +52,7 @@ export class CategoriesChartComponent {
 
   constructor(
     private analyticsService: AnalyticsService,
+    private roundPipe: RoundPipe,
   ) {}
 
   getData(months: MonthDTO['id'][]): void {
