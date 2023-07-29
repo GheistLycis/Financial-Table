@@ -14,6 +14,7 @@ import CategoryDTO from 'src/app/category/Category.dto';
 import YearDTO from 'src/app/year/Year.dto';
 import { User } from 'src/app/user/User';
 import CategoryChartData from 'src/shared/interfaces/CategoryChartData';
+import { MonthNames } from 'src/shared/enums/MonthNames';
 
 
 @Injectable()
@@ -96,8 +97,57 @@ export class AnalyticsService {
   }
 
   async categoryChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<CategoryChartData | any> {
+    const result: CategoryChartData = {
+      labels: [],
+      datasets: []
+    }
+    const months = await this.monthRepo.createQueryBuilder('Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id IN (:...monthIds)', { monthIds })
+      .getMany()
+    const categories = await this.dataSource
+      .query(`
+        SELECT c.name, c.color
+        FROM categories c
+        JOIN months m ON m.id = c."monthId"
+        WHERE m.id IN (${months.map(({ id }) => id)})
+        GROUP BY c.name, c.color
+      `)
+    const colors = categories.map(({ color }) => color)
 
-  }
+    result.labels = categories.map(({ name }) => name)
+
+    for(const { id, month } of months) {
+      const dataset = {
+        data: [],
+        label: MonthNames[month],
+        backgroundColor: colors
+      }
+
+      for(const { name } of categories) {
+        const data = await this.dataSource
+          .query(`
+            SELECT COALESCE(SUM(e."value"), 0) AS sum
+            FROM expenses e
+            JOIN categories c ON c.id = e."categoryId"
+            JOIN months m ON m.id = c."monthId"
+            WHERE 
+              c.name = '${name}'
+              AND m.id = ${id}
+              AND e."deletedAt" IS NULL
+          `)
+          .then(rows => +rows[0].sum, err => { throw ServerException(`${err}`) })
+
+        dataset.data.push(data)
+      }
+
+      result.datasets.push(dataset)
+    }
+
+    return result
+  } 
   
   async monthBalance(user: User['id'], id: MonthDTO['id']): Promise<{ month: MonthDTO, balance: number }> {
     const actualMonth = await this.monthRepo.createQueryBuilder('Month')
