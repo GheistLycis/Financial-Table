@@ -6,6 +6,6 @@ export default interface CategoryChartData {
     datasets: { 
         data: number[]
         label: keyof typeof MonthNames
-        backgroundColor: string[]
+        backgroundColor: CategoryDTO['color'][]
     }[]
 }

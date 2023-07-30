@@ -18,16 +18,6 @@ export class AnalyticsController {
   ): Promise<GlobalResponse> {
     return await this.service.categoryRemaining(req['user'].id, id).then(data => ({ data }))
   }
-
-  @Post('category-chart')
-  async categoryChart(
-    @Req() req: Request,
-    @Body() body: MonthDTO['id'][]
-  ): Promise<GlobalResponse> {
-    if(!body.length) return { data: null }
-    
-    return await this.service.categoryChart(req['user'].id, body).then(data => ({ data }))
-  }
   
   @Get('month-balance/:id')
   async monthBalance(
@@ -83,5 +73,25 @@ export class AnalyticsController {
     @Param('id', ParseIntPipe) id: YearDTO['id']
   ): Promise<GlobalResponse> {
     return await this.service.yearHistory(req['user'].id, id).then(data => ({ data }))
+  }
+
+  @Post('category-chart')
+  async categoryChart(
+    @Req() req: Request,
+    @Body() body: MonthDTO['id'][]
+  ): Promise<GlobalResponse> {
+    if(!body.length) return { data: null }
+    
+    return await this.service.categoryChart(req['user'].id, body).then(data => ({ data }))
+  }
+
+  @Post('tag-chart')
+  async tagChart(
+    @Req() req: Request,
+    @Body() body: MonthDTO['id'][]
+  ): Promise<GlobalResponse> {
+    if(!body.length) return { data: null }
+    
+    return await this.service.tagChart(req['user'].id, body).then(data => ({ data }))
   }
 }

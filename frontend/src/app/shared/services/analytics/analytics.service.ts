@@ -10,6 +10,7 @@ import YearDTO from '../../DTOs/year';
 import CategoryDTO from '../../DTOs/category';
 import CategoryChartData from '../../interfaces/CategoryChartData';
 import { queryMaker } from '../queryMaker';
+import TagChartData from '../../interfaces/TagChartData';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +22,6 @@ export class AnalyticsService {
 
   categoryRemaining(category: CategoryDTO['id']) {
     return this.http.get<Res<CategoryRemaining>>(`${environment.apiUrl}/${this.baseRoute}/category-remaining/${category}`)
-  }
-
-  categoryChart(months: MonthDTO['id'][]) {
-    return this.http.post<Res<CategoryChartData>>(`${environment.apiUrl}/${this.baseRoute}/category-chart`, months)
   }
   
   monthBalance(month: MonthDTO['id']) {
@@ -53,5 +50,13 @@ export class AnalyticsService {
   
   yearHistory(year: YearDTO['id']) {
     return this.http.get<Res<YearHistory>>(`${environment.apiUrl}/${this.baseRoute}/year-history/${year}`)
+  }
+
+  categoryChart(months: MonthDTO['id'][]) {
+    return this.http.post<Res<CategoryChartData>>(`${environment.apiUrl}/${this.baseRoute}/category-chart`, months)
+  }
+
+  tagChart(months: MonthDTO['id'][]) {
+    return this.http.post<Res<TagChartData>>(`${environment.apiUrl}/${this.baseRoute}/tag-chart`, months)
   }
 }

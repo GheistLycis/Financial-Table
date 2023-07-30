@@ -5,6 +5,6 @@ export default interface CategoryChartData {
     datasets: { 
         data: number[]
         label: string
-        backgroundColor: string[]
+        backgroundColor: CategoryDTO['color'][]
     }[]
 }

@@ -5,6 +5,7 @@ import { AnalyticsService } from './service/analytics.service';
 import { Year } from '../year/Year';
 import { Category } from '../category/Category';
 import { Month } from '../month/Month';
+import { Tag } from '../tag/Tag';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { Month } from '../month/Month';
       Category,
       Month,
       Year,
+      Tag
     ])
   ],
   controllers: [AnalyticsController],
