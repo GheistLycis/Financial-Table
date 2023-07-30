@@ -115,6 +115,13 @@ export class AnalyticsService {
         WHERE m.id IN (${months.map(({ id }) => id)})
         GROUP BY c.name, c.color
       `)
+      .then((categories: { name: string, color: string }[]) => {
+        return categories.filter((val, i, arr) => {
+          const category = arr.find(el => el.name == val.name)
+
+          return category.color == val.color
+        })
+      })
     const colors = categories.map(({ color }) => color)
 
     result.labels = categories.map(({ name }) => name)
