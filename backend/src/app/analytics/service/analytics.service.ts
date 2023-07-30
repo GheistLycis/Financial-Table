@@ -17,6 +17,7 @@ import CategoryChartData from 'src/shared/interfaces/CategoryChartData';
 import { MonthNames } from 'src/shared/enums/MonthNames';
 import TagChartData from 'src/shared/interfaces/TagChartData';
 import { Tag } from 'src/app/tag/Tag';
+import TagDTO from 'src/app/tag/Tag.dto';
 
 
 @Injectable()
@@ -530,7 +531,9 @@ export class AnalyticsService {
       .getMany()
     const categories = await this.dataSource
       .query(`
-        SELECT c.name, c.color
+        SELECT 
+          c.name, 
+          c.color
         FROM categories c
         JOIN months m ON m.id = c."monthId"
         WHERE 
@@ -579,7 +582,7 @@ export class AnalyticsService {
     return result
   } 
 
-  async tagChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<TagChartData> {
+  async tagChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<TagChartData | any> {
     const result: TagChartData = {
       labels: [],
       datasets: []
@@ -590,33 +593,50 @@ export class AnalyticsService {
       .where('User.id = :user', { user })
       .andWhere('Month.id IN (:...monthIds)', { monthIds })
       .getMany()
+    const tags = await this.tagRepo.createQueryBuilder('Tag')
+      .innerJoin('Tag.user', 'User')
+      .where('User.id = :user', { user })
+      .getMany()
+    const data = []
 
-    for(const { id, month } of months) {
-      const dataset = {
-        data: [],
-        label: MonthNames[month],
-        backgroundColor: []
+    for(const month of months) {
+      const monthData = {
+        tagsData: [],
+        month: month.month,
       }
 
-      const data = await this.dataSource
-        .query(`
-          SELECT COALESCE(SUM(e."value"), 0) AS sum
-          FROM expenses e
-          JOIN categories c ON c.id = e."categoryId"
-          JOIN months m ON m.id = c."monthId"
-          WHERE 
-            c.name = '${name}'
-            AND m.id = ${id}
-            AND e."deletedAt" IS NULL
-        `)
-        .then(rows => +rows[0].sum, err => { throw ServerException(`${err}`) })
-      
-      dataset.data.push(data)
-      
-      result.datasets.push(dataset)
+      for(const { id, name, color } of tags) {
+        const tagData = await this.dataSource
+          .query(`
+            SELECT COALESCE(SUM(e."value"), 0) AS sum
+            FROM expenses e
+            JOIN expenses_tags_tags ett ON ett."expensesId" = e.id
+            JOIN tags t ON t.id = ett."tagsId"
+            JOIN categories c ON c.id = e."categoryId"
+            JOIN months m ON m.id = c."monthId"
+            WHERE 
+              m.id = ${month.id}
+              AND t.id = ${id}
+              AND e."deletedAt" IS NULL
+          `)
+          .then(row => {
+            return {
+              tag: name,
+              color: color,
+              sum: +row[0].sum
+            }
+          },
+          err => { 
+            throw ServerException(`${err}`) 
+          })
+
+        monthData.tagsData.push(tagData)
+      }
+
+      data.push(monthData)
     }
 
-    // result.labels = tags.map(({ name }) => name).sort()
+    const datasets: typeof result.datasets = []
 
     return result
   } 

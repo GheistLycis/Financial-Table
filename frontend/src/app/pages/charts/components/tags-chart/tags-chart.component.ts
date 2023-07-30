@@ -49,7 +49,7 @@ export class TagsChartComponent {
   ) {}
 
   getData(months: MonthDTO['id'][]): void {
-    this.analyticsService.categoryChart(months).pipe(
+    this.analyticsService.tagChart(months).pipe(
       map(({ data }) => data)
     ).subscribe(data => this.data$.next(data))
   }
