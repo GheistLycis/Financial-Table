@@ -6,5 +6,6 @@ export default interface TagChartData {
         data: number[]
         label: string
         backgroundColor: TagDTO['color'][]
+        borderColor: TagDTO['color'][]
     }[]
 }

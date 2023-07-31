@@ -17,8 +17,8 @@ import CategoryChartData from 'src/shared/interfaces/CategoryChartData';
 import { MonthNames } from 'src/shared/enums/MonthNames';
 import TagChartData from 'src/shared/interfaces/TagChartData';
 import { Tag } from 'src/app/tag/Tag';
-import TagDTO from 'src/app/tag/Tag.dto';
 import ExpenseChartData from 'src/shared/interfaces/ExpenseChartData';
+import HexToRgba from 'src/shared/classes/HexToRgba';
 
 
 @Injectable()
@@ -557,7 +557,8 @@ export class AnalyticsService {
       const dataset = {
         data: [],
         label: MonthNames[month],
-        backgroundColor: colors
+        backgroundColor: colors.map(color => HexToRgba.convert(color, 0.8)),
+        borderColor: colors
       }
 
       for(const { name } of categories) {
@@ -641,7 +642,8 @@ export class AnalyticsService {
       result.datasets.push({
         data: tagsData.map(({ sum }) => sum),
         label: MonthNames[month],
-        backgroundColor: tagsData.map(({ color }) => color),
+        backgroundColor: tagsData.map(({ color }) => HexToRgba.convert(color, 0.8)),
+        borderColor: tagsData.map(({ color }) => color),
       })
     })
 

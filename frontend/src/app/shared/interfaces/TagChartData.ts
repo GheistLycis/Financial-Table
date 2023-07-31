@@ -7,5 +7,6 @@ export default interface TagChartData {
         data: number[]
         label: keyof typeof MonthNames
         backgroundColor: TagDTO['color'][]
+        borderColor: TagDTO['color'][]
     }[]
 }
