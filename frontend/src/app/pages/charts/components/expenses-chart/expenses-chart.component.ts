@@ -51,6 +51,11 @@ export class ExpensesChartComponent {
           stepSize: 1,
         }
       },
+      y: {
+        ticks: {
+          stepSize: 1,
+        }
+      },
     },
     elements: {
       point: {
@@ -73,7 +78,7 @@ export class ExpensesChartComponent {
       tooltip: {
         callbacks: {
           title: ([ firstPoint ]) => 'Dia ' + firstPoint.label.padStart(2, '0'),
-          label: ({ parsed }) => parsed.y + ' registros',
+          label: ({ parsed }) => parsed.y + ' registro' + (parsed.y != 1 ? 's' : ''),
         },
       },
     },
