@@ -652,8 +652,10 @@ export class AnalyticsService {
 
   async expenseChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<ExpenseChartData | any> {
     const result: ExpenseChartData = {
-      labels: [],
+      labels: [...Array(31).keys()].map(n => n.toString()),
       datasets: []
     }
+
+    return result
   } 
 }
