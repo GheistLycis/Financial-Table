@@ -22,21 +22,18 @@ export class TagsChartComponent {
   options: ChartConfiguration['options'] = {
     indexAxis: 'y',
     responsive: true,
-    scales: {
-      xAxes: {
-        display: false,
-        max: 100,
-      },
-    },
     plugins: {
       title: {
         display: true,
         text: 'Ranking de Tags',
       },
       datalabels: {
-        anchor: 'end',
-        align: 'end',
-        formatter: (value): number => this.roundPipe.transform(value, 2),
+        color: 'black',
+        font: {
+          size: 12,
+          weight: 700,
+        },
+        formatter: (value): number => value ? this.roundPipe.transform(value, 2) : null,
       },
     },
   }

@@ -636,7 +636,15 @@ export class AnalyticsService {
       data.push(monthData)
     }
 
-    const datasets: typeof result.datasets = []
+    data.forEach(({ tagsData, month }) => {
+      result.datasets.push({
+        data: tagsData.map(({ sum }) => sum),
+        label: MonthNames[month],
+        backgroundColor: tagsData.map(({ color }) => color),
+      })
+    })
+
+    result.labels = tags.map(({ name }) => name)
 
     return result
   } 
