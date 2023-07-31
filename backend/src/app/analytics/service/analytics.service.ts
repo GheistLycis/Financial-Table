@@ -650,10 +650,43 @@ export class AnalyticsService {
     return result
   } 
 
-  async expenseChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<ExpenseChartData | any> {
+  async expenseChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<ExpenseChartData> {
     const result: ExpenseChartData = {
-      labels: [...Array(31).keys()].map(n => n.toString()),
+      labels: [...Array(31).keys()].map(n => (n+1).toString()),
       datasets: []
+    }
+    const months = await this.monthRepo.createQueryBuilder('Month')
+      .innerJoin('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .andWhere('Month.id IN (:...monthIds)', { monthIds })
+      .getMany()
+
+    for(const { id, month } of months) {
+      const monthData: number[] = []
+
+      for(const date of result.labels) {
+        const dateData = await this.dataSource
+          .query(`
+            SELECT COUNT(*) AS count
+            FROM expenses e
+            JOIN categories c ON c.id = e."categoryId"
+            JOIN months m ON m.id = c."monthId"
+            WHERE 
+              m.id = ${id}
+              AND e.date IS NOT NULL
+              AND EXTRACT(DAY FROM e.date) = ${date}::INTEGER
+              AND e."deletedAt" IS NULL
+          `)
+          .then(rows => +rows[0].count, err => { throw ServerException(`${err}`) })
+        
+        monthData.push(dateData)
+      }
+
+      result.datasets.push({
+        label: MonthNames[month],
+        data: monthData,
+      })
     }
 
     return result
