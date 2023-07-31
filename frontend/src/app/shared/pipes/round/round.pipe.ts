@@ -12,9 +12,9 @@ export class RoundPipe implements PipeTransform {
       return Math.ceil(Number(value))
     }
     else {
-      const scaleIndex = `${value}`.indexOf('.') + 1 + format
-      
-      return Number(`${value}`.substring(0, scaleIndex))
+      const round = 10 ** format
+
+      return Math.round(round * Number(value)) / round
     }
   }
 }

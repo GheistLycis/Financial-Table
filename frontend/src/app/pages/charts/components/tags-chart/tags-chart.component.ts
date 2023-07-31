@@ -27,6 +27,12 @@ export class TagsChartComponent {
         display: true,
         text: 'Ranking de Tags',
       },
+      legend: {
+        labels: {
+          boxHeight: 0,
+          boxWidth: 0,
+        },
+      },
       datalabels: {
         color: 'black',
         font: {
