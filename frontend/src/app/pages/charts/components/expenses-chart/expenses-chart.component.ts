@@ -6,25 +6,28 @@ import MonthDTO from 'src/app/shared/DTOs/month';
 import { Subject, map } from 'rxjs';
 import ExpenseChartData from 'src/app/shared/interfaces/ExpenseChartData';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
-import { RoundPipe } from 'src/app/shared/pipes/round/round.pipe';
 
 const SAMPLE_DATA: ChartData<'scatter'> = {
   labels: [
-    '01',
-    '02',
-    '03',
-    '04'
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
   ],
   datasets: [
     {
       data: [3, 0, 4, 5],
       label: 'Janeiro',
-      pointRadius: 5,
     },
     {
       data: [4, 4, 4, 0],
       label: 'Fevereiro',
-      pointRadius: 5,
     },
   ],
 }
@@ -32,8 +35,7 @@ const SAMPLE_DATA: ChartData<'scatter'> = {
 @Component({
   selector: 'app-expenses-chart',
   templateUrl: './expenses-chart.component.html',
-  styleUrls: ['./expenses-chart.component.scss'],
-  providers: [RoundPipe]
+  styleUrls: ['./expenses-chart.component.scss']
 })
 export class ExpensesChartComponent {
   @Input() set months(months: MonthDTO[] | null) {
@@ -42,6 +44,20 @@ export class ExpensesChartComponent {
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective
   options: ChartConfiguration['options'] = {
     responsive: true,
+    scales: {
+      x: {
+        ticks: {
+          callback: value => value, // impedes float decimal point
+          stepSize: 1,
+        }
+      },
+    },
+    elements: {
+      point: {
+        radius: 5,
+        hoverRadius: 10,
+      },
+    },
     plugins: {
       title: {
         display: true,
@@ -54,15 +70,19 @@ export class ExpensesChartComponent {
         },
         formatter: () => null,
       },
+      tooltip: {
+        callbacks: {
+          title: ([ firstPoint ]) => 'Dia ' + firstPoint.label.padStart(2, '0'),
+          label: ({ parsed }) => parsed.y + ' registros',
+        },
+      },
     },
   }
-  data: ChartData<'scatter'> = SAMPLE_DATA
   data$ = new Subject<ExpenseChartData>()
   plugins = [DataLabelsPlugin]
 
   constructor(
     private analyticsService: AnalyticsService,
-    private roundPipe: RoundPipe,
   ) {}
 
   getData(months: MonthDTO['id'][]): void {

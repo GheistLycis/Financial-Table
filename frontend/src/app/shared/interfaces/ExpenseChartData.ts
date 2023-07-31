@@ -1,11 +1,9 @@
-import CategoryDTO from "../DTOs/category"
 import { MonthNames } from "../enums/MonthNames"
 
 export default interface ExpenseChartData {
-    labels: CategoryDTO['name'][]
+    labels: string[]
     datasets: { 
         data: number[]
         label: keyof typeof MonthNames
-        backgroundColor: CategoryDTO['color'][]
     }[]
 }
