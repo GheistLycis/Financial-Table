@@ -11,6 +11,7 @@ import CategoryDTO from '../../DTOs/category';
 import CategoryChartData from '../../interfaces/CategoryChartData';
 import { queryMaker } from '../queryMaker';
 import TagChartData from '../../interfaces/TagChartData';
+import ExpenseChartData from '../../interfaces/ExpenseChartData';
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +59,9 @@ export class AnalyticsService {
 
   tagChart(months: MonthDTO['id'][]) {
     return this.http.post<Res<TagChartData>>(`${environment.apiUrl}/${this.baseRoute}/tag-chart`, months)
+  }
+
+  expenseChart(months: MonthDTO['id'][]) {
+    return this.http.post<Res<ExpenseChartData>>(`${environment.apiUrl}/${this.baseRoute}/expense-chart`, months)
   }
 }

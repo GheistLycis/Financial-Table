@@ -3,15 +3,41 @@ import { ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import MonthDTO from 'src/app/shared/DTOs/month';
+import { Subject, map } from 'rxjs';
+import ExpenseChartData from 'src/app/shared/interfaces/ExpenseChartData';
+import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
+import { RoundPipe } from 'src/app/shared/pipes/round/round.pipe';
+
+const SAMPLE_DATA: ChartData<'scatter'> = {
+  labels: [
+    '01',
+    '02',
+    '03',
+    '04'
+  ],
+  datasets: [
+    {
+      data: [3, 0, 4, 5],
+      label: 'Janeiro',
+      pointRadius: 5,
+    },
+    {
+      data: [4, 4, 4, 0],
+      label: 'Fevereiro',
+      pointRadius: 5,
+    },
+  ],
+}
 
 @Component({
   selector: 'app-expenses-chart',
   templateUrl: './expenses-chart.component.html',
-  styleUrls: ['./expenses-chart.component.scss']
+  styleUrls: ['./expenses-chart.component.scss'],
+  providers: [RoundPipe]
 })
 export class ExpensesChartComponent {
-  @Input() set months(months: MonthDTO[]) {
-    this.getData(months)
+  @Input() set months(months: MonthDTO[] | null) {
+    if(months?.length) this.getData(months.map(({ id }) => id))
   }
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective
   options: ChartConfiguration['options'] = {
@@ -21,35 +47,27 @@ export class ExpensesChartComponent {
         display: true,
         text: 'Gastos ao Longo do Mês',
       },
-    }
-  }
-  data: ChartData<'scatter'> = {
-    labels: [
-      'Eating',
-      'Drinking',
-      'Sleeping',
-      'Designing',
-      'Coding',
-      'Cycling',
-      'Running',
-    ],
-    datasets: [
-      {
-        data: [
-          { x: 1, y: 1 },
-          { x: 2, y: 3 },
-          { x: 3, y: -2 },
-          { x: 4, y: 4 },
-          { x: 5, y: -3 },
-        ],
-        label: 'Series A',
-        pointRadius: 5,
+      datalabels: {
+        color: 'black',
+        font: {
+          size: 16,
+        },
+        formatter: () => null,
       },
-    ],
+    },
   }
+  data: ChartData<'scatter'> = SAMPLE_DATA
+  data$ = new Subject<ExpenseChartData>()
   plugins = [DataLabelsPlugin]
 
-  getData(months: MonthDTO[]): void {
+  constructor(
+    private analyticsService: AnalyticsService,
+    private roundPipe: RoundPipe,
+  ) {}
 
+  getData(months: MonthDTO['id'][]): void {
+    this.analyticsService.expenseChart(months).pipe(
+      map(({ data }) => data)
+    ).subscribe(data => this.data$.next(data))
   }
 }

@@ -94,4 +94,14 @@ export class AnalyticsController {
     
     return await this.service.tagChart(req['user'].id, body).then(data => ({ data }))
   }
+
+  @Post('expense-chart')
+  async expenseChart(
+    @Req() req: Request,
+    @Body() body: MonthDTO['id'][]
+  ): Promise<GlobalResponse> {
+    if(!body.length) return { data: null }
+    
+    return await this.service.expenseChart(req['user'].id, body).then(data => ({ data }))
+  }
 }

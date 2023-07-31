@@ -18,6 +18,7 @@ import { MonthNames } from 'src/shared/enums/MonthNames';
 import TagChartData from 'src/shared/interfaces/TagChartData';
 import { Tag } from 'src/app/tag/Tag';
 import TagDTO from 'src/app/tag/Tag.dto';
+import ExpenseChartData from 'src/shared/interfaces/ExpenseChartData';
 
 
 @Injectable()
@@ -582,7 +583,7 @@ export class AnalyticsService {
     return result
   } 
 
-  async tagChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<TagChartData | any> {
+  async tagChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<TagChartData> {
     const result: TagChartData = {
       labels: [],
       datasets: []
@@ -647,5 +648,12 @@ export class AnalyticsService {
     result.labels = tags.map(({ name }) => name)
 
     return result
+  } 
+
+  async expenseChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<ExpenseChartData | any> {
+    const result: ExpenseChartData = {
+      labels: [],
+      datasets: []
+    }
   } 
 }
