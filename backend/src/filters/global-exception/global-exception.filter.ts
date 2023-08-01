@@ -13,6 +13,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const status = exception instanceof GlobalException ? exception.status : 500
     const errorType = warnings.includes(status) ? 'W' : 'E'
     const time = new Date().toLocaleDateString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+
+    if('password' in body) body['password'] = '--'
+    if('newPassword' in body) body['newPassword'] = '--'
     
     console.log(`
       (${errorType}-${status}) 
