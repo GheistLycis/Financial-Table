@@ -36,7 +36,9 @@
     }
 
     img {
-        filter: $filter-palette-4;
+        filter: $filter-palette-2;
+        opacity: 0;
+        animation: fade-in 1s ease-in 1.5s forwards;
     }
 
     .form-control {
@@ -56,6 +58,10 @@
     
     small {
         color: $palette-3;
+
+        b {
+            color: $palette-2;
+        }
     }
 }
 
@@ -63,6 +69,11 @@ svg {
     position: absolute;
     bottom: 0;
     z-index: -100;
+
+    path {
+        fill: $palette-3;
+        fill-opacity: 1;
+    }
 }
 
 // .main-container,
@@ -80,5 +91,11 @@ svg {
 @keyframes underline {
     100% {
         transform: scale(1);
+    }
+}
+
+@keyframes fade-in {
+    100% {
+        opacity: 1;
     }
 }
