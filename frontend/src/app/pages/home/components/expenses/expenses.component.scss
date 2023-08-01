@@ -10,7 +10,7 @@
     transition-duration: .4s;
   
     &:not(:placeholder-shown) {
-      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba($palette-4, 0.7);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba($palette-primary, 0.7);
     }
   }
 
@@ -19,13 +19,13 @@
     z-index: 10;
     right: 10px;
     top: 5px;
-    filter: $filter-palette-4;
+    filter: $filter-primary;
   }
 }
 
 .actions {
   img {
-    filter: $filter-palette-2;
+    filter: $filter-highlight;
   }
 }
 

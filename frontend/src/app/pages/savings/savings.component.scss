@@ -7,15 +7,15 @@
   button.btn-success,
   button.btn-danger {
     img {
-      filter: $filter-palette-1;
+      filter: $filter-tertiary;
     }
   }
   
   .footer {
-    border-top: 1px solid $palette-2;
+    border-top: 1px solid $palette-highlight;
   }
 }
 
 .color-palette-primary {
-  color: $palette-4;
+  color: $palette-primary;
 }

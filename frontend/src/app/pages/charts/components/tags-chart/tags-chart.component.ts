@@ -7,6 +7,7 @@ import { Subject, map } from 'rxjs';
 import TagChartData from 'src/app/shared/interfaces/TagChartData';
 import { RoundPipe } from 'src/app/shared/pipes/round/round.pipe';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
+import { Palette } from 'src/app/shared/enums/Palette';
 
 @Component({
   selector: 'app-tags-chart',
@@ -19,13 +20,35 @@ export class TagsChartComponent {
     if(months?.length) this.getData(months.map(({ id }) => id))
   }
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective
-  options: ChartConfiguration['options'] = {
+  options: ChartConfiguration<'bar'>['options'] = {
     indexAxis: 'y',
     responsive: true,
+    color: Palette.tertiary,
+    scales: {
+      x: {
+        ticks: {
+          color: Palette.tertiary,
+        },
+        title: {
+          display: true,
+          text: 'R$',
+          color: Palette.tertiary,
+        }
+      },
+      y: {
+        ticks: {
+          color: Palette.tertiary,
+        },
+      },
+    },
     plugins: {
       title: {
         display: true,
         text: 'Ranking de Tags',
+        color: Palette.tertiary,
+        font: {
+          size: 20,
+        },
       },
       legend: {
         labels: {
@@ -34,12 +57,17 @@ export class TagsChartComponent {
         },
       },
       datalabels: {
-        color: 'black',
+        color: Palette.tertiary,
         font: {
           size: 12,
           weight: 700,
         },
-        formatter: (value): number => value ? this.roundPipe.transform(value, 2) : null,
+        formatter: (value): string => value ? this.roundPipe.transform(value, 2) : null,
+      },
+      tooltip: {
+        callbacks: {
+          label: ({ dataset, raw }) => dataset.label + ': R$ ' + this.roundPipe.transform(raw as number, 2),
+        },
       },
     },
   }
@@ -49,7 +77,7 @@ export class TagsChartComponent {
   constructor(
     private analyticsService: AnalyticsService,
     private roundPipe: RoundPipe,
-  ) {}
+  ) { }
 
   getData(months: MonthDTO['id'][]): void {
     this.analyticsService.tagChart(months).pipe(

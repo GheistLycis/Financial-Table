@@ -27,9 +27,9 @@ body {
     width: 100%;
     position: relative;
     font-family: 'Overpass', sans-serif;
-    color: $palette-1;
-    background: linear-gradient(190deg, rgba($palette-4, 1) 30%, rgba($palette-3, 1) 90%);
-    caret-color: $palette-2;
+    color: $palette-tertiary;
+    background: linear-gradient(190deg, rgba($palette-primary, 1) 30%, rgba($palette-secondary, 1) 90%);
+    caret-color: $palette-highlight;
 }
 
 html,
@@ -53,13 +53,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-track {
-    background: $palette-1;
+    background: $palette-tertiary;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: $palette-3;
+    background: $palette-secondary;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background:  $palette-4;
+    background:  $palette-primary;
 }

@@ -4,7 +4,7 @@ $navbar-height: 70px;
 
 nav {
     position: fixed;
-    background-color: $palette-1;
+    background-color: $palette-tertiary;
     height: $navbar-height;
     text-transform: uppercase;
     z-index: 1000;
@@ -19,7 +19,7 @@ nav {
         
         &:hover {
             img {
-                filter: $filter-palette-2;
+                filter: $filter-highlight;
             }
         }
     }
@@ -32,11 +32,11 @@ nav {
 
         a {
             text-decoration: none;
-            color: $palette-4;
+            color: $palette-primary;
             transition-duration: .3s;
 
             &:hover {
-                color: $palette-2;
+                color: $palette-highlight;
 
                 &::after {
                     transform: scale(1);
@@ -50,7 +50,7 @@ nav {
                 left: 0;
                 width: 100%;
                 height: 4px;
-                background-color: $palette-2;
+                background-color: $palette-highlight;
                 transform: scale(0);
                 transform-origin: center;
                 transition-duration: .3s;
@@ -58,14 +58,14 @@ nav {
         }
         
         button {
-            color: $palette-4;
+            color: $palette-primary;
             transition-duration: .3s;
             border: none;
             font-size: 16px;
             text-transform: uppercase;
 
             &:hover {
-                color: $palette-2;
+                color: $palette-highlight;
             }
         }
     }
@@ -90,14 +90,14 @@ nav {
         .logout {
             width: 20%;
             background-color: transparent;
-            border-left: 2px solid $palette-2;
+            border-left: 2px solid $palette-highlight;
             
             > img {
-                filter: $filter-palette-2;
+                filter: $filter-highlight;
             }
             
             &:hover {
-                background-color: $palette-2;
+                background-color: $palette-highlight;
                 
                 > img {
                     filter: invert(1);
@@ -109,13 +109,13 @@ nav {
             width: 80%;
             font-size: 20px;
             font-weight: 400;
-            background-color: $palette-2;
+            background-color: $palette-highlight;
 
             &:hover {
                 background-color: transparent;
 
                 button {
-                    color: $palette-2;
+                    color: $palette-highlight;
                 }
             }
             
@@ -123,7 +123,7 @@ nav {
                 border: none;
                 background-color: transparent;
                 font-weight: 500;
-                color: $palette-4;
+                color: $palette-primary;
             }
         }
     }

@@ -1,8 +1,8 @@
 input {
-  background-color: $palette-1;
+  background-color: $palette-tertiary;
   padding: auto 20px;
   color: grey;
-  border: 1px solid $palette-4;
+  border: 1px solid $palette-primary;
   border-radius: 10px;
   outline: none;
 
@@ -11,9 +11,9 @@ input {
   }
 
   &.form-control {
-    background-color: $palette-1 !important;
+    background-color: $palette-tertiary !important;
     color: grey !important;
-    border: 1px solid $palette-4 !important;
+    border: 1px solid $palette-primary !important;
     border-radius: 10px !important;
     height: $field-height !important;
   }

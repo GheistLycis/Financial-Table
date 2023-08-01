@@ -1,6 +1,6 @@
 button {
-  background-color: $palette-4;
-  color: $palette-1;
+  background-color: $palette-primary;
+  color: $palette-tertiary;
   border: 1px solid transparent;
   border-radius: 10px;
   padding: 5px 10px;
@@ -10,8 +10,8 @@ button {
   font-weight: 500;
 
   &:hover {
-      border-color: $palette-4;
-      color: $palette-4;
+      border-color: $palette-primary;
+      color: $palette-primary;
   }
 
   &:disabled {
@@ -27,20 +27,20 @@ button {
   
   &.cancel {
     background-color: transparent;
-    border-color: $palette-4;
-    color: $palette-4;
+    border-color: $palette-primary;
+    color: $palette-primary;
 
     img {
-      filter: $filter-palette-4;
+      filter: $filter-primary;
     }
     
     &:hover {
-        background-color: $palette-4;
+        background-color: $palette-primary;
         border-color: transparent;
-        color: $palette-1;
+        color: $palette-tertiary;
 
         img {
-          filter: $filter-palette-1;
+          filter: $filter-tertiary;
         }
     }
   }

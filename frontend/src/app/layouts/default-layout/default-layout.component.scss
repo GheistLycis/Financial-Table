@@ -13,7 +13,7 @@
     top: $navbar-height + 240px;
 
     path {
-        fill: $palette-3;
+        fill: $palette-secondary;
         fill-opacity: 0.5;
     }
 }
@@ -24,7 +24,7 @@
     bottom: $footer-height;
 
     path {
-        fill: $palette-3;
+        fill: $palette-secondary;
         fill-opacity: 1;
     }
 }

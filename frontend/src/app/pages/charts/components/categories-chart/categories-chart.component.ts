@@ -7,6 +7,7 @@ import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.se
 import { Subject, map } from 'rxjs';
 import { RoundPipe } from 'src/app/shared/pipes/round/round.pipe';
 import CategoryChartData from 'src/app/shared/interfaces/CategoryChartData';
+import { Palette } from 'src/app/shared/enums/Palette';
 
 
 @Component({
@@ -20,19 +21,24 @@ export class CategoriesChartComponent {
     if(months?.length) this.getData(months.map(({ id }) => id))
   }
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective
-  options: ChartConfiguration['options'] = {
+  options: ChartConfiguration<'doughnut'>['options'] = {
     responsive: true, //@ts-ignore
     hoverOffset: 10,
+    color: Palette.tertiary,
     plugins: {
       title: {
         display: true,
         text: 'Gastos por Categoria',
+        color: Palette.tertiary,
+        font: {
+          size: 20,
+        },
       },
       legend: {
         position: 'top',
       },
       datalabels: {
-        color: 'black',
+        color: Palette.tertiary,
         font: {
           size: 16,
           weight: 700,
@@ -44,6 +50,11 @@ export class CategoriesChartComponent {
           const percent = (100 * value / dataset.data.reduce((acc, val) => acc += val, 0))
 
           return this.roundPipe.transform(percent, 'floor') + '%'
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: ({ parsed }) => 'R$ ' + this.roundPipe.transform(parsed, 2),
         },
       },
     },

@@ -4,8 +4,8 @@ $footer-height: 80px;
 
 footer {
     position: absolute;
-    background-color: $palette-1;
-    color: $palette-4;
+    background-color: $palette-tertiary;
+    color: $palette-primary;
     bottom: 0;
     height: $footer-height;
     font-size: 14px;
@@ -14,7 +14,7 @@ footer {
         content: '';
         position: absolute;
         bottom: 100%;
-        border-top: 2px solid $palette-4;
+        border-top: 2px solid $palette-primary;
         width: 80%;
     }
 

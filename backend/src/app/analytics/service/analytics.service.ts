@@ -557,7 +557,7 @@ export class AnalyticsService {
       const dataset = {
         data: [],
         label: MonthNames[month],
-        backgroundColor: colors.map(color => HexToRgba.convert(color, 0.8)),
+        backgroundColor: colors.map(color => HexToRgba.convert(color, 0.5)),
         borderColor: colors
       }
 
@@ -642,7 +642,7 @@ export class AnalyticsService {
       result.datasets.push({
         data: tagsData.map(({ sum }) => sum),
         label: MonthNames[month],
-        backgroundColor: tagsData.map(({ color }) => HexToRgba.convert(color, 0.8)),
+        backgroundColor: tagsData.map(({ color }) => HexToRgba.convert(color, 0.5)),
         borderColor: tagsData.map(({ color }) => color),
       })
     })

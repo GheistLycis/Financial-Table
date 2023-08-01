@@ -3,24 +3,24 @@
 }
 
 .tooltip-inner {
-  background-color: $palette-4;
-  color: $palette-1;
+  background-color: $palette-primary;
+  color: $palette-tertiary;
   font-size: 14px;
   text-align: start;
 }
 
 .bs-tooltip-end .tooltip-arrow::before {
-  border-right-color: $palette-4;
+  border-right-color: $palette-primary;
 }
 
 .bs-tooltip-start .tooltip-arrow::before {
-  border-left-color: $palette-4;
+  border-left-color: $palette-primary;
 }
 
 .bs-tooltip-top .tooltip-arrow::before {
-  border-top-color: $palette-4;
+  border-top-color: $palette-primary;
 }
 
 .bs-tooltip-bottom .tooltip-arrow::before {
-  border-bottom-color: $palette-4;
+  border-bottom-color: $palette-primary;
 }

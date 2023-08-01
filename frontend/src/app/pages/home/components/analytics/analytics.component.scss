@@ -7,13 +7,13 @@
     gap: 20px;
 
     span:not(.spinner-border) {
-      color: $palette-2;
+      color: $palette-highlight;
       font-style: italic;
       transition-duration: .3s;
       cursor: pointer;
       
       &:hover {
-        color: $palette-1;
+        color: $palette-tertiary;
       }
     }
 

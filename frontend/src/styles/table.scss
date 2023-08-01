@@ -1,7 +1,7 @@
 table {
   th {
     padding: 10px;
-    background-color: rgba($palette-1, 0.5);
+    background-color: rgba($palette-tertiary, 0.5);
     position: relative;
 
     &[sortable]::after {
@@ -39,21 +39,21 @@ table {
   }
 
   tr {
-    color: $palette-1 !important;
-    background-color: $palette-3;
+    color: $palette-tertiary !important;
+    background-color: $palette-secondary;
     backdrop-filter: blur(7px);
     -webkit-backdrop-filter: blur(7px);
 
     &:hover {
       td {
-        color: $palette-2 !important;
+        color: $palette-highlight !important;
       }
     }
   }
 
   td {
     &.actions {
-      color: $palette-2;
+      color: $palette-highlight;
       cursor: pointer;
     }
   }

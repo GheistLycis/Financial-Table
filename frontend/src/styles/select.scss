@@ -1,12 +1,12 @@
 select {
     color: grey !important;
-    border: 1px solid $palette-4 !important;
+    border: 1px solid $palette-primary !important;
     border-radius: 10px !important;
-    background-color: $palette-1 !important;
+    background-color: $palette-tertiary !important;
     height: $field-height !important;
   
     &:focus {
-      box-shadow: inset 0 1px 1px rgba(black, 0.075), 0 0 8px rgba($palette-4, 0.7);
+      box-shadow: inset 0 1px 1px rgba(black, 0.075), 0 0 8px rgba($palette-primary, 0.7);
     }
 }
 
@@ -15,8 +15,8 @@ ng-select {
     height: $field-height !important;
     min-width: 100px;
     padding: 5px;
-    background: $palette-1;
-    border: 1px solid $palette-4;
+    background: $palette-tertiary;
+    border: 1px solid $palette-primary;
     border-radius: 10px;
     
     .ng-value-container {
@@ -42,18 +42,18 @@ ng-select {
     border-left: 1px solid black;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
-    background: $palette-1;
+    background: $palette-tertiary;
     color: grey;
 
     &.ng-option-marked {
-      color: $palette-1;
-      background: $palette-4;
+      color: $palette-tertiary;
+      background: $palette-primary;
     }
   }
 
   .ng-clear-wrapper {
     transform: translateY(7px);
-    color: $palette-4;
+    color: $palette-primary;
   }
 
   .ng-footer-tmp {
@@ -62,16 +62,16 @@ ng-select {
     align-items: center;
     width: 100%;
     padding: 3px 5px;
-    background-color: $palette-1;
-    border: 1px solid $palette-4;
-    color: $palette-4;
-    border-color: $palette-4;
+    background-color: $palette-tertiary;
+    border: 1px solid $palette-primary;
+    color: $palette-primary;
+    border-color: $palette-primary;
     font-weight: 500;
     text-transform: uppercase;
     cursor: pointer;
 
     img {
-      filter: $filter-palette-4;
+      filter: $filter-primary;
     }
   }
 }
