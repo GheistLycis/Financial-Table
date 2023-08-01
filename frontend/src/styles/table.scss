@@ -1,7 +1,7 @@
 table {
   th {
     padding: 10px;
-    background-color: rgba(white, 0.6);
+    background-color: rgba($palette-1, 0.5);
     position: relative;
 
     &[sortable]::after {
@@ -31,7 +31,7 @@ table {
     width: 80px;
     height: 25px;
     padding: 4px;
-    border: 1px solid grey;
+    border: 1px solid $palette-1;
     
     > div {
       width: 100%;

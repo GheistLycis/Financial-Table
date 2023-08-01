@@ -1,5 +1,6 @@
-@import '../../layouts/default-layout/components/navbar/navbar.component.scss';
+@import './components/navbar/navbar.component.scss';
 @import './components/footer/footer.component.scss';
+@import 'src/styles/variables';
 
 #container {
     padding-top: 110px;
@@ -10,10 +11,20 @@
     position: absolute;
     z-index: -100;
     top: $navbar-height + 240px;
+
+    path {
+        fill: $palette-3;
+        fill-opacity: 1;
+    }
 }
 
 .bottom-svg {
     position: absolute;
     z-index: -100;
     bottom: $footer-height;
+
+    path {
+        fill: $palette-3;
+        fill-opacity: 1;
+    }
 }
