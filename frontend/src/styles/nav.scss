@@ -8,16 +8,14 @@ ul {
             color: $palette-secondary;
             transition-duration: .4s;
 
-            &:hover {
-                color: $palette-primary;
-                border-width: 2px;
+            &.active {
+                background-color: rgba($palette-tertiary, 0.6);
             }
 
+            &:hover,
             &.active {
-                color: $palette-primary;
-                background-color: rgba($palette-tertiary, 0.6);
+                color: $palette-highlight;
                 border-width: 2px;
-                font-weight: 600
             }
         }
     }

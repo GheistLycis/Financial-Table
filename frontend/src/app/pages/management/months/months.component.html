@@ -18,7 +18,6 @@
       #nav="ngbNav" 
       [activeId]="activeYear$ | async"
       (navChange)="activeYear$.next($event.nextId)"
-      class="nav-tabs"
     >
       <li 
         *ngFor="let year of years"
