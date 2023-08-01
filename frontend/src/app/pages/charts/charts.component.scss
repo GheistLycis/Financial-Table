@@ -1,3 +1,5 @@
+@import 'src/styles/variables';
+
 .filters {
     min-width: 200px;
     width: 600px;
@@ -10,6 +12,7 @@
         flex-direction: column;
         align-items: center;
         padding: 20px 10px;
+        border: 1px solid $palette-highlight;
     
         .chart {
             width: 100%;
