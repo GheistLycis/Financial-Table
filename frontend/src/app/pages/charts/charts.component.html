@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container px-0">
     <div class="filters">
         <app-filters
             [year]="actualYear$ | async"
@@ -11,19 +11,19 @@
 
     <div class="dashboard">
         <div class="d-flex align-items-top justify-content-between gap-20 mb-4">
-            <div class="chart-box categories-chart glass shadow">
+            <div class="chart-box categories-chart card shadow">
                 <div class="chart">
                     <app-categories-chart [months]="filteredMonths$ | async"></app-categories-chart>
                 </div>
             </div>
-            <div class="chart-box tags-chart glass shadow">
+            <div class="chart-box tags-chart card shadow">
                 <div class="chart">
                     <app-tags-chart [months]="filteredMonths$ | async"></app-tags-chart>
                 </div>
             </div>
         </div>
         <div>
-            <div class="chart-box expenses-chart glass shadow">
+            <div class="chart-box expenses-chart card shadow">
                 <div class="chart">
                     <app-expenses-chart [months]="filteredMonths$ | async"></app-expenses-chart>
                 </div>

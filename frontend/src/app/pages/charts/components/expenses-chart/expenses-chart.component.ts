@@ -76,8 +76,8 @@ export class ExpensesChartComponent {
         tension: 0.25,
       },
       point: {
-        radius: 5,
-        hoverRadius: 10,
+        radius: 4,
+        hoverRadius: 7,
       },
     },
     plugins: {
