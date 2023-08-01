@@ -29,7 +29,7 @@ body {
     font-family: 'Overpass', sans-serif;
     color: $palette-tertiary;
     background: linear-gradient(190deg, rgba($palette-primary, 1) 30%, rgba($palette-secondary, 1) 90%);
-    caret-color: $palette-highlight;
+    caret-color: $palette-primary;
 }
 
 html,

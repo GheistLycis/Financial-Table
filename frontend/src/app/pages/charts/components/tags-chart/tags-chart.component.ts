@@ -1,6 +1,5 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
-import { BaseChartDirective } from 'ng2-charts';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import { Subject, map } from 'rxjs';
@@ -8,6 +7,7 @@ import TagChartData from 'src/app/shared/interfaces/TagChartData';
 import { RoundPipe } from 'src/app/shared/pipes/round/round.pipe';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
 import { Palette } from 'src/app/shared/enums/Palette';
+
 
 @Component({
   selector: 'app-tags-chart',
@@ -19,25 +19,32 @@ export class TagsChartComponent {
   @Input() set months(months: MonthDTO[] | null) {
     if(months?.length) this.getData(months.map(({ id }) => id))
   }
-  @ViewChild(BaseChartDirective) chart!: BaseChartDirective
   options: ChartConfiguration<'bar'>['options'] = {
     indexAxis: 'y',
-    responsive: true,
     color: Palette.tertiary,
     scales: {
       x: {
         ticks: {
           color: Palette.tertiary,
+          font: {
+            family: 'Overpass',
+          },
         },
         title: {
           display: true,
           text: 'R$',
           color: Palette.tertiary,
+          font: {
+            family: 'Overpass',
+          },
         }
       },
       y: {
         ticks: {
           color: Palette.tertiary,
+          font: {
+            family: 'Overpass',
+          },
         },
       },
     },
@@ -48,12 +55,16 @@ export class TagsChartComponent {
         color: Palette.tertiary,
         font: {
           size: 20,
+          family: 'Overpass',
         },
       },
       legend: {
         labels: {
           boxHeight: 0,
           boxWidth: 0,
+          font: {
+            family: 'Overpass',
+          },
         },
       },
       datalabels: {
@@ -61,6 +72,7 @@ export class TagsChartComponent {
         font: {
           size: 12,
           weight: 700,
+          family: 'Overpass',
         },
         formatter: (value): string => value ? this.roundPipe.transform(value, 2) : null,
       },
@@ -68,6 +80,12 @@ export class TagsChartComponent {
         callbacks: {
           label: ({ dataset, raw }) => dataset.label + ': R$ ' + this.roundPipe.transform(raw as number, 2),
         },
+        titleFont: {
+          family: 'Overpass',
+        },
+        bodyFont: {
+          family: 'Overpass',
+        }
       },
     },
   }

@@ -1,5 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { BaseChartDirective } from 'ng2-charts';
+import { Component, Input } from '@angular/core';
 import { ChartConfiguration, ChartDataset } from 'chart.js';
 import DatalabelsPlugin from 'chartjs-plugin-datalabels';
 import MonthDTO from 'src/app/shared/DTOs/month';
@@ -20,9 +19,8 @@ export class CategoriesChartComponent {
   @Input() set months(months: MonthDTO[] | null) {
     if(months?.length) this.getData(months.map(({ id }) => id))
   }
-  @ViewChild(BaseChartDirective) chart!: BaseChartDirective
-  options: ChartConfiguration<'doughnut'>['options'] = {
-    responsive: true, //@ts-ignore
+  options: ChartConfiguration<'doughnut'>['options'] = { 
+    //@ts-ignore
     hoverOffset: 10,
     color: Palette.tertiary,
     plugins: {
@@ -31,17 +29,24 @@ export class CategoriesChartComponent {
         text: 'Gastos por Categoria',
         color: Palette.tertiary,
         font: {
+          family: 'Overpass',
           size: 20,
         },
       },
       legend: {
         position: 'top',
+        labels: {
+          font: {
+            family: 'Overpass',
+          },
+        },
       },
       datalabels: {
         color: Palette.tertiary,
         font: {
           size: 16,
           weight: 700,
+          family: 'Overpass',
         },
         formatter: (value, ctx): string => {
           if(!value) return null
@@ -56,6 +61,12 @@ export class CategoriesChartComponent {
         callbacks: {
           label: ({ parsed }) => 'R$ ' + this.roundPipe.transform(parsed, 2),
         },
+        titleFont: {
+          family: 'Overpass',
+        },
+        bodyFont: {
+          family: 'Overpass',
+        }
       },
     },
   }
