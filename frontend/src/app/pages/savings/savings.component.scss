@@ -1,21 +1,76 @@
 @import '../../../styles/variables.scss';
 
 .saving {
+  background-color: $palette-primary;
   min-width: 300px;
   max-width: 800px;
+  
+  &.active {
+    border: 2px solid $palette-highlight;
+    color: $palette-highlight;
 
-  button.btn-success,
-  button.btn-danger {
-    img {
-      filter: $filter-tertiary;
+    .footer {
+      border-top: 1px solid $palette-highlight;
     }
   }
   
-  .footer {
-    border-top: 1px solid $palette-highlight;
-  }
-}
+  &.completed {
+    border: 2px solid $green;
+    color: $green;
 
-.color-palette-primary {
-  color: $palette-primary;
+    .footer {
+      border-top: 1px solid $green;
+    }
+  }
+
+  &.canceled {
+    border: 2px dashed $red;
+    color: $red;
+
+    .footer {
+      border-top: 1px solid $red;
+    }
+  }
+
+  button {
+    background-color: transparent;
+    transition: .3s;
+
+    &.set-active {
+      border-color: $palette-highlight;
+      color: $palette-highlight;
+
+      img {
+        filter: $filter-highlight;
+      }
+    }
+
+    &.set-completed {
+      border-color: $green;
+      color: $green;
+
+      img {
+        filter: $filter-green;
+      }
+    }
+
+    &.set-canceled {
+      border-style: dashed;
+      border-color: $red;
+      color: $red;
+
+      img {
+        filter: $filter-red;
+      }
+    }
+
+    &:hover {
+      border-color: $palette-tertiary;
+      color: $palette-tertiary;
+
+      img {
+        filter: $filter-tertiary;
+      }
+    }
+  }
 }

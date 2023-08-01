@@ -8,7 +8,7 @@ import { GeneralWarningComponent } from 'src/app/shared/components/modals/genera
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
 import { MonthService } from 'src/app/shared/services/month/month.service';
 import { switchMap, tap, map, of } from 'rxjs';
-import { catchError, filter } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { YearService } from 'src/app/shared/services/year/year.service';
 
 @Component({
