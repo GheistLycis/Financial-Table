@@ -31,7 +31,6 @@ table {
     width: 80px;
     height: 25px;
     padding: 4px;
-    border: 1px solid $palette-1;
     
     > div {
       width: 100%;
@@ -40,9 +39,23 @@ table {
   }
 
   tr {
-    background: rgba(white, 0.2);
+    color: $palette-1 !important;
+    background-color: $palette-3;
     backdrop-filter: blur(7px);
     -webkit-backdrop-filter: blur(7px);
+
+    &:hover {
+      td {
+        color: $palette-2 !important;
+      }
+    }
+  }
+
+  td {
+    &.actions {
+      color: $palette-2;
+      cursor: pointer;
+    }
   }
 }
 

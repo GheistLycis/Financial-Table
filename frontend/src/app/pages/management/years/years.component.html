@@ -36,19 +36,17 @@
           <td [ngClass]="{'text-danger': history.expenses > history.available}">
             {{ history.expenses | number:'.2-2':'pt' }}
           </td>
-          <td>
+          <td class="actions">
             <div class="d-flex justify-content-evenly">
               <img 
                 src="../../../../../assets/icons/pencil.svg"
                 (click)="editYear(history.year)"
                 width="25px"
-                class="pointer"
                 ngbTooltip="Editar">
               <img 
                 src="../../../../../assets/icons/trash.svg"
                 (click)="deleteYear(history.year)"
                 width="25px"
-                class="pointer"
                 ngbTooltip="Excluir">
             </div>
           </td>

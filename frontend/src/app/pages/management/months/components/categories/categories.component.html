@@ -37,19 +37,17 @@
               <div [style.background-color]="category.color"></div>
             </div>
           </td>
-          <td>
+          <td class="actions">
             <div class="d-flex justify-content-evenly">
               <img 
                 src="../../../../../../assets/icons/pencil.svg"
                 (click)="editCategory(category)"
                 width="25px"
-                class="pointer"
                 ngbTooltip="Editar">
               <img 
                 src="../../../../../../assets/icons/trash.svg"
                 (click)="deleteCategory(category)"
                 width="25px"
-                class="pointer"
                 ngbTooltip="Excluir">
             </div>
           </td>

@@ -4,7 +4,7 @@
       <h2>Histórico de gastos</h2>
       <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
     </div>
-    <div class="d-flex gap-20">
+    <div class="actions d-flex gap-20">
       <div>
         <span *ngIf="loadingCSV" class="spinner-border spinner-border-sm"></span>
         <img 
@@ -49,7 +49,7 @@
         <button ngbNavLink>{{ year.year }}</button>
         <ng-template ngbNavContent>
           <div appScrollDetection (scrolled)="scrolled.next()" class="boxed-table">
-            <table appSortableTable [init]="initSortDirective" (sort)="sortTable($event)" class="table table-striped table-hover">
+            <table appSortableTable [init]="initSortDirective" (sort)="sortTable($event)" class="table table-hover">
               <thead>
                 <th sortable="date">Data</th>
                 <th sortable="value">R$</th>
@@ -68,27 +68,22 @@
                   <td>{{ expense.value | number:'.2-2':'pt' }}</td>
                   <td><small>{{ expense.description }}</small></td>
                   <td>{{ expense.category.name }}</td>
-                  <td>
+                  <td class="actions">
                     <div class="d-flex justify-content-evenly">
                       <img 
                         src="../../../../../assets/icons/pencil.svg"
                         (click)="editExpense(expense)"
                         width="25px"
-                        class="pointer"
                         ngbTooltip="Editar">
                       <img 
                         src="../../../../../assets/icons/trash.svg"
                         (click)="deleteExpense(expense)"
                         width="25px"
-                        class="pointer"
                         ngbTooltip="Excluir">
                     </div>
                   </td>
                 </tr>
               </tbody>
-              <tfoot class="bg-light">
-                <td colspan="5"></td>
-              </tfoot>
             </table>
           </div>
         </ng-template>

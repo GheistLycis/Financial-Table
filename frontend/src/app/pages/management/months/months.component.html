@@ -78,44 +78,38 @@
                 <td [ngClass]="{'text-danger': history.balance <= 0}">
                   {{ history.balance | number:'.2-2':'pt' }}
                 </td>
-                <td>
+                <td class="actions">
                   <div class="d-flex justify-content-evenly">
                     <img 
                       *ngIf="first"
                       src="../../../../assets/icons/copy.svg"
                       (click)="duplicateMonth(history.month)"
                       width="25px"
-                      class="pointer"
                       ngbTooltip="Duplicar">
                     <img 
                       src="../../../../../assets/icons/pencil.svg"
                       (click)="editMonth(history.month)"
                       width="25px"
-                      class="pointer"
                       ngbTooltip="Editar">
                     <img 
                       src="../../../../../assets/icons/trash.svg"
                       (click)="deleteMonth(history.month)"
                       width="25px"
-                      class="pointer"
                       ngbTooltip="Excluir">
                     <img 
                       src="../../../../../assets/icons/money.svg"
                       (click)="listMonthlyIncomes(history.month)"
                       width="30px"
-                      class="pointer"
                       ngbTooltip="Listar entradas">
                     <img 
                       src="../../../../../assets/icons/dollar-sign.svg"
                       (click)="listMonthlyExpenses(history.month)"
                       width="30px"
-                      class="pointer"
                       ngbTooltip="Listar mensalidades">
                     <img 
                       src="../../../../../assets/icons/category.svg"
                       (click)="listCategories(history.month)"
                       width="30px"
-                      class="pointer"
                       ngbTooltip="Listar categorias">
                   </div>
                 </td>

@@ -33,19 +33,17 @@
           <td>{{ income.value | number:'.2-2':'pt' }}</td>
           <td>{{ income.date | date:'dd/MM/YY' }}</td>
           <td>{{ income.description }}</td>
-          <td>
+          <td class="actions">
             <div class="d-flex justify-content-evenly">
               <img 
                 src="../../../../../assets/icons/pencil.svg"
                 (click)="editIncome(income)"
                 width="25px"
-                class="pointer"
                 ngbTooltip="Editar">
               <img 
                 src="../../../../../assets/icons/trash.svg"
                 (click)="deleteIncome(income)"
                 width="25px"
-                class="pointer"
                 ngbTooltip="Excluir">
             </div>
           </td>
