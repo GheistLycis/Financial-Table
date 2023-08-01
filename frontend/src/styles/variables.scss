@@ -1,16 +1,17 @@
-$palette-1: #CBEDD5;
-$palette-2: #97DECE;
-$palette-3: #62B6B7;
-$palette-4: #439A97;
+$palette-1: #EEEEEE;
+$palette-2: #FFD369;
+$palette-3: #393E46;
+$palette-4: #222831;
 
-$white: #FBFAF2;
+$green: #A2FF86;
+$red: #D71313;
 
-$filter-palette-4: invert(51%) sepia(53%) saturate(397%) hue-rotate(129deg) brightness(93%) contrast(87%);
+$filter-palette-1: invert(100%) sepia(0%) saturate(403%) hue-rotate(68deg) brightness(116%) contrast(87%);
+$filter-palette-2: invert(84%) sepia(24%) saturate(947%) hue-rotate(343deg) brightness(101%) contrast(103%);
+$filter-palette-3: invert(19%) sepia(8%) saturate(1008%) hue-rotate(178deg) brightness(94%) contrast(82%);
+$filter-palette-4: invert(13%) sepia(35%) saturate(367%) hue-rotate(177deg) brightness(87%) contrast(92%);
 
-$filter-white: invert(100%) sepia(0%) saturate(0%) hue-rotate(231deg) brightness(103%) contrast(101%);
-$filter-grey: invert(78%) sepia(0%) saturate(1351%) hue-rotate(204deg) brightness(64%) contrast(89%); 
-$filter-black: invert(0%) sepia(73%) saturate(7443%) hue-rotate(229deg) brightness(83%) contrast(112%);
-$filter-green: invert(14%) sepia(93%) saturate(7485%) hue-rotate(0deg) brightness(100%) contrast(110%);
-$filter-red: invert(25%) sepia(76%) saturate(6344%) hue-rotate(115deg) brightness(94%) contrast(104%); 
+$filter-green: invert(83%) sepia(45%) saturate(442%) hue-rotate(51deg) brightness(102%) contrast(102%);
+$filter-red: invert(17%) sepia(63%) saturate(4360%) hue-rotate(351deg) brightness(95%) contrast(105%);
 
 $field-height: 45px;

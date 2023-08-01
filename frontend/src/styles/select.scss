@@ -2,7 +2,7 @@ select {
     color: grey !important;
     border: 1px solid $palette-4 !important;
     border-radius: 10px !important;
-    background-color: $white !important;
+    background-color: $palette-1 !important;
     height: $field-height !important;
   
     &:focus {
@@ -15,7 +15,7 @@ ng-select {
     height: $field-height !important;
     min-width: 100px;
     padding: 5px;
-    background: $white;
+    background: $palette-1;
     border: 1px solid $palette-4;
     border-radius: 10px;
     
@@ -42,11 +42,11 @@ ng-select {
     border-left: 1px solid black;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
-    background: $white;
+    background: $palette-1;
     color: grey;
 
     &.ng-option-marked {
-      color: $white;
+      color: $palette-1;
       background: $palette-4;
     }
   }
@@ -62,7 +62,7 @@ ng-select {
     align-items: center;
     width: 100%;
     padding: 3px 5px;
-    background-color: $white;
+    background-color: $palette-1;
     border: 1px solid $palette-4;
     color: $palette-4;
     border-color: $palette-4;

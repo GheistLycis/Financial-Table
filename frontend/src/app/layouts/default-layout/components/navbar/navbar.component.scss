@@ -4,7 +4,7 @@ $navbar-height: 70px;
 
 nav {
     position: fixed;
-    background-color: $white;
+    background-color: $palette-1;
     height: $navbar-height;
     text-transform: uppercase;
     z-index: 1000;
@@ -122,7 +122,7 @@ nav {
             button {
                 border: none;
                 background-color: transparent;
-                color: $white;
+                color: $palette-1;
             }
         }
     }

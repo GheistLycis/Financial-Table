@@ -13,7 +13,7 @@
       cursor: pointer;
       
       &:hover {
-        color: $white;
+        color: $palette-1;
         animation-play-state: paused;
       }
     }
