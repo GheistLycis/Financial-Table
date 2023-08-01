@@ -10,6 +10,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    color: $palette-primary;
     
     h3 {
       margin: 0;
@@ -25,10 +26,7 @@
   .modal-body {
     margin: 10px 0 20px;
     padding: 0 10px;
-
-    tr {
-      background-color: transparent;
-    }
+    color: $palette-secondary;
   }
   
   .modal-footer {

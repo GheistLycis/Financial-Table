@@ -1,12 +1,12 @@
 select {
-    color: grey !important;
+    color: $palette-secondary !important;
     border: 1px solid $palette-primary !important;
     border-radius: 10px !important;
     background-color: $palette-tertiary !important;
     height: $field-height !important;
   
     &:focus {
-      box-shadow: inset 0 1px 1px rgba(black, 0.075), 0 0 8px rgba($palette-primary, 0.7);
+      box-shadow: 0 0 8px $palette-highlight !important;
     }
 }
 
@@ -20,7 +20,7 @@ ng-select {
     border-radius: 10px;
     
     .ng-value-container {
-      color: grey;
+      color: $palette-secondary;
       padding-left: 8px;
       gap: 8px;
       height: 30px;
@@ -32,7 +32,7 @@ ng-select {
       }
 
       .ng-placeholder {
-        color: grey;
+        color: $palette-secondary;
       }
     }
   }

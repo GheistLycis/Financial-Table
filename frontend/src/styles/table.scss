@@ -53,8 +53,15 @@ table {
 
   td {
     &.actions {
-      color: $palette-highlight;
-      cursor: pointer;
+      img {
+        cursor: pointer;
+        filter: $filter-highlight;
+        transition: .3s;
+    
+        &:hover {
+          filter: $filter-tertiary;
+        }
+      }
     }
   }
 }

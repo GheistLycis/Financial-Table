@@ -1,20 +1,28 @@
 input {
   background-color: $palette-tertiary;
   padding: auto 20px;
-  color: grey;
   border: 1px solid $palette-primary;
   border-radius: 10px;
   outline: none;
 
   &:not(.switch) {
+    color: $palette-secondary !important;
     height: $field-height;
   }
 
   &.form-control {
     background-color: $palette-tertiary !important;
-    color: grey !important;
+    color: $palette-secondary !important;
     border: 1px solid $palette-primary !important;
     border-radius: 10px !important;
     height: $field-height !important;
+
+    &:focus {
+      box-shadow: 0 0 8px $palette-highlight !important;
+    }
+  }
+
+  &.switch:focus {
+    box-shadow: 0 0 8px $palette-highlight !important;
   }
 }

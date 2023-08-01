@@ -1,4 +1,6 @@
 label {
+  color: $palette-secondary;
+  
   &.required::after {
     content: " *";
     color: red;
