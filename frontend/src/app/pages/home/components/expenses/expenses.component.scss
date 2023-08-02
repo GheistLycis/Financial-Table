@@ -1,4 +1,8 @@
-@import '../../../../../styles/variables.scss';
+@import 'src/styles/variables.scss';
+
+.tutorial {
+  filter: $filter-tertiary;
+}
 
 .search-box {
   width: 480px;

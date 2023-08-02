@@ -9,6 +9,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class GeneralWarningComponent {
   @Input() title!: string
   @Input() text!: string
+  @Input() showWarningIcon = true
   @Input() showCancelButton = true
   @Input() showConfirmButton = true
   @Input() cancelButtonText = 'Não'

@@ -10,17 +10,20 @@
   border: 1px solid rgba($palette-tertiary, 1) !important;
 }
 
-img {
-  &.action {
-    cursor: pointer;
-    filter: $filter-highlight;
-    transition: .3s;
+img.action {
+  cursor: pointer;
+  filter: $filter-highlight;
+  transition: .3s;
 
-    &:hover {
-      filter: $filter-tertiary;
-    }
+  &:hover {
+    filter: $filter-tertiary;
   }
 }
+
+.bold {
+  font-weight: 700;
+}
+
 
 // FLEX-BOX
 .gap-0 { 
