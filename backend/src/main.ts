@@ -8,7 +8,7 @@ import { ResponseHandlerInterceptor } from "./interceptors/response-handler/resp
 declare const module: any // webpack's hot-reload
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true })
+  const app = await NestFactory.create(AppModule, { cors: { origin: 'https://financial-table.vercel.app' } })
   const config = new DocumentBuilder().build()
   const document = SwaggerModule.createDocument(app, config)
 
