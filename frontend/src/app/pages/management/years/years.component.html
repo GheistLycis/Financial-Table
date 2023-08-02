@@ -16,11 +16,36 @@
     <table class="table table-hover">
       <thead>
         <th>Ano</th>
-        <th>Entradas</th>
-        <th>Mensalidades</th>
-        <th>Disponível</th>
-        <th>Gastos variáveis</th>
-        <th>Economizado</th>
+        <th>
+          Entradas
+          <app-tooltip>
+            O total de renda obtida no ano.
+          </app-tooltip>
+        </th>
+        <th>
+          Mensalidades
+          <app-tooltip>
+            O total de gastos fixos do ano.
+          </app-tooltip>
+        </th>
+        <th>
+          Disponível
+          <app-tooltip>
+            O total de renda que você se reservou para poder gastar com Gastos Variáveis.
+          </app-tooltip>
+        </th>
+        <th>
+          Gastos variáveis
+          <app-tooltip>
+            O total de gastos que você teve durante o ano.
+          </app-tooltip>
+        </th>
+        <th>
+          Economizado
+          <app-tooltip>
+            O total de renda que você deixou de gastar.
+          </app-tooltip>
+        </th>
         <th></th>
       </thead>
       <tbody *ngIf="!yearsHistories.length">
