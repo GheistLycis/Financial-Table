@@ -42,6 +42,8 @@ export class AddEditSavingComponent {
     this.submitted = true
     
     if(this.formModel.invalid) return
+
+    if(`${this.form.dueDate}` == '') this.form.dueDate = null
     
     this.submit()
   }

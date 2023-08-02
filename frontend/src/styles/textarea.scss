@@ -1,14 +1,10 @@
 textarea {  
   background-color: $palette-tertiary !important;
-  color: grey !important;
+  color: $palette-secondary !important;
   border: 1px solid $palette-primary !important;
   border-radius: 10px !important;
 
   &:focus {
     box-shadow: 0 0 8px $palette-highlight !important;
-  }
-
-  &.resize-none {
-    resize: none;
   }
 }

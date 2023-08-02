@@ -516,6 +516,7 @@ export class AnalyticsService {
       monthlyIncomes,
       monthlyExpenses,
       expenses,
+      saved: monthlyIncomes - expenses,
     } 
   }
 

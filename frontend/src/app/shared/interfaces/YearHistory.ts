@@ -6,4 +6,5 @@ export default interface YearHistory {
   monthlyExpenses: number
   available: number
   expenses: number
+  saved: number
 }

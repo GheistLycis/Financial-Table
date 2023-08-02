@@ -5,8 +5,8 @@ ul {
             background-color: transparent;
             border: 1px solid $palette-primary;
             border-radius: 15px 15px 0 0;
-            color: $palette-secondary;
-            transition-duration: .4s;
+            color: $palette-tertiary;
+            transition-duration: .3s;
 
             &.active {
                 background-color: rgba($palette-tertiary, 0.6);
