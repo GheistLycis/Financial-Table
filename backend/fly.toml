@@ -1,10 +1,13 @@
-# fly.toml app configuration file generated for financial-table on 2023-08-02T10:56:52-03:00
+# fly.toml app configuration file generated for financial-table on 2023-08-02T12:13:17-03:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = "financial-table"
 primary_region = "gru"
+
+[env]
+  SERVER_PORT = 8000
 
 [build]
   image = "flyio/hellofly:latest"
@@ -18,8 +21,8 @@ primary_region = "gru"
   processes = ["app"]
 
 [checks]
-[checks.alive]
-  path = "api/health-check"
-  type = "http"
-  interval = "60s"
-  timeout = "5s"
+  [checks.alive]
+    type = "http"
+    path = "api/health-check"
+    interval = "30s"
+    timeout = "5s"
