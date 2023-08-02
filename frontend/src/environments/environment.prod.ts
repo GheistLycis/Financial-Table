@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://financial-table-backend.onrender.com/api',
+  apiUrl: 'https://66.241.125.147/api',
 }
