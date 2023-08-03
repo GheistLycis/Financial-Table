@@ -21,6 +21,7 @@ export class TagsChartComponent {
     if(months?.length) this.getData(months.map(({ id }) => id))
   }
   options: ChartConfiguration<'bar'>['options'] = {
+    aspectRatio: 1.3,
     indexAxis: 'y',
     color: Palette.tertiary,
     scales: {

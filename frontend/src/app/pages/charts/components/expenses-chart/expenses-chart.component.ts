@@ -18,6 +18,7 @@ export class ExpensesChartComponent {
     if(months?.length) this.getData(months.map(({ id }) => id))
   }
   options: ChartConfiguration<'line'>['options'] = {
+    aspectRatio: 3,
     color: Palette.tertiary,
     scales: {
       x: {
@@ -37,7 +38,6 @@ export class ExpensesChartComponent {
       },
       y: {
         ticks: {
-          stepSize: 1,
           color: Palette.tertiary,
           font: {
             family: 'Overpass',
