@@ -71,15 +71,11 @@
         <div 
             (click)="router.navigate(['gerenciar/meses'])"
             ngbTooltip="Suas economias até o momento."
-            class="card shadow actual-balance d-flex flex-row align-items-baseline gap-10 p-3 pointer">
-            <h5>SALDO:</h5>
+            class="pointer">
             <ng-container *ngIf="actualBalance$ | async as balance">
-                <h4 *ngIf="balance == '--'">
-                    {{ balance }}
-                </h4>
-                <h4 *ngIf="balance != '--'" [ngClass]="balance > 0 ? 'text-green' : 'text-red'">
-                    <b>R${{ balance | number:'.2-2':'pt' }}</b>
-                </h4>
+                <h2 *ngIf="balance != '--'" [ngClass]="balance > 0 ? 'text-green' : 'text-red'" class="bold">
+                    R${{ balance | number:'.2-2':'pt' }}
+                </h2>
             </ng-container>
         </div>
     </div>
@@ -88,20 +84,19 @@
         <ng-template ngbSlide>
             <div class="picsum-img-wrapper">
                 <h3 class="italic">Categorias</h3>
-                <div class="cards d-flex gap-10">
+                <div class="cards d-flex justify-content-center gap-10">
                     <div *ngFor="let remaining of categoriesRemaining" class="category card shadow p-3">
                         <h4>{{ remaining.category.name | uppercase }}</h4>
-                        <div>
-                            <h6>
-                                Reservado: R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
-                                ({{ remaining.category.percentage | number:'.0-2' }}%)
-                            </h6>
-                            <h5 class="bold">
-                                Restante:
-                                <span [ngClass]="remaining.remaining > 0 ? 'text-green' : 'text-red'">
-                                    R${{ remaining.remaining | number:'.2-2':'pt' }}
-                                </span>
-                            </h5>
+                        <div class="d-flex flex-column justify-content-between">
+                            <h4 class="bold mt-2 mb-4" [ngClass]="remaining.remaining > 0 ? 'text-green' : 'text-red'">
+                                R${{ remaining.remaining | number:'.2-2':'pt' }}
+                            </h4>
+                            <div class="d-flex justify-content-end">
+                                <small>
+                                    Começou o mês com R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
+                                    ({{ remaining.category.percentage | number:'.0-2' }}%)
+                                </small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -156,11 +151,11 @@
     </div>
     <div *ngIf="expenses > 0" class="analytics-data">
         <img src="../../../assets/icons/arrow-up.svg" class="filter-red">
-        <h4 class="text-red">{{ expenses | number:'.0-1' }}%</h4>
+        <h4 class="bold text-red">{{ expenses | number:'.0-1' }}%</h4>
     </div>
     <div *ngIf="expenses <= 0" class="analytics-data">
         <img src="../../../assets/icons/arrow-down.svg" class="filter-green">
-        <h4 class="text-green">{{ expenses | number:'.0-1' }}%</h4>
+        <h4 class="bold text-green">{{ expenses | number:'.0-1' }}%</h4>
     </div>
 </ng-template>
 

@@ -20,10 +20,6 @@
     ng-select {
       width: 180px;
     }
-
-    .actual-balance {
-      height: 60px;
-    }
   }
 }
 
@@ -49,8 +45,6 @@
   }
   
   .category {
-    > div {
-      text-align: left;
-    }
+    max-width: 450px;
   }
 }
