@@ -10,7 +10,7 @@ import YearDTO from '../../DTOs/year';
 import CategoryDTO from '../../DTOs/category';
 import { RawCategoryChartData } from '../../interfaces/CategoryChartData';
 import { RawTagChartData } from '../../interfaces/TagChartData';
-import ExpenseChartData from '../../interfaces/ExpenseChartData';
+import { RawExpenseChartData } from '../../interfaces/ExpenseChartData';
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +60,7 @@ export class AnalyticsService {
     return this.http.post<Res<RawTagChartData>>(`${environment.apiUrl}/${this.baseRoute}/tag-chart`, months)
   }
 
-  expenseChart(months: MonthDTO['id'][]) {
-    return this.http.post<Res<ExpenseChartData>>(`${environment.apiUrl}/${this.baseRoute}/expense-chart`, months)
+  expenseChart(payload: { range: number[], monthIds: MonthDTO['id'][] }) {
+    return this.http.post<Res<RawExpenseChartData[]>>(`${environment.apiUrl}/${this.baseRoute}/expense-chart`, payload)
   }
 }

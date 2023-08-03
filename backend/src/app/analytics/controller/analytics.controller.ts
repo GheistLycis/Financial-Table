@@ -98,9 +98,9 @@ export class AnalyticsController {
   @Post('expense-chart')
   async expenseChart(
     @Req() req: Request,
-    @Body() body: MonthDTO['id'][]
+    @Body() body: { range: number[], monthIds: MonthDTO['id'][] }
   ): Promise<GlobalResponse> {
-    if(!body.length) return { data: null }
+    if(!body.range.length || !body.monthIds.length) return { data: null }
     
     return await this.service.expenseChart(req['user'].id, body).then(data => ({ data }))
   }

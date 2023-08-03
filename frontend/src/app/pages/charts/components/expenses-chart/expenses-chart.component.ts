@@ -3,7 +3,7 @@ import { ChartConfiguration } from 'chart.js';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import { Subject, map } from 'rxjs';
-import ExpenseChartData from 'src/app/shared/interfaces/ExpenseChartData';
+import { ExpenseChartData } from 'src/app/shared/interfaces/ExpenseChartData';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
 import { Palette } from 'src/app/shared/enums/Palette';
 
@@ -22,7 +22,7 @@ export class ExpensesChartComponent {
     scales: {
       x: {
         ticks: {
-          callback: value => value, // impedes float decimal point
+          callback: (value: number) => value + 1,
           stepSize: 1,
           color: Palette.tertiary,
         },
@@ -98,9 +98,14 @@ export class ExpensesChartComponent {
     private analyticsService: AnalyticsService,
   ) {}
 
-  getData(months: MonthDTO['id'][]): void {
-    this.analyticsService.expenseChart(months).pipe(
-      map(({ data }) => data)
+  getData(monthIds: MonthDTO['id'][]): void {
+    const labels = [...Array(31).keys()].map(n => (n+1))
+
+    this.analyticsService.expenseChart({ monthIds, range: labels }).pipe(
+      map(({ data }) => ({ 
+        labels,
+        datasets: data 
+      }))
     ).subscribe(data => this.data$.next(data))
   }
 }

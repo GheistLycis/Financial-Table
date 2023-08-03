@@ -609,11 +609,8 @@ export class AnalyticsService {
     return result
   } 
 
-  async expenseChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<ExpenseChartData> {
-    const result: ExpenseChartData = {
-      labels: [...Array(31).keys()].map(n => (n+1).toString()),
-      datasets: []
-    }
+  async expenseChart(user: User['id'], { range, monthIds }: { range: number[], monthIds: MonthDTO['id'][] }): Promise<ExpenseChartData[]> {
+    const result: ExpenseChartData[] = []
     const months = await this.monthRepo.createQueryBuilder('Month')
       .innerJoin('Month.year', 'Year')
       .innerJoin('Year.user', 'User')
@@ -624,7 +621,7 @@ export class AnalyticsService {
     for(const { id, month } of months) {
       const monthData: number[] = []
 
-      for(const date of result.labels) {
+      for(const date of range) {
         const dateData = await this.dataSource
           .query(`
             SELECT COUNT(*) AS count
@@ -634,14 +631,14 @@ export class AnalyticsService {
             WHERE 
               m.id = ${id}
               AND e.date IS NOT NULL
-              AND EXTRACT(DAY FROM e.date) = ${date}::INTEGER
+              AND EXTRACT(DAY FROM e.date) = ${date}
           `)
           .then(rows => +rows[0].count, err => { throw ServerException(`${err}`) })
         
         monthData.push(dateData)
       }
 
-      result.datasets.push({
+      result.push({
         label: MonthNames[month],
         data: monthData,
       })
