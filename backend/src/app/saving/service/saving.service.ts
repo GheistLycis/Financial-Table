@@ -126,7 +126,7 @@ export class SavingService implements BaseService<SavingDTO> {
       .getOne()
     if(!entity) throw NotFoundException('Caixinha não encontrada.')
 
-    await this.repo.softRemove(entity)
+    await this.repo.remove(entity)
 
     return Saving.toDTO(entity)
   }

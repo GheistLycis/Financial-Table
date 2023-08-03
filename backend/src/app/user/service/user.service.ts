@@ -83,7 +83,7 @@ export class UserService {
     })
     if(!entity) throw NotFoundException('Usuário não encontrado.')
 
-    await this.repo.softRemove(entity)
+    await this.repo.remove(entity)
 
     return User.toDTO(entity)
   }

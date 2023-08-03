@@ -135,7 +135,7 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
       .getOne()
     if(!entity) throw NotFoundException('Gasto fixo não encontrado.')
 
-    await this.repo.softRemove(entity)
+    await this.repo.remove(entity)
 
     return MonthlyExpense.toDTO(entity)
   }

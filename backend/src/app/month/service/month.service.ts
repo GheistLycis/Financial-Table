@@ -136,7 +136,7 @@ export class MonthService implements BaseService<MonthDTO> {
       ]
     })
 
-    await this.repo.softRemove(entity)
+    await this.repo.remove(entity)
     
     await this.cacheService.reset()
 

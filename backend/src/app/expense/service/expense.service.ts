@@ -191,7 +191,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
       .getOne()
     if(!entity) throw NotFoundException('Registro não encontrado.')
 
-    await this.repo.softRemove(entity)
+    await this.repo.remove(entity)
     
     // await this.cacheService.reset()
 

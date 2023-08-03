@@ -60,7 +60,6 @@ export class AnalyticsService {
           JOIN monthly_incomes mi ON mi."monthId" = c."monthId"
           WHERE 
             c.id = ${category.id}
-            AND mi."deletedAt" IS NULL
             AND (mi."date" IS NULL OR mi."date" <= CURRENT_DATE)
         ) total_monthly_incomes,
         (
@@ -69,7 +68,6 @@ export class AnalyticsService {
           JOIN monthly_expenses me ON me."monthId" = c."monthId"
           WHERE 
             c.id = ${category.id}
-            AND me."deletedAt" IS NULL
             AND (me."date" IS NULL OR me."date" <= CURRENT_DATE)
         ) total_monthly_expenses
         WHERE 
@@ -89,7 +87,6 @@ export class AnalyticsService {
         WHERE 
           c.id = ${category.id}
           AND u.id = ${user}
-          AND e."deletedAt" IS NULL
       `)
       .then(rows => originalAvailable - rows[0].totalexpenses, err => { throw ServerException(`${err}`) })
     
@@ -143,7 +140,6 @@ export class AnalyticsService {
               JOIN months m ON mi."monthId" = m.id
               WHERE 
                 m.id = ${id}
-                AND mi."deletedAt" IS NULL
                 AND (mi."date" IS NULL OR mi."date" <= CURRENT_DATE)
             ) total_incomes,
             (
@@ -152,7 +148,6 @@ export class AnalyticsService {
               JOIN months m ON me."monthId" = m.id
               WHERE 
                 m.id = ${id}
-                AND me."deletedAt" IS NULL
                 AND (me."date" IS NULL OR me."date" <= CURRENT_DATE)
             ) total_monthly_expenses,
             (
@@ -160,9 +155,7 @@ export class AnalyticsService {
               FROM expenses e
               JOIN categories c ON e."categoryId" = c.id
               JOIN months m ON c."monthId" = m.id
-              WHERE 
-                m.id = ${id}
-                AND e."deletedAt" IS NULL
+              WHERE m.id = ${id}
             ) total_expenses
           WHERE m.id = ${id}
         `)
@@ -195,9 +188,7 @@ export class AnalyticsService {
           SELECT COALESCE(SUM(e.value), 0) AS total
           FROM expenses e
           JOIN categories c ON e."categoryId" = c.id
-          WHERE 
-            c.id = ${id}
-            AND e."deletedAt" IS NULL
+          WHERE c.id = ${id}
         `)
         .then(rows => Number(rows[0].total), err => { throw ServerException(`${err}`) })
 
@@ -287,7 +278,6 @@ export class AnalyticsService {
             JOIN months m ON mi."monthId" = m.id
             WHERE 
               m.id = ${month.id}
-              AND mi."deletedAt" IS NULL
               AND (mi."date" IS NULL OR mi."date" <= CURRENT_DATE)
           ) total_incomes,
           (
@@ -296,7 +286,6 @@ export class AnalyticsService {
             JOIN months m ON me."monthId" = m.id
             WHERE 
               m.id = ${month.id}
-              AND me."deletedAt" IS NULL
               AND (me."date" IS NULL OR me."date" <= CURRENT_DATE)
           ) total_monthly_expenses,
           (
@@ -304,9 +293,7 @@ export class AnalyticsService {
             FROM expenses e
             JOIN categories c ON e."categoryId" = c.id
             JOIN months m ON c."monthId" = m.id
-            WHERE 
-              m.id = ${month.id}
-              AND e."deletedAt" IS NULL
+            WHERE m.id = ${month.id}
           ) total_expenses
         WHERE m.id = ${month.id}
       `)
@@ -366,9 +353,7 @@ export class AnalyticsService {
         FROM expenses e
         JOIN categories c ON e."categoryId" = c.id
         JOIN months m ON c."monthId" = m.id
-        WHERE 
-          m.id = ${actualMonth.id}
-          AND e."deletedAt" IS NULL
+        WHERE m.id = ${actualMonth.id}
       `)
       .then(rows => Number(rows[0].average), err => { throw ServerException(`${err}`) })
       
@@ -378,9 +363,7 @@ export class AnalyticsService {
         FROM expenses e
         JOIN categories c ON e."categoryId" = c.id
         JOIN months m ON c."monthId" = m.id
-        WHERE 
-          m.id = ${previousMonth.id}
-          AND e."deletedAt" IS NULL
+        WHERE m.id = ${previousMonth.id}
       `)
       .then(rows => Number(rows[0].average), err => { throw ServerException(`${err}`) })
       
@@ -404,9 +387,7 @@ export class AnalyticsService {
         FROM expenses e
         JOIN categories c ON e."categoryId" = c.id
         JOIN months m ON c."monthId" = m.id
-        WHERE 
-          m.id = ${actualMonth.id}
-          AND e."deletedAt" IS NULL
+        WHERE m.id = ${actualMonth.id}
       `)
       .then(rows => Number(rows[0].average), err => { throw ServerException(`${err}`) })
       
@@ -420,7 +401,6 @@ export class AnalyticsService {
         WHERE
           m.month < ${actualMonth.month}
           AND y.id = ${actualMonth.year.id}
-          AND e."deletedAt" IS NULL
       `)
       .then(rows => Number(rows[0].average), err => { throw ServerException(`${err}`) })
       
@@ -453,7 +433,6 @@ export class AnalyticsService {
             JOIN years y ON m."yearId" = y.id
             WHERE 
               y.id = ${year.id}
-              AND mi."deletedAt" IS NULL
               AND (mi."date" IS NULL OR mi."date" <= CURRENT_DATE)
           ) total_incomes,
           (
@@ -463,7 +442,6 @@ export class AnalyticsService {
             JOIN years y ON m."yearId" = y.id
             WHERE 
               y.id = ${year.id}
-              AND me."deletedAt" IS NULL
               AND (me."date" IS NULL OR me."date" <= CURRENT_DATE)
           ) total_monthly_expenses
         WHERE y.id = ${year.id}
@@ -478,7 +456,6 @@ export class AnalyticsService {
         JOIN years y ON m."yearId" = y.id
         WHERE 
           y.id = ${year.id}
-          AND mi."deletedAt" IS NULL
           AND (mi."date" IS NULL OR mi."date" <= CURRENT_DATE)
       `)
       .then(rows => Number(rows[0].monthlyincomes), err => { throw ServerException(`${err}`) })
@@ -491,7 +468,6 @@ export class AnalyticsService {
         JOIN years y ON m."yearId" = y.id
         WHERE 
           y.id = ${year.id}
-          AND me."deletedAt" IS NULL
           AND (me."date" IS NULL OR me."date" <= CURRENT_DATE)
       `)
       .then(rows => Number(rows[0].monthlyexpenses), err => { throw ServerException(`${err}`) })
@@ -503,9 +479,7 @@ export class AnalyticsService {
         JOIN categories c ON e."categoryId" = c.id
         JOIN months m ON c."monthId" = m.id
         JOIN years y ON m."yearId" = y.id
-        WHERE 
-          y.id = ${year.id}
-          AND e."deletedAt" IS NULL
+        WHERE y.id = ${year.id}
       `)
       .then(rows => Number(rows[0].expenses), err => { throw ServerException(`${err}`) })
 
@@ -539,7 +513,6 @@ export class AnalyticsService {
         JOIN months m ON m.id = c."monthId"
         WHERE 
           m.id IN (${months.map(({ id }) => id)})
-          AND c."deletedAt" IS NULL
         GROUP BY c.name, c.color
       `)
       .then((categories: { name: string, color: string }[]) => {
@@ -568,7 +541,6 @@ export class AnalyticsService {
             WHERE 
               c.name = '${name}'
               AND m.id = ${id}
-              AND e."deletedAt" IS NULL
           `)
           .then(rows => +rows[0].sum, err => { throw ServerException(`${err}`) })
 
@@ -616,7 +588,6 @@ export class AnalyticsService {
             WHERE 
               m.id = ${month.id}
               AND t.id = ${id}
-              AND e."deletedAt" IS NULL
           `)
           .then(row => {
             return {
@@ -675,7 +646,6 @@ export class AnalyticsService {
               m.id = ${id}
               AND e.date IS NOT NULL
               AND EXTRACT(DAY FROM e.date) = ${date}::INTEGER
-              AND e."deletedAt" IS NULL
           `)
           .then(rows => +rows[0].count, err => { throw ServerException(`${err}`) })
         

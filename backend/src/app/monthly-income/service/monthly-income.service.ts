@@ -135,7 +135,7 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
       .getOne()
     if(!entity) throw NotFoundException('Entrada mensal não encontrada.')
 
-    await this.repo.softRemove(entity)
+    await this.repo.remove(entity)
 
     return MonthlyIncome.toDTO(entity)
   }

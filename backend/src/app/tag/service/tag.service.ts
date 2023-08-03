@@ -114,7 +114,7 @@ export class TagService implements BaseService<TagDTO> {
       .getOne()
     if(!entity) throw NotFoundException('Tag não encontrada.')
 
-    await this.repo.softRemove(entity)
+    await this.repo.remove(entity)
 
     return Tag.toDTO(entity)
   }

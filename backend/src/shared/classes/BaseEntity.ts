@@ -1,4 +1,4 @@
-import { CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, RelationOptions, UpdateDateColumn } from "typeorm"
+import { CreateDateColumn, PrimaryGeneratedColumn, RelationOptions, UpdateDateColumn } from "typeorm"
 
 export default class BaseEntity {
   @PrimaryGeneratedColumn()
@@ -10,8 +10,8 @@ export default class BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date
 
-  @DeleteDateColumn()
-  deletedAt: Date
+  // @DeleteDateColumn()
+  // deletedAt: Date
 }
 
 export const manyToOneOptions: RelationOptions = {
