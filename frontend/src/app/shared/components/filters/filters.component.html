@@ -14,7 +14,7 @@
 
 <ng-template #filter let-condition="condition" let-items let-title="title" let-model="model" let-label="label" let-route="route">
     <div *ngIf="condition">
-        <label class="form-label">{{ title }}</label>
+        <label class="form-label mb-0">{{ title }}</label>
         <ng-select
             [items]="items | async"
             [ngModel]="model | async"

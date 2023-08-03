@@ -18,12 +18,18 @@ ng-select {
     background: $palette-tertiary;
     border: 1px solid $palette-primary;
     border-radius: 10px;
+    cursor: pointer !important;
+
+    input {
+      cursor: pointer !important;
+    }
     
     .ng-value-container {
       color: $palette-secondary;
       padding-left: 8px;
       gap: 8px;
       height: 30px;
+      cursor: pointer !important;
 
       .ng-value {
         display: flex;
