@@ -3,31 +3,32 @@
 .saving {
   min-width: 300px;
   max-width: 800px;
+
+  .footer {
+    border-top: 1px solid transparent;
+  }
   
   &.active {
-    border: 2px solid $palette-highlight;
-    color: $palette-highlight;
+    border-color: $palette-highlight;
 
     .footer {
-      border-top: 1px solid $palette-highlight;
+      border-color: $palette-highlight;
     }
   }
   
   &.completed {
-    border: 2px solid $green;
-    color: $green;
+    border-color: $green;
 
     .footer {
-      border-top: 1px solid $green;
+      border-color: $green;
     }
   }
 
   &.canceled {
     border: 2px dashed $red;
-    color: $red;
 
     .footer {
-      border-top: 1px solid $red;
+      border-color: $red;
     }
   }
 

@@ -15,8 +15,11 @@
   
 
   <div class="d-flex flex-column gap-20 px-4">
-    <div [ngClass]="{'text-red': actualBalance <= 0}">
-      <h5>Saldo atual: R${{ actualBalance | number:'.2-2':'pt' }}</h5>
+    <div>
+      <h5>
+          Saldo atual: 
+          <span [ngClass]="{'text-red': actualBalance <= 0}">R${{ actualBalance | number:'.2-2':'pt' }}</span>
+        </h5>
     </div>
     
     <div *ngIf="!loading && !savings.length" class="saving card shadow px-3 py-4 w-75">
