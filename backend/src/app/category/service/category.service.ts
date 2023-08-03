@@ -123,7 +123,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
       relations: ['expenses']
     })
 
-    await this.repo.softRemove(entity)
+    await this.repo.remove(entity)
     
     await this.cacheService.reset()
 
