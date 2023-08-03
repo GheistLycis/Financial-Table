@@ -77,7 +77,7 @@
                 <h4 *ngIf="balance == '--'">
                     {{ balance }}
                 </h4>
-                <h4 *ngIf="balance != '--'" [ngClass]="balance > 0 ? 'text-success' : 'text-danger'">
+                <h4 *ngIf="balance != '--'" [ngClass]="balance > 0 ? 'text-green' : 'text-red'">
                     <b>R${{ balance | number:'.2-2':'pt' }}</b>
                 </h4>
             </ng-container>
@@ -87,22 +87,20 @@
     <ngb-carousel>
         <ng-template ngbSlide>
             <div class="picsum-img-wrapper">
-                <h4 class="italic">Categorias</h4>
+                <h3 class="italic">Categorias</h3>
                 <div class="cards d-flex gap-10">
                     <div *ngFor="let remaining of categoriesRemaining" class="category card shadow p-3">
                         <h4>{{ remaining.category.name | uppercase }}</h4>
                         <div>
-                            <h5>
+                            <h6>
                                 Reservado: R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
                                 ({{ remaining.category.percentage | number:'.0-2' }}%)
-                            </h5>
-                            <h5>
-                                <b>
-                                    Restante: R$
-                                    <span [ngClass]="remaining.remaining > 0 ? 'text-success' : 'text-danger'">
-                                        {{ remaining.remaining | number:'.2-2':'pt' }}
-                                    </span>
-                                </b>
+                            </h6>
+                            <h5 class="bold">
+                                Restante:
+                                <span [ngClass]="remaining.remaining > 0 ? 'text-green' : 'text-red'">
+                                    R${{ remaining.remaining | number:'.2-2':'pt' }}
+                                </span>
                             </h5>
                         </div>
                     </div>
@@ -112,7 +110,7 @@
 
         <ng-template ngbSlide>
             <div class="picsum-img-wrapper">
-                <h4 class="italic">Gastos</h4>
+                <h3 class="italic">Gastos</h3>
                 <div class="cards d-flex mb-2 gap-20">                    
                     <div class="card shadow p-3">
                         <ng-container *ngTemplateOutlet="
@@ -130,7 +128,7 @@
                     
                     <div class="card shadow p-3">
                         <div>
-                            <h5>Mais caros</h5>
+                            <h5>MAIS CAROS</h5>
                         </div>
                         <div class="most-expensive d-flex flex-column gap-10">
                             <ng-container *ngTemplateOutlet="
@@ -156,18 +154,21 @@
     <div *ngIf="expenses == '--'" class="analytics-data">
         <h4>{{ expenses }}</h4>
     </div>
-    <div *ngIf="expenses > 0" [style.color]="'red'" class="analytics-data">
-        <img src="../../../assets/icons/arrow-up.svg" class="svg-arrow-up">
-        <h4>{{ expenses | number:'.0-1' }}%</h4>
+    <div *ngIf="expenses > 0" class="analytics-data">
+        <img src="../../../assets/icons/arrow-up.svg" class="filter-red">
+        <h4 class="text-red">{{ expenses | number:'.0-1' }}%</h4>
     </div>
-    <div *ngIf="expenses <= 0" [style.color]="'green'" class="analytics-data">
-        <img src="../../../assets/icons/arrow-down.svg" class="svg-arrow-down">
-        <h4>{{ expenses | number:'.0-1' }}%</h4>
+    <div *ngIf="expenses <= 0" class="analytics-data">
+        <img src="../../../assets/icons/arrow-down.svg" class="filter-green">
+        <h4 class="text-green">{{ expenses | number:'.0-1' }}%</h4>
     </div>
 </ng-template>
 
 <ng-template #mostExpensive let-title="title" let-data>
-    <h6>{{ title | uppercase }}:
+    <h6>
+        <span class="bold">
+            {{ title | uppercase }}:
+        </span>
         <span *ngIf="data?.name && data.name != '--'">
             {{ data.name }} (R${{ data.total | number:'.2-2':'pt' }})
         </span>

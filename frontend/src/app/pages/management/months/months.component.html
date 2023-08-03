@@ -76,10 +76,10 @@
                 <td>
                   {{ history.available | number:'.2-2':'pt' }} ({{ history.month.available | number:'.0-2':'pt' }}%)
                 </td>
-                <td [ngClass]="{'text-danger': history.expenses > history.available}">
+                <td [ngClass]="{'text-red': history.expenses > history.available}">
                   {{ history.expenses | number:'.2-2':'pt' }}
                 </td>
-                <td [ngClass]="{'text-danger': history.balance <= 0}">
+                <td [ngClass]="{'text-red': history.balance <= 0}">
                   {{ history.balance | number:'.2-2':'pt' }}
                 </td>
                 <td class="actions">

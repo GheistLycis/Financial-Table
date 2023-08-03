@@ -1,4 +1,10 @@
 table {
+  &.table-hover {
+    td {
+      transition-duration: .2s;
+    }
+  }
+
   th {
     padding: 10px;
     background-color: rgba($palette-tertiary, 0.5);
@@ -26,17 +32,6 @@ table {
       width: 0;
     }
   }
-  
-  .color-label {
-    width: 80px;
-    height: 25px;
-    padding: 4px;
-    
-    > div {
-      width: 100%;
-      height: 100%;
-    }
-  }
 
   tr {
     color: $palette-tertiary !important;
@@ -62,6 +57,17 @@ table {
           filter: $filter-tertiary;
         }
       }
+    }
+  }
+
+  .color-label {
+    width: 80px;
+    height: 25px;
+    padding: 4px;
+    
+    > div {
+      width: 100%;
+      height: 100%;
     }
   }
 }

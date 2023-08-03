@@ -1,18 +1,59 @@
-// FILTERS
+// VARIABLES
+.text-primary {
+  color: $palette-primary;
+}
+.text-secondary {
+  color: $palette-secondary;
+}
+.text-tertiary {
+  color: $palette-tertiary;
+}
+.text-highlight {
+  color: $palette-highlight;
+}
+.text-green {
+  color: $green;
+}
+.text-red {
+  color: $red;
+}
+
+.bg-primary {
+  background-color: $palette-primary;
+}
+.bg-secondary {
+  background-color: $palette-secondary;
+}
+.bg-tertiary {
+  background-color: $palette-tertiary;
+}
+.bg-highlight {
+  background-color: $palette-highlight;
+}
+.bg-green {
+  background-color: $green;
+}
+.bg-red {
+  background-color: $red;
+}
+
 .filter-primary {
   filter: $filter-primary;
 }
-
 .filter-secondary {
   filter: $filter-secondary;
 }
-
 .filter-tertiary {
   filter: $filter-tertiary;
 }
-
 .filter-highlight {
   filter: $filter-highlight;
+}
+.filter-green {
+  filter: $filter-green;
+}
+.filter-red {
+  filter: $filter-red;
 }
 
 
