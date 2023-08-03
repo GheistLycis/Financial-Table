@@ -10,13 +10,13 @@ const routes: Routes = [
     component: AuthLayoutComponent,
     children: [
       {
-        path: '/',
+        path: '',
         loadChildren: () => import('./layouts/auth-layout/auth-layout.module').then(m => m.AuthLayoutModule)
       },
     ]
   },
   {
-    path: '/',
+    path: '',
     component: DefaultLayoutComponent,
     canActivate: [AuthGuard],
     children: [
@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   { 
     path: '**', 
-    redirectTo: '/',
+    redirectTo: '',
     pathMatch: 'full'
   },
 ]
