@@ -32,7 +32,8 @@
   }
 
   button {
-    background-color: transparent;
+    background-color: $palette-primary;
+    font-weight: bold;
     transition: .3s;
 
     &.set-active {

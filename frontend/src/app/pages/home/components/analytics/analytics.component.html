@@ -73,7 +73,7 @@
             ngbTooltip="Suas economias até o momento."
             class="pointer">
             <ng-container *ngIf="actualBalance$ | async as balance">
-                <h2 *ngIf="balance != '--'" [ngClass]="balance > 0 ? 'text-green' : 'text-red'" class="bold">
+                <h2 *ngIf="balance != '--'" [ngClass]="balance > 0 ? 'text-green' : 'text-red'" class="actual-balance bold">
                     R${{ balance | number:'.2-2':'pt' }}
                 </h2>
             </ng-container>

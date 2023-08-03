@@ -20,6 +20,14 @@
     ng-select {
       width: 180px;
     }
+
+    .actual-balance {
+      transition-duration: .3s;
+      
+      &:hover {
+        filter: brightness(0.7);
+      }
+    }
   }
 }
 
