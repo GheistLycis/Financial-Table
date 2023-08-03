@@ -7,7 +7,7 @@
 
     <ul class="nav-items d-flex align-items-center justify-content-around m-0">
         <li *ngFor="let item of navItems" class="mr-4">
-            <a *ngIf="item.type == 'link'" [routerLink]="item.link">
+            <a *ngIf="item.type == 'link'" [routerLink]="item.link" class="py-3 px-4">
                 {{ item.title }}
             </a>
             <div 
@@ -19,7 +19,7 @@
                     ngbDropdownToggle
                     (mouseenter)="ddManagement.open()"
                     (mouseleave)="ddManagement.close()"
-                    class="btn">
+                    class="btn py-3 px-4">
                     {{ item.title }}
                 </button>
                 <div 
