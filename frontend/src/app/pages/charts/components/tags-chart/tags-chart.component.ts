@@ -3,10 +3,11 @@ import { ChartConfiguration } from 'chart.js';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import { Subject, map } from 'rxjs';
-import TagChartData from 'src/app/shared/interfaces/TagChartData';
+import { TagChartData } from 'src/app/shared/interfaces/TagChartData';
 import { RoundPipe } from 'src/app/shared/pipes/round/round.pipe';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
 import { Palette } from 'src/app/shared/enums/Palette';
+import HexToRgba from 'src/app/shared/classes/HexToRgba';
 
 
 @Component({
@@ -99,7 +100,19 @@ export class TagsChartComponent {
 
   getData(months: MonthDTO['id'][]): void {
     this.analyticsService.tagChart(months).pipe(
-      map(({ data }) => data)
+      map(({ data }) => {
+        const { tags, datasets } = data
+        
+        return {
+          labels: tags.map(({ name }) => name),
+          datasets: datasets.map(({ data, label }) => ({
+              data,
+              label,
+              backgroundColor: tags.map(({ color }) => HexToRgba.convert(color, 0.5)),
+              borderColor: tags.map(({ color }) => color)
+            }))
+        }
+      })
     ).subscribe(data => this.data$.next(data))
   }
 }

@@ -5,7 +5,7 @@ import MonthDTO from 'src/app/shared/DTOs/month';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
 import { Subject, map } from 'rxjs';
 import { RoundPipe } from 'src/app/shared/pipes/round/round.pipe';
-import { RawCategoryChartData, CategoryChartData } from 'src/app/shared/interfaces/CategoryChartData';
+import { CategoryChartData } from 'src/app/shared/interfaces/CategoryChartData';
 import { Palette } from 'src/app/shared/enums/Palette';
 import HexToRgba from 'src/app/shared/classes/HexToRgba';
 
@@ -86,14 +86,12 @@ export class CategoriesChartComponent {
         
         return {
           labels: categories.map(({ name }) => name),
-          datasets: datasets.map(({ data, label }) => {
-            return {
+          datasets: datasets.map(({ data, label }) => ({
               data,
               label,
               backgroundColor: categories.map(({ color }) => HexToRgba.convert(color, 0.5)),
               borderColor: categories.map(({ color }) => color)
-            }
-          })
+            }))
         }
       })
     ).subscribe(data => this.data$.next(data))

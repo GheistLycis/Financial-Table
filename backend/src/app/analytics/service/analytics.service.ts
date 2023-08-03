@@ -555,7 +555,7 @@ export class AnalyticsService {
 
   async tagChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<TagChartData> {
     const result: TagChartData = {
-      labels: [],
+      tags: [],
       datasets: []
     }
     const months = await this.monthRepo.createQueryBuilder('Month')
@@ -570,13 +570,15 @@ export class AnalyticsService {
       .getMany()
     const data = []
 
+    result.tags = tags.map(({ name, color }) => ({ name, color }))
+
     for(const month of months) {
       const monthData = {
-        tagsData: [],
+        data: [],
         month: month.month,
       }
 
-      for(const { id, name, color } of tags) {
+      for(const { id } of tags) {
         const tagData = await this.dataSource
           .query(`
             SELECT COALESCE(SUM(e."value"), 0) AS sum
@@ -589,33 +591,20 @@ export class AnalyticsService {
               m.id = ${month.id}
               AND t.id = ${id}
           `)
-          .then(row => {
-            return {
-              tag: name,
-              color: color,
-              sum: +row[0].sum
-            }
-          },
-          err => { 
-            throw ServerException(`${err}`) 
-          })
+          .then(row => +row[0].sum, err => { throw ServerException(`${err}`) })
 
-        monthData.tagsData.push(tagData)
+        monthData.data.push(tagData)
       }
 
       data.push(monthData)
     }
 
-    data.forEach(({ tagsData, month }) => {
+    data.forEach(({ data, month }) => {
       result.datasets.push({
-        data: tagsData.map(({ sum }) => sum),
         label: MonthNames[month],
-        backgroundColor: tagsData.map(({ color }) => color),
-        borderColor: tagsData.map(({ color }) => color),
+        data,
       })
     })
-
-    result.labels = tags.map(({ name }) => name)
 
     return result
   } 

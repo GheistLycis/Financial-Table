@@ -1,11 +1,12 @@
 import TagDTO from "src/app/tag/Tag.dto"
 
 export default interface TagChartData {
-    labels: TagDTO['name'][]
+    tags: { 
+        name: TagDTO['name']
+        color: TagDTO['color'] 
+    }[]
     datasets: { 
         data: number[]
         label: string
-        backgroundColor: TagDTO['color'][]
-        borderColor: TagDTO['color'][]
     }[]
 }
