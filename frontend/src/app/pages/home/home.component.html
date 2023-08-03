@@ -1,13 +1,13 @@
 <div class="container">
-    <section>
+    <section class="w-100">
         <app-analytics [update]="update"></app-analytics>
     </section>
     
-    <section>
+    <section class="w-100">
         <app-expenses (expensesUpdated)="update = update + 1"></app-expenses>
     </section>
 
-    <section>
+    <section class="w-100">
         <app-calendar></app-calendar>
     </section>
 </div>

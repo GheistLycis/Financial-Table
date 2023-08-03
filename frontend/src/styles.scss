@@ -28,7 +28,7 @@ body {
     position: relative;
     font-family: 'Overpass', sans-serif;
     color: $palette-tertiary;
-    background: linear-gradient(190deg, rgba($palette-primary, 1) 30%, rgba($palette-secondary, 1) 90%);
+    background: linear-gradient(200deg, $palette-primary 30%, $palette-secondary 90%);
     caret-color: $palette-primary;
 }
 
