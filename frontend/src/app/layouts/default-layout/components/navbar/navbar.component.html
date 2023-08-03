@@ -1,13 +1,17 @@
 <nav class="shadow w-100 d-flex align-items-center justify-content-between">
     <div class="logo">
         <a routerLink="">
-            <img src="../../../assets/icons/graph.svg">
+            <img src="../../../assets/icons/graph.svg" [ngClass]="{'filter-highlight': router.url == '/'}">
         </a>
     </div>
 
     <ul class="nav-items d-flex align-items-center justify-content-around m-0">
         <li *ngFor="let item of navItems" class="mr-4">
-            <a *ngIf="item.type == 'link'" [routerLink]="item.link" class="py-3 px-4">
+            <a 
+                *ngIf="item.type == 'link'" 
+                [routerLink]="item.link" 
+                class="py-3 px-4" 
+                [ngClass]="{'filter-highlight': router.url == ('/' + item.link)}">
                 {{ item.title }}
             </a>
             <div 
@@ -19,7 +23,8 @@
                     ngbDropdownToggle
                     (mouseenter)="ddManagement.open()"
                     (mouseleave)="ddManagement.close()"
-                    class="btn py-3 px-4">
+                    class="btn py-3 px-4"
+                    [ngClass]="{'filter-highlight': router.url.startsWith('/' + item.link)}">
                     {{ item.title }}
                 </button>
                 <div 
@@ -29,7 +34,7 @@
                     <a 
                         ngbDropdownItem 
                         *ngFor="let child of item.children" 
-                        [routerLink]="child.link"
+                        [routerLink]="item.link + '/' + child.link"
                     >
                         {{ child.title }}
                     </a>

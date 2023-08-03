@@ -15,6 +15,7 @@ type link = {
 
 type menu = {
   type: 'menu'
+  link: string
   children: { title: string, link: string }[]
 }
 
@@ -40,18 +41,19 @@ export class NavbarComponent implements OnInit {
     {
       type: 'menu',
       title: 'Gerenciar',
+      link: 'gerenciar',
       children: [
         {
           title: 'Anos',
-          link: 'gerenciar/anos'
+          link: 'anos'
         },
         {
           title: 'Meses',
-          link: 'gerenciar/meses'
+          link: 'meses'
         },
         {
           title: 'Tags',
-          link: 'gerenciar/tags'
+          link: 'tags'
         },
       ],
     },
@@ -59,11 +61,12 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private sessionService: SessionService,
-    private router: Router,
+    public router: Router,
   ) {}
 
   ngOnInit(): void {
     this.userName = this.sessionService.getSession().user.name
+    console.log(this.router.url)
   }
 
   logout(): void {
