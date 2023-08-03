@@ -18,7 +18,6 @@ import { MonthNames } from 'src/shared/enums/MonthNames';
 import TagChartData from 'src/shared/interfaces/TagChartData';
 import { Tag } from 'src/app/tag/Tag';
 import ExpenseChartData from 'src/shared/interfaces/ExpenseChartData';
-import HexToRgba from 'src/shared/classes/HexToRgba';
 
 
 @Injectable()
@@ -522,7 +521,7 @@ export class AnalyticsService {
 
   async categoryChart(user: User['id'], monthIds: MonthDTO['id'][]): Promise<CategoryChartData> {
     const result: CategoryChartData = {
-      labels: [],
+      categories: [],
       datasets: []
     }
     const months = await this.monthRepo.createQueryBuilder('Month')
@@ -550,16 +549,13 @@ export class AnalyticsService {
           return category.color == val.color
         })
       })
-    const colors = categories.map(({ color }) => color)
-
-    result.labels = categories.map(({ name }) => name)
+    
+    result.categories = categories
 
     for(const { id, month } of months) {
       const dataset = {
         data: [],
         label: MonthNames[month],
-        backgroundColor: colors.map(color => HexToRgba.convert(color, 0.5)),
-        borderColor: colors
       }
 
       for(const { name } of categories) {
@@ -643,7 +639,7 @@ export class AnalyticsService {
       result.datasets.push({
         data: tagsData.map(({ sum }) => sum),
         label: MonthNames[month],
-        backgroundColor: tagsData.map(({ color }) => HexToRgba.convert(color, 0.5)),
+        backgroundColor: tagsData.map(({ color }) => color),
         borderColor: tagsData.map(({ color }) => color),
       })
     })

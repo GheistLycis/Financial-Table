@@ -1,3 +1,13 @@
+export default class HexToRgba {
+    static convert(hex: string, opacity?: number): string {
+        const hashlessHex = hex[0] == '#' ? hex.slice(1) : hex
+        const hexObject = parseHex(hashlessHex)
+        const decimalObject = hexesToDecimals(hexObject)
+
+        return formatRgb(decimalObject, opacity)
+    }
+}
+
 type hexObj<T = string | number> = {
     r: T
     g: T
@@ -37,14 +47,4 @@ function formatRgb(decimalObject: hexObj<number>, alpha?: any): string {
     if(!isNaN(parseFloat(alpha)) && isFinite(alpha)) a = alpha
 
     return `rgba(${r}, ${g}, ${b}, ${a})`
-}
-
-export default class HexToRgba {
-    static convert(hex: string, opacity?: number): string {
-        const hashlessHex = hex[0] == '#' ? hex.slice(1) : hex
-        const hexObject = parseHex(hashlessHex)
-        const decimalObject = hexesToDecimals(hexObject)
-
-        return formatRgb(decimalObject, opacity)
-    }
 }

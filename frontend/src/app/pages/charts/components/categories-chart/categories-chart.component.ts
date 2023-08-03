@@ -5,8 +5,9 @@ import MonthDTO from 'src/app/shared/DTOs/month';
 import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
 import { Subject, map } from 'rxjs';
 import { RoundPipe } from 'src/app/shared/pipes/round/round.pipe';
-import CategoryChartData from 'src/app/shared/interfaces/CategoryChartData';
+import { RawCategoryChartData, CategoryChartData } from 'src/app/shared/interfaces/CategoryChartData';
 import { Palette } from 'src/app/shared/enums/Palette';
+import HexToRgba from 'src/app/shared/classes/HexToRgba';
 
 
 @Component({
@@ -80,7 +81,21 @@ export class CategoriesChartComponent {
 
   getData(months: MonthDTO['id'][]): void {
     this.analyticsService.categoryChart(months).pipe(
-      map(({ data }) => data)
+      map(({ data }) => {
+        const { categories, datasets } = data
+        
+        return {
+          labels: categories.map(({ name }) => name),
+          datasets: datasets.map(({ data, label }) => {
+            return {
+              data,
+              label,
+              backgroundColor: categories.map(({ color }) => HexToRgba.convert(color, 0.5)),
+              borderColor: categories.map(({ color }) => color)
+            }
+          })
+        }
+      })
     ).subscribe(data => this.data$.next(data))
   }
 }
