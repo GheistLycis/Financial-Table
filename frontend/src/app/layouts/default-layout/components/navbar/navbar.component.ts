@@ -66,7 +66,6 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.userName = this.sessionService.getSession().user.name
-    console.log(this.router.url)
   }
 
   logout(): void {

@@ -1,3 +1,4 @@
+// COLORS
 $palette-primary: #222831;
 $palette-secondary: #393E46;
 $palette-tertiary: #EEEEEE;
@@ -12,4 +13,11 @@ $filter-highlight: invert(70%) sepia(96%) saturate(271%) hue-rotate(346deg) brig
 $filter-green: invert(92%) sepia(13%) saturate(1494%) hue-rotate(47deg) brightness(100%) contrast(103%);
 $filter-red: invert(16%) sepia(90%) saturate(3464%) hue-rotate(351deg) brightness(91%) contrast(104%);
 
+
+// SIZES
 $field-height: 45px;
+
+
+// MEDIA QUERY
+$laptop: 1024px;
+$mobile: 768px;

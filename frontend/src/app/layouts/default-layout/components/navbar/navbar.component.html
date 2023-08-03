@@ -5,8 +5,8 @@
         </a>
     </div>
 
-    <ul class="nav-items d-flex align-items-center justify-content-around m-0">
-        <li *ngFor="let item of navItems" class="mr-4">
+    <ul class="nav-items d-flex align-items-center justify-content-between m-0">
+        <li *ngFor="let item of navItems">
             <a 
                 *ngIf="item.type == 'link'" 
                 [routerLink]="item.link" 
