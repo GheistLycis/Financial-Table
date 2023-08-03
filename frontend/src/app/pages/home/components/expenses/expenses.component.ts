@@ -200,7 +200,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     componentInstance.showConfirmButton = false
     componentInstance.title = 'Como funciona o gerenciamento de gastos?'
     componentInstance.text = `
-      <p>A ideia é que todo começo de mês você crie este mês (Gerenciar > Meses) para poder registrar os gastos dele aqui na tabela abaixo.</p>
+      <p>A ideia é que todo começo de mês você crie este mês (Gerenciar > Meses) para poder registrar os gastos dele aqui, na tabela abaixo.</p>
       <p>Ao registrar um gasto, você deverá indicar a qual categoria ele pertence para que a plataforma possa organizá-lo da melhor forma. Se quiser, também pode indicar o dia e atribuir Tags a este gasto para que sua organização fique ainda melhor - eles ajudam a construir análises melhores nos <b>gráficos e cards de análise.</b></p>
       <p>É simples:</p>
       <ol class="bold">

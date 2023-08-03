@@ -13,6 +13,10 @@
                 )
             </h2>
 
+            <app-tooltip icon="info" class="filter-highlight">
+                <b>DICA:</b> você pode alterar o mês e o ano para comparar com análises de meses passados.
+            </app-tooltip>
+
             <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
     
             <div [ngClass]="{'d-none': dropdown != 'year'}">
@@ -92,8 +96,13 @@
                                 Reservado: R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
                                 ({{ remaining.category.percentage | number:'.0-2' }}%)
                             </h5>
-                            <h5 [ngClass]="remaining.remaining > 0 ? 'text-success' : 'text-danger'">
-                                <b>Restante: R${{ remaining.remaining | number:'.2-2':'pt' }}</b>
+                            <h5>
+                                <b>
+                                    Restante: R$
+                                    <span [ngClass]="remaining.remaining > 0 ? 'text-success' : 'text-danger'">
+                                        {{ remaining.remaining | number:'.2-2':'pt' }}
+                                    </span>
+                                </b>
                             </h5>
                         </div>
                     </div>

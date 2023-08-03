@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { ExpensesModule } from './components/expenses/expenses.module';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { NgbCarouselModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 
 
@@ -25,6 +26,7 @@ import { NgbCarouselModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     NgbCarouselModule,
     NgbTooltip,
+    ComponentsModule,
   ]
 })
 export class HomeModule { }

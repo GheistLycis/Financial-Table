@@ -7,4 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class TooltipComponent {
   @Input() icon: 'help' | 'warning' | 'info' | 'security' = 'help'
+  @Input() class?: string
 }

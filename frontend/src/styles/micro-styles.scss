@@ -1,3 +1,21 @@
+// FILTERS
+.filter-primary {
+  filter: $filter-primary;
+}
+
+.filter-secondary {
+  filter: $filter-secondary;
+}
+
+.filter-tertiary {
+  filter: $filter-tertiary;
+}
+
+.filter-highlight {
+  filter: $filter-highlight;
+}
+
+
 // GENERAL
 .pointer {
   cursor: pointer;
@@ -18,10 +36,6 @@ img.action {
   &:hover {
     filter: $filter-tertiary;
   }
-}
-
-.bold {
-  font-weight: 700;
 }
 
 
@@ -46,7 +60,12 @@ img.action {
   gap: 20px;
 }
 
+
 // TEXT
+.bold {
+  font-weight: 700;
+}
+
 .italic {
   font-style: italic;
 }
