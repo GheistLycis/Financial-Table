@@ -1,10 +1,11 @@
 .card {
     background-color: $palette-secondary;
-    border-radius: 0;
+    border: 2px solid rgba($palette-tertiary, 0.33);
     transition-duration: .2s;
     transition-timing-function: ease-in-out;
 
     &:hover {
         transform: translate(3px, -5px);
+        background-color: rgba($palette-primary, 0.8);
     }
 }
