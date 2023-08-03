@@ -1,13 +1,15 @@
-<div class="container">
-    <section class="w-100">
+<div class="main d-flex flex-column">
+    <section class="container">
         <app-analytics [update]="update"></app-analytics>
     </section>
     
-    <section class="w-100">
-        <app-expenses (expensesUpdated)="update = update + 1"></app-expenses>
+    <section class="w-100 bg-primary py-5 shadow">
+        <div class="container">
+            <app-expenses (expensesUpdated)="update = update + 1"></app-expenses>
+        </div>
     </section>
 
-    <section class="w-100">
+    <section class="container">
         <app-calendar></app-calendar>
     </section>
 </div>
