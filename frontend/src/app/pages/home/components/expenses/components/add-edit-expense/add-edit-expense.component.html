@@ -17,7 +17,7 @@
     
     <form #formModel="ngForm">
       <div class="row mb-4">
-        <div class="col">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
           <input 
            [(ngModel)]="form.category"
             name="category"
@@ -32,7 +32,7 @@
       </div>
       
       <div class="row mb-4">
-        <div class="col">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
           <label for="value" class="mb-1 required">Valor</label>
           <input
             id="value"
@@ -49,7 +49,7 @@
             * Valor é obrigatório
           </div>
         </div>
-        <div class="col">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
           <label for="date" class="mb-1 required">
             Data
             <app-tooltip icon="info">

@@ -7,7 +7,7 @@
   <div class="modal-body">    
     <form #formModel="ngForm">      
       <div class="row mb-4">
-        <div *ngIf="action == 'adicionar'" class="col">
+        <div *ngIf="action == 'adicionar'" class="col-lg-4 col-md-6 col-sm-12 mb-4">
           <label for="year" class="form-label required">Ano</label>
           <ng-select
             id="year"
@@ -30,7 +30,7 @@
             </ng-template>  
           </ng-select>
         </div>
-        <div class="col">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
           <label for="month" class="mb-1 required">Mês</label>
           <select
             id="month"
@@ -52,7 +52,7 @@
             <option [ngValue]="12">Dezembro</option>
           </select>
         </div>
-        <div class="col">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
           <label for="available" class="mb-1 required">
             Porcentagem
             <app-tooltip>
