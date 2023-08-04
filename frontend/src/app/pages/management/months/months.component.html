@@ -28,34 +28,34 @@
         <ng-template ngbNavContent>
           <table class="table table-hover">
             <thead>
-              <th>Mês</th>
+              <th><span>Mês</span></th>
               <th>
-                Entradas
+                <span>Entradas</span>
                 <app-tooltip>
                   O total de renda que entrou durante o mês.
                 </app-tooltip>
               </th>
               <th>
-                Mensalidades
+                <span>Mensalidades</span>
                 <app-tooltip>
                   As mensalidades que você já deixa registradas como gastos previstos. São descontadas automaticamente das Entradas.
                 </app-tooltip>
               </th>
               <th>
-                Disponível
+                <span>Disponível</span>
                 <app-tooltip>
                   <p>Disponível para os seus Gastos Variáveis durante o mês. Considera a porcentagem reservada para o mês e as Mensalidades.</p>
                   <p><b>(Entradas * Porcentagem_Reservada) - Gastos_Fixos</b></p>
                 </app-tooltip>
               </th>
               <th>
-                Gastos variáveis
+                <span>Gastos variáveis</span>
                 <app-tooltip>
                   Todos seus gastos registrados na tabela de gastos até o momento.
                 </app-tooltip>
               </th>
               <th>
-                Saldo
+                <span>Saldo</span>
                 <app-tooltip>
                   <p>O balanço geral carregado através dos meses, herdando os saldos positivos e negativos dos meses anteriores. Reinicia todo ano.</p>
                   <p><b>(Disponível - Gastos_Variáveis) + Saldo_Do_Mês_Anterior</b></p>
@@ -70,12 +70,13 @@
             </tbody>
             <tbody>
               <tr *ngFor="let history of monthsHistories; first as first" class="table-active">
-                <td>{{ history.month.month | monthName }}</td>
+                <td>
+                  {{ history.month.month | monthName }}
+                  ({{ history.month.available | number:'.0-2':'pt' }}%)
+                </td>
                 <td>{{ history.monthlyIncomes | number:'.2-2':'pt' }}</td>
                 <td>{{ history.monthlyExpenses | number:'.2-2':'pt' }}</td>
-                <td>
-                  {{ history.available | number:'.2-2':'pt' }} ({{ history.month.available | number:'.0-2':'pt' }}%)
-                </td>
+                <td>{{ history.available | number:'.2-2':'pt' }}</td>
                 <td [ngClass]="{'text-red': history.expenses > history.available}">
                   {{ history.expenses | number:'.2-2':'pt' }}
                 </td>

@@ -1,3 +1,5 @@
+@import 'src/styles/variables';
+
 table {
   border-collapse: separate; 
   border-spacing: 0 20px;
@@ -5,4 +7,12 @@ table {
 
 button[ngbNavLink] {
   transform: translateY(20px);
+}
+
+@media only screen and (max-width: $laptop) {
+  th {
+    span {
+      display: none;
+    }
+  }
 }
