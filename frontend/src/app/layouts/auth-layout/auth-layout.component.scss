@@ -12,15 +12,10 @@
         max-width: 900px;
     }
 
-    a {
+    h1 {
         height: 65px;
-        font-style: italic;
         font-size: 50px;
-        font-weight: 300;
-        color: $palette-primary;
         position: relative;
-        text-decoration: none;
-        text-transform: uppercase;
     
         &::after {
             content: '';
@@ -28,7 +23,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 3px;
+            height: 6px;
             background-color: $palette-primary;
             transform: scale(0);
             transform-origin: center;
@@ -39,7 +34,7 @@
     img {
         filter: $filter-highlight brightness(0.95);
         opacity: 0;
-        animation: fade-in 1s ease-in 1.5s forwards;
+        animation: fade-in 1s ease-in 1s forwards;
     }
 
     .form-control {
