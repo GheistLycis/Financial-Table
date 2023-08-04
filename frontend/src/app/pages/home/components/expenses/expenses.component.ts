@@ -200,14 +200,16 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     componentInstance.showConfirmButton = false
     componentInstance.title = 'Como funciona o gerenciamento de gastos?'
     componentInstance.text = `
-      <p>A ideia é que todo começo de mês você crie este mês (Gerenciar > Meses) para poder registrar os gastos dele aqui, na tabela abaixo.</p>
-      <p>Ao registrar um gasto, você deverá indicar a qual categoria ele pertence para que a plataforma possa organizá-lo da melhor forma. Se quiser, também pode indicar o dia e atribuir Tags a este gasto para que sua organização fique ainda melhor - eles ajudam a construir análises melhores nos <b>gráficos e cards de análise.</b></p>
-      <p>É simples:</p>
-      <ol class="bold">
-        <li>Criar um mês.</li>
-        <li>Criar categorias para aquele mês.</li>
-        <li>Registrar entradas, mensalidades e gastos!</li>
-      </ol>
+      <p>Todo começo de mês, você deverá <b>criar o mês (Gerenciar > Meses)</b> para poder registrar os gastos dele aqui, na tabela abaixo.</p>
+      <p>Ao registrar um gasto, você deverá <b>indicar a qual mês e categoria ele pertence</b> para que a plataforma possa organizá-lo da melhor forma. Se quiser, também pode indicar o dia e atribuir Tags a este gasto para que sua organização fique ainda melhor - eles ajudam a construir <b>análises melhores nos gráficos e cards de análise.</b></p>
+      <div class="bg-tertiary py-2 px-4 mt-4 mb-2 bold">
+        <p>É simples:</p>
+        <ol class="mb-0">
+          <li>Criar um mês.</li>
+          <li>Criar categorias para aquele mês.</li>
+          <li>Registrar entradas, mensalidades e gastos!</li>
+        </ol>
+      </div>
       <small>
         <b>DICA:</b> para facilitar, ao invés de criar um mês do zero toda vez, você pode <b>DUPLICAR</b> o mês anterior, copiando todas suas categorias, entradas e mensalidades!
       </small>
