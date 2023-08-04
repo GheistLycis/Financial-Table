@@ -10,7 +10,7 @@
     </div>
 
     <div class="dashboard">
-        <div class="d-flex align-items-top justify-content-between gap-20 mb-4">
+        <div class="d-flex justify-content-between gap-20 mb-4">
             <div class="chart-box categories-chart card shadow">
                 <div class="chart">
                     <app-categories-chart [months]="filteredMonths$ | async"></app-categories-chart>
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div class="second-row">
             <div class="chart-box expenses-chart card shadow">
                 <div class="chart">
                     <app-expenses-chart [months]="filteredMonths$ | async"></app-expenses-chart>
