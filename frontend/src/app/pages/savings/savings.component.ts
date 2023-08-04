@@ -104,7 +104,15 @@ export class SavingsComponent implements OnInit {
   
   updateStatus(id: SavingDTO['id'], status: SavingDTO['status']): void {
     this.savingService.updateStatus(id, status).subscribe(() => {
-      this.toastr.success('Atualizado com sucesso!')
+      if(status == 'active') {
+        this.toastr.success('Caixinha reativada!')
+      }
+      if(status == 'completed') {
+        this.toastr.success('Caixinha finalizada!')
+      }
+      if(status == 'canceled') {
+        this.toastr.success('Caixinha suspensa!')
+      }
       
       this.listSavings()
     })

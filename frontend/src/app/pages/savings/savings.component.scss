@@ -1,75 +1,108 @@
 @import '../../../styles/variables.scss';
 
-.saving {
-  max-width: 1000px;
+.content {
+  padding: auto 24px;
 
-  .footer {
-    border-top: 1px solid transparent;
-  }
+  .saving {
+    max-width: 1000px;
   
-  &.active {
-    border-color: $palette-highlight;
-
     .footer {
-      border-color: $palette-highlight;
-    }
-  }
+      border-top: 1px solid transparent;
   
-  &.completed {
-    border-color: $green;
-
-    .footer {
-      border-color: $green;
+      .media-sm {
+        display: none;
+      }
     }
-  }
-
-  &.canceled {
-    border: 2px dashed $red;
-
-    .footer {
-      border-color: $red;
-    }
-  }
-
-  button {
-    background-color: $palette-primary;
-    font-weight: bold;
-    transition: .3s;
-
-    &.set-active {
+    
+    &.active {
       border-color: $palette-highlight;
-      color: $palette-highlight;
-
-      img {
-        filter: $filter-highlight;
+  
+      .footer {
+        border-color: $palette-highlight;
       }
     }
-
-    &.set-completed {
+    
+    &.completed {
       border-color: $green;
-      color: $green;
-
-      img {
-        filter: $filter-green;
+  
+      .footer {
+        border-color: $green;
       }
     }
-
-    &.set-canceled {
-      border-style: dashed;
-      border-color: $red;
-      color: $red;
-
-      img {
-        filter: $filter-red;
+  
+    &.canceled {
+      border: 2px dashed $red;
+  
+      .footer {
+        border-color: $red;
       }
     }
+  
+    button {
+      background-color: $palette-primary;
+      font-weight: bold;
+      transition: .3s;
+  
+      &.set-active {
+        border-color: $palette-highlight;
+        color: $palette-highlight;
+  
+        img {
+          filter: $filter-highlight;
+        }
+      }
+  
+      &.set-completed {
+        border-color: $green;
+        color: $green;
+  
+        img {
+          filter: $filter-green;
+        }
+      }
+  
+      &.set-canceled {
+        border-style: dashed;
+        border-color: $red;
+        color: $red;
+  
+        img {
+          filter: $filter-red;
+        }
+      }
+  
+      &:hover {
+        border-color: $palette-tertiary;
+        color: $palette-tertiary;
+  
+        img {
+          filter: $filter-tertiary;
+        }
+      }
+    }
+  }
+}
 
-    &:hover {
-      border-color: $palette-tertiary;
-      color: $palette-tertiary;
+@media only screen and (max-width: $tablet) {
+  .content {
+    padding: 20px 0 0;
 
+    .header {
+      flex-direction: column;
+    }
+  
+    .footer {
+      .media-md-lg {
+        display: none !important;
+      }
+  
+      .media-sm {
+        display: block !important;
+      }
+  
       img {
-        filter: $filter-tertiary;
+        width: 30px;
+        height: 30px;
       }
     }
   }

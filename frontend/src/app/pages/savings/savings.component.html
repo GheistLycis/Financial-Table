@@ -12,9 +12,7 @@
       ngbTooltip="Adicionar caixinha">
   </div>
   
-  
-
-  <div class="d-flex flex-column gap-20 px-4">
+  <div class="content d-flex flex-column gap-20">
     <div>
       <h5>
           Saldo atual: 
@@ -27,14 +25,16 @@
     </div>
     
     <div *ngFor="let saving of savings" class="saving card shadow px-3 py-4 w-100" [class]="saving.status">
-      <div class="d-flex justify-content-between">
-        <div class="italic">
+      <div class="header d-flex justify-content-between">
+        <div class="italic mb-2">
           <h3 class="mb-0">{{ saving.title }}</h3>
           <h3>R${{ saving.amount | number:'.2-2':'pt' }}</h3>
         </div>
-        <h5 *ngIf="saving.status == 'active'">
-          Prazo: {{ saving?.dueDate ? ( (saving.dueDate | date:'dd/MM/YY') + ' (' + (saving.dueDate | timeLeft) + ')' ) : 'Indefinido' }}
-        </h5>
+        <div>
+          <h5 *ngIf="saving.status == 'active'">
+            Prazo: {{ saving?.dueDate ? ( (saving.dueDate | date:'dd/MM/YY') + ' (' + (saving.dueDate | timeLeft) + ')' ) : 'Indefinido' }}
+          </h5>
+        </div>
       </div>
       
       <div class="px-4 py-2 mt-2 mb-3">
@@ -72,18 +72,40 @@
       </div>
       
       <div class="footer d-flex justify-content-end gap-15 pr-4 pt-4 mt-5">
-        <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'completed')" class="btn set-completed">
-          <img src="../../../../../assets/icons/accomplish.svg" width="30px">
-          Completar
-        </button>
-        <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'canceled')" class="btn set-canceled">
-          <img src="../../../../../assets/icons/suspend.svg" width="30px">
-          Suspender
-        </button>
-        <button *ngIf="saving.status != 'active'" (click)="updateStatus(saving.id, 'active')" class="btn set-active">
-          <img src="../../../../../assets/icons/power.svg" width="30px">
-          Reativar
-        </button>
+        <div class="media-md-lg">
+          <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'completed')" class="btn set-completed mx-2">
+            <img src="../../../../../assets/icons/accomplish.svg" width="30px">
+            Completar
+          </button>
+          <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'canceled')" class="btn set-canceled">
+            <img src="../../../../../assets/icons/suspend.svg" width="30px">
+            Suspender
+          </button>
+          <button *ngIf="saving.status != 'active'" (click)="updateStatus(saving.id, 'active')" class="btn set-active">
+            <img src="../../../../../assets/icons/power.svg" width="30px">
+            Reativar
+          </button>
+        </div>
+        <div class="media-sm">
+            <img 
+              *ngIf="saving.status == 'active'" 
+              src="../../../../../assets/icons/accomplish.svg" 
+              (click)="updateStatus(saving.id, 'completed')"
+              width="30px"
+              class="filter-green mx-2">
+            <img 
+              *ngIf="saving.status == 'active'" 
+              src="../../../../../assets/icons/suspend.svg" 
+              (click)="updateStatus(saving.id, 'canceled')"
+              width="30px"
+              class="filter-red">
+            <img 
+              *ngIf="saving.status != 'active'" 
+              src="../../../../../assets/icons/power.svg" 
+              (click)="updateStatus(saving.id, 'active')"
+              width="30px"
+              class="filter-highlight">
+        </div>
         <img 
           src="../../../../../assets/icons/pencil.svg"
           (click)="editSaving(saving)"
