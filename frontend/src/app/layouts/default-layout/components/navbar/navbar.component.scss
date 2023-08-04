@@ -154,3 +154,25 @@ nav {
         }
     }
 }
+
+@media only screen and (max-width: $mobile) {
+    .nav-items {
+        li {
+            &.gerenciar {
+                display: none;
+            }
+        }
+    }
+
+    .user-box {
+        min-width: 50px !important;
+
+        .logout {
+            width: 100% !important;
+        }
+
+        .profile {
+            display: none !important;
+        }
+    }
+}
