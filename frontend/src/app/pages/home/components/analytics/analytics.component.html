@@ -86,7 +86,10 @@
                 <h3 class="italic">Categorias</h3>
                 <div class="cards d-flex justify-content-center gap-10">
                     <div *ngFor="let remaining of categoriesRemaining" class="category card shadow p-3">
-                        <h4>{{ remaining.category.name | uppercase }}</h4>
+                        <h4>
+                            {{ remaining.category.name | uppercase }}
+                            ({{ remaining.category.percentage | number:'.0-2' }}%)
+                        </h4>
                         <div class="d-flex flex-column justify-content-between">
                             <h4 class="bold mt-2 mb-4" [ngClass]="remaining.remaining > 0 ? 'text-green' : 'text-red'">
                                 R${{ remaining.remaining | number:'.2-2':'pt' }}
@@ -94,7 +97,6 @@
                             <div class="d-flex justify-content-end">
                                 <small>
                                     Começou o mês com R${{ remaining.originalAvailable | number:'.2-2':'pt' }}
-                                    ({{ remaining.category.percentage | number:'.0-2' }}%)
                                 </small>
                             </div>
                         </div>
