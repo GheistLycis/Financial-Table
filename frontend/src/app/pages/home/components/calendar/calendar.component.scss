@@ -1,6 +1,23 @@
 @import '../../../../../styles/variables.scss';
 
+.boxes {
+  .box {
+    width: 50%;
+  }
+}
+
 .boxed-table {
   height: 300px;
   box-shadow: 0 3px 5px 5px rgba(black, 0.25);
+}
+
+@media only screen and (max-width: $laptop) {
+  .boxes {
+    flex-direction: column;
+    gap: 30px;
+
+    .box {
+      width: 100%;
+    }
+  }
 }
