@@ -72,7 +72,6 @@ nav {
 
     .user-box {
         min-width: 250px;
-        display: flex;
         height: 100%;
         
         .logout,
@@ -124,6 +123,33 @@ nav {
                 background-color: transparent;
                 font-weight: 500;
                 color: $palette-primary;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $laptop) {
+    .nav-items {
+        align-items: baseline !important;
+        font-size: 14px !important;
+
+        button {
+            font-size: 14px !important;
+        }
+
+        a.dropdown-item {
+            font-size: 14px !important;
+        }
+    }
+
+    .user-box {
+        min-width: 200px !important;
+
+        .profile {
+            [ngbDropdownToggle] {
+                span {
+                    display: none;
+                }
             }
         }
     }

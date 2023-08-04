@@ -43,7 +43,7 @@
         </li>
     </ul>
     
-    <div class="user-box">
+    <div class="user-box d-flex justify-content-end">
         <div class="logout" (click)="logout()">
             <img src="../../../../../assets/icons/leave.svg" width="30px">
         </div>
@@ -53,7 +53,7 @@
                 (mouseenter)="ddProfile.open()"
                 (mouseleave)="ddProfile.close()"
                 class="btn w-100 h-100">
-                Olá, {{ userName }}!
+                <span>Olá, {{ userName }}!</span>
             </button>
             <div 
                 ngbDropdownMenu
