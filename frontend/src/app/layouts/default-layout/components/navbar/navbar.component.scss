@@ -130,6 +130,7 @@ nav {
 
 @media only screen and (max-width: $laptop) {
     .nav-items {
+        max-width: 600px !important;
         align-items: baseline !important;
         font-size: 14px !important;
 
@@ -155,8 +156,10 @@ nav {
     }
 }
 
-@media only screen and (max-width: $mobile) {
+@media only screen and (max-width: $tablet) {
     .nav-items {
+        max-width: 400px !important;
+
         li {
             &.gerenciar {
                 display: none;
