@@ -1,7 +1,15 @@
+@import 'src/styles/variables';
+
 .filters {
   gap: 20px;
   
   > div {
     flex: 1;
+  }
+}
+
+@media only screen and (max-width: $tablet) {
+  .filters {
+    flex-direction: column;
   }
 }
