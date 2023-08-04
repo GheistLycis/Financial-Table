@@ -1,7 +1,7 @@
 <div class="main-container">
-    <div class="header mb-4 pt-3 d-flex justify-content-between align-items-center">
+    <div class="header mb-4 pt-3 d-flex justify-content-between">
         <div class="d-flex gap-20">
-            <h2>
+            <h2 class="media-md-lg">
                 Análise do mês <br> 
                 (
                 <span (click)="dropdown = dropdown == 'month' ? '' : 'month'">
@@ -12,6 +12,15 @@
                     {{ (year$ | async)?.year }}
                 </span>
                 )
+            </h2>
+            <h2 class="media-sm">
+                <span (click)="dropdown = dropdown == 'month' ? '' : 'month'">
+                    {{ (month$ | async)?.month | monthName }}
+                </span>
+                de 
+                <span (click)="dropdown = dropdown == 'year' ? '' : 'year'">
+                    {{ (year$ | async)?.year }}
+                </span>
             </h2>
 
             <app-tooltip icon="info" class="filter-highlight">

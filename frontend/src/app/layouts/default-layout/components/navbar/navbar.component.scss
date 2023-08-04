@@ -158,9 +158,13 @@ nav {
 
 @media only screen and (max-width: $tablet) {
     .nav-items {
-        max-width: 400px !important;
+        padding-left: 0;
+        padding-right: 10px;
+        max-width: 350px !important;
 
         li {
+            text-align: end;
+
             &.gerenciar {
                 display: none;
             }

@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit {
     },
     {
       type: 'link',
-      title: 'Minhas Caixinhas',
+      title: 'Caixinhas',
       link: 'caixinhas'
     },
     {

@@ -28,3 +28,9 @@
         fill-opacity: 1;
     }
 }
+
+@media only screen and (max-width: $tablet) {
+    .top-svg {
+        display: none;
+    }
+}
