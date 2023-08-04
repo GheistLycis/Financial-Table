@@ -2,7 +2,8 @@
     <div class="header mb-4 pt-3 d-flex justify-content-between align-items-center">
         <div class="d-flex gap-20">
             <h2>
-                Análise do mês (
+                Análise do mês <br> 
+                (
                 <span (click)="dropdown = dropdown == 'month' ? '' : 'month'">
                     {{ (month$ | async)?.month | monthName }}
                 </span>
@@ -85,7 +86,7 @@
             <div class="picsum-img-wrapper">
                 <h3 class="italic">Categorias</h3>
                 <div class="cards d-flex justify-content-center gap-10">
-                    <div *ngFor="let remaining of categoriesRemaining" class="category card shadow p-3">
+                    <div *ngFor="let remaining of categoriesRemaining" class="category card shadow">
                         <h4>
                             {{ remaining.category.name | uppercase }}
                             ({{ remaining.category.percentage | number:'.0-2' }}%)

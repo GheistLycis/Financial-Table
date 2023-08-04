@@ -6,6 +6,10 @@
   .header {
     gap: 20px;
 
+    br {
+      display: none;
+    }
+
     span:not(.spinner-border) {
       color: $palette-highlight;
       font-style: italic;
@@ -54,5 +58,28 @@
   
   .category {
     max-width: 450px;
+    padding: 16px;
+  }
+}
+
+@media only screen and (max-width: $laptop) {
+  .header {
+    br {
+      display: inline !important;
+    }
+
+    ng-select {
+      width: 120px !important;
+    }
+  }
+
+  .cards {
+    .category {
+      padding: 16px 10px;
+
+      h4 {
+        font-size: 16px;
+      }
+    }
   }
 }
