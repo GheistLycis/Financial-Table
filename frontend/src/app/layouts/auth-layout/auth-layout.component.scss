@@ -37,7 +37,7 @@
     }
 
     img {
-        filter: $filter-highlight;
+        filter: $filter-highlight brightness(0.95);
         opacity: 0;
         animation: fade-in 1s ease-in 1.5s forwards;
     }
@@ -59,10 +59,6 @@
     
     small {
         color: $palette-secondary;
-
-        b {
-            color: $palette-highlight;
-        }
     }
 }
 
@@ -98,5 +94,15 @@ svg {
 @keyframes fade-in {
     100% {
         opacity: 1;
+    }
+}
+
+@media only screen and (max-width: $mobile) {
+    .main-container {
+        height: 600px;
+
+        > div {
+            flex-direction: column;
+        }
     }
 }

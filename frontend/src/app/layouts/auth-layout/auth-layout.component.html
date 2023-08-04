@@ -29,10 +29,10 @@
             </div>
 
             <small *ngIf="action == 'login'" (click)="action = 'signup'" class="pointer align-self-start">
-                Ainda não possui uma conta? <b>Criar conta...</b>
+                Ainda não possui uma conta? <span class="text-primary bold">Criar conta...</span>
             </small>
             <small *ngIf="action == 'signup'" (click)="action = 'login'" class="pointer align-self-start">
-                Já possuo uma conta. <b>Entrar na minha conta...</b>
+                Já possuo uma conta. <span class="text-primary bold">Entrar na minha conta...</span>
             </small>
         </div>
     </div>
