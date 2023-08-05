@@ -49,9 +49,9 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
         const url = window.URL.createObjectURL(blob)
         const a = document.createElement('a')
 
-        a.download = 'Registros ' + new Date().toISOString().split('T')[0] + '.csv'
+        a.download = 'Histórico de Gastos ' + new Date().toISOString().split('T')[0] + '.csv'
         a.href = url
-        a.click();       
+        a.click()
       }),
       catchError(() => of()),
       tap(() => this.loadingCSV = false),

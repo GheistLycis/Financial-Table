@@ -4,11 +4,10 @@ import BypassTokenGuard from './shared/decorators/BypassTokenGuard';
 
 @Controller()
 export class AppController {
-
     @Get('health-check')
     @BypassTokenGuard()
     @BypassIpGuard()
-    async healthCheck() {
-        return { message: 'Up and running!', data: null }
+    healthCheck() {
+        return { message: 'Up and running!' }
     }
 }
