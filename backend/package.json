@@ -16,7 +16,7 @@
     "dev": "nest start --watch",
     "hot": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
     "debug": "nest start --debug --watch",
-    "prod": "node dist/main",
+    "prod": "node dist/main NODE_ENV=production",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "watch": "jest --watch",

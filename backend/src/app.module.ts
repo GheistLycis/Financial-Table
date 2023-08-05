@@ -19,7 +19,8 @@ import { MonthlyExpenseModule } from './app/monthly-expense/monthly-expense.modu
 import { SavingModule } from './app/saving/saving.module';
 import { AppController } from './app.controller';
 
-const cacheLifeMinutes = 60 // same as token expiration
+
+const CACHE_LIFE_MINUTES = 60 // same as token expiration
 
 @Module({
   imports: [
@@ -47,7 +48,7 @@ const cacheLifeMinutes = 60 // same as token expiration
     }),
     CacheModule.register({
       isGlobal: true,
-      ttl: cacheLifeMinutes * 60 * 1000,
+      ttl: CACHE_LIFE_MINUTES * 60 * 1000,
       max: 20,
     }),
     AuthModule,
