@@ -71,16 +71,7 @@ export class UserService {
   async delete(user: User['id'], id: UserDTO['id']): Promise<UserDTO> {
     if(user != id) throw ForbiddenException('Sem permissão.')
     
-    const entity = await this.repo.findOne({ 
-      where: { id },
-      relations: [
-        'tags', 
-        'savings', 
-        'years', 'years.months', 
-        'months.incomes', 'months.expenses', 'months.categories', 
-        'months.categories.expenses'
-      ], 
-    })
+    const entity = await this.repo.findOneBy({ id })
     if(!entity) throw NotFoundException('Usuário não encontrado.')
 
     await this.repo.remove(entity)

@@ -1,0 +1,31 @@
+<div class="modal-container">
+    <div class="modal-header">
+      <div class="d-flex align-items-center gap-20">
+        <h3>Excluir conta</h3>
+        <img src="../../../../../../assets/icons/warning.svg" width="30px">
+      </div>
+      <span (click)="activeModal.close(false)">&times;</span>
+    </div>
+    
+    <div class="modal-body">
+        <p>
+            Tem certeza que deseja <b>EXCLUIR</b> a sua conta? Todos seus dados serão <b>permanentemente apagados.</b>
+        </p>
+        <p>
+            É recomendado realizar um backup de seus dados antes. Você pode realizá-lo pelas tabelas de Histórico de Gastos e Histórico de Meses.
+        </p>
+
+        <div class="row mt-4">
+            <label for="delete-phrase" class="mb-1">
+                Digite <b>excluir conta</b> para prosseguir:
+            </label>
+            <input id="delete-phrase" class="form-control mx-3" [(ngModel)]="deletePhrase">
+        </div>
+    </div>
+    
+    <div class="modal-footer">
+        <button (click)="activeModal.close(true)" [disabled]="deletePhrase.trim() !== 'excluir conta'" class="btn cancel">
+            Excluir minha conta
+        </button>
+    </div>
+  </div>

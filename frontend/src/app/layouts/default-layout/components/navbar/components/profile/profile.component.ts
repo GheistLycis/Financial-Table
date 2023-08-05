@@ -1,10 +1,12 @@
 import { Component, ViewChild, Output, EventEmitter, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import UserDTO from 'src/app/shared/DTOs/user';
 import UserForm from 'src/app/shared/classes/UserForm';
 import { SessionService } from 'src/app/shared/services/session/session.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
+import { DeleteAccountModalComponent } from './components/delete-account-modal/delete-account-modal.component';
 
 @Component({
   selector: 'app-profile',
@@ -25,6 +27,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private sessionService: SessionService,
     private toastr: ToastrService,
+    private modalService: NgbModal,
   ) { }
   
   ngOnInit(): void {
@@ -67,6 +70,21 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         name: this.form.name 
       }).subscribe(({ data }) => this.profileUpdated.emit(data))
     }
+  }
+
+  deleteAccount(): void {
+    const { result } = this.modalService.open(DeleteAccountModalComponent, { size: 'md' })
+
+    result.then((res: boolean) => {
+      if(res) {
+        const { id } = this.sessionService.getSession().user
+
+        this.userService.delete(id).subscribe(() => {
+          this.toastr.info('Obrigado por usar a plataforma!', 'Até mais!')
+          this.sessionService.logout()
+        })
+      }
+    })
   }
   
   get f(): FormGroup['controls'] {

@@ -60,17 +60,12 @@ export class NavbarComponent implements OnInit {
   ]
 
   constructor(
-    private sessionService: SessionService,
+    public sessionService: SessionService,
     public router: Router,
   ) {}
 
   ngOnInit(): void {
     this.userName = this.sessionService.getSession().user.name
-  }
-
-  logout(): void {
-    this.sessionService.logout()
-    this.router.navigate(['login'])
   }
   
   updateLocalUser(user: UserDTO): void {

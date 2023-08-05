@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import Session from '../../DTOs/session';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   getSession(): Session | null {
     const session = localStorage.getItem('session')
@@ -19,5 +22,7 @@ export class SessionService {
   
   logout(): void {
     localStorage.removeItem('session')
+
+    this.router.navigate(['login'])
   }
 }

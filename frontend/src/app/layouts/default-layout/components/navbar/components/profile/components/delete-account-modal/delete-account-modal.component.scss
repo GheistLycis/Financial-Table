@@ -1,8 +1,10 @@
 @import 'src/styles/variables';
 
+input {
+    max-width: 200px;
+}
+
 button {
-  &.delete-account {
-    margin-top: 10px;
     color: $red;
     border-color: $red;
 
@@ -10,5 +12,4 @@ button {
       background-color: $red;
       color: $palette-tertiary;
     }
-  }
 }

@@ -9,6 +9,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './components/navbar/components/profile/profile.component';
+import { DeleteAccountModalComponent } from './components/navbar/components/profile/components/delete-account-modal/delete-account-modal.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ProfileComponent } from './components/navbar/components/profile/profile
     DefaultLayoutComponent,
     NavbarComponent,
     FooterComponent,
-    ProfileComponent
+    ProfileComponent,
+    DeleteAccountModalComponent
   ],
   imports: [
     CommonModule,
