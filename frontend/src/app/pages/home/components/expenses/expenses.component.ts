@@ -8,8 +8,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
 import { ToastrService } from 'ngx-toastr';
 import { AddEditExpenseComponent } from 'src/app/pages/home/components/expenses/components/add-edit-expense/add-edit-expense.component';
-import { map, tap, BehaviorSubject, Subject, Observable, of, throwError } from 'rxjs';
-import { catchError, concatMap, debounceTime, distinctUntilChanged, filter, skip, switchMap, throttle } from 'rxjs/operators';
+import { map, tap, BehaviorSubject, Subject, Observable, of } from 'rxjs';
+import { catchError, concatMap, debounceTime, distinctUntilChanged, filter, skip, switchMap } from 'rxjs/operators';
 import { SortEvent } from 'src/app/shared/interfaces/SortEvent';
 
 @Component({

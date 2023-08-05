@@ -6,10 +6,10 @@
         src="../../../../../assets/icons/info.svg"
         (click)="openTutotialModal()"
         width="30px"
-        class="pointer tutorial">
+        class="pointer filter-tertiary">
       <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
     </div>
-    <div class="actions d-flex gap-20">
+    <div class="d-flex gap-20">
       <div>
         <span *ngIf="loadingCSV" class="spinner-border spinner-border-sm"></span>
         <img 
@@ -17,7 +17,7 @@
           (click)="downloadCSV$.next()"
           width="50px"
           class="action"
-          ngbTooltip="Exportar dados como CSV. Isto lhe permitirá ter um backup de todos seus registros em um formato que pode ser lido por programas como o Excel.">
+          ngbTooltip="Exportar gastos como CSV. Isto lhe permitirá ter um backup de todos seus registros em um formato que pode ser lido por programas como o Excel.">
       </div>
       <img 
         src="../../../../../assets/icons/plus.svg"

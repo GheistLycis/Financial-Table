@@ -9,7 +9,7 @@ import { YearService } from 'src/app/shared/services/year/year.service';
 import { AddEditMonthComponent } from './components/add-edit-month/add-edit-month.component';
 import MonthDTO from 'src/app/shared/DTOs/month';
 import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
-import { BehaviorSubject, skip, tap, forkJoin, map } from 'rxjs';
+import { BehaviorSubject, skip, tap, forkJoin, map, Subject, filter, switchMap, catchError, of } from 'rxjs';
 import { MonthlyIncomesComponent } from './components/monthly-incomes/monthly-incomes.component';
 import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-expenses.component';
 import { CategoriesComponent } from './components/categories/categories.component';
@@ -24,9 +24,11 @@ import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
 })
 export class MonthsComponent {
   years: YearDTO[] = []
+  downloadCSV$ = new Subject<void>()
   activeYear$ = new BehaviorSubject<YearDTO['id']>(undefined)
   monthsHistories: MonthHistory[] = []
   loading = false
+  loadingCSV = false
   
   constructor(
     private yearService: YearService,
@@ -36,6 +38,24 @@ export class MonthsComponent {
     private toastr: ToastrService,
     private monthNamePipe: MonthNamePipe,
   ) { 
+    this.downloadCSV$.pipe(
+      filter(() => !this.loadingCSV),
+      tap(() => this.loadingCSV = true),
+      switchMap(() => this.monthService.getCSV()),
+      map(({ data }) => data),
+      tap(csv => {
+        const blob = new Blob([csv], { type: 'text/csv' })
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+
+        a.download = 'Histórico de Meses ' + new Date().toISOString().split('T')[0] + '.csv'
+        a.href = url
+        a.click()
+      }),
+      catchError(() => of()),
+      tap(() => this.loadingCSV = false),
+    ).subscribe()
+
     this.activeYear$.pipe(
       skip(1),
       tap(() => this.listHistories())

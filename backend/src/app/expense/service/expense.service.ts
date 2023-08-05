@@ -87,7 +87,7 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     return Expense.toDTO(entity)
   }
 
-  async getCSV(user: User['id']): Promise<string | any> {
+  async getCSV(user: User['id']): Promise<string> {
     const entities = await this.repo.createQueryBuilder('Expense')
       .innerJoinAndSelect('Expense.category', 'Category')
       .leftJoinAndSelect('Expense.tags', 'Tags')

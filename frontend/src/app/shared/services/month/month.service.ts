@@ -39,4 +39,8 @@ export class MonthService {
   duplicate(id: number, payload: MonthDuplicationForm) {
     return this.http.post<Res<MonthDTO>>(`${environment.apiUrl}/${this.baseRoute}/duplicate/${id}`, payload)
   }
+
+  getCSV() {
+    return this.http.get<Res<string>>(`${environment.apiUrl}/${this.baseRoute}/get-csv`)
+  }
 }

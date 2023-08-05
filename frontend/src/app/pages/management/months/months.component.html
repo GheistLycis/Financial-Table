@@ -4,12 +4,23 @@
       <h2 class="m-0">Histórico dos meses</h2>
       <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
     </div>
-    <img 
-      src="../../../../../assets/icons/plus.svg"
-      (click)="addMonth()"
-      width="50px"
-      class="action"
-      ngbTooltip="Adicionar mês">
+    <div class="d-flex gap-20">
+      <div>
+        <span *ngIf="loadingCSV" class="spinner-border spinner-border-sm"></span>
+        <img 
+          src="../../../../../assets/icons/download.svg"
+          (click)="downloadCSV$.next()"
+          width="50px"
+          class="action"
+          ngbTooltip="Exportar meses como CSV. Isto lhe permitirá ter um backup de todos seus registros em um formato que pode ser lido por programas como o Excel.">
+      </div>
+      <img 
+        src="../../../../../assets/icons/plus.svg"
+        (click)="addMonth()"
+        width="50px"
+        class="action"
+        ngbTooltip="Adicionar mês">
+    </div>
   </div>
   
   <div class="mt-3">

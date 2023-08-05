@@ -16,6 +16,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { User } from 'src/app/user/User';
 import GlobalException from 'src/shared/classes/GlobalException';
+import { MonthNames } from 'src/shared/enums/MonthNames';
 
 type body = { month: number, available: number, obs: string, year: Year['id'] }
 type queries = { year: Year['id'] }
@@ -58,6 +59,31 @@ export class MonthService implements BaseService<MonthDTO> {
     if(!entity) throw NotFoundException('Nenhum mês encontrado.')
 
     return Month.toDTO(entity)
+  }
+
+  async getCSV(user: User['id']): Promise<string> {
+    const entities = await this.repo.createQueryBuilder('Month')
+      .leftJoinAndSelect('Month.incomes', 'Income')
+      .leftJoinAndSelect('Month.expenses', 'Expense')
+      .leftJoinAndSelect('Month.categories', 'Category')
+      .innerJoinAndSelect('Month.year', 'Year')
+      .innerJoin('Year.user', 'User')
+      .where('User.id = :user', { user })
+      .orderBy('Year.year', 'DESC')
+      .addOrderBy('Month.month', 'DESC')
+      .getMany()
+
+    return entities.reduce((acc, { year, month, incomes, expenses, categories }) => {
+      let str = ''
+      
+      str += `${year.year};`
+      str += `${MonthNames[month]};`
+      str += `${incomes.map(({ value, description, date }) => `R$${value}${date ? ' (Dia ' + new Date(date).getDate() +')' : ''}${description ? ': ' + description : ''}`).join(', ')};`
+      str += `${expenses.map(({ value, description, date }) => `R$${value}${date ? ' (Dia ' + new Date(date).getDate() +')' : ''}${description ? ': ' + description : ''}`).join(', ')};`
+      str += `${categories.map(({ name }) => name).join(', ')}\n`
+      
+      return acc += str
+      }, 'Ano;Mês;Entradas;Mensalidades;Categorias\n')
   }
 
   async post(user: User['id'], { month, available, obs, year }: body) {
