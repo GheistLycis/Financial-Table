@@ -17,7 +17,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api')
   app.useGlobalFilters(new GlobalExceptionFilter())
   app.useGlobalInterceptors(new ResponseHandlerInterceptor())
-  app.listen(process.env.SERVER_PORT)
+  app.listen(process.env.PORT)
   
   if(module.hot) {
     module.hot.accept()
