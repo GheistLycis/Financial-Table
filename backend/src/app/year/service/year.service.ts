@@ -97,13 +97,7 @@ export class YearService implements BaseService<YearDTO> {
       .getOne()
     if(!entity) throw NotFoundException('Ano não encontrado.')
     
-    entity = await this.repo.findOne({ 
-      where: { id },
-      relations: [
-        'months', 'months.incomes', 'months.expenses', 'months.categories', 
-        'months.categories.expenses'
-      ]
-    })
+    entity = await this.repo.findOneBy({ id })
 
     await this.repo.remove(entity)
     

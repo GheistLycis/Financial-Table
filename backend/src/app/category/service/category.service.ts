@@ -118,10 +118,7 @@ export class CategoryService implements BaseService<CategoryDTO> {
       .getOne()
     if(!entity) throw NotFoundException('Categoria não encontrada.')
     
-    entity = await this.repo.findOne({ 
-      where: { id },
-      relations: ['expenses']
-    })
+    entity = await this.repo.findOneBy({ id })
 
     await this.repo.remove(entity)
     

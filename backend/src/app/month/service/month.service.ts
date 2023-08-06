@@ -153,14 +153,7 @@ export class MonthService implements BaseService<MonthDTO> {
       .getOne()
     if(!entity) throw NotFoundException('Mês não encontrado.')
     
-    entity = await this.repo.findOne({ 
-      where: { id },
-      relations: [
-        'incomes', 
-        'expenses', 
-        'categories', 'categories.expenses'
-      ]
-    })
+    entity = await this.repo.findOneBy({ id })
 
     await this.repo.remove(entity)
     
