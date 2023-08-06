@@ -26,12 +26,12 @@ const CACHE_LIFE_MINUTES = 60 // same as token expiration
   imports: [
     ConfigModule.forRoot({
       validationSchema: Joi.object({
-        SERVER_PORT: Joi.number().default(8000),
         DB_HOST: Joi.string().default('localhost'),
         DB_PORT: Joi.number().default(5432),
         DB_USER: Joi.string().default('postgres'),
         DB_PASS: Joi.string().default('postgres'),
         DB_NAME: Joi.string().default('financial_table'),
+        PORT: Joi.number().default(8000),
         JWT: Joi.string().required(),
         HASH_SALT_ROUNDS: Joi.number().required(),
       })
