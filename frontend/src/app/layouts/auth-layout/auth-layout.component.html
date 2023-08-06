@@ -1,25 +1,33 @@
-<div class="main-container card shadow d-flex align-items-center justify-content-center w-100">
-    <div class="d-flex align-items-center justify-content-between w-75 py-4">
-        <div class="d-flex flex-column justify-content-between align-items-center">
+<div class="card shadow d-flex align-items-center w-100">
+    <div class="content d-flex align-items-center justify-content-between">
+        <div class="logo d-flex flex-column align-items-center">
             <h1 class="bold text-primary italic">NANC€</h1>
-            <img src="../../../assets/icons/graph.svg" width="90px" class="mt-3">
+            <img src="../../../assets/icons/graph.svg">
         </div>
 
-        <div class="d-flex flex-column align-items-center">
-            <div *ngIf="action == 'signup'" class="mb-2">
-                <label class="form-label">Nome</label>
-                <input type="text" [(ngModel)]="user.name" required placeholder="Nome" class="form-control py-2">
-            </div>
-            <div class="mb-2">
-                <label class="form-label">E-mail</label>
-                <input type="email" [(ngModel)]="user.email" required placeholder="E-mail" class="form-control py-2">
-            </div>
-            <div class="mb-4">
-                <label class="form-label">Senha</label>
-                <input type="password" [(ngModel)]="user.password" required placeholder="Senha" class="form-control py-2">
+        <div class="form d-flex flex-column align-items-center">
+            <div class="d-flex flex-column gap-20 w-100">
+                <input 
+                    *ngIf="action == 'signup'" 
+                    [(ngModel)]="user.name" 
+                    required 
+                    placeholder="Nome"
+                    class="form-control py-2">
+                <input 
+                    type="email" 
+                    [(ngModel)]="user.email" 
+                    required 
+                    placeholder="E-mail" 
+                    class="form-control py-2">
+                <input 
+                    type="password" 
+                    [(ngModel)]="user.password" 
+                    required 
+                    placeholder="Senha" 
+                    class="form-control py-2">
             </div>
 
-            <div class="mb-3">
+            <div class="mt-4 mb-2 w-100">
                 <button #enterBtn *ngIf="action == 'login'" (click)="enter('login')" [disabled]="!user.email || !user.password" class="px-3 py-2">
                     Entrar
                 </button>
@@ -28,11 +36,11 @@
                 </button>
             </div>
 
-            <small *ngIf="action == 'login'" (click)="action = 'signup'" class="pointer align-self-start">
-                Ainda não possui uma conta? <span class="text-primary bold">Criar conta...</span>
+            <small *ngIf="action == 'login'" (click)="action = 'signup'">
+                Ainda não possui uma conta? <span>Criar conta...</span>
             </small>
-            <small *ngIf="action == 'signup'" (click)="action = 'login'" class="pointer align-self-start">
-                Já possuo uma conta. <span class="text-primary bold">Entrar na minha conta...</span>
+            <small *ngIf="action == 'signup'" (click)="action = 'login'">
+                Já possuo uma conta. <span>Entrar na minha conta...</span>
             </small>
         </div>
     </div>

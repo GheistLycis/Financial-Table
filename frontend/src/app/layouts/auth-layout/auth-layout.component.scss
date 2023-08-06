@@ -1,59 +1,72 @@
 @import '../../../styles/variables.scss';
 
 .card {
+    justify-content: center;
     background-color: $palette-tertiary;
     transform: none;
-}
-
-.main-container {
     height: 450px;
+    padding: 0;
 
-    > div {
-        max-width: 900px;
-    }
+    .content {
+        width: 60%;
+        min-width: 550px;
+        max-width: 800px;
 
-    h1 {
-        height: 65px;
-        font-size: 50px;
-        position: relative;
-    
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background-color: $palette-primary;
-            transform: scale(0);
-            transform-origin: center;
-            animation: underline .8s cubic-bezier(0.18, 0.93, 0, 0.92) forwards 1s;
+        .logo {
+            height: 50%;
+            justify-content: center;
+
+            h1 {
+                font-size: 50px;
+                height: 65px;
+                position: relative;
+            
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 6px;
+                    background-color: $palette-primary;
+                    transform: scale(0);
+                    transform-origin: center;
+                    animation: underline .8s cubic-bezier(0.18, 0.93, 0, 0.92) forwards 1s;
+                }
+            }
+        
+            img {
+                width: 90px;
+                filter: $filter-highlight brightness(0.95);
+                opacity: 0;
+                animation: fade-in 1s ease-in 1s forwards;
+            }
         }
-    }
 
-    img {
-        filter: $filter-highlight brightness(0.95);
-        opacity: 0;
-        animation: fade-in 1s ease-in 1s forwards;
-    }
+        .form {
+            width: 300px;
 
-    .form-control {
-        border: none;
-    }
+            input {
+                text-align: center;
+                border: none;
+            }
+            
+            button {
+                border-radius: 20px;
+                width: 100%;
+            }
+            
+            small {
+                align-self: flex-start;
+                color: $palette-secondary;
+                cursor: pointer;
     
-    input {
-        text-align: center;
-        width: 300px;
-    }
-    
-    button {
-        border-radius: 20px;
-        width: 300px;
-        height: 50px;
-    }
-    
-    small {
-        color: $palette-secondary;
+                span {
+                    color: $palette-primary;
+                    font-weight: bold;
+                }
+            }
+        }
     }
 }
 
@@ -68,18 +81,6 @@ svg {
     }
 }
 
-// .main-container,
-// .main-container * {
-//     animation: appear .8s cubic-bezier(0.39, 0.79, 0.08, 0.96) backwards;
-// }
-
-// @keyframes appear {
-//     0% {
-//         transform: translateY(100px);
-//         background-color: transparent;
-//     }
-// }
-
 @keyframes underline {
     100% {
         transform: scale(1);
@@ -93,11 +94,32 @@ svg {
 }
 
 @media only screen and (max-width: $tablet) {
-    .main-container {
-        height: 600px;
+    .card {
+        height: 500px;
+        padding: 30px 0;
 
-        > div {
+        .content {
             flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            min-width: 0;
+
+            .logo {
+                justify-content: start;
+
+                h1 {
+                    font-size: 40px;
+                    height: 50px;
+                }
+
+                img {
+                    width: 50px;
+                }
+            }
+
+            .form {
+                width: 250px;
+            }
         }
     }
 }
