@@ -1,11 +1,14 @@
 <nav class="shadow w-100 d-flex align-items-center justify-content-between">
     <div class="logo">
-        <a routerLink="">
+        <a routerLink="" class="media-md-lg">
             <img src="../../../assets/icons/graph.svg" [ngClass]="{'filter-highlight': router.url == '/'}">
+        </a>
+        <a (click)="openOffcanvas()" class="media-sm">
+            <img src="../../../assets/icons/graph.svg">
         </a>
     </div>
 
-    <ul class="nav-items d-flex align-items-center justify-content-between m-0">
+    <ul class="nav-items media-md-lg d-flex align-items-center justify-content-between m-0">
         <li *ngFor="let item of navItems" [class]="item.link">
             <a 
                 *ngIf="item.type == 'link'" 

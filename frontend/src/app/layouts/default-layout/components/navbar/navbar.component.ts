@@ -2,22 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { SessionService } from 'src/app/shared/services/session/session.service';
 import UserDTO from 'src/app/shared/DTOs/user';
 import { Router } from '@angular/router';
-
-
-type navItem = {
-  title: string
-} & (link | menu)
-
-type link = {
-  type: 'link'
-  link: string
-}
-
-type menu = {
-  type: 'menu'
-  link: string
-  children: { title: string, link: string }[]
-}
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { OffcanvasComponent } from './components/offcanvas/offcanvas.component';
+import { navItems } from 'src/app/shared/interfaces/NavItem';
 
 
 @Component({
@@ -27,45 +14,20 @@ type menu = {
 })
 export class NavbarComponent implements OnInit {
   userName!: string
-  navItems: navItem[] = [
-    {
-      type: 'link',
-      title: 'Dashboard',
-      link: 'dashboard'
-    },
-    {
-      type: 'link',
-      title: 'Caixinhas',
-      link: 'caixinhas'
-    },
-    {
-      type: 'menu',
-      title: 'Gerenciar',
-      link: 'gerenciar',
-      children: [
-        {
-          title: 'Anos',
-          link: 'anos'
-        },
-        {
-          title: 'Meses',
-          link: 'meses'
-        },
-        {
-          title: 'Tags',
-          link: 'tags'
-        },
-      ],
-    },
-  ]
+  navItems = navItems
 
   constructor(
+    private offcanvas: NgbOffcanvas,
     public sessionService: SessionService,
     public router: Router,
   ) {}
 
   ngOnInit(): void {
     this.userName = this.sessionService.getSession().user.name
+  }
+
+  openOffcanvas(): void {
+    this.offcanvas.open(OffcanvasComponent)
   }
   
   updateLocalUser(user: UserDTO): void {

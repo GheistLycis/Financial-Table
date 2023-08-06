@@ -7,9 +7,10 @@ import { FormsModule } from '@angular/forms';
 import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './components/navbar/components/profile/profile.component';
 import { DeleteAccountModalComponent } from './components/navbar/components/profile/components/delete-account-modal/delete-account-modal.component';
+import { OffcanvasComponent } from './components/navbar/components/offcanvas/offcanvas.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { DeleteAccountModalComponent } from './components/navbar/components/prof
     NavbarComponent,
     FooterComponent,
     ProfileComponent,
-    DeleteAccountModalComponent
+    DeleteAccountModalComponent,
+    OffcanvasComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { DeleteAccountModalComponent } from './components/navbar/components/prof
     PipesModule,
     FormsModule,
     NgSelectModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    NgbCollapseModule,
   ]
 })
 export class DefaultLayoutModule { }

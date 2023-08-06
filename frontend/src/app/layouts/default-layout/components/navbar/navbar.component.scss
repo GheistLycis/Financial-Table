@@ -1,4 +1,4 @@
-@import '../../../../../styles/variables.scss';
+@import 'src/styles/variables';
 
 $navbar-height: 70px;
 
@@ -10,6 +10,10 @@ nav {
     z-index: 1000;
 
     .logo {
+        .media-sm {
+            display: none;
+        }
+
         min-width: 48px;
         margin-left: 20px !important;
         
@@ -157,6 +161,14 @@ nav {
 }
 
 @media only screen and (max-width: $tablet) {
+    .media-md-lg {
+        display: none !important;
+    }
+
+    .media-sm {
+        display: block !important;
+    }
+    
     .nav-items {
         padding-left: 0;
         padding-right: 10px;
@@ -172,7 +184,7 @@ nav {
     }
 
     .user-box {
-        min-width: 50px !important;
+        min-width: 60px !important;
 
         .logout {
             width: 100% !important;

@@ -1,0 +1,73 @@
+@import 'src/styles/variables';
+
+.pannel {
+    width: 60%;
+
+    .profile {
+        width: 80%;
+        font-size: 20px;
+        font-weight: 400;
+        background-color: $palette-highlight;
+
+        &:hover {
+            background-color: transparent;
+
+            button {
+                color: $palette-highlight;
+            }
+        }
+        
+        button {
+            border: none;
+            background-color: transparent;
+            font-weight: 500;
+            color: $palette-primary;
+        }
+    }
+
+    .nav-items {
+        width: 100%;
+        max-width: 800px;
+        list-style: none;
+        font-size: 16px;
+
+        a {
+            text-decoration: none;
+            color: $palette-primary;
+            transition-duration: .3s;
+
+            &:hover {
+                color: $palette-highlight;
+
+                &::after {
+                    transform: scale(1);
+                }
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background-color: $palette-highlight;
+                transform: scale(0);
+                transform-origin: center;
+                transition-duration: .3s;
+            }
+        }
+        
+        button {
+            color: $palette-primary;
+            transition-duration: .3s;
+            border: none;
+            font-size: 16px;
+            text-transform: uppercase;
+
+            &:hover {
+                color: $palette-highlight;
+            }
+        }
+    }
+}

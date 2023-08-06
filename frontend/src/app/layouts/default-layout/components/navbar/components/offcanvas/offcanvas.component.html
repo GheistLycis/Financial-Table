@@ -1,0 +1,38 @@
+<div class="pannel">
+    <div class="profile">
+        <div #collapse="ngbCollapse" [(ngbCollapse)]="collapse['profile']">
+            <app-profile (profileUpdated)="updateLocalUser($event)"></app-profile>
+        </div>
+    </div>
+
+    <div class="nav-items">
+        <div *ngFor="let item of navItems" [class]="item.link">
+            <a 
+                *ngIf="item.type == 'link'" 
+                [routerLink]="item.link" 
+                class="py-3 px-4" 
+                [ngClass]="{'filter-highlight': router.url == ('/' + item.link)}">
+                {{ item.title }}
+            </a>
+            <!-- <div 
+                *ngIf="item.type == 'menu'" 
+                #ddManagement="ngbDropdown" 
+                ngbDropdown
+                class="d-inline-block">
+                <button 
+                    ngbDropdownToggle
+                    (mouseenter)="ddManagement.open()"
+                    (mouseleave)="ddManagement.close()"
+                    class="btn py-3 px-4"
+                    [ngClass]="{'filter-highlight': router.url.startsWith('/' + item.link)}">
+                    {{ item.title }}
+                </button>
+                <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+                    <div class="card">
+                        <div class="card-body">You can collapse this card by clicking one Toggle button</div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
