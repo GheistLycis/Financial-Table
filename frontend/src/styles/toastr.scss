@@ -190,3 +190,8 @@ button.toast-close-button {
     width: 25em;
   }
 }
+@media only screen and (max-width: 768px) {
+  .toast-top-right {
+    top: 90px;
+  }
+}
