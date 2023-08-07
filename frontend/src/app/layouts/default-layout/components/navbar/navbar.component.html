@@ -63,7 +63,7 @@
                 (mouseenter)="ddProfile.open()"
                 (mouseleave)="ddProfile.close()"
                 >
-                <app-profile (profileUpdated)="updateLocalUser($event)"></app-profile>
+                <app-profile (profileUpdated)="userName = $event.name"></app-profile>
             </div>
         </div>
     </div>

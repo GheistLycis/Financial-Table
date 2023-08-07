@@ -1,15 +1,16 @@
-<div>
+<div class="panel">
     <div class="profile">
-        <button (click)="collapse.toggle()" class="btn">
+        <button (click)="collapse.toggle()" class="profile-btn">
+            <img src="assets/icons/person.svg" width="30px">
             Meu perfil
         </button>
         <div #collapse="ngbCollapse" [(ngbCollapse)]="collapses['profile']">
-            <app-profile (profileUpdated)="updateLocalUser($event)"></app-profile>
+            <app-profile></app-profile>
         </div>
     </div>
 
     <div class="nav-items">
-        <div *ngFor="let item of navItems" [class]="item.link">
+        <div *ngFor="let item of navItems" class="nav-item">
             <a 
                 *ngIf="item.type == 'link'"
                 (click)="activeOffcanvas.dismiss()"

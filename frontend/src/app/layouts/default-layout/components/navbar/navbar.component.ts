@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from 'src/app/shared/services/session/session.service';
-import UserDTO from 'src/app/shared/DTOs/user';
 import { Router } from '@angular/router';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { OffcanvasComponent } from './components/offcanvas/offcanvas.component';
@@ -27,14 +26,6 @@ export class NavbarComponent implements OnInit {
   }
 
   openOffcanvas(): void {
-    this.offcanvas.open(OffcanvasComponent, { panelClass: 'panel w-75' })
-  }
-  
-  updateLocalUser(user: UserDTO): void {
-    const session = this.sessionService.getSession()
-    
-    session.user = user
-    this.sessionService.setSession(session)
-    this.userName = user.name
+    this.offcanvas.open(OffcanvasComponent, { panelClass: 'w-75' })
   }
 }

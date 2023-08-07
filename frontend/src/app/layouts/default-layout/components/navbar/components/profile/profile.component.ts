@@ -68,7 +68,13 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     else {
       this.userService.put(this.user.id, { 
         name: this.form.name 
-      }).subscribe(({ data }) => this.profileUpdated.emit(data))
+      }).subscribe(({ data }) => {
+        const session = this.sessionService.getSession()
+    
+        session.user = data
+        this.sessionService.setSession(session)
+        this.profileUpdated.emit(data)
+      })
     }
   }
 
