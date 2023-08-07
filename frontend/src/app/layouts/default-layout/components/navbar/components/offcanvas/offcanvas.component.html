@@ -1,6 +1,9 @@
-<div class="pannel">
+<div>
     <div class="profile">
-        <div #collapse="ngbCollapse" [(ngbCollapse)]="collapse['profile']">
+        <button (click)="collapse.toggle()" class="btn">
+            Meu perfil
+        </button>
+        <div #collapse="ngbCollapse" [(ngbCollapse)]="collapses['profile']">
             <app-profile (profileUpdated)="updateLocalUser($event)"></app-profile>
         </div>
     </div>
@@ -8,31 +11,27 @@
     <div class="nav-items">
         <div *ngFor="let item of navItems" [class]="item.link">
             <a 
-                *ngIf="item.type == 'link'" 
+                *ngIf="item.type == 'link'"
+                (click)="activeOffcanvas.dismiss()"
                 [routerLink]="item.link" 
-                class="py-3 px-4" 
                 [ngClass]="{'filter-highlight': router.url == ('/' + item.link)}">
                 {{ item.title }}
             </a>
-            <!-- <div 
-                *ngIf="item.type == 'menu'" 
-                #ddManagement="ngbDropdown" 
-                ngbDropdown
-                class="d-inline-block">
-                <button 
-                    ngbDropdownToggle
-                    (mouseenter)="ddManagement.open()"
-                    (mouseleave)="ddManagement.close()"
-                    class="btn py-3 px-4"
+            <ng-container *ngIf="item.type == 'menu'">
+                <button
+                    (click)="collapse.toggle()"
                     [ngClass]="{'filter-highlight': router.url.startsWith('/' + item.link)}">
                     {{ item.title }}
                 </button>
-                <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
-                    <div class="card">
-                        <div class="card-body">You can collapse this card by clicking one Toggle button</div>
-                    </div>
+                <div #collapse="ngbCollapse" [(ngbCollapse)]="collapses[item.title]">
+                    <a
+                        *ngFor="let child of item.children"
+                        (click)="activeOffcanvas.dismiss()"
+                        [routerLink]="item.link + '/' + child.link">
+                        {{ child.title }}
+                    </a>
                 </div>
-            </div> -->
+            </ng-container>
         </div>
     </div>
 </div>

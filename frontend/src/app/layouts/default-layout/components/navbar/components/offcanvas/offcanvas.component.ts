@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbActiveOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import UserDTO from 'src/app/shared/DTOs/user';
 import { NavItem, navItems } from 'src/app/shared/interfaces/NavItem';
 import { SessionService } from 'src/app/shared/services/session/session.service';
@@ -18,21 +19,22 @@ export class OffcanvasComponent implements OnInit {
       link: '',
     }
   ].concat(navItems)
-  collapse = {
-    profile: true
+  collapses: { [collapse: string]: boolean } = { 
+    profile: true 
   }
 
   constructor(
+    public activeOffcanvas: NgbActiveOffcanvas,
     public sessionService: SessionService,
     public router: Router,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.navItems.forEach(({ type, title }) => {
-      if(type == 'menu') this.collapse[title] = true
-    })
-
     this.userName = this.sessionService.getSession().user.name
+
+    this.navItems.forEach(({ type, title }) => {
+      if(type == 'menu') this.collapses[title] = true
+    })
   }
   
   updateLocalUser(user: UserDTO): void {

@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
   }
 
   openOffcanvas(): void {
-    this.offcanvas.open(OffcanvasComponent)
+    this.offcanvas.open(OffcanvasComponent, { panelClass: 'panel w-75' })
   }
   
   updateLocalUser(user: UserDTO): void {
