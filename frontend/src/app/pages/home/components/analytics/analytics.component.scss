@@ -7,6 +7,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 20px;
+    margin-bottom: 24px;
 
     h2 {
       &.media-sm {
@@ -41,6 +42,10 @@
       }
     }
   }
+}
+
+.categories {
+  justify-content: center;
 }
 
 .cards {
@@ -98,6 +103,7 @@
     align-items: start !important;
     justify-content: flex-start !important;
     gap: 10px !important;
+    margin-bottom: 0 !important;
     
     h2 {
       font-size: 22px;
@@ -122,17 +128,19 @@
     flex-direction: column;
     align-items: center;
 
+    .categories {
+      justify-content: flex-start;
+    }
+
     .cards {
       flex-direction: column;
       align-items: center;
-      max-height: 300px;
+      max-height: 180px;
       overflow-x: hidden;
       overflow-y: scroll;
-      margin-bottom: 100px;
 
       .card {
         width: 80%;
-        max-width: 400px;
       }
 
       &::-webkit-scrollbar{

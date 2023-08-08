@@ -1,5 +1,5 @@
 <div class="main-container">
-    <div class="header mb-4 d-flex">
+    <div class="header d-flex">
         <div class="d-flex gap-20">
             <h2 class="media-md-lg">
                 Análise do mês <br> 
@@ -94,7 +94,7 @@
         <ng-template ngbSlide>
             <div class="picsum-img-wrapper">
                 <h3 class="italic">Categorias</h3>
-                <div class="cards d-flex justify-content-center gap-10">
+                <div class="categories cards d-flex gap-10">
                     <div *ngFor="let remaining of categoriesRemaining" class="category card shadow">
                         <h4>
                             {{ remaining.category.name | uppercase }}
