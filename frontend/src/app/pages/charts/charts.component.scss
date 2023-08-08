@@ -12,6 +12,10 @@
         flex-direction: column;
         align-items: center;
         padding: 20px 10px;
+
+        .media-sm {
+            display: none;
+        }
     
         .chart {
             width: 100%;
@@ -20,7 +24,6 @@
     
     .categories-chart {
         width: 40%;
-        min-width: 300px;
     }
     
     .tags-chart {
@@ -39,6 +42,14 @@
     }
 
     .dashboard {
+        .media-md-lg {
+            display: none;
+        }
+
+        .media-sm {
+            display: block !important;
+        }
+
         > div:first-child {
             flex-direction: column;
             align-items: center;

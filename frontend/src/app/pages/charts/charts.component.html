@@ -17,16 +17,20 @@
                 </div>
             </div>
             <div class="chart-box tags-chart card shadow">
-                <div class="chart">
+                <div class="chart media-md-lg">
                     <app-tags-chart [months]="filteredMonths$ | async"></app-tags-chart>
+                </div>
+                <div class="media-sm">
+                    <h4 class="italic text-center">Gráfico indisponível para dispositivos mobile</h4>
                 </div>
             </div>
         </div>
-        <div class="second-row">
-            <div class="chart-box expenses-chart card shadow">
-                <div class="chart">
-                    <app-expenses-chart [months]="filteredMonths$ | async"></app-expenses-chart>
-                </div>
+        <div class="chart-box expenses-chart card shadow">
+            <div class="chart media-md-lg">
+                <app-expenses-chart [months]="filteredMonths$ | async"></app-expenses-chart>
+            </div>
+            <div class="media-sm">
+                <h4 class="italic text-center">Gráfico indisponível para dispositivos mobile</h4>
             </div>
         </div>
     </div>
