@@ -96,7 +96,7 @@ nav {
             border-left: 2px solid $palette-highlight;
             
             > img {
-                filter: $filter-highlight;
+                filter: $filter-primary;
             }
             
             &:hover {
@@ -188,6 +188,7 @@ nav {
 
         .logout {
             width: 100% !important;
+            background-color: $palette-highlight !important;
         }
 
         .profile {
