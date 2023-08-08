@@ -11,104 +11,102 @@
       ngbTooltip="Adicionar ano">
   </div>
 
-  <div class="mt-3">
-    <div class="table-box">
-      <table class="table table-hover">
-        <thead>
-          <th>
-            <div class="media-md-lg">
-              Ano
-            </div>
-          </th>
-          <th>
-            <div class="media-md-lg">
-              Entradas
-              <app-tooltip>
-                O total de renda obtida no ano.
-              </app-tooltip>
-            </div>
-            <app-tooltip positionTarget="div.table-box" class="media-sm">
+  <div class="table-box mt-3">
+    <table class="table table-hover">
+      <thead>
+        <th>
+          <div class="media-md-lg">
+            Ano
+          </div>
+        </th>
+        <th>
+          <div class="media-md-lg">
+            Entradas
+            <app-tooltip>
               O total de renda obtida no ano.
             </app-tooltip>
-          </th>
-          <th>
-            <div class="media-md-lg">
-              Mensalidades
-              <app-tooltip>
-                O total de gastos fixos do ano.
-              </app-tooltip>
-            </div>
-            <app-tooltip positionTarget="div.table-box" class="media-sm">
+          </div>
+          <app-tooltip positionTarget="div.table-box" class="media-sm">
+            O total de renda obtida no ano.
+          </app-tooltip>
+        </th>
+        <th>
+          <div class="media-md-lg">
+            Mensalidades
+            <app-tooltip>
               O total de gastos fixos do ano.
             </app-tooltip>
-          </th>
-          <th>
-            <div class="media-md-lg">
-              Disponível
-              <app-tooltip>
-                O total de renda que você se reservou para poder gastar com Gastos Variáveis.
-              </app-tooltip>
-            </div>
-            <app-tooltip positionTarget="div.table-box" class="media-sm">
+          </div>
+          <app-tooltip positionTarget="div.table-box" class="media-sm">
+            O total de gastos fixos do ano.
+          </app-tooltip>
+        </th>
+        <th>
+          <div class="media-md-lg">
+            Disponível
+            <app-tooltip>
               O total de renda que você se reservou para poder gastar com Gastos Variáveis.
             </app-tooltip>
-          </th>
-          <th>
-            <div class="media-md-lg">
-              Gastos variáveis
-              <app-tooltip>
-                O total de gastos que você teve durante o ano.
-              </app-tooltip>
-            </div>
-            <app-tooltip positionTarget="div.table-box" class="media-sm">
+          </div>
+          <app-tooltip positionTarget="div.table-box" class="media-sm">
+            O total de renda que você se reservou para poder gastar com Gastos Variáveis.
+          </app-tooltip>
+        </th>
+        <th>
+          <div class="media-md-lg">
+            Gastos variáveis
+            <app-tooltip>
               O total de gastos que você teve durante o ano.
             </app-tooltip>
-          </th>
-          <th>
-            <div class="media-md-lg">
-              Economizado
-              <app-tooltip>
-                O total de renda que você deixou de gastar.
-              </app-tooltip>
-            </div>
-            <app-tooltip positionTarget="div.table-box" class="media-sm">
+          </div>
+          <app-tooltip positionTarget="div.table-box" class="media-sm">
+            O total de gastos que você teve durante o ano.
+          </app-tooltip>
+        </th>
+        <th>
+          <div class="media-md-lg">
+            Economizado
+            <app-tooltip>
               O total de renda que você deixou de gastar.
             </app-tooltip>
-          </th>
-          <th></th>
-        </thead>
-        <tbody *ngIf="!yearsHistories.length">
-          <tr>
-            <td colspan="7">Nenhum registro.</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr *ngFor="let history of yearsHistories" class="table-active">
-            <td>{{ history.year.year }}</td>
-            <td>{{ history.monthlyIncomes | number:'.2-2':'pt' }}</td>
-            <td>{{ history.monthlyExpenses | number:'.2-2':'pt' }}</td>
-            <td>{{ history.available | number:'.2-2':'pt' }}</td>
-            <td [ngClass]="{'text-red': history.expenses > history.available}">
-              {{ history.expenses | number:'.2-2':'pt' }}
-            </td>
-            <td [ngClass]="{'text-red': history.saved < 0}">
-              {{ history.saved | number:'.2-2':'pt' }}
-            </td>
-            <td class="actions">
-              <div class="d-flex justify-content-evenly">
-                <img 
-                  src="../../../../../assets/icons/pencil.svg"
-                  (click)="editYear(history.year)"
-                  ngbTooltip="Editar">
-                <img 
-                  src="../../../../../assets/icons/trash.svg"
-                  (click)="deleteYear(history.year)"
-                  ngbTooltip="Excluir">
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+          </div>
+          <app-tooltip positionTarget="div.table-box" class="media-sm">
+            O total de renda que você deixou de gastar.
+          </app-tooltip>
+        </th>
+        <th></th>
+      </thead>
+      <tbody *ngIf="!yearsHistories.length">
+        <tr>
+          <td colspan="7">Nenhum registro.</td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr *ngFor="let history of yearsHistories" class="table-active">
+          <td>{{ history.year.year }}</td>
+          <td>{{ history.monthlyIncomes | number:'.2-2':'pt' }}</td>
+          <td>{{ history.monthlyExpenses | number:'.2-2':'pt' }}</td>
+          <td>{{ history.available | number:'.2-2':'pt' }}</td>
+          <td [ngClass]="{'text-red': history.expenses > history.available}">
+            {{ history.expenses | number:'.2-2':'pt' }}
+          </td>
+          <td [ngClass]="{'text-red': history.saved < 0}">
+            {{ history.saved | number:'.2-2':'pt' }}
+          </td>
+          <td class="actions">
+            <div class="d-flex justify-content-evenly">
+              <img 
+                src="../../../../../assets/icons/pencil.svg"
+                (click)="editYear(history.year)"
+                ngbTooltip="Editar">
+              <img 
+                src="../../../../../assets/icons/trash.svg"
+                (click)="deleteYear(history.year)"
+                ngbTooltip="Excluir">
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

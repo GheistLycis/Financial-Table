@@ -1,5 +1,5 @@
 <div class="container px-4">  
-  <div class="d-flex justify-content-between align-items-center">
+  <div class="header d-flex justify-content-between align-items-center">
     <div class="d-flex gap-15">
       <h2 class="m-0">Tags de gastos</h2>
       <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
@@ -7,12 +7,11 @@
     <img 
       src="../../../../../assets/icons/plus.svg"
       (click)="addTag()"
-      width="50px"
       class="action"
       ngbTooltip="Adicionar tag">
   </div>
   
-  <div class="mt-3">
+  <div class="table-box mt-3">
     <table class="table table-hover">
       <thead>
         <th>Nome</th>
@@ -37,12 +36,10 @@
               <img 
                 src="../../../../../assets/icons/pencil.svg"
                 (click)="editTag(tag)"
-                width="25px"
                 ngbTooltip="Editar">
               <img 
                 src="../../../../../assets/icons/trash.svg"
                 (click)="deleteTag(tag)"
-                width="25px"
                 ngbTooltip="Excluir">
             </div>
           </td>

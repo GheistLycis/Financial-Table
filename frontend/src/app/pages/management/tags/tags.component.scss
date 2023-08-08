@@ -1,4 +1,49 @@
+@import 'src/styles/variables';
+
+.header {
+  img {
+    width: 50px;
+  }
+}
+
 table {
     border-collapse: separate; 
     border-spacing: 0 20px;
+
+    tr {
+      img {
+        width: 25px;
+      }
+    }
+}
+
+@media only screen and (max-width: $tablet) {
+  .header {
+    h2 {
+      font-size: 20px;
+    }
+
+    img {
+      width: 30px;
+      transform: translateY(-5px);
+    }
   }
+
+  .table-box {
+    overflow-x: auto;
+
+    table {
+      font-size: 12px;
+
+      tr {
+        td:first-child {
+          font-weight: bold;
+        }
+
+        img {
+          width: 20px;
+        }
+      }
+    }
+  }
+}
