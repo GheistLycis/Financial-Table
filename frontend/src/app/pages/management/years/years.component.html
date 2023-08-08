@@ -27,7 +27,7 @@
                 O total de renda obtida no ano.
               </app-tooltip>
             </div>
-            <app-tooltip positionTarget="table" class="media-sm">
+            <app-tooltip positionTarget="div.table-box" class="media-sm">
               O total de renda obtida no ano.
             </app-tooltip>
           </th>
@@ -38,7 +38,7 @@
                 O total de gastos fixos do ano.
               </app-tooltip>
             </div>
-            <app-tooltip positionTarget="table" class="media-sm">
+            <app-tooltip positionTarget="div.table-box" class="media-sm">
               O total de gastos fixos do ano.
             </app-tooltip>
           </th>
@@ -49,7 +49,7 @@
                 O total de renda que você se reservou para poder gastar com Gastos Variáveis.
               </app-tooltip>
             </div>
-            <app-tooltip positionTarget="table" class="media-sm">
+            <app-tooltip positionTarget="div.table-box" class="media-sm">
               O total de renda que você se reservou para poder gastar com Gastos Variáveis.
             </app-tooltip>
           </th>
@@ -60,7 +60,7 @@
                 O total de gastos que você teve durante o ano.
               </app-tooltip>
             </div>
-            <app-tooltip positionTarget="table" class="media-sm">
+            <app-tooltip positionTarget="div.table-box" class="media-sm">
               O total de gastos que você teve durante o ano.
             </app-tooltip>
           </th>
@@ -71,7 +71,7 @@
                 O total de renda que você deixou de gastar.
               </app-tooltip>
             </div>
-            <app-tooltip positionTarget="table" class="media-sm">
+            <app-tooltip positionTarget="div.table-box" class="media-sm">
               O total de renda que você deixou de gastar.
             </app-tooltip>
           </th>
@@ -99,12 +99,10 @@
                 <img 
                   src="../../../../../assets/icons/pencil.svg"
                   (click)="editYear(history.year)"
-                  width="25px"
                   ngbTooltip="Editar">
                 <img 
                   src="../../../../../assets/icons/trash.svg"
                   (click)="deleteYear(history.year)"
-                  width="25px"
                   ngbTooltip="Excluir">
               </div>
             </td>

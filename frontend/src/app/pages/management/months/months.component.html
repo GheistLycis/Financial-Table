@@ -1,5 +1,5 @@
 <div class="container px-4">  
-  <div class="d-flex justify-content-between align-items-center">
+  <div class="header d-flex justify-content-between align-items-center">
     <div class="d-flex gap-15">
       <h2 class="m-0">Histórico dos meses</h2>
       <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
@@ -10,14 +10,12 @@
         <img 
           src="../../../../../assets/icons/download.svg"
           (click)="downloadCSV$.next()"
-          width="50px"
           class="action"
           ngbTooltip="Exportar meses como CSV. Isto lhe permitirá ter um backup de todos seus registros em um formato que pode ser lido por programas como o Excel.">
       </div>
       <img 
         src="../../../../../assets/icons/plus.svg"
         (click)="addMonth()"
-        width="50px"
         class="action"
         ngbTooltip="Adicionar mês">
     </div>
@@ -37,101 +35,128 @@
       >
         <button ngbNavLink>{{ year.year }}</button>
         <ng-template ngbNavContent>
-          <table class="table table-hover">
-            <thead>
-              <th><span>Mês</span></th>
-              <th>
-                <span>Entradas</span>
-                <app-tooltip>
-                  O total de renda que entrou durante o mês.
-                </app-tooltip>
-              </th>
-              <th>
-                <span>Mensalidades</span>
-                <app-tooltip>
-                  As mensalidades que você já deixa registradas como gastos previstos. São descontadas automaticamente das Entradas.
-                </app-tooltip>
-              </th>
-              <th>
-                <span>Disponível</span>
-                <app-tooltip>
-                  <p>Disponível para os seus Gastos Variáveis durante o mês. Considera a porcentagem reservada para o mês e as Mensalidades.</p>
-                  <p><b>(Entradas * Porcentagem_Reservada) - Gastos_Fixos</b></p>
-                </app-tooltip>
-              </th>
-              <th>
-                <span>Gastos variáveis</span>
-                <app-tooltip>
-                  Todos seus gastos registrados na tabela de gastos até o momento.
-                </app-tooltip>
-              </th>
-              <th>
-                <span>Saldo</span>
-                <app-tooltip>
-                  <p>O balanço geral carregado através dos meses, herdando os saldos positivos e negativos dos meses anteriores. Reinicia todo ano.</p>
-                  <p><b>(Disponível - Gastos_Variáveis) + Saldo_Do_Mês_Anterior</b></p>
-                </app-tooltip>
-              </th>
-              <th></th>
-            </thead>
-            <tbody *ngIf="!monthsHistories.length">
-              <tr>
-                <td colspan="7">Nenhum registro.</td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr *ngFor="let history of monthsHistories; first as first" class="table-active">
-                <td>
-                  {{ history.month.month | monthName }}
-                  ({{ history.month.available | number:'.0-2':'pt' }}%)
-                </td>
-                <td>{{ history.monthlyIncomes | number:'.2-2':'pt' }}</td>
-                <td>{{ history.monthlyExpenses | number:'.2-2':'pt' }}</td>
-                <td>{{ history.available | number:'.2-2':'pt' }}</td>
-                <td [ngClass]="{'text-red': history.expenses > history.available}">
-                  {{ history.expenses | number:'.2-2':'pt' }}
-                </td>
-                <td [ngClass]="{'text-red': history.balance <= 0}">
-                  {{ history.balance | number:'.2-2':'pt' }}
-                </td>
-                <td class="actions">
-                  <div class="d-flex justify-content-evenly">
-                    <img 
-                      *ngIf="first"
-                      src="../../../../assets/icons/copy.svg"
-                      (click)="duplicateMonth(history.month)"
-                      width="25px"
-                      ngbTooltip="Duplicar">
-                    <img 
-                      src="../../../../../assets/icons/pencil.svg"
-                      (click)="editMonth(history.month)"
-                      width="25px"
-                      ngbTooltip="Editar">
-                    <img 
-                      src="../../../../../assets/icons/trash.svg"
-                      (click)="deleteMonth(history.month)"
-                      width="25px"
-                      ngbTooltip="Excluir">
-                    <img 
-                      src="../../../../../assets/icons/money.svg"
-                      (click)="listMonthlyIncomes(history.month)"
-                      width="30px"
-                      ngbTooltip="Listar entradas">
-                    <img 
-                      src="../../../../../assets/icons/dollar-sign.svg"
-                      (click)="listMonthlyExpenses(history.month)"
-                      width="30px"
-                      ngbTooltip="Listar mensalidades">
-                    <img 
-                      src="../../../../../assets/icons/category.svg"
-                      (click)="listCategories(history.month)"
-                      width="30px"
-                      ngbTooltip="Listar categorias">
+          <div class="table-box">
+            <table class="table table-hover">
+              <thead>
+                <th>
+                  <div class="media-md-lg">
+                    Mês
                   </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </th>
+                <th>
+                  <div class="media-md-lg">
+                    Entradas
+                    <app-tooltip>
+                      O total de renda que entrou durante o mês.
+                    </app-tooltip>
+                  </div>
+                  <app-tooltip positionTarget="div.table-box" class="media-sm">
+                    O total de renda que entrou durante o mês.
+                  </app-tooltip>
+                </th>
+                <th>
+                  <div class="media-md-lg">
+                    Mensalidades
+                    <app-tooltip>
+                      As mensalidades que você já deixa registradas como gastos previstos. São descontadas automaticamente das Entradas.
+                    </app-tooltip>
+                  </div>
+                  <app-tooltip positionTarget="div.table-box" class="media-sm">
+                    As mensalidades que você já deixa registradas como gastos previstos. São descontadas automaticamente das Entradas.
+                  </app-tooltip>
+                </th>
+                <th>
+                  <div class="media-md-lg">
+                    Disponível
+                    <app-tooltip>
+                      <p>Disponível para os seus Gastos Variáveis durante o mês. Considera a porcentagem reservada para o mês e as Mensalidades.</p>
+                      <p><b>(Entradas * Porcentagem_Reservada) - Gastos_Fixos</b></p>
+                    </app-tooltip>
+                  </div>
+                  <app-tooltip positionTarget="div.table-box" class="media-sm">
+                    <p>Disponível para os seus Gastos Variáveis durante o mês. Considera a porcentagem reservada para o mês e as Mensalidades.</p>
+                    <p><b>(Entradas * Porcentagem_Reservada) - Gastos_Fixos</b></p>
+                  </app-tooltip>
+                </th>
+                <th>
+                  <div class="media-md-lg">
+                    Gastos variáveis
+                    <app-tooltip>
+                      Todos seus gastos registrados na tabela de gastos até o momento.
+                    </app-tooltip>
+                  </div>
+                  <app-tooltip positionTarget="div.table-box" class="media-sm">
+                    Todos seus gastos registrados na tabela de gastos até o momento.
+                  </app-tooltip>
+                </th>
+                <th>
+                  <div class="media-md-lg">
+                    Saldo
+                    <app-tooltip>
+                      <p>O balanço geral carregado através dos meses, herdando os saldos positivos e negativos dos meses anteriores. Reinicia todo ano.</p>
+                      <p><b>(Disponível - Gastos_Variáveis) + Saldo_Do_Mês_Anterior</b></p>
+                    </app-tooltip>
+                  </div>
+                  <app-tooltip positionTarget="div.table-box" class="media-sm">
+                    <p>O balanço geral carregado através dos meses, herdando os saldos positivos e negativos dos meses anteriores. Reinicia todo ano.</p>
+                    <p><b>(Disponível - Gastos_Variáveis) + Saldo_Do_Mês_Anterior</b></p>
+                  </app-tooltip>
+                </th>
+                <th></th>
+              </thead>
+              <tbody *ngIf="!monthsHistories.length">
+                <tr>
+                  <td colspan="7">Nenhum registro.</td>
+                </tr>
+              </tbody>
+              <tbody>
+                <tr *ngFor="let history of monthsHistories; first as first" class="table-active">
+                  <td>
+                    {{ history.month.month | monthName }}
+                    ({{ history.month.available | number:'.0-2':'pt' }}%)
+                  </td>
+                  <td>{{ history.monthlyIncomes | number:'.2-2':'pt' }}</td>
+                  <td>{{ history.monthlyExpenses | number:'.2-2':'pt' }}</td>
+                  <td>{{ history.available | number:'.2-2':'pt' }}</td>
+                  <td [ngClass]="{'text-red': history.expenses > history.available}">
+                    {{ history.expenses | number:'.2-2':'pt' }}
+                  </td>
+                  <td [ngClass]="{'text-red': history.balance <= 0}">
+                    {{ history.balance | number:'.2-2':'pt' }}
+                  </td>
+                  <td class="actions">
+                    <div class="d-flex justify-content-evenly">
+                      <img 
+                        *ngIf="first"
+                        src="../../../../assets/icons/copy.svg"
+                        (click)="duplicateMonth(history.month)"
+                        ngbTooltip="Duplicar">
+                      <img 
+                        src="../../../../../assets/icons/pencil.svg"
+                        (click)="editMonth(history.month)"
+                        ngbTooltip="Editar">
+                      <img 
+                        src="../../../../../assets/icons/trash.svg"
+                        (click)="deleteMonth(history.month)"
+                        ngbTooltip="Excluir">
+                      <img 
+                        src="../../../../../assets/icons/money.svg"
+                        (click)="listMonthlyIncomes(history.month)"
+                        ngbTooltip="Listar entradas">
+                      <img 
+                        src="../../../../../assets/icons/dollar-sign.svg"
+                        (click)="listMonthlyExpenses(history.month)"
+                        ngbTooltip="Listar mensalidades">
+                      <img 
+                        src="../../../../../assets/icons/category.svg"
+                        (click)="listCategories(history.month)"
+                        ngbTooltip="Listar categorias">
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </ng-template>
       </li>
     </ul>

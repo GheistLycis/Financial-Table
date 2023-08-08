@@ -13,6 +13,12 @@
 table {
   border-collapse: separate; 
   border-spacing: 0 20px;
+
+  tr {
+    img {
+      width: 25px;
+    }
+  }
 }
 
 @media only screen and (max-width: $laptop) {
@@ -46,6 +52,10 @@ table {
       tr {
         td:first-child {
           font-weight: bold;
+        }
+
+        img {
+          width: 20px;
         }
       }
     }
