@@ -1,10 +1,10 @@
 <div class="panel">
-    <div class="profile">
-        <button (click)="collapse.toggle()" class="profile-btn">
-            <img src="assets/icons/person.svg" width="30px">
+    <div class="profile bg-primary">
+        <button (click)="collapse.toggle()">
+            <img src="assets/icons/person.svg" width="30px" class="filter-tertiary">
             Meu perfil
         </button>
-        <div #collapse="ngbCollapse" [(ngbCollapse)]="collapses['profile']">
+        <div #collapse="ngbCollapse" [(ngbCollapse)]="collapses['profile']" class="px-2">
             <app-profile></app-profile>
         </div>
     </div>

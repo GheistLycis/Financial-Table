@@ -63,7 +63,7 @@
                 * Sua nova senha não pode ser vazia
               </div>
             </div>
-            <button (click)="validateForm('password')" class="btn cancel ju">
+            <button (click)="validateForm('password')" class="btn cancel">
               Trocar
             </button>
           </ng-container>
@@ -71,10 +71,10 @@
       </div>
     </form>
     <div class="d-flex flex-column gap-0 mb-0 italic">
-      <small class="text-secondary">Ativo desde</small>
-      <small class="text-secondary mb-2">{{ user.createdAt | date:'dd/MM/YYYY':'pt' }}</small>
-      <small class="text-secondary">Última alteração</small>
-      <small class="text-secondary">{{ user.updatedAt | date:'dd/MM/YYYY, HH:mm':'pt' }}</small>
+      <small>Ativo desde</small>
+      <small class="mb-2">{{ user.createdAt | date:'dd/MM/YYYY':'pt' }}</small>
+      <small>Última alteração</small>
+      <small>{{ user.updatedAt | date:'dd/MM/YYYY, HH:mm':'pt' }}</small>
     </div>
     <button  (click)="deleteAccount()" class="btn cancel delete-account">
       Excluir conta

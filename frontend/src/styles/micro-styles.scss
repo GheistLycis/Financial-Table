@@ -79,6 +79,24 @@ img.action {
   }
 }
 
+.overflow-x-no-bar {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  
+  &::-webkit-scrollbar{
+    display: none;
+  }
+}
+
+.overflow-y-no-bar {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  
+  &::-webkit-scrollbar{
+    display: none;
+  }
+}
+
 
 // FLEX-BOX
 .gap-0 { 

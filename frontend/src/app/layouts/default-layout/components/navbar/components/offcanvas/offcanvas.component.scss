@@ -6,29 +6,18 @@
     gap: 50px;
 
     .profile {
-        position: relative;
-        background-color: $palette-tertiary;
-        
+        padding-top: 20px;
+
         button {
             width: 100%;
             background-color: transparent;
-            color: $palette-primary;
+            color: $palette-tertiary;
             border: none;
             padding: 10px 0;
     
             img {
                 transform: translateY(-2px);
             }
-        }
-        
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 10%;
-            width: 80%;
-            height: 2px;
-            background-color: $palette-primary;
         }
     }
     

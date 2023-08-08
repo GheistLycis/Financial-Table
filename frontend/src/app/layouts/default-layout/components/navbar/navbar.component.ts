@@ -26,6 +26,6 @@ export class NavbarComponent implements OnInit {
   }
 
   openOffcanvas(): void {
-    this.offcanvas.open(OffcanvasComponent, { panelClass: 'w-75' })
+    this.offcanvas.open(OffcanvasComponent, { panelClass: 'w-75 overflow-y-no-bar' })
   }
 }

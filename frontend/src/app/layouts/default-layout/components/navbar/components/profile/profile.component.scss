@@ -12,3 +12,20 @@ button {
     }
   }
 }
+
+small {
+  color: $palette-secondary;
+}
+
+@media only screen and (max-width: $tablet) {
+  .modal-container {
+    background-color: $palette-primary;
+
+    label,
+    small,
+    form button {
+      color: $palette-tertiary;
+      border-color: $palette-tertiary;
+    }
+  }
+}
