@@ -1,5 +1,20 @@
 @import 'src/styles/variables.scss';
 
+.tutorial {
+  cursor: pointer;
+  filter: $filter-tertiary;
+  width: 30px;
+}
+
+.icons {
+  display: flex;
+  gap: 20px;
+
+  img {
+    width: 50px;
+  }
+}
+
 .search-box {
   width: 480px;
   height: 40px;
@@ -16,6 +31,7 @@
     top: 5px;
     filter: $filter-primary;
     transition-duration: .3s;
+    width: 30px;
   }
 }
 
@@ -35,7 +51,24 @@ app-filters {
 }
 
 @media only screen and (max-width: $tablet) {
+  h2 {
+    font-size: 20px;
+    width: 110px;
+  }
+
+  .tutorial {
+    width: 25px;
+  }
+
+  .icons {
+    gap: 5px;
+
+    img {
+      width: 30px;
+    }
+  }
+
   .search-box {
-    width: 300px;
+    width: 90%;
   }
 }

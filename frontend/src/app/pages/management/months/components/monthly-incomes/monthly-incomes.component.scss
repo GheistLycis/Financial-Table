@@ -20,15 +20,5 @@
 @media only screen and (max-width: $tablet) {
     .table-box {
         overflow-x: auto;
-
-        table {
-            font-size: 12px;
-    
-            tr {    
-                img {
-                    width: 20px;
-                }
-            }
-        }
     }
 }

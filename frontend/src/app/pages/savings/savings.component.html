@@ -1,5 +1,5 @@
 <div class="container px-4">
-  <div class="d-flex justify-content-between align-items-center">
+  <div class="header d-flex justify-content-between align-items-center">
     <div class="d-flex gap-15">
       <h2 class="m-0">Minhas Caixinhas</h2>
       <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
@@ -7,7 +7,6 @@
     <img 
       src="../../../../../assets/icons/plus.svg"
       (click)="addSaving()"
-      width="50px"
       class="action"
       ngbTooltip="Adicionar caixinha">
   </div>
@@ -15,9 +14,9 @@
   <div class="content d-flex flex-column gap-20">
     <div>
       <h5>
-          Saldo atual: 
-          <span [ngClass]="{'text-red': actualBalance <= 0}">R${{ actualBalance | number:'.2-2':'pt' }}</span>
-        </h5>
+        Saldo atual: 
+        <span [ngClass]="{'text-red': actualBalance <= 0}">R${{ actualBalance | number:'.2-2':'pt' }}</span>
+      </h5>
     </div>
     
     <div *ngIf="!loading && !savings.length" class="saving card shadow px-3 py-4 w-75">
@@ -71,7 +70,7 @@
         </ngb-progressbar>
       </div>
       
-      <div class="footer d-flex justify-content-end gap-15 pr-4 pt-4 mt-5">
+      <div class="footer d-flex pr-4 pt-4">
         <div class="media-md-lg">
           <button *ngIf="saving.status == 'active'" (click)="updateStatus(saving.id, 'completed')" class="btn set-completed mx-2">
             <img src="../../../../../assets/icons/accomplish.svg" width="30px">
@@ -91,33 +90,30 @@
               *ngIf="saving.status == 'active'" 
               src="../../../../../assets/icons/accomplish.svg" 
               (click)="updateStatus(saving.id, 'completed')"
-              width="30px"
-              class="filter-green mx-2">
+              class="filter-green mx-3">
             <img 
               *ngIf="saving.status == 'active'" 
               src="../../../../../assets/icons/suspend.svg" 
               (click)="updateStatus(saving.id, 'canceled')"
-              width="30px"
               class="filter-red">
             <img 
               *ngIf="saving.status != 'active'" 
               src="../../../../../assets/icons/power.svg" 
               (click)="updateStatus(saving.id, 'active')"
-              width="30px"
               class="filter-highlight">
         </div>
-        <img 
-          src="../../../../../assets/icons/pencil.svg"
-          (click)="editSaving(saving)"
-          width="42px"
-          class="action"
-          ngbTooltip="Editar">
-        <img 
-          src="../../../../../assets/icons/trash.svg"
-          (click)="deleteSaving(saving)"
-          width="42px"
-          class="action"
-          ngbTooltip="Excluir">
+        <div class="d-flex gap-15">
+          <img 
+            src="../../../../../assets/icons/pencil.svg"
+            (click)="editSaving(saving)"
+            class="action"
+            ngbTooltip="Editar">
+          <img 
+            src="../../../../../assets/icons/trash.svg"
+            (click)="deleteSaving(saving)"
+            class="action"
+            ngbTooltip="Excluir">
+        </div>
       </div>
     </div>
   </div>

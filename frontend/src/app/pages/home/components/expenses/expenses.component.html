@@ -5,24 +5,21 @@
       <img 
         src="../../../../../assets/icons/info.svg"
         (click)="openTutotialModal()"
-        width="30px"
-        class="pointer filter-tertiary">
+        class="tutorial">
       <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
     </div>
-    <div class="d-flex gap-20">
+    <div class="icons">
       <div>
         <span *ngIf="loadingCSV" class="spinner-border spinner-border-sm"></span>
         <img 
           src="../../../../../assets/icons/download.svg"
           (click)="downloadCSV$.next()"
-          width="50px"
           class="action"
           ngbTooltip="Exportar gastos como CSV. Isto lhe permitirá ter um backup de todos seus registros em um formato que pode ser lido por programas como o Excel.">
       </div>
       <img 
         src="../../../../../assets/icons/plus.svg"
         (click)="addExpense()"
-        width="50px"
         class="action"
         ngbTooltip="Adicionar registro">
     </div>
@@ -34,7 +31,7 @@
       (keyup)="search.next(searchInput.value.trim())"
       placeholder="Pesquisar pela descrição (mínimo 3 caracteres)"
       class="search-box w-100 h-100 p-3">
-    <img src="../../../../../assets/icons/search.svg" width="30px">
+    <img src="../../../../../assets/icons/search.svg">
   </div>
 
   <app-filters [year]="activeYear" (filters)="filters.next($event)"></app-filters>
