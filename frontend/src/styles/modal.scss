@@ -1,3 +1,5 @@
+@import 'src/styles/variables';
+
 .modal-container {
   width: 100%;
   padding: 20px;
@@ -16,10 +18,15 @@
       margin: 0;
       padding: 0;
     }
+
+    img {
+      filter: $filter-primary;
+    }
     
     span {
-      font-size: 30px;
+      font-size: 25px;
       cursor: pointer;
+      transform: translateY(-2px);
     }
   }
   
@@ -40,6 +47,31 @@
       min-width: 150px;
       min-height: 60px;
       font-size: 24px;
+    }
+  }
+}
+
+@media only screen and (max-width: $tablet) {
+  .modal-container {
+    padding: 15px 5px;
+
+    .modal-header {
+      h3,
+      h2 {
+        font-size: 16px;
+      }
+    }
+
+    .modal-body {
+      font-size: 14px;
+    }
+
+    .modal-footer {      
+      button {
+        min-width: 100px;
+        min-height: 0;
+        font-size: 14px;
+      }
     }
   }
 }

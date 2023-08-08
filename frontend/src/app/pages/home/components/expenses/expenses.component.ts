@@ -211,7 +211,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
         </ol>
       </div>
       <small>
-        <b>DICA:</b> para facilitar, ao invés de criar um mês do zero toda vez, você pode <b>DUPLICAR</b> o mês anterior, copiando todas suas categorias, entradas e mensalidades!
+        <b>DICA:</b> para facilitar, ao invés de criar um mês novo toda vez, você pode <b>DUPLICAR</b> o mês anterior, copiando todas suas categorias, entradas e mensalidades!
       </small>
     `
   }
