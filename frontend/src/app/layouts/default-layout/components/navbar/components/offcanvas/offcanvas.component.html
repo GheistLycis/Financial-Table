@@ -10,29 +10,42 @@
     </div>
 
     <div class="nav-items">
-        <div *ngFor="let item of navItems" class="nav-item">
-            <a 
+        <ng-container *ngFor="let item of navItems">
+            <div
                 *ngIf="item.type == 'link'"
                 (click)="activeOffcanvas.dismiss()"
-                [routerLink]="item.link" 
-                [ngClass]="{'filter-highlight': router.url == ('/' + item.link)}">
+                [routerLink]="item.link"
+                class="nav-item"
+                [ngClass]="{'text-highlight': router.url == ('/' + item.link)}"
+            >
                 {{ item.title }}
-            </a>
-            <ng-container *ngIf="item.type == 'menu'">
-                <button
+            </div>
+
+            <div *ngIf="item.type == 'menu'" class="nav-item d-flex flex-column">
+                <div 
                     (click)="collapse.toggle()"
-                    [ngClass]="{'filter-highlight': router.url.startsWith('/' + item.link)}">
+                    class="collapse-toggle"
+                    [ngClass]="{'text-highlight': router.url.startsWith('/' + item.link)}"
+                >
                     {{ item.title }}
-                </button>
-                <div #collapse="ngbCollapse" [(ngbCollapse)]="collapses[item.title]">
-                    <a
-                        *ngFor="let child of item.children"
-                        (click)="activeOffcanvas.dismiss()"
-                        [routerLink]="item.link + '/' + child.link">
-                        {{ child.title }}
-                    </a>
+                    <img src="assets/icons/uncollapse.svg" [ngClass]="{'active': !collapses[item.title]}">
                 </div>
-            </ng-container>
-        </div>
+                <div 
+                    #collapse="ngbCollapse" 
+                    [(ngbCollapse)]="collapses[item.title]"
+                    class="collapse-box"
+                >
+                    <div 
+                        *ngFor="let child of item.children" 
+                        (click)="activeOffcanvas.dismiss()" 
+                        [routerLink]="item.link + '/' + child.link"
+                        class="nav-item"
+                        [ngClass]="{'text-highlight': router.url.endsWith(child.link)}"
+                    >
+                        {{ child.title }}
+                    </div>
+                </div>
+            </div>
+        </ng-container>
     </div>
 </div>
