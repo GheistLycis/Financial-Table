@@ -60,7 +60,7 @@ export class CategoriesChartComponent {
       },
       tooltip: {
         callbacks: {
-          label: ({ parsed }) => 'R$ ' + this.roundPipe.transform(parsed, 2),
+          label: ({ dataset, parsed }) => `${dataset.label}: R$${this.roundPipe.transform(parsed, 2)}`,
         },
         titleFont: {
           family: 'Overpass',
