@@ -1,5 +1,34 @@
+@import 'src/styles/variables';
+
 .modal-header {
     img {
+        width: 30px;
         transform: translateY(-5px);
+    }
+}
+
+.modal-body {
+    table {
+        tr {
+            img {
+                width: 25px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $tablet) {
+    .table-box {
+        overflow-x: auto;
+
+        table {
+            font-size: 12px;
+    
+            tr {    
+                img {
+                    width: 20px;
+                }
+            }
+        }
     }
 }
