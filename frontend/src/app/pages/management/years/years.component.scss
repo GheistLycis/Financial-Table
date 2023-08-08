@@ -1,14 +1,53 @@
 @import 'src/styles/variables';
 
+.media-sm {
+  display: none;
+}
+
+.header {
+  img {
+    width: 50px;
+  }
+}
+
 table {
   border-collapse: separate; 
   border-spacing: 0 20px;
 }
 
 @media only screen and (max-width: $laptop) {
-  th {
-    span {
-      display: none;
+  .media-md-lg {
+    display: none !important;
+  }
+
+  .media-sm {
+    display: block !important;
+  }
+}
+
+@media only screen and (max-width: $tablet) {
+  .header {
+    h2 {
+      font-size: 20px;
+    }
+
+    img {
+      width: 30px;
+      transform: translateY(-5px);
+    }
+  }
+
+  .table-box {
+    overflow-x: auto;
+
+    table {
+      font-size: 12px;
+
+      tr {
+        td:first-child {
+          font-weight: bold;
+        }
+      }
     }
   }
 }

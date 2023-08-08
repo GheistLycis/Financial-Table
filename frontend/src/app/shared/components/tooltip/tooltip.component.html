@@ -1,4 +1,10 @@
-<div [ngbTooltip]="tooltipContent" container="body" tooltipClass="custom-tooltip" class="custom-tooltip-container">
+<div 
+  [ngbTooltip]="tooltipContent" 
+  [container]="container" 
+  [positionTarget]="positionTarget"
+  tooltipClass="custom-tooltip" 
+  class="custom-tooltip-container"
+>
   <img *ngIf="icon == 'help'" src="../../../../assets/icons/help.svg" [class]="class">
   <img *ngIf="icon == 'warning'" src="../../../../assets/icons/warning.svg" [class]="class">
   <img *ngIf="icon == 'info'" src="../../../../assets/icons/info.svg" [class]="class">
