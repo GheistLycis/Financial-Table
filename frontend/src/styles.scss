@@ -63,3 +63,10 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb:hover {
     background:  $palette-primary;
 }
+
+@media only screen and (max-width: $tablet) {
+    html,
+    body {
+        overflow-x: hidden !important;
+    }
+}
