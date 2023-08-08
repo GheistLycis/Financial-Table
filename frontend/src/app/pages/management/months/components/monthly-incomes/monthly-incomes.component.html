@@ -8,7 +8,6 @@
       <img 
         src="../../../../../assets/icons/plus.svg"
         (click)="addIncome()"
-        width="30px"
         class="action"
         ngbTooltip="Adicionar entrada mensal">
     </div>
@@ -16,39 +15,39 @@
   </div>
   
   <div class="modal-body">
-    <table class="table table-hover">
-      <thead>
-        <th>Valor</th>
-        <th>Data</th>
-        <th>Descrição</th>
-        <th></th>
-      </thead>
-      <tbody *ngIf="!incomes.length">
-        <tr>
-          <td colspan="4">Nenhum registro.</td>
-        </tr>
-      </tbody>
-      <tbody>
-        <tr *ngFor="let income of incomes" class="table-active">
-          <td>{{ income.value | number:'.2-2':'pt' }}</td>
-          <td>{{ income.date | date:'dd/MM/YY' }}</td>
-          <td>{{ income.description }}</td>
-          <td class="actions">
-            <div class="d-flex justify-content-evenly">
-              <img 
-                src="../../../../../assets/icons/pencil.svg"
-                (click)="editIncome(income)"
-                width="25px"
-                ngbTooltip="Editar">
-              <img 
-                src="../../../../../assets/icons/trash.svg"
-                (click)="deleteIncome(income)"
-                width="25px"
-                ngbTooltip="Excluir">
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-box">
+      <table class="table table-hover">
+        <thead>
+          <th>Valor</th>
+          <th>Data</th>
+          <th>Descrição</th>
+          <th></th>
+        </thead>
+        <tbody *ngIf="!incomes.length">
+          <tr>
+            <td colspan="4">Nenhum registro.</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr *ngFor="let income of incomes" class="table-active">
+            <td>{{ income.value | number:'.2-2':'pt' }}</td>
+            <td>{{ income.date | date:'dd/MM/YY' }}</td>
+            <td>{{ income.description }}</td>
+            <td class="actions">
+              <div class="d-flex justify-content-evenly">
+                <img 
+                  src="../../../../../assets/icons/pencil.svg"
+                  (click)="editIncome(income)"
+                  ngbTooltip="Editar">
+                <img 
+                  src="../../../../../assets/icons/trash.svg"
+                  (click)="deleteIncome(income)"
+                  ngbTooltip="Excluir">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
