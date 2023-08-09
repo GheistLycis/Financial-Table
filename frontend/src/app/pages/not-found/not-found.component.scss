@@ -1,0 +1,65 @@
+@import 'src/styles/variables';
+
+.content {
+    height: 100%;
+    gap: 20px;
+
+    .banner {
+        width: 100%;
+        max-width: 800px;
+    }
+    
+    button {
+        height: 100px;
+        color: $palette-highlight;
+        border: 2px solid $palette-highlight;
+        border-radius: 20px;
+    
+        img {
+            width: 50px;
+            filter: $filter-highlight;
+            transform: translateY(-2px);
+        }
+    
+        &:hover {
+            background-color: $palette-highlight;
+            color: $palette-primary;
+            border-color: $palette-primary;
+    
+            img {
+                filter: $filter-primary;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $laptop) {
+    .content {        
+        button {
+            height: 150px;
+
+            img {
+                width: 40px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $tablet) {
+    .content {
+        flex-direction: column;
+
+        .banner {
+            width: 90%;
+        }
+        
+        button {
+            height: 70px;
+            width: 220px;
+
+            img {
+                width: 30px;
+            }
+        }
+    }
+}

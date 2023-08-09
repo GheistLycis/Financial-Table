@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
 import { AuthGuard } from './guards/auth.guard';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -18,8 +19,7 @@ const routes: Routes = [
   },
   { 
     path: '**', 
-    redirectTo: '',
-    pathMatch: 'full',
+    component: NotFoundComponent,
   },
 ]
 

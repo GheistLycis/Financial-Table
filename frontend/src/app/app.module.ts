@@ -13,6 +13,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskModule } from 'ngx-mask';
 import { SavingsModule } from './pages/savings/savings.module';
 import { ChartsModule } from './pages/charts/charts.module';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 registerLocaleData(localePT)
 
@@ -20,6 +21,7 @@ registerLocaleData(localePT)
 @NgModule({
   declarations: [
     AppComponent,
+    NotFoundComponent,
   ],
   imports: [
     AppRoutingModule,
