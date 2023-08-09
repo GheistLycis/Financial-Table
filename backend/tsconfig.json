@@ -16,6 +16,13 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      // SHARED
+      "@classes/*": ["src/shared/classes/*"],
+      "@decorators/*": ["src/shared/decorators/*"],
+      "@enums/*": ["src/shared/enums/*"],
+      "@interfaces/*": ["src/shared/interfaces/*"],
+    },
   }
 }

@@ -1,6 +1,6 @@
 import { Controller, Injectable } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import BaseController from 'src/shared/classes/BaseController';
+import BaseController from '@classes/BaseController';
 import { TagService } from '../service/tag.service';
 
 @ApiTags('tags')

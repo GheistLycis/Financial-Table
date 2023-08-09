@@ -1,7 +1,7 @@
 import { Body, Get, Param, Post, Put, Injectable, Controller, ParseIntPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { IpService } from '../service/ip.service';
-import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
+import GlobalResponse from '@interfaces/GlobalResponse';
 import UserDTO from 'src/app/user/User.dto';
 import IpDTO from '../Ip.dto';
 

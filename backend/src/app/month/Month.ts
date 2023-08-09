@@ -6,13 +6,13 @@ import {
   ManyToOne,
 } from "typeorm";
 import { IsInt, Max, Min } from 'class-validator';
-import BaseEntity, { manyToOneOptions, oneToManyOptions } from "src/shared/classes/BaseEntity";
+import BaseEntity, { manyToOneOptions, oneToManyOptions } from "@classes/BaseEntity";
 import { Category } from "../category/Category";
 import MonthDTO from "./Month.dto";
 import { Year } from "../year/Year";
 import { MonthlyIncome } from "../monthly-income/MonthlyIncome";
 import { MonthlyExpense } from "../monthly-expense/MonthlyExpense";
-import DecimalTransformer from "src/shared/classes/DecimalTransformer";
+import DecimalTransformer from "@classes/DecimalTransformer";
 
 @Service()
 @Entity({ name: 'months', orderBy: { month: 'DESC' }})

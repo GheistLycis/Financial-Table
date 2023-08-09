@@ -2,22 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { Year } from 'src/app/year/Year';
 import { NotFoundException, ServerException } from 'src/filters/globalExceptions';
-import YearHistory from 'src/shared/interfaces/YearHistory';
+import YearHistory from '@interfaces/YearHistory';
 import { DataSource, Repository } from 'typeorm';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
-import CategoryRemaining from 'src/shared/interfaces/CategoryRemaining';
+import CategoryRemaining from '@interfaces/CategoryRemaining';
 import { Category } from 'src/app/category/Category';
-import MonthHistory from 'src/shared/interfaces/MonthHistory';
+import MonthHistory from '@interfaces/MonthHistory';
 import { Month } from 'src/app/month/Month';
 import MonthDTO from 'src/app/month/Month.dto';
 import CategoryDTO from 'src/app/category/Category.dto';
 import YearDTO from 'src/app/year/Year.dto';
 import { User } from 'src/app/user/User';
-import CategoryChartData from 'src/shared/interfaces/CategoryChartData';
-import { MonthNames } from 'src/shared/enums/MonthNames';
-import TagChartData from 'src/shared/interfaces/TagChartData';
+import CategoryChartData from '@interfaces/CategoryChartData';
+import { MonthNames } from '@enums/MonthNames';
+import TagChartData from '@interfaces/TagChartData';
 import { Tag } from 'src/app/tag/Tag';
-import ExpenseChartData from 'src/shared/interfaces/ExpenseChartData';
+import ExpenseChartData from '@interfaces/ExpenseChartData';
 
 
 @Injectable()

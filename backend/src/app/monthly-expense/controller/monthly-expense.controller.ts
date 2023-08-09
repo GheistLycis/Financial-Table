@@ -1,6 +1,6 @@
 import { Controller, Get, Injectable, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import BaseController from 'src/shared/classes/BaseController';
+import BaseController from '@classes/BaseController';
 import { MonthlyExpenseService } from '../service/monthly-expense.service';
 
 @ApiTags('monthly-expenses')

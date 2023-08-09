@@ -4,11 +4,11 @@ import {
   Column,
   ManyToOne,
 } from "typeorm";
-import BaseEntity, { manyToOneOptions } from "src/shared/classes/BaseEntity";
+import BaseEntity, { manyToOneOptions } from "@classes/BaseEntity";
 import { Month } from "../month/Month";
 import MonthlyIncomeDTO from "./MonthlyIncome.dto";
 import { Min } from "class-validator";
-import DecimalTransformer from "src/shared/classes/DecimalTransformer";
+import DecimalTransformer from "@classes/DecimalTransformer";
 
 @Service()
 @Entity({ name: 'monthly_incomes', orderBy: { date: 'DESC' }})

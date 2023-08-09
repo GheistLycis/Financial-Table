@@ -1,4 +1,4 @@
-import BaseDTO from "src/shared/interfaces/BaseDTO";
+import BaseDTO from "@interfaces/BaseDTO";
 import TagDTO from "../tag/Tag.dto";
 import CategoryDTO from "../category/Category.dto";
 

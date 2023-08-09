@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
-import BaseService from 'src/shared/interfaces/BaseService';
+import BaseService from '@interfaces/BaseService';
 import ExpenseDTO from '../Expense.dto';
 import { Expense } from '../Expense';
 import { Tag } from '../../tag/Tag';

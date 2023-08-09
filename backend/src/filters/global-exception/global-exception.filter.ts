@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 import { Request, Response } from 'express';
-import GlobalException from 'src/shared/classes/GlobalException';
+import GlobalException from '@classes/GlobalException';
 
 
 const warnings = [400, 401, 403, 404, 406]

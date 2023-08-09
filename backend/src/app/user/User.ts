@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import { Entity, Column, OneToMany } from "typeorm";
-import BaseEntity, { oneToManyOptions } from "src/shared/classes/BaseEntity";
+import BaseEntity, { oneToManyOptions } from "@classes/BaseEntity";
 import UserDTO from "./User.dto";
 import { Saving } from "../saving/Saving";
 import { Year } from "../year/Year";

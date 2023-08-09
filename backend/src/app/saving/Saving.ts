@@ -4,10 +4,10 @@ import {
   Column,
   ManyToOne,
 } from "typeorm";
-import BaseEntity, { manyToOneOptions } from "src/shared/classes/BaseEntity";
+import BaseEntity, { manyToOneOptions } from "@classes/BaseEntity";
 import { User } from "../user/User";
 import { Min } from "class-validator";
-import DecimalTransformer from "src/shared/classes/DecimalTransformer";
+import DecimalTransformer from "@classes/DecimalTransformer";
 import SavingDTO from "./Saving.dto";
 
 
