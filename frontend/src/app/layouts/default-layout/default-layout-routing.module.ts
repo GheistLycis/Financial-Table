@@ -19,12 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'gerenciar',
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('../../pages/management/management.module').then(m => m.ManagementModule)
-      },
-    ]
+    loadChildren: () => import('../../pages/management/management.module').then(m => m.ManagementModule),
   }
 ]
 

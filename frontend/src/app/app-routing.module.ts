@@ -8,28 +8,18 @@ const routes: Routes = [
   {
     path: 'login',
     component: AuthLayoutComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('./layouts/auth-layout/auth-layout.module').then(m => m.AuthLayoutModule)
-      },
-    ]
+    loadChildren: () => import('./layouts/auth-layout/auth-layout.module').then(m => m.AuthLayoutModule),
   },
   {
     path: '',
     component: DefaultLayoutComponent,
     canActivate: [AuthGuard],
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('./layouts/default-layout/default-layout.module').then(m => m.DefaultLayoutModule)
-      },
-    ]
+    loadChildren: () => import('./layouts/default-layout/default-layout.module').then(m => m.DefaultLayoutModule),
   },
   { 
     path: '**', 
     redirectTo: '',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
 ]
 
