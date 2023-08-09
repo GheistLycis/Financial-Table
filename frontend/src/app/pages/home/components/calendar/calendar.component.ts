@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import MonthlyExpenseDTO from 'src/app/shared/DTOs/monthlyExpense';
-import MonthlyIncomeDTO from 'src/app/shared/DTOs/monthlyIncome';
-import { MonthlyExpenseService } from 'src/app/shared/services/monthly-expense/monthly-expense.service';
-import { MonthlyIncomeService } from 'src/app/shared/services/monthly-income/monthly-income.service';
+import MonthlyExpenseDTO from '@DTOs/monthlyExpense';
+import MonthlyIncomeDTO from '@DTOs/monthlyIncome';
+import { MonthlyExpenseService } from '@services/monthly-expense/monthly-expense.service';
+import { MonthlyIncomeService } from '@services/monthly-income/monthly-income.service';
 
 @Component({
   selector: 'app-calendar',

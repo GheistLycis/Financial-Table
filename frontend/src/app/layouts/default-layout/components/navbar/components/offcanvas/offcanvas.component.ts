@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { NavItem, navItems } from 'src/app/shared/interfaces/NavItem';
-import { SessionService } from 'src/app/shared/services/session/session.service';
+import { NavItem, navItems } from '@interfaces/NavItem';
+import { SessionService } from '@services/session/session.service';
 
 @Component({
   selector: 'app-offcanvas',

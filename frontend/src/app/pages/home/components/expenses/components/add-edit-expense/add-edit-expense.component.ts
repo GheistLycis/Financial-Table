@@ -3,11 +3,11 @@ import { FormGroup, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs';
-import ExpenseDTO from 'src/app/shared/DTOs/expense';
-import YearDTO from 'src/app/shared/DTOs/year';
-import ExpenseForm from 'src/app/shared/classes/ExpenseForm';
-import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
-import { TagService } from 'src/app/shared/services/tag/tag.service';
+import ExpenseDTO from '@DTOs/expense';
+import YearDTO from '@DTOs/year';
+import ExpenseForm from '@classes/ExpenseForm';
+import { ExpenseService } from '@services/expense/expense.service';
+import { TagService } from '@services/tag/tag.service';
 
 @Component({
   selector: 'app-add-edit-expense',

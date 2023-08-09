@@ -1,9 +1,9 @@
 import { Component, ViewChild, Input } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import SavingDTO from 'src/app/shared/DTOs/saving';
-import SavingForm from 'src/app/shared/classes/SavingForm';
-import { SavingService } from 'src/app/shared/services/saving/saving.service';
+import SavingDTO from '@DTOs/saving';
+import SavingForm from '@classes/SavingForm';
+import { SavingService } from '@services/saving/saving.service';
 
 @Component({
   selector: 'app-add-edit-saving',

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from 'src/app/shared/services/session/session.service';
+import { SessionService } from '@services/session/session.service';
 import { Router } from '@angular/router';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { OffcanvasComponent } from './components/offcanvas/offcanvas.component';
-import { navItems } from 'src/app/shared/interfaces/NavItem';
+import { navItems } from '@interfaces/NavItem';
 
 
 @Component({

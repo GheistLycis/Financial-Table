@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import YearDTO from 'src/app/shared/DTOs/year';
-import MonthHistory from 'src/app/shared/interfaces/MonthHistory';
-import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
-import { MonthService } from 'src/app/shared/services/month/month.service';
-import { YearService } from 'src/app/shared/services/year/year.service';
+import YearDTO from '@DTOs/year';
+import MonthHistory from '@interfaces/MonthHistory';
+import { AnalyticsService } from '@services/analytics/analytics.service';
+import { MonthService } from '@services/month/month.service';
+import { YearService } from '@services/year/year.service';
 import { AddEditMonthComponent } from './components/add-edit-month/add-edit-month.component';
-import MonthDTO from 'src/app/shared/DTOs/month';
-import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
+import MonthDTO from '@DTOs/month';
+import { GeneralWarningComponent } from '@components/modals/general-warning/general-warning.component';
 import { BehaviorSubject, skip, tap, forkJoin, map, Subject, filter, switchMap, catchError, of } from 'rxjs';
 import { MonthlyIncomesComponent } from './components/monthly-incomes/monthly-incomes.component';
 import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-expenses.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { DuplicateMonthComponent } from './components/duplicate-month/duplicate-month.component';
-import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
+import { MonthNamePipe } from '@pipes/month-name/month-name.pipe';
 
 @Component({
   selector: 'app-months',

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import MonthlyExpenseDTO from 'src/app/shared/DTOs/monthlyExpense';
+import MonthlyExpenseDTO from '@DTOs/monthlyExpense';
 import { environment } from 'src/environments/environment';
-import { Response as Res } from 'src/app/shared/interfaces/Response';
+import { Response as Res } from '@interfaces/Response';
 import MonthlyExpenseForm from '../../classes/MonthlyExpenseForm';
 import { queryMaker } from '../queryMaker';
 import MonthDTO from '../../DTOs/month';

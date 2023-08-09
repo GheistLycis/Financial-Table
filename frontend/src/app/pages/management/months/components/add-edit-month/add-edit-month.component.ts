@@ -1,11 +1,11 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import MonthDTO from 'src/app/shared/DTOs/month';
-import MonthForm from 'src/app/shared/classes/MonthForm';
-import { MonthService } from 'src/app/shared/services/month/month.service';
-import { YearService } from 'src/app/shared/services/year/year.service';
-import YearDTO from 'src/app/shared/DTOs/year';
+import MonthDTO from '@DTOs/month';
+import MonthForm from '@classes/MonthForm';
+import { MonthService } from '@services/month/month.service';
+import { YearService } from '@services/year/year.service';
+import YearDTO from '@DTOs/year';
 import { Observable, map, tap } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Router } from '@angular/router';

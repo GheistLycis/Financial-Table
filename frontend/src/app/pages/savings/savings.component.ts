@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AddEditSavingComponent } from './components/add-edit-saving/add-edit-saving.component';
-import SavingDTO from 'src/app/shared/DTOs/saving';
-import { SavingService } from 'src/app/shared/services/saving/saving.service';
+import SavingDTO from '@DTOs/saving';
+import { SavingService } from '@services/saving/saving.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
-import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
-import { MonthService } from 'src/app/shared/services/month/month.service';
+import { GeneralWarningComponent } from '@components/modals/general-warning/general-warning.component';
+import { AnalyticsService } from '@services/analytics/analytics.service';
+import { MonthService } from '@services/month/month.service';
 import { switchMap, tap, map, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { YearService } from 'src/app/shared/services/year/year.service';
+import { YearService } from '@services/year/year.service';
 
 @Component({
   selector: 'app-savings',

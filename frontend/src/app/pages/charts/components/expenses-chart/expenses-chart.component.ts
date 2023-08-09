@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
-import MonthDTO from 'src/app/shared/DTOs/month';
+import MonthDTO from '@DTOs/month';
 import { Subject, map } from 'rxjs';
-import { ExpenseChartData } from 'src/app/shared/interfaces/ExpenseChartData';
-import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
-import { Palette } from 'src/app/shared/enums/Palette';
+import { ExpenseChartData } from '@interfaces/ExpenseChartData';
+import { AnalyticsService } from '@services/analytics/analytics.service';
+import { Palette } from '@enums/Palette';
 
 
 @Component({

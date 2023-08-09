@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import CategoryDTO from 'src/app/shared/DTOs/category';
-import MonthDTO from 'src/app/shared/DTOs/month';
-import CategoryForm from 'src/app/shared/classes/CategoryForm';
-import { CategoryService } from 'src/app/shared/services/category/category.service';
+import CategoryDTO from '@DTOs/category';
+import MonthDTO from '@DTOs/month';
+import CategoryForm from '@classes/CategoryForm';
+import { CategoryService } from '@services/category/category.service';
 
 @Component({
   selector: 'app-add-edit-category',

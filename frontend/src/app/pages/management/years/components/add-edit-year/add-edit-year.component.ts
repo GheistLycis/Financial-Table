@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import YearDTO from 'src/app/shared/DTOs/year';
-import YearForm from 'src/app/shared/classes/YearForm';
-import { YearService } from 'src/app/shared/services/year/year.service';
+import YearDTO from '@DTOs/year';
+import YearForm from '@classes/YearForm';
+import { YearService } from '@services/year/year.service';
 
 @Component({
   selector: 'app-add-edit-year',

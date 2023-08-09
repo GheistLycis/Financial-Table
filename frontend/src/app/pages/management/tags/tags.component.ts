@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { TagService } from 'src/app/shared/services/tag/tag.service';
+import { TagService } from '@services/tag/tag.service';
 import { AddEditTagComponent } from './components/add-edit-tag/add-edit-tag.component';
-import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
-import TagDTO from 'src/app/shared/DTOs/tag';
+import { GeneralWarningComponent } from '@components/modals/general-warning/general-warning.component';
+import TagDTO from '@DTOs/tag';
 
 @Component({
   selector: 'app-tags',

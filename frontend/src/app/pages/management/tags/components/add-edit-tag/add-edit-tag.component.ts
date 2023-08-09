@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import TagDTO from 'src/app/shared/DTOs/tag';
-import TagForm from 'src/app/shared/classes/TagForm';
-import GroupForm from 'src/app/shared/classes/TagForm';
-import { TagService } from 'src/app/shared/services/tag/tag.service';
+import TagDTO from '@DTOs/tag';
+import TagForm from '@classes/TagForm';
+import GroupForm from '@classes/TagForm';
+import { TagService } from '@services/tag/tag.service';
 
 @Component({
   selector: 'app-add-edit-tag',

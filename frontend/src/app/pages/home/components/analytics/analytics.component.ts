@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import MonthDTO from 'src/app/shared/DTOs/month';
-import YearDTO from 'src/app/shared/DTOs/year';
-import { MonthService } from 'src/app/shared/services/month/month.service';
-import { YearService } from 'src/app/shared/services/year/year.service';
-import { CategoryService } from 'src/app/shared/services/category/category.service';
-import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
-import CategoryRemaining from 'src/app/shared/interfaces/CategoryRemaining';
+import MonthDTO from '@DTOs/month';
+import YearDTO from '@DTOs/year';
+import { MonthService } from '@services/month/month.service';
+import { YearService } from '@services/year/year.service';
+import { CategoryService } from '@services/category/category.service';
+import { AnalyticsService } from '@services/analytics/analytics.service';
+import CategoryRemaining from '@interfaces/CategoryRemaining';
 import { forkJoin, map, BehaviorSubject, Subject, skip, tap, switchMap } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Router } from '@angular/router';

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Response as Res } from 'src/app/shared/interfaces/Response';
+import { Response as Res } from '@interfaces/Response';
 import { environment } from 'src/environments/environment';
 import YearHistory from '../../interfaces/YearHistory';
 import CategoryRemaining from '../../interfaces/CategoryRemaining';

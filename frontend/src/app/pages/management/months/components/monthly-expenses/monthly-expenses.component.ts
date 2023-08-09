@@ -1,12 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import MonthDTO from 'src/app/shared/DTOs/month';
-import MonthlyExpenseDTO from 'src/app/shared/DTOs/monthlyExpense';
-import { MonthlyExpenseService } from 'src/app/shared/services/monthly-expense/monthly-expense.service';
+import MonthDTO from '@DTOs/month';
+import MonthlyExpenseDTO from '@DTOs/monthlyExpense';
+import { MonthlyExpenseService } from '@services/monthly-expense/monthly-expense.service';
 import { AddEditMonthlyExpenseComponent } from './components/add-edit-monthly-expense/add-edit-monthly-expense.component';
-import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
-import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
+import { GeneralWarningComponent } from '@components/modals/general-warning/general-warning.component';
+import { MonthNamePipe } from '@pipes/month-name/month-name.pipe';
 
 @Component({
   selector: 'app-monthly-expenses',

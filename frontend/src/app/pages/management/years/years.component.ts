@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map, forkJoin } from 'rxjs';
-import YearHistory from 'src/app/shared/interfaces/YearHistory';
-import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
-import { YearService } from 'src/app/shared/services/year/year.service';
+import YearHistory from '@interfaces/YearHistory';
+import { AnalyticsService } from '@services/analytics/analytics.service';
+import { YearService } from '@services/year/year.service';
 import { AddEditYearComponent } from './components/add-edit-year/add-edit-year.component';
 import { ToastrService } from 'ngx-toastr';
-import YearDTO from 'src/app/shared/DTOs/year';
-import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
+import YearDTO from '@DTOs/year';
+import { GeneralWarningComponent } from '@components/modals/general-warning/general-warning.component';
 
 
 @Component({

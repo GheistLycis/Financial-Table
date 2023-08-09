@@ -1,16 +1,16 @@
 import { AfterViewInit, Component, OnInit, Output } from '@angular/core';
-import YearDTO from 'src/app/shared/DTOs/year';
-import { YearService } from 'src/app/shared/services/year/year.service';
-import ExpensesFilters from 'src/app/shared/interfaces/ExpensesFilters';
-import { ExpenseService } from 'src/app/shared/services/expense/expense.service';
-import ExpenseDTO from 'src/app/shared/DTOs/expense';
+import YearDTO from '@DTOs/year';
+import { YearService } from '@services/year/year.service';
+import ExpensesFilters from '@interfaces/ExpensesFilters';
+import { ExpenseService } from '@services/expense/expense.service';
+import ExpenseDTO from '@DTOs/expense';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
+import { GeneralWarningComponent } from '@components/modals/general-warning/general-warning.component';
 import { ToastrService } from 'ngx-toastr';
 import { AddEditExpenseComponent } from 'src/app/pages/home/components/expenses/components/add-edit-expense/add-edit-expense.component';
 import { map, tap, BehaviorSubject, Subject, Observable, of } from 'rxjs';
 import { catchError, concatMap, debounceTime, distinctUntilChanged, filter, skip, switchMap } from 'rxjs/operators';
-import { SortEvent } from 'src/app/shared/interfaces/SortEvent';
+import { SortEvent } from '@interfaces/SortEvent';
 
 @Component({
   selector: 'app-expenses',

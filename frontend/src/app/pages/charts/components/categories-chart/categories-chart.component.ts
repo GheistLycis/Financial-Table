@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { ChartConfiguration, ChartDataset } from 'chart.js';
 import DatalabelsPlugin from 'chartjs-plugin-datalabels';
-import MonthDTO from 'src/app/shared/DTOs/month';
-import { AnalyticsService } from 'src/app/shared/services/analytics/analytics.service';
+import MonthDTO from '@DTOs/month';
+import { AnalyticsService } from '@services/analytics/analytics.service';
 import { Subject, map } from 'rxjs';
-import { RoundPipe } from 'src/app/shared/pipes/round/round.pipe';
-import { CategoryChartData } from 'src/app/shared/interfaces/CategoryChartData';
-import { Palette } from 'src/app/shared/enums/Palette';
-import HexToRgba from 'src/app/shared/classes/HexToRgba';
+import { RoundPipe } from '@pipes/round/round.pipe';
+import { CategoryChartData } from '@interfaces/CategoryChartData';
+import { Palette } from '@enums/Palette';
+import HexToRgba from '@classes/HexToRgba';
 
 
 @Component({

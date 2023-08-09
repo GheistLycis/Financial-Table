@@ -2,10 +2,10 @@ import { Component, ViewChild, Output, EventEmitter, ElementRef, OnInit, AfterVi
 import { FormGroup, NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import UserDTO from 'src/app/shared/DTOs/user';
-import UserForm from 'src/app/shared/classes/UserForm';
-import { SessionService } from 'src/app/shared/services/session/session.service';
-import { UserService } from 'src/app/shared/services/user/user.service';
+import UserDTO from '@DTOs/user';
+import UserForm from '@classes/UserForm';
+import { SessionService } from '@services/session/session.service';
+import { UserService } from '@services/user/user.service';
 import { DeleteAccountModalComponent } from './components/delete-account-modal/delete-account-modal.component';
 
 @Component({
