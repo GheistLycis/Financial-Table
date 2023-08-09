@@ -5,7 +5,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { CategoriesChartComponent } from './components/categories-chart/categories-chart.component';
 import { TagsChartComponent } from './components/tags-chart/tags-chart.component';
 import { ExpensesChartComponent } from './components/expenses-chart/expenses-chart.component';
-import { ComponentsModule } from '@components/components.module';
+import { FiltersComponent } from '@components/filters/filters.component';
 
 
 
@@ -14,12 +14,12 @@ import { ComponentsModule } from '@components/components.module';
     ChartsComponent,
     CategoriesChartComponent,
     TagsChartComponent,
-    ExpensesChartComponent
+    ExpensesChartComponent,
   ],
   imports: [
     CommonModule,
     NgChartsModule.forRoot(),
-    ComponentsModule,
+    FiltersComponent,
   ]
 })
 export class ChartsModule { }

@@ -5,10 +5,11 @@ import { PipesModule } from '@pipes/pipes.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { ComponentsModule } from '@components/components.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { ExpensesComponent } from './expenses.component';
 import { DirectivesModule } from '@directives/directives.module';
+import { FiltersComponent } from '@components/filters/filters.component';
+import { TooltipComponent } from '@components/tooltip/tooltip.component';
 
 
 
@@ -23,11 +24,11 @@ import { DirectivesModule } from '@directives/directives.module';
     NgSelectModule,
     FormsModule,
     NgbNavModule,
-    ComponentsModule,
     NgxMaskModule,
     NgbTooltipModule,
-    ComponentsModule,
     DirectivesModule,
+    FiltersComponent,
+    TooltipComponent,
   ],
   exports: [
     ExpensesComponent,

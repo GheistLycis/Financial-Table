@@ -10,12 +10,21 @@ import YearDTO from '../../DTOs/year';
 import { TagService } from '../../services/tag/tag.service';
 import TagDTO from '@DTOs/tag';
 import { Router } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgSelectModule,
+  ],
   providers: [MonthNamePipe],
 })
 export class FiltersComponent implements OnInit {
