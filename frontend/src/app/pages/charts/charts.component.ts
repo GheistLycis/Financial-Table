@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Subject, map } from 'rxjs';
-import MonthDTO from 'src/app/shared/DTOs/month';
+import MonthDTO from '@shared/DTOs/month';
 import { YearService } from 'src/app/shared/services/year/year.service';
 
 @Component({

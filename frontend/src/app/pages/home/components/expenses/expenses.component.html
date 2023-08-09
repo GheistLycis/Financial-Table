@@ -3,7 +3,7 @@
     <div class="d-flex gap-15 mb-2 align-items-start">
       <h2>Histórico de gastos</h2>
       <img 
-        src="../../../../../assets/icons/info.svg"
+        src="assets/icons/info.svg"
         (click)="openTutotialModal()"
         class="tutorial">
       <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
@@ -12,13 +12,13 @@
       <div>
         <span *ngIf="loadingCSV" class="spinner-border spinner-border-sm"></span>
         <img 
-          src="../../../../../assets/icons/download.svg"
+          src="assets/icons/download.svg"
           (click)="downloadCSV$.next()"
           class="action"
           ngbTooltip="Exportar gastos como CSV. Isto lhe permitirá ter um backup de todos seus registros em um formato que pode ser lido por programas como o Excel.">
       </div>
       <img 
-        src="../../../../../assets/icons/plus.svg"
+        src="assets/icons/plus.svg"
         (click)="addExpense()"
         class="action"
         ngbTooltip="Adicionar registro">
@@ -31,7 +31,7 @@
       (keyup)="search.next(searchInput.value.trim())"
       placeholder="Pesquisar pela descrição (mínimo 3 caracteres)"
       class="search-box w-100 h-100 p-3">
-    <img src="../../../../../assets/icons/search.svg">
+    <img src="assets/icons/search.svg">
   </div>
 
   <app-filters [year]="activeYear" (filters)="filters.next($event)"></app-filters>
@@ -73,12 +73,12 @@
                   <td class="actions">
                     <div class="d-flex justify-content-evenly">
                       <img 
-                        src="../../../../../assets/icons/pencil.svg"
+                        src="assets/icons/pencil.svg"
                         (click)="editExpense(expense)"
                         width="25px"
                         ngbTooltip="Editar">
                       <img 
-                        src="../../../../../assets/icons/trash.svg"
+                        src="assets/icons/trash.svg"
                         (click)="deleteExpense(expense)"
                         width="25px"
                         ngbTooltip="Excluir">

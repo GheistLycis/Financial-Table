@@ -8,13 +8,13 @@
       <div>
         <span *ngIf="loadingCSV" class="spinner-border spinner-border-sm"></span>
         <img 
-          src="../../../../../assets/icons/download.svg"
+          src="assets/icons/download.svg"
           (click)="downloadCSV$.next()"
           class="action"
           ngbTooltip="Exportar meses como CSV. Isto lhe permitirá ter um backup de todos seus registros em um formato que pode ser lido por programas como o Excel.">
       </div>
       <img 
-        src="../../../../../assets/icons/plus.svg"
+        src="assets/icons/plus.svg"
         (click)="addMonth()"
         class="action"
         ngbTooltip="Adicionar mês">
@@ -128,27 +128,27 @@
                     <div class="d-flex justify-content-evenly">
                       <img 
                         *ngIf="first"
-                        src="../../../../assets/icons/copy.svg"
+                        src="assets/icons/copy.svg"
                         (click)="duplicateMonth(history.month)"
                         ngbTooltip="Duplicar">
                       <img 
-                        src="../../../../../assets/icons/pencil.svg"
+                        src="assets/icons/pencil.svg"
                         (click)="editMonth(history.month)"
                         ngbTooltip="Editar">
                       <img 
-                        src="../../../../../assets/icons/trash.svg"
+                        src="assets/icons/trash.svg"
                         (click)="deleteMonth(history.month)"
                         ngbTooltip="Excluir">
                       <img 
-                        src="../../../../../assets/icons/money.svg"
+                        src="assets/icons/money.svg"
                         (click)="listMonthlyIncomes(history.month)"
                         ngbTooltip="Listar entradas">
                       <img 
-                        src="../../../../../assets/icons/dollar-sign.svg"
+                        src="assets/icons/dollar-sign.svg"
                         (click)="listMonthlyExpenses(history.month)"
                         ngbTooltip="Listar mensalidades">
                       <img 
-                        src="../../../../../assets/icons/category.svg"
+                        src="assets/icons/category.svg"
                         (click)="listCategories(history.month)"
                         ngbTooltip="Listar categorias">
                     </div>

@@ -43,7 +43,7 @@
                         <ng-container *ngIf="!(years$ | async)?.length">
                             <div (click)="router.navigate(['gerenciar/anos'])" class="ng-footer-tmp">
                                 Cadastrar
-                                <img src="../../../../../assets/icons/plus.svg" width="20px">
+                                <img src="assets/icons/plus.svg" width="20px">
                             </div>
                         </ng-container>
                     </ng-template>  
@@ -70,7 +70,7 @@
                         <ng-container *ngIf="!(months$ | async)?.length">
                             <div (click)="router.navigate(['gerenciar/meses'])" class="ng-footer-tmp">
                                 Cadastrar
-                                <img src="../../../../../assets/icons/plus.svg" width="20px">
+                                <img src="assets/icons/plus.svg" width="20px">
                             </div>
                         </ng-container>
                     </ng-template>  
@@ -162,11 +162,11 @@
         <h4>{{ expenses }}</h4>
     </div>
     <div *ngIf="expenses > 0" class="analytics-data">
-        <img src="../../../assets/icons/arrow-up.svg" class="filter-red">
+        <img src="assets/icons/arrow-up.svg" class="filter-red">
         <h4 class="bold text-red">{{ expenses | number:'.0-1' }}%</h4>
     </div>
     <div *ngIf="expenses <= 0" class="analytics-data">
-        <img src="../../../assets/icons/arrow-down.svg" class="filter-green">
+        <img src="assets/icons/arrow-down.svg" class="filter-green">
         <h4 class="bold text-green">{{ expenses | number:'.0-1' }}%</h4>
     </div>
 </ng-template>
