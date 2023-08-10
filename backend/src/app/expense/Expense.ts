@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import ExpenseDTO from "./Expense.dto";
 import BaseEntity, { manyToManyOptions, manyToOneOptions } from "../../shared/classes/BaseEntity";
-import DecimalTransformer from "src/shared/classes/DecimalTransformer";
+import DecimalTransformer from "@classes/DecimalTransformer";
 import { Min } from "class-validator";
 import { Tag } from "../tag/Tag";
 import { Category } from "../category/Category";

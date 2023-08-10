@@ -5,6 +5,7 @@ import { SortEvent } from "../../interfaces/SortEvent";
 
 @Directive({
   selector: '[appSortableTable]',
+  standalone: true,
 })
 export class SortableTableDirective {
   @Input() set init(signal: boolean) {

@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Injectable, Param, ParseIntPipe, Post, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import BaseController from 'src/shared/classes/BaseController';
+import BaseController from '@classes/BaseController';
 import { MonthService } from '../service/month.service';
-import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
+import GlobalResponse from '@interfaces/GlobalResponse';
 import MonthDTO from '../Month.dto';
 
 @ApiTags('months')

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Response as Res } from 'src/app/shared/interfaces/Response';
-import TagDTO from 'src/app/shared/DTOs/tag';
+import { Response as Res } from '@interfaces/Response';
+import TagDTO from '@DTOs/tag';
 import TagForm from '../../classes/TagForm';
 import ExpenseDTO from '../../DTOs/expense';
 import { queryMaker } from '../queryMaker';

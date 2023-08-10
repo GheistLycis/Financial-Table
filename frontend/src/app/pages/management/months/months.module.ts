@@ -12,9 +12,9 @@ import { MonthlyExpensesComponent } from './components/monthly-expenses/monthly-
 import { CategoriesComponent } from './components/categories/categories.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { AddEditCategoryComponent } from './components/categories/components/add-edit-category/add-edit-category.component';
-import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { DuplicateMonthComponent } from './components/duplicate-month/duplicate-month.component';
-import { PipesModule } from 'src/app/shared/pipes/pipes.module';
+import { TooltipComponent } from '@components/tooltip/tooltip.component';
+import { MonthNamePipe } from '@pipes/month-name/month-name.pipe';
 
 
 
@@ -36,9 +36,9 @@ import { PipesModule } from 'src/app/shared/pipes/pipes.module';
     FormsModule,
     NgSelectModule,
     NgxMaskModule,
-    ComponentsModule,
     NgbTooltipModule,
-    PipesModule,
+    TooltipComponent,
+    MonthNamePipe,
   ]
 })
 export class MonthsModule { }

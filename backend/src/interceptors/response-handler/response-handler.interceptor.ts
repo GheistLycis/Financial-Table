@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Response } from 'express';
 import { map } from 'rxjs';
-import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
+import GlobalResponse from '@interfaces/GlobalResponse';
 
 
 @Injectable()

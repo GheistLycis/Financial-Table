@@ -1,9 +1,9 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import UserForm from 'src/app/shared/classes/UserForm';
-import { SessionService } from 'src/app/shared/services/session/session.service';
-import { UserService } from 'src/app/shared/services/user/user.service';
+import UserForm from '@classes/UserForm';
+import { SessionService } from '@services/session/session.service';
+import { UserService } from '@services/user/user.service';
 
 
 @Component({

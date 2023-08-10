@@ -1,10 +1,10 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import MonthDTO from 'src/app/shared/DTOs/month';
-import MonthlyExpenseDTO from 'src/app/shared/DTOs/monthlyExpense';
-import MonthlyExpenseForm from 'src/app/shared/classes/MonthlyExpenseForm';
-import { MonthlyExpenseService } from 'src/app/shared/services/monthly-expense/monthly-expense.service';
+import MonthDTO from '@DTOs/month';
+import MonthlyExpenseDTO from '@DTOs/monthlyExpense';
+import MonthlyExpenseForm from '@classes/MonthlyExpenseForm';
+import { MonthlyExpenseService } from '@services/monthly-expense/monthly-expense.service';
 
 @Component({
   selector: 'app-add-edit-monthly-expense',

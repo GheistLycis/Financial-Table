@@ -5,7 +5,7 @@ import {
   OneToMany,
   ManyToOne,
 } from "typeorm";
-import BaseEntity, { manyToOneOptions, oneToManyOptions } from "src/shared/classes/BaseEntity";
+import BaseEntity, { manyToOneOptions, oneToManyOptions } from "@classes/BaseEntity";
 import { Month } from "../month/Month";
 import YearDTO from "./Year.dto";
 import { User } from "../user/User";

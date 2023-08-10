@@ -1,4 +1,4 @@
-import BaseDTO from "src/shared/interfaces/BaseDTO";
+import BaseDTO from "@interfaces/BaseDTO";
 
 export default interface UserDTO extends BaseDTO {
   name: string

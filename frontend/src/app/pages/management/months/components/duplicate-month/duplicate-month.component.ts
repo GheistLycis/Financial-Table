@@ -1,10 +1,10 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import MonthDTO from 'src/app/shared/DTOs/month';
-import MonthDuplicationForm from 'src/app/shared/classes/MonthDuplicationForm';
-import { GeneralWarningComponent } from 'src/app/shared/components/modals/general-warning/general-warning.component';
-import { MonthService } from 'src/app/shared/services/month/month.service';
+import MonthDTO from '@DTOs/month';
+import MonthDuplicationForm from '@classes/MonthDuplicationForm';
+import { GeneralWarningComponent } from '@components/modals/general-warning/general-warning.component';
+import { MonthService } from '@services/month/month.service';
 
 @Component({
   selector: 'app-duplicate-month',

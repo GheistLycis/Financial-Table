@@ -4,7 +4,7 @@ import { YearsComponent } from './years.component';
 import { AddEditYearComponent } from './components/add-edit-year/add-edit-year.component';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { ComponentsModule } from 'src/app/shared/components/components.module';
+import { TooltipComponent } from '@components/tooltip/tooltip.component';
 
 
 
@@ -17,7 +17,7 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
     CommonModule,
     FormsModule,
     NgbTooltipModule,
-    ComponentsModule,
+    TooltipComponent,
   ]
 })
 export class YearsModule { }

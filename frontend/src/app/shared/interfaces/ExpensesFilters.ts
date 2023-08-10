@@ -1,6 +1,6 @@
-import CategoryDTO from "src/app/shared/DTOs/category";
-import MonthDTO from "src/app/shared/DTOs/month";
-import TagDTO from "src/app/shared/DTOs/tag";
+import CategoryDTO from "@DTOs/category";
+import MonthDTO from "@DTOs/month";
+import TagDTO from "@DTOs/tag";
 
 export default interface ExpensesFilters {
   months: MonthDTO[]

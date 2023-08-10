@@ -1,21 +1,30 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
-import CategoryDTO from 'src/app/shared/DTOs/category';
-import MonthDTO from 'src/app/shared/DTOs/month';
-import { CategoryService } from 'src/app/shared/services/category/category.service';
-import { MonthService } from 'src/app/shared/services/month/month.service';
+import CategoryDTO from '@DTOs/category';
+import MonthDTO from '@DTOs/month';
+import { CategoryService } from '@services/category/category.service';
+import { MonthService } from '@services/month/month.service';
 import { BehaviorSubject, Subject, forkJoin, skip, map, tap, switchMap, combineLatest, debounceTime, of } from 'rxjs';
-import Filters from 'src/app/shared/interfaces/ExpensesFilters';
-import { MonthNamePipe } from 'src/app/shared/pipes/month-name/month-name.pipe';
+import Filters from '@interfaces/ExpensesFilters';
+import { MonthNamePipe } from '@pipes/month-name/month-name.pipe';
 import YearDTO from '../../DTOs/year';
 import { TagService } from '../../services/tag/tag.service';
-import TagDTO from 'src/app/shared/DTOs/tag';
+import TagDTO from '@DTOs/tag';
 import { Router } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgSelectModule,
+  ],
   providers: [MonthNamePipe],
 })
 export class FiltersComponent implements OnInit {

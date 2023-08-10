@@ -4,8 +4,8 @@ import {
   Column,
   ManyToOne
 } from "typeorm";
-import BaseEntity, { manyToOneOptions } from "src/shared/classes/BaseEntity";
-import IsColor from "src/shared/decorators/class-validator/IsColor";
+import BaseEntity, { manyToOneOptions } from "@classes/BaseEntity";
+import IsColor from "@decorators/class-validator/IsColor";
 import { Validate } from "class-validator";
 import TagDTO from "./Tag.dto";
 import { User } from "../user/User";

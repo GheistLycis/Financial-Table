@@ -1,11 +1,11 @@
 import { Controller, Injectable, Param, ParseIntPipe, Req, } from '@nestjs/common';
 import { UserService } from '../service/user.service';
-import BaseController from 'src/shared/classes/BaseController';
+import BaseController from '@classes/BaseController';
 import { ApiTags } from '@nestjs/swagger';
 import { Post, Body } from '@nestjs/common';
-import BypassTokenGuard from 'src/shared/decorators/BypassTokenGuard';
-import BypassIpGuard from 'src/shared/decorators/BypassIpGuard';
-import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
+import BypassTokenGuard from '@decorators/BypassTokenGuard';
+import BypassIpGuard from '@decorators/BypassIpGuard';
+import GlobalResponse from '@interfaces/GlobalResponse';
 
 @ApiTags('users')
 @Injectable()

@@ -1,8 +1,8 @@
 import { Body, Controller, Injectable, Put, Param, ParseIntPipe, Post, Req  } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import BaseController from 'src/shared/classes/BaseController';
+import BaseController from '@classes/BaseController';
 import { SavingService } from '../service/saving.service';
-import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
+import GlobalResponse from '@interfaces/GlobalResponse';
 
 @ApiTags('savings')
 @Injectable()

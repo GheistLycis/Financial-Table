@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 
 @Pipe({
-  name: 'timeLeft'
+  name: 'timeLeft',
+  standalone: true,
 })
 export class TimeLeftPipe implements PipeTransform {
   transform(value: string | Date, outputFormat: 'full' | 'days' = 'full'): string {

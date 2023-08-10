@@ -10,7 +10,7 @@ import {
 } from "typeorm";
 import IpDTO from "./Ip.dto";
 import { User } from "../user/User";
-import { manyToManyOptions } from "src/shared/classes/BaseEntity";
+import { manyToManyOptions } from "@classes/BaseEntity";
 
 @Service()
 @Entity({ name: 'ips', orderBy: { createdAt: 'DESC' }})

@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { validate } from 'class-validator';
-import BaseService from 'src/shared/interfaces/BaseService';
+import BaseService from '@interfaces/BaseService';
 import MonthDTO from '../Month.dto';
 import { Month } from '../Month';
 import { Year } from '../../year/Year'
@@ -15,8 +15,8 @@ import YearDTO from 'src/app/year/Year.dto';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { User } from 'src/app/user/User';
-import GlobalException from 'src/shared/classes/GlobalException';
-import { MonthNames } from 'src/shared/enums/MonthNames';
+import GlobalException from '@classes/GlobalException';
+import { MonthNames } from '@enums/MonthNames';
 
 type body = { month: number, available: number, obs: string, year: Year['id'] }
 type queries = { year: Year['id'] }

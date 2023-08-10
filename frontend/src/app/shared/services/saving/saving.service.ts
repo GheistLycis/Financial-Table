@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Response as Res } from 'src/app/shared/interfaces/Response';
+import { Response as Res } from '@interfaces/Response';
 import SavingDTO from '../../DTOs/saving';
 import SavingForm from '../../classes/SavingForm';
 

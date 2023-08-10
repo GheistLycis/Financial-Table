@@ -6,7 +6,7 @@ import { User } from '../User';
 import { DuplicatedException, ForbiddenException, NotFoundException, classValidatorError } from 'src/filters/globalExceptions';
 import { validate } from 'class-validator';
 import { AuthService } from 'src/app/auth/service/auth.service';
-import Session from 'src/shared/interfaces/Session';
+import Session from '@interfaces/Session';
 import * as bcrypt from 'bcrypt';
 import { Saving } from 'src/app/saving/Saving';
 import { Year } from 'src/app/year/Year';

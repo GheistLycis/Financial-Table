@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { HomeComponent } from './home.component';
-import { PipesModule } from 'src/app/shared/pipes/pipes.module';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
 import { ExpensesModule } from './components/expenses/expenses.module';
 import { CalendarComponent } from './components/calendar/calendar.component';
-import { NgbCarouselModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { ComponentsModule } from 'src/app/shared/components/components.module';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { TooltipComponent } from '@components/tooltip/tooltip.component';
+import { FormsModule } from '@angular/forms';
+import { MonthNamePipe } from '@pipes/month-name/month-name.pipe';
+import { TimeLeftPipe } from '@pipes/time-left/time-left.pipe';
 
 
 
@@ -20,13 +21,13 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
   ],
   imports: [
     CommonModule,
-    PipesModule,
     ExpensesModule,
-    NgSelectModule,
     FormsModule,
+    NgSelectModule,
     NgbCarouselModule,
-    NgbTooltip,
-    ComponentsModule,
+    TooltipComponent,
+    MonthNamePipe,
+    TimeLeftPipe,
   ]
 })
 export class HomeModule { }

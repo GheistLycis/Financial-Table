@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import Session from 'src/app/shared/DTOs/session';
-import UserDTO from 'src/app/shared/DTOs/user';
-import { Response as Res } from 'src/app/shared/interfaces/Response';
+import Session from '@DTOs/session';
+import UserDTO from '@DTOs/user';
+import { Response as Res } from '@interfaces/Response';
 import { environment } from 'src/environments/environment';
 import UserForm from '../../classes/UserForm';
 

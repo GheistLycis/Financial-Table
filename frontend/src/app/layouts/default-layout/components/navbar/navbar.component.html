@@ -1,10 +1,10 @@
 <nav class="shadow w-100 d-flex align-items-center justify-content-between">
     <div class="logo">
         <a routerLink="" class="media-md-lg">
-            <img src="../../../assets/icons/graph.svg" [ngClass]="{'filter-highlight': router.url == '/'}">
+            <img src="assets/icons/graph.svg" [ngClass]="{'filter-highlight': router.url == '/'}">
         </a>
         <a (click)="openOffcanvas()" class="media-sm">
-            <img src="../../../assets/icons/graph.svg">
+            <img src="assets/icons/graph.svg">
         </a>
     </div>
 
@@ -48,7 +48,7 @@
     
     <div class="user-box d-flex justify-content-end">
         <div class="logout" (click)="sessionService.logout()">
-            <img src="../../../../../assets/icons/leave.svg" width="30px">
+            <img src="assets/icons/leave.svg" width="30px">
         </div>
         <div #ddProfile="ngbDropdown" ngbDropdown class="profile d-flex">
             <button 

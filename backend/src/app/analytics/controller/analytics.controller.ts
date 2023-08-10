@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, Req } from '@nestjs/common';
 import { AnalyticsService } from '../service/analytics.service';
-import GlobalResponse from 'src/shared/interfaces/GlobalResponse';
+import GlobalResponse from '@interfaces/GlobalResponse';
 import CategoryDTO from 'src/app/category/Category.dto';
 import MonthDTO from 'src/app/month/Month.dto';
 import YearDTO from 'src/app/year/Year.dto';
