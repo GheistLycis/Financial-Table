@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import BaseService from 'src/shared/interfaces/BaseService';
 import YearDTO from '../Year.dto';
@@ -6,8 +6,8 @@ import { Year } from '../Year';
 import { classValidatorError, DuplicatedException, NotFoundException } from 'src/filters/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
+// import { CACHE_MANAGER } from '@nestjs/cache-manager';
+// import { Cache } from 'cache-manager';
 import { User } from 'src/app/user/User';
 
 type body = { year: number }
@@ -17,7 +17,7 @@ export class YearService implements BaseService<YearDTO> {
   constructor(
     @Repo(Year) private repo: Repository<Year>,
     @Repo(User) private userRepo: Repository<User>,
-    @Inject(CACHE_MANAGER) private cacheService: Cache,
+    // @Inject(CACHE_MANAGER) private cacheService: Cache,
   ) {}
 
   async list(user: User['id']) {
@@ -101,7 +101,7 @@ export class YearService implements BaseService<YearDTO> {
 
     await this.repo.remove(entity)
     
-    await this.cacheService.reset()
+    // await this.cacheService.reset()
 
     return Year.toDTO(entity)
   }

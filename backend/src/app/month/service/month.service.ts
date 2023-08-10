@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import BaseService from 'src/shared/interfaces/BaseService';
 import MonthDTO from '../Month.dto';
@@ -12,8 +12,8 @@ import { MonthlyIncomeService } from 'src/app/monthly-income/service/monthly-inc
 import { MonthlyExpenseService } from 'src/app/monthly-expense/service/monthly-expense.service';
 import { CategoryService } from 'src/app/category/service/category.service';
 import YearDTO from 'src/app/year/Year.dto';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
+// import { CACHE_MANAGER } from '@nestjs/cache-manager';
+// import { Cache } from 'cache-manager';
 import { User } from 'src/app/user/User';
 import GlobalException from 'src/shared/classes/GlobalException';
 import { MonthNames } from 'src/shared/enums/MonthNames';
@@ -31,7 +31,7 @@ export class MonthService implements BaseService<MonthDTO> {
   constructor(
     @Repo(Year) private yearRepo: Repository<Year>,
     @Repo(Month) private repo: Repository<Month>,
-    @Inject(CACHE_MANAGER) private cacheService: Cache,
+    // @Inject(CACHE_MANAGER) private cacheService: Cache,
     private yearService: YearService,
     private monthlyIncomeService: MonthlyIncomeService,
     private monthlyExpenseService: MonthlyExpenseService,
@@ -157,7 +157,7 @@ export class MonthService implements BaseService<MonthDTO> {
 
     await this.repo.remove(entity)
     
-    await this.cacheService.reset()
+    // await this.cacheService.reset()
 
     return Month.toDTO(entity)
   }

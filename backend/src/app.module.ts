@@ -13,7 +13,7 @@ import { AnalyticsModule } from './app/analytics/analytics.module';
 import { APP_GUARD } from '@nestjs/core';
 import { TokenGuard } from './guards/token/token.guard';
 import { UserModule } from './app/user/user.module';
-import { CacheModule } from '@nestjs/cache-manager';
+// import { CacheModule } from '@nestjs/cache-manager';
 import { AuthModule } from './app/auth/auth.module';
 import { MonthlyExpenseModule } from './app/monthly-expense/monthly-expense.module';
 import { SavingModule } from './app/saving/saving.module';
@@ -46,11 +46,11 @@ const CACHE_LIFE_MINUTES = 60 // same as token expiration
       synchronize: true,
       autoLoadEntities: true,
     }),
-    CacheModule.register({
-      isGlobal: true,
-      ttl: CACHE_LIFE_MINUTES * 60 * 1000,
-      max: 20,
-    }),
+    // CacheModule.register({
+    //   isGlobal: true,
+    //   ttl: CACHE_LIFE_MINUTES * 60 * 1000,
+    //   max: 20,
+    // }),
     AuthModule,
     YearModule, 
     MonthModule, 
