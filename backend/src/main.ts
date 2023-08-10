@@ -14,7 +14,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('/s', app, document)
 
-  app.setGlobalPrefix('api')
+  app.setGlobalPrefix('api', { exclude: ['health-check'] })
   app.useGlobalFilters(new GlobalExceptionFilter())
   app.useGlobalInterceptors(new ResponseHandlerInterceptor())
   app.listen(process.env.PORT)
