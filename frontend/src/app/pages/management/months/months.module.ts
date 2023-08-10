@@ -13,8 +13,8 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { NgxMaskModule } from 'ngx-mask';
 import { AddEditCategoryComponent } from './components/categories/components/add-edit-category/add-edit-category.component';
 import { DuplicateMonthComponent } from './components/duplicate-month/duplicate-month.component';
-import { PipesModule } from '@pipes/pipes.module';
 import { TooltipComponent } from '@components/tooltip/tooltip.component';
+import { MonthNamePipe } from '@pipes/month-name/month-name.pipe';
 
 
 
@@ -37,8 +37,8 @@ import { TooltipComponent } from '@components/tooltip/tooltip.component';
     NgSelectModule,
     NgxMaskModule,
     NgbTooltipModule,
-    PipesModule,
     TooltipComponent,
+    MonthNamePipe,
   ]
 })
 export class MonthsModule { }
