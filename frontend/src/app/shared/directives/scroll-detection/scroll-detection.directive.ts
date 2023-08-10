@@ -1,7 +1,8 @@
 import { Directive, ElementRef, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 
 @Directive({
-  selector: '[appScrollDetection]'
+  selector: '[appScrollDetection]',
+  standalone: true,
 })
 export class ScrollDetectionDirective implements OnDestroy {
   @Input() threshold = 0.8

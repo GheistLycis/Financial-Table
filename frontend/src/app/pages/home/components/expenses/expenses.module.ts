@@ -7,9 +7,10 @@ import { FormsModule } from '@angular/forms';
 import { NgbNavModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxMaskModule } from 'ngx-mask';
 import { ExpensesComponent } from './expenses.component';
-import { DirectivesModule } from '@directives/directives.module';
 import { FiltersComponent } from '@components/filters/filters.component';
 import { TooltipComponent } from '@components/tooltip/tooltip.component';
+import { ScrollDetectionDirective } from '@directives/scroll-detection/scroll-detection.directive';
+import { SortableTableDirective } from '@directives/sortable-table/sortable-table.directive';
 
 
 
@@ -26,9 +27,10 @@ import { TooltipComponent } from '@components/tooltip/tooltip.component';
     NgbNavModule,
     NgxMaskModule,
     NgbTooltipModule,
-    DirectivesModule,
     FiltersComponent,
     TooltipComponent,
+    ScrollDetectionDirective,
+    SortableTableDirective,
   ],
   exports: [
     ExpensesComponent,
