@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import UserDTO from '../User.dto';
-import { Repository } from 'typeorm';
-import { InjectRepository as Repo } from '@nestjs/typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository as Repo } from '@nestjs/typeorm';
 import { User } from '../User';
-import { DuplicatedException, ForbiddenException, NotFoundException, classValidatorError } from 'src/filters/globalExceptions';
+import { DuplicatedException, ForbiddenException, NotFoundException, ServerException, classValidatorError } from 'src/filters/globalExceptions';
 import { validate } from 'class-validator';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import Session from 'src/shared/interfaces/Session';
@@ -27,15 +27,8 @@ type body = {
 @Injectable()
 export class UserService {
   constructor(
+    @InjectDataSource() private dataSource: DataSource,
     @Repo(User) private repo: Repository<User>,
-    @Repo(Saving) private savingRepo: Repository<Saving>,
-    @Repo(Year) private yearRepo: Repository<Year>,
-    @Repo(Month) private monthRepo: Repository<Month>,
-    @Repo(MonthlyIncome) private monthlyIncomeRepo: Repository<MonthlyIncome>,
-    @Repo(MonthlyExpense) private monthlyExpenseRepo: Repository<MonthlyExpense>,
-    @Repo(Category) private categoryRepo: Repository<Category>,
-    @Repo(Expense) private expenseRepo: Repository<Expense>,
-    @Repo(Tag) private tagRepo: Repository<Tag>,
     private authService: AuthService,
   ) {}
   
@@ -84,17 +77,13 @@ export class UserService {
     if(duplicated) throw DuplicatedException('Este email já existe.')
     
     const hash = await bcrypt.genSalt(+process.env.HASH_SALT_ROUNDS).then(salt => bcrypt.hash(password, salt))
-    
-    const entity = this.repo.create({ 
+    const user = { 
       name, 
       email, 
       password: hash,
-    })
-      
-    const errors = await validate(entity)
-    if(errors.length) throw classValidatorError(errors)
-  
-    await this.repo.save(entity).then(user => this.populateNewUser(user))
+    }
+
+    await this.dataSource.manager.transaction(async manager => this.generateNewUser(manager, user))
     
     return await this.logIn({ email, password })
   }
@@ -125,26 +114,33 @@ export class UserService {
     return User.toDTO(entity)
   }
   
-  protected async populateNewUser(user: User): Promise<void> {
+  protected async generateNewUser(manager: EntityManager, userObj: { name: string, email: string, password: string }): Promise<void> {
+    const user = manager.create(User, userObj)
+      
+    const errors = await validate(user)
+    if(errors.length) throw classValidatorError(errors)
+  
+    await manager.save(user)
+
     const randInt = (min=1, max=1) => Math.ceil(Math.random() * (max - min) + min)
     const now = new Date()
     
     // CREATING 1 YEAR
-    let year = this.yearRepo.create({ 
+    let year = manager.create(Year, { 
       year: now.getFullYear(),
       user
     })
-    await this.yearRepo.save(year)
+    await manager.save(year)
     
     // CREATING 1 SAVING 
-    const saving = this.savingRepo.create({
+    const saving = manager.create(Saving, {
       title: 'Viagem!',
       description: 'Eu sou uma caixinha de economia! Comigo você pode organizar seus projetos e acompanhar em tempo real o seu progresso.',
       amount: 3200,
       dueDate: new Date(now.getFullYear() + 1, now.getMonth()),
       user
     })
-    this.savingRepo.save(saving)
+    manager.save(saving)
     
     // CREATING 3 TAGS
     const tagsProps = { 
@@ -153,13 +149,13 @@ export class UserService {
     }
     const tags: Tag[] = []
     for(let i = 0; i < 3; i++) {
-      const tag = this.tagRepo.create({ 
+      const tag = manager.create(Tag, { 
         name: tagsProps.names[i],
         color: tagsProps.colors[i],
         user
       })
       
-      await this.tagRepo.save(tag)
+      await manager.save(tag)
       tags.push(tag)
     }
     
@@ -168,29 +164,29 @@ export class UserService {
     for(let i = 0; i < 3; i++) {
       now.setDate(randInt(10, 28))
       
-      const month = this.monthRepo.create({ 
+      const month = manager.create(Month, { 
         month: now.getMonth() + 1,
         available: monthsProps.availables[i],
         obs: 'Eu sou um mês. Em mim, você pode cadastrar seus ganhos, mensalidades, categorias e registrar seus gastos!',
         year
       })
-      await this.monthRepo.save(month)
+      await manager.save(month)
       
       // CREATING 1 MONTHLY INCOME
-      const monthlyIncome = this.monthlyIncomeRepo.create({ 
+      const monthlyIncome = manager.create(MonthlyIncome, { 
         value: 1000 * randInt(1, i+1),
         description: 'Eu sou uma entrada mensal. Componho o valor total ganho para ser gasto no mês',
         month
       })
-      this.monthlyIncomeRepo.save(monthlyIncome)
+      manager.save(monthlyIncome)
       
       // CREATING 1 MONTHLY EXPENSE
-      const monthlyExpense = this.monthlyExpenseRepo.create({ 
+      const monthlyExpense = manager.create(MonthlyExpense, { 
         value: 100 * randInt(1, i+1),
         description: 'Eu sou uma mensalidade. Sou automaticamente descontada de seus ganhos.',
         month
       })
-      this.monthlyExpenseRepo.save(monthlyExpense)
+      manager.save(monthlyExpense)
       
       // CREATING 3 CATEGORIES
       const categoriesProps = { 
@@ -199,26 +195,30 @@ export class UserService {
         percentages: [40, 50, 10]
       }
       for(let j = 0; j < 3; j++) {
-        const category = this.categoryRepo.create({ 
+        if(i == 2) {
+          throw ServerException('teste')
+          
+        }
+        const category = manager.create(Category, { 
           name: categoriesProps.names[j],
           color: categoriesProps.colors[j],
           percentage: categoriesProps.percentages[j],
           month
         })
-        await this.categoryRepo.save(category)
+        await manager.save(category)
         
         // CREATING 0-1 EXPENSE PER CATEGORY
         if(Math.random() >= 0.6) {
           // LINKING TAGS TO EXPENSE RANDOMLY
           const expenseTags = tags.filter(() => Math.random() > 0.5)
-          const expense = this.expenseRepo.create({ 
+          const expense = manager.create(Expense, { 
             value: 22.50 * randInt(1, j+1),
             description: 'Eu sou um registro de gasto!',
             date: now,
             category,
             tags: expenseTags
           })
-          await this.expenseRepo.save(expense)
+          await manager.save(expense)
           
           now.setDate(now.getDate() - randInt(1, 2))
         }
@@ -228,11 +228,11 @@ export class UserService {
       
       // CHECKING IF CHANGING BETWEEN YEARS
       if(i < 2 && now.getMonth() == 11) {
-        year = this.yearRepo.create({ 
+        year = manager.create(Year, { 
           year: now.getFullYear(),
           user
         })
-        await this.yearRepo.save(year)
+        await manager.save(year)
       }
     }
     
