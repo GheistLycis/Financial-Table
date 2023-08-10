@@ -21,7 +21,12 @@
                     <app-tags-chart [months]="filteredMonths$ | async"></app-tags-chart>
                 </div>
                 <div class="media-sm">
-                    <h4 class="italic text-center">Gráfico indisponível para dispositivos mobile</h4>
+                    <h5 class="m-0 italic text-center">
+                        Gráfico indisponível para dispositivos mobile
+                    </h5>
+                    <div class="text-end mt-3">
+                        <small class="italic">você pode ativar a visão de Desktop em seu navegador para visualizá-lo.</small>
+                    </div>
                 </div>
             </div>
         </div>
@@ -30,7 +35,12 @@
                 <app-expenses-chart [months]="filteredMonths$ | async"></app-expenses-chart>
             </div>
             <div class="media-sm">
-                <h4 class="italic text-center">Gráfico indisponível para dispositivos mobile</h4>
+                <h5 class="m-0 italic text-center">
+                    Gráfico indisponível para dispositivos mobile.
+                </h5>
+                <div class="text-end mt-3">
+                    <small class="italic">você pode ativar a visão de Desktop em seu navegador para visualizá-lo.</small>
+                </div>
             </div>
         </div>
     </div>
