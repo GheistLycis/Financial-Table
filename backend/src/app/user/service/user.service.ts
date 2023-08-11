@@ -83,7 +83,7 @@ export class UserService {
       password: hash,
     }
 
-    await this.dataSource.manager.transaction(async manager => this.generateNewUser(manager, user))
+    await this.dataSource.manager.transaction(manager => this.generateNewUser(manager, user))
     
     return await this.logIn({ email, password })
   }
@@ -140,7 +140,7 @@ export class UserService {
       dueDate: new Date(now.getFullYear() + 1, now.getMonth()),
       user
     })
-    manager.save(saving)
+    await manager.save(saving)
     
     // CREATING 3 TAGS
     const tagsProps = { 
@@ -178,7 +178,7 @@ export class UserService {
         description: 'Eu sou uma entrada mensal. Componho o valor total ganho para ser gasto no mês',
         month
       })
-      manager.save(monthlyIncome)
+      await manager.save(monthlyIncome)
       
       // CREATING 1 MONTHLY EXPENSE
       const monthlyExpense = manager.create(MonthlyExpense, { 
@@ -186,9 +186,7 @@ export class UserService {
         description: 'Eu sou uma mensalidade. Sou automaticamente descontada de seus ganhos.',
         month
       })
-      manager.save(monthlyExpense)
-
-      if(i == 1) throw ServerException('teste')
+      await manager.save(monthlyExpense)
       
       // CREATING 3 CATEGORIES
       const categoriesProps = { 
