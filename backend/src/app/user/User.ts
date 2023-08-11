@@ -5,6 +5,7 @@ import UserDTO from "./User.dto";
 import { Saving } from "../saving/Saving";
 import { Year } from "../year/Year";
 import { Tag } from "../tag/Tag";
+import { IsEmail } from "class-validator";
 
 @Service()
 @Entity({ name: 'users', orderBy: { name: 'ASC' }})
@@ -13,6 +14,7 @@ export class User extends BaseEntity {
   @Column()
   name: string
   
+  @IsEmail()
   @Column({ unique: true })
   email: string
 
