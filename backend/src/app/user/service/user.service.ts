@@ -187,6 +187,8 @@ export class UserService {
         month
       })
       manager.save(monthlyExpense)
+
+      if(i == 1) throw ServerException('teste')
       
       // CREATING 3 CATEGORIES
       const categoriesProps = { 
@@ -195,10 +197,6 @@ export class UserService {
         percentages: [40, 50, 10]
       }
       for(let j = 0; j < 3; j++) {
-        if(i == 2) {
-          throw ServerException('teste')
-          
-        }
         const category = manager.create(Category, { 
           name: categoriesProps.names[j],
           color: categoriesProps.colors[j],
