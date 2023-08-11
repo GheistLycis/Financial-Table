@@ -17,6 +17,7 @@ export class AuthLayoutComponent {
   @ViewChild('enterBtn') enterButton!: ElementRef<HTMLButtonElement>
   action: 'login' | 'signup' = 'login'
   form = new UserForm()
+  submitted = false
 
   constructor(
     private userService: UserService,
@@ -31,6 +32,8 @@ export class AuthLayoutComponent {
   }
 
   validateForm(): void {    
+    this.submitted = true
+    
     if(this.formModel.invalid) return
     
     this.submit()
@@ -49,6 +52,6 @@ export class AuthLayoutComponent {
   }
 
   get f(): FormGroup['controls'] {
-    return this.formModel.controls
+    return this.formModel?.controls
   }
 }

@@ -23,8 +23,8 @@
                         pattern="[\w-\.]+@([\w-]+\.)+[\w-]{2,4}"
                         placeholder="E-mail"
                         class="form-control py-2"
-                        [ngClass]="{'is-invalid': f['email'].errors}">
-                    <div *ngIf="f['email'].errors && f['email'].errors['pattern']" class="invalid-feedback text-end">
+                        [ngClass]="{'is-invalid': submitted && f['email'].errors}">
+                    <div *ngIf="submitted && f['email'].errors && f['email'].errors['pattern']" class="invalid-feedback text-end">
                         Insira um e-mail válido
                     </div>
                 </div>
