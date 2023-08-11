@@ -6,32 +6,54 @@
         </div>
 
         <div class="form d-flex flex-column align-items-center">
-            <div class="d-flex flex-column gap-20 w-100">
+            <form #formModel="ngForm" class="d-flex flex-column gap-20 w-100">
                 <input 
                     *ngIf="action == 'signup'" 
-                    [(ngModel)]="user.name" 
+                    [(ngModel)]="form.name"
+                    name="name"
                     required 
                     placeholder="Nome"
                     class="form-control py-2">
-                <input 
-                    type="email" 
-                    [(ngModel)]="user.email" 
-                    required 
-                    placeholder="E-mail" 
-                    class="form-control py-2">
+                <div>
+                    <input 
+                        type="email" 
+                        [(ngModel)]="form.email"
+                        name="email"
+                        required 
+                        pattern="[\w-\.]+@([\w-]+\.)+[\w-]{2,4}"
+                        placeholder="E-mail"
+                        class="form-control py-2"
+                        [ngClass]="{'is-invalid': f['email'].errors}">
+                    <div *ngIf="f['email'].errors && f['email'].errors['pattern']" class="invalid-feedback text-end">
+                        Insira um e-mail válido
+                    </div>
+                </div>
                 <input 
                     type="password" 
-                    [(ngModel)]="user.password" 
+                    [(ngModel)]="form.password"
+                    name="password"
                     required 
                     placeholder="Senha" 
                     class="form-control py-2">
-            </div>
+            </form>
 
             <div class="mt-4 mb-2 w-100">
-                <button #enterBtn *ngIf="action == 'login'" (click)="enter('login')" [disabled]="!user.email || !user.password" class="px-3 py-2">
+                <button 
+                    *ngIf="action == 'login'" 
+                    #enterBtn 
+                    (click)="validateForm()" 
+                    [disabled]="formModel.invalid || !form.email || !form.password" 
+                    class="px-3 py-2"
+                >
                     Entrar
                 </button>
-                <button #enterBtn *ngIf="action == 'signup'" (click)="enter('signup')" [disabled]="!user.name || !user.email || !user.password" class="px-3 py-2">
+                <button 
+                    *ngIf="action == 'signup'" 
+                    #enterBtn 
+                    (click)="validateForm()" 
+                    [disabled]="formModel.invalid || !form.name || !form.email || !form.password" 
+                    class="px-3 py-2"
+                >
                     Registrar
                 </button>
             </div>

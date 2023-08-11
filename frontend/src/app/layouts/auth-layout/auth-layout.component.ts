@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import UserForm from '@classes/UserForm';
 import { SessionService } from '@services/session/session.service';
 import { UserService } from '@services/user/user.service';
+import { FormGroup, NgForm } from '@angular/forms';
 
 
 @Component({
@@ -12,9 +13,10 @@ import { UserService } from '@services/user/user.service';
   styleUrls: ['./auth-layout.component.scss']
 })
 export class AuthLayoutComponent {
+  @ViewChild('formModel') formModel!: NgForm
   @ViewChild('enterBtn') enterButton!: ElementRef<HTMLButtonElement>
   action: 'login' | 'signup' = 'login'
-  user = new UserForm()
+  form = new UserForm()
 
   constructor(
     private userService: UserService,
@@ -28,15 +30,25 @@ export class AuthLayoutComponent {
     e.key == 'Enter' && this.enterButton.nativeElement.click()
   }
 
-  enter(action: typeof this.action): void {
-    const service = action == 'login'
-      ? this.userService.logIn(this.user)
-      : this.userService.signUp(this.user)
+  validateForm(): void {    
+    if(this.formModel.invalid) return
+    
+    this.submit()
+  }
+
+  submit(): void {
+    const service = this.action == 'login'
+      ? this.userService.logIn(this.form)
+      : this.userService.signUp(this.form)
       
     service.subscribe(({ data }) => {
       this.sessionService.setSession(data)
       this.toastr.success('', `Olá, ${data.user.name}!`)
       this.router.navigate([''])
     })
+  }
+
+  get f(): FormGroup['controls'] {
+    return this.formModel.controls
   }
 }
