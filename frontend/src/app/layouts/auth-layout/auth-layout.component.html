@@ -42,7 +42,7 @@
                     *ngIf="action == 'login'" 
                     #enterBtn 
                     (click)="validateForm()" 
-                    [disabled]="formModel.invalid || !form.email || !form.password" 
+                    [disabled]="formModel.invalid" 
                     class="px-3 py-2"
                 >
                     Entrar
@@ -51,7 +51,7 @@
                     *ngIf="action == 'signup'" 
                     #enterBtn 
                     (click)="validateForm()" 
-                    [disabled]="formModel.invalid || !form.name || !form.email || !form.password" 
+                    [disabled]="formModel.invalid" 
                     class="px-3 py-2"
                 >
                     Registrar
