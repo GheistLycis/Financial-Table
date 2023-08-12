@@ -105,6 +105,14 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
   async post(user: User['id'], { value, description, date, category, tags }: body) {
     if(date > new Date().toISOString().split('T')[0]) throw BadRequestException('A data de um registro não pode ser futura.')
 
+    await this.categoryRepo.findOne({
+      where: { id: category },
+      relations: ['month']
+    })
+      .then(({ month }) => {
+        if(month.month != new Date(date).getMonth()+1) throw BadRequestException('A data de um registro não pode estar fora do mês ao qual ele pertence.')
+      })
+
     const duplicated = await this.repo.createQueryBuilder('Expense')
       .innerJoin('Expense.category', 'Category')
       .innerJoin('Category.month', 'Month')
@@ -137,8 +145,16 @@ export class ExpenseService implements BaseService<ExpenseDTO> {
     return Expense.toDTO(entity)
   }
 
-  async put(user: User['id'], id: ExpenseDTO['id'], { value, description, date, tags }: body) {
+  async put(user: User['id'], id: ExpenseDTO['id'], { value, description, date, category, tags }: body) {
     if(date > new Date().toISOString().split('T')[0]) throw BadRequestException('A data de um registro não pode ser futura.')
+
+    await this.categoryRepo.findOne({
+      where: { id: category },
+      relations: ['month']
+    })
+      .then(({ month }) => {
+        if(month.month != new Date(date).getMonth()+1) throw BadRequestException('A data de um registro não pode estar fora do mês ao qual ele pertence.')
+      })
 
     const duplicated = await this.repo.createQueryBuilder('Expense')
       .innerJoin('Expense.category', 'Category')

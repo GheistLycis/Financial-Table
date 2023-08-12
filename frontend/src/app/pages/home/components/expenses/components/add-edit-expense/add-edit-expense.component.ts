@@ -1,13 +1,14 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { FormGroup, NgForm } from '@angular/forms';
+import { FormGroup, NgForm, NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { map } from 'rxjs';
+import { Subject, map, tap } from 'rxjs';
 import ExpenseDTO from '@DTOs/expense';
 import YearDTO from '@DTOs/year';
 import ExpenseForm from '@classes/ExpenseForm';
 import { ExpenseService } from '@services/expense/expense.service';
 import { TagService } from '@services/tag/tag.service';
+import CategoryDTO from '@DTOs/category';
 
 @Component({
   selector: 'app-add-edit-expense',
@@ -17,20 +18,47 @@ import { TagService } from '@services/tag/tag.service';
 export class AddEditExpenseComponent implements OnInit {
   @Input() expense?: ExpenseDTO
   @Input() year!: YearDTO['id']
+  @ViewChild('dateInput') dateInput!: NgModel
   @ViewChild('formModel') formModel!: NgForm
-  tags$ = this.tagService.list().pipe(map(({ data }) => data))
   form = new ExpenseForm()
+  category$ = new Subject<CategoryDTO | undefined>()
+  tags$ = this.tagService.list().pipe(map(({ data }) => data))
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
   loading = false
-  today = new Date().toISOString().split('T')[0]
+  dateRange = {
+    min: undefined,
+    max: undefined
+  }
   
   constructor(
     protected activeModal: NgbActiveModal,
     private expenseService: ExpenseService,
     private tagService: TagService,
     public router: Router,
-  ) { }
+  ) { 
+    this.category$.pipe(
+      tap(category => {
+        if(category) {
+          const { id, month } = category
+          const maxDate = new Date().getMonth() == month.month-1
+            ? new Date(month.year.year, month.month-1, new Date().getDate())
+            : new Date(month.year.year, month.month, 0)
+
+          this.dateRange = {
+            min: new Date(month.year.year, month.month-1, 1).toISOString().split('T')[0],
+            max: maxDate.toISOString().split('T')[0]
+          }
+
+          this.form.category = id
+        }
+        else {
+          this.form.category = undefined
+          this.form.date = undefined
+        }
+      })
+    ).subscribe()
+  }
   
   ngOnInit(): void {
     if(this.expense) {
@@ -38,6 +66,8 @@ export class AddEditExpenseComponent implements OnInit {
       this.year = this.expense.category.month.year.id
       
       const { id, value, date, description, category } = this.expense
+
+      this.category$.next(category)
       
       this.tagService.list({ expense: id }).subscribe(({ data }) => {
         this.form = {
@@ -50,13 +80,13 @@ export class AddEditExpenseComponent implements OnInit {
       })
     }
     else {
-      this.form.date = this.today
+      this.form.date = this.dateRange.max
     }
   }
   
   validateForm(): void {    
     this.submitted = true
-    
+
     if(this.formModel.invalid) return
     
     this.submit()
@@ -71,11 +101,11 @@ export class AddEditExpenseComponent implements OnInit {
     
     service(this.form).subscribe({
       complete: () => this.activeModal.close(true),
-      error: () => this.activeModal.close(false)
+      error: () => this.loading = false,
     })
   }
   
   get f(): FormGroup['controls'] {
-    return this.formModel.controls
+    return this.formModel?.controls
   }
 }

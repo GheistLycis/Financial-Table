@@ -10,14 +10,14 @@
         [year]="year" 
         [multiple]="false"
         [clearable]="false"
-        (filters)="form.category = $event.categories[0]?.id || undefined"
+        (filters)="category$.next($event.categories[0])"
         [showTags]="false"
       ></app-filters>
     </div>
     
     <form #formModel="ngForm">
       <div class="row mb-4">
-        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="mb-4">
           <input 
            [(ngModel)]="form.category"
             name="category"
@@ -57,15 +57,21 @@
             </app-tooltip>
           </label>
           <input 
+            #dateInput="ngModel"
             id="date"
             type="date" 
             [(ngModel)]="form.date"
             name="date"
             required
-            [max]="today"
+            [min]="dateRange.min"
+            [max]="dateRange.max"
+            [disabled]="f?.['category']?.errors && f['category'].errors['required']"
             class="form-control"
-            [ngClass]="{'is-invalid': submitted && f['date'].errors}">
-          <div *ngIf="submitted && f['date'].errors && f['date'].errors['required']" class="invalid-feedback">
+            [ngClass]="{'is-invalid': (dateInput.touched || submitted) && f['category'].errors && f['category'].errors['required']}">
+          <div *ngIf="dateInput.touched" class="invalid-feedback">
+            * Selecione uma categoria
+          </div>
+          <div *ngIf="submitted" class="invalid-feedback">
             * Data é obrigatória
           </div>
         </div>
