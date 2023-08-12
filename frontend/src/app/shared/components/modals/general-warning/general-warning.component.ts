@@ -1,10 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-general-warning',
   templateUrl: './general-warning.component.html',
-  styleUrls: ['./general-warning.component.scss']
+  styleUrls: ['./general-warning.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+  ],
 })
 export class GeneralWarningComponent {
   @Input() title!: string
