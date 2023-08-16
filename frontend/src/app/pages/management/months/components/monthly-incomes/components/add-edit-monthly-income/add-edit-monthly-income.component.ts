@@ -19,6 +19,10 @@ export class AddEditMonthlyIncomeComponent {
   action: 'editar' | 'adicionar' = 'adicionar'
   submitted = false
   loading = false
+  dateRange = {
+    min: undefined,
+    max: undefined
+  }
   
   constructor(
     protected activeModal: NgbActiveModal,
@@ -37,9 +41,19 @@ export class AddEditMonthlyIncomeComponent {
         description,
         month: month.id
       }
+
+      this.dateRange = {
+        min: new Date(month.year.year, month.month-1, 1).toISOString().split('T')[0],
+        max: new Date(month.year.year, month.month, 0).toISOString().split('T')[0]
+      }
     }
     else if(this.month) {
       this.form.month = this.month.id
+
+      this.dateRange = {
+        min: new Date(this.month.year.year, this.month.month-1, 1).toISOString().split('T')[0],
+        max: new Date(this.month.year.year, this.month.month, 0).toISOString().split('T')[0]
+      }
     }
   }
   
@@ -62,7 +76,7 @@ export class AddEditMonthlyIncomeComponent {
     
     service(this.form).subscribe({
       complete: () => this.activeModal.close(true),
-      error: () => this.activeModal.close(false)
+      error: () => this.loading = false,
     })
   }
   
