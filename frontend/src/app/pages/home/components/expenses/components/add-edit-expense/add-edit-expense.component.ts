@@ -94,18 +94,18 @@ export class AddEditExpenseComponent implements OnInit {
   
   submit(): void {
     const service = this.action == 'adicionar'
-      ? (obj: ExpenseForm) => this.expenseService.post(obj)
-      : (obj: ExpenseForm) => this.expenseService.put(this.expense.id, obj)
+      ? this.expenseService.post(this.form)
+      : this.expenseService.put(this.expense.id, this.form)
     
     this.loading = true
     
-    service(this.form).subscribe({
+    service.subscribe({
       complete: () => this.activeModal.close(true),
       error: () => this.loading = false,
     })
   }
   
   get f(): FormGroup['controls'] {
-    return this.formModel?.controls
+    return this.formModel?.form?.controls
   }
 }
