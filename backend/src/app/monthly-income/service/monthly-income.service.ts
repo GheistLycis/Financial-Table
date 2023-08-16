@@ -63,9 +63,9 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
   async post(user: User['id'], { value, date, description, month }: body) {
     if(date) {
       await this.monthRepo.findOneBy({ id: month })
-      .then(({ month }) => {
-        if(month != new Date(date).getMonth()+1) throw BadRequestException('A data de uma entrada não pode estar fora do mês ao qual ela pertence.')
-      })
+        .then(({ month }) => {
+          if(month != new Date(date).getMonth()+1) throw BadRequestException('A data de uma entrada não pode estar fora do mês ao qual ela pertence.')
+        })
     }
 
     const duplicated = await this.repo.createQueryBuilder('Income')
@@ -100,9 +100,9 @@ export class MonthlyIncomeService implements BaseService<MonthlyIncomeDTO> {
   async put(user: User['id'], id: MonthlyIncomeDTO['id'], { value, date, description, month }: body) {
     if(date) {
       await this.monthRepo.findOneBy({ id: month })
-      .then(({ month }) => {
-        if(month != new Date(date).getMonth()+1) throw BadRequestException('A data de uma entrada não pode estar fora do mês ao qual ela pertence.')
-      })
+        .then(({ month }) => {
+          if(month != new Date(date).getMonth()+1) throw BadRequestException('A data de uma entrada não pode estar fora do mês ao qual ela pertence.')
+        })
     }
 
     const duplicated = await this.repo.createQueryBuilder('Income')

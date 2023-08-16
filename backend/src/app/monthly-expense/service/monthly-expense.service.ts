@@ -4,7 +4,7 @@ import BaseService from '@interfaces/BaseService';
 import MonthlyExpenseDTO from '../MonthlyExpense.dto';
 import { Month } from '../../month/Month';
 import { MonthlyExpense } from '../MonthlyExpense';
-import { classValidatorError, DuplicatedException, NotFoundException } from 'src/filters/globalExceptions';
+import { BadRequestException, classValidatorError, DuplicatedException, NotFoundException } from 'src/filters/globalExceptions';
 import { InjectRepository as Repo } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'src/app/user/User';
@@ -61,6 +61,13 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
   }
 
   async post(user: User['id'], { value, date, description, month }: body) {
+    if(date) {
+      await this.monthRepo.findOneBy({ id: month })
+        .then(({ month }) => {
+          if(month != new Date(date).getMonth()+1) throw BadRequestException('A data de uma mensalidade não pode estar fora do mês ao qual ela pertence.')
+        })
+    }
+
     const duplicated = await this.repo.createQueryBuilder('Expense')
       .innerJoin('Expense.month', 'Month')
       .innerJoin('Month.year', 'Year')
@@ -91,6 +98,13 @@ export class MonthlyExpenseService implements BaseService<MonthlyExpenseDTO> {
   }
 
   async put(user: User['id'], id: MonthlyExpenseDTO['id'], { value, date, description, month }: body) {
+    if(date) {
+      await this.monthRepo.findOneBy({ id: month })
+        .then(({ month }) => {
+          if(month != new Date(date).getMonth()+1) throw BadRequestException('A data de uma mensalidade não pode estar fora do mês ao qual ela pertence.')
+        })
+    }
+
     const duplicated = await this.repo.createQueryBuilder('Expense')
       .innerJoin('Expense.month', 'Month')
       .innerJoin('Month.year', 'Year')

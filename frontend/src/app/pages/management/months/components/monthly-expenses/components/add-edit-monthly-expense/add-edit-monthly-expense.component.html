@@ -33,6 +33,8 @@
             type="date" 
             [(ngModel)]="form.date"
             name="date"
+            [min]="dateRange.min"
+            [max]="dateRange.max"
             class="form-control">
         </div>
       </div>
