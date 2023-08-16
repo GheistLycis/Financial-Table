@@ -1,3 +1,6 @@
-.dropdown-menu.show {
-    background-color: $palette-tertiary;
+.custom-dropdown {
+    .dropdown-menu.show {
+        background-color: $palette-tertiary;
+        transform: translateY(54px) !important;
+    }
 }

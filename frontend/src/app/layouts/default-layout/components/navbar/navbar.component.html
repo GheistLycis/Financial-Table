@@ -21,6 +21,7 @@
                 *ngIf="item.type == 'menu'" 
                 #ddManagement="ngbDropdown" 
                 ngbDropdown
+                dropdownClass="custom-dropdown"
                 class="d-inline-block">
                 <button 
                     ngbDropdownToggle
@@ -31,7 +32,7 @@
                     {{ item.title }}
                 </button>
                 <div 
-                    ngbDropdownMenu 
+                    ngbDropdownMenu
                     (mouseenter)="ddManagement.open()" 
                     (mouseleave)="ddManagement.close()">
                     <a 
@@ -50,7 +51,11 @@
         <div class="logout" (click)="sessionService.logout()">
             <img src="assets/icons/leave.svg" width="30px">
         </div>
-        <div #ddProfile="ngbDropdown" ngbDropdown class="profile d-flex">
+        <div 
+            #ddProfile="ngbDropdown" 
+            ngbDropdown 
+            dropdownClass="custom-dropdown" 
+            class="profile d-flex">
             <button 
                 ngbDropdownToggle 
                 (mouseenter)="ddProfile.open()"
