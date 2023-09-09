@@ -14,7 +14,7 @@
                 *ngIf="item.type == 'link'" 
                 [routerLink]="item.link" 
                 class="py-3 px-4" 
-                [ngClass]="{'filter-highlight': router.url == ('/' + item.link)}">
+                routerLinkActive="filter-highlight">
                 {{ item.title }}
             </a>
             <div 
@@ -38,8 +38,7 @@
                     <a 
                         ngbDropdownItem 
                         *ngFor="let child of item.children" 
-                        [routerLink]="item.link + '/' + child.link"
-                    >
+                        [routerLink]="item.link + '/' + child.link">
                         {{ child.title }}
                     </a>
                 </div>
@@ -66,8 +65,7 @@
             <div 
                 ngbDropdownMenu
                 (mouseenter)="ddProfile.open()"
-                (mouseleave)="ddProfile.close()"
-                >
+                (mouseleave)="ddProfile.close()">
                 <app-profile (profileUpdated)="userName = $event.name"></app-profile>
             </div>
         </div>
