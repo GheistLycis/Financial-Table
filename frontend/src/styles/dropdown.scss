@@ -1,6 +1,13 @@
 .custom-dropdown {
-    .dropdown-menu.show {
+    .dropdown-menu {
         background-color: $palette-tertiary;
-        transform: translateY(54px) !important;
+        opacity: 0;
+        transform: translateY(74px);
+        transition-duration: .3s;
+
+        &.show {
+            opacity: 1;
+            transform: translateY(54px);
+        }
     }
 }
